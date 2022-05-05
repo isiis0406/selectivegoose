@@ -1,0 +1,147 @@
+2022-05-02T21:38:26+00:00 CRITICAL Uncaught TypeError: in_array(): Argument #2 ($haystack) must be of type array, string given in C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php:202
+Stack trace:
+#0 C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php(202): in_array('product', 'post')
+#1 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): {closure}(Array, Object(WP_REST_Request))
+#2 C:\laragon\www\selectivegoose\wp-includes\plugin.php(189): WP_Hook->apply_filters(Array, Array)
+#3 C:\laragon\www\selectivegoose\wp-includes\rest-api\endpoints\class-wp-rest-posts-controller.php(359): apply_filters('rest_post_query', Array, Object(WP_REST_Request))
+#4 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(1141): WP_REST_Posts_Controller->get_items(Object(WP_REST_Request))
+#5 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(988): WP_REST_Server->respond_to_request(Object(WP_REST_Request), '/wp/v2/posts', Array, NULL)
+#6 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(414): WP_REST_Server->dispatch(Object(WP_REST_Request))
+#7 C:\laragon\www\selectivegoose\wp-includes\rest-api.php(386): WP_REST_Server->serve_request('/wp/v2/posts')
+#8 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): rest_api_loaded(Object(WP))
+#9 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#10 C:\laragon\www\selectivegoose\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#11 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(396): do_action_ref_array('parse_request', Array)
+#12 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(758): WP->parse_request('')
+#13 C:\laragon\www\selectivegoose\wp-includes\functions.php(1310): WP->main('')
+#14 C:\laragon\www\selectivegoose\wp-blog-header.php(16): wp()
+#15 C:\laragon\www\selectivegoose\index.php(17): require('C:\\laragon\\www\\...')
+#16 {main}
+  thrown dans C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php à la ligne 202
+
+2022-05-02T21:38:27+00:00 CRITICAL Uncaught TypeError: in_array(): Argument #2 ($haystack) must be of type array, string given in C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php:202
+Stack trace:
+#0 C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php(202): in_array('product', 'post')
+#1 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): {closure}(Array, Object(WP_REST_Request))
+#2 C:\laragon\www\selectivegoose\wp-includes\plugin.php(189): WP_Hook->apply_filters(Array, Array)
+#3 C:\laragon\www\selectivegoose\wp-includes\rest-api\endpoints\class-wp-rest-posts-controller.php(359): apply_filters('rest_post_query', Array, Object(WP_REST_Request))
+#4 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(1141): WP_REST_Posts_Controller->get_items(Object(WP_REST_Request))
+#5 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(988): WP_REST_Server->respond_to_request(Object(WP_REST_Request), '/wp/v2/posts', Array, NULL)
+#6 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(414): WP_REST_Server->dispatch(Object(WP_REST_Request))
+#7 C:\laragon\www\selectivegoose\wp-includes\rest-api.php(386): WP_REST_Server->serve_request('/wp/v2/posts')
+#8 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): rest_api_loaded(Object(WP))
+#9 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#10 C:\laragon\www\selectivegoose\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#11 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(396): do_action_ref_array('parse_request', Array)
+#12 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(758): WP->parse_request('')
+#13 C:\laragon\www\selectivegoose\wp-includes\functions.php(1310): WP->main('')
+#14 C:\laragon\www\selectivegoose\wp-blog-header.php(16): wp()
+#15 C:\laragon\www\selectivegoose\index.php(17): require('C:\\laragon\\www\\...')
+#16 {main}
+  thrown dans C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php à la ligne 202
+
+2022-05-02T21:38:47+00:00 CRITICAL Uncaught TypeError: in_array(): Argument #2 ($haystack) must be of type array, string given in C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php:202
+Stack trace:
+#0 C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php(202): in_array('product', 'post')
+#1 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): {closure}(Array, Object(WP_REST_Request))
+#2 C:\laragon\www\selectivegoose\wp-includes\plugin.php(189): WP_Hook->apply_filters(Array, Array)
+#3 C:\laragon\www\selectivegoose\wp-includes\rest-api\endpoints\class-wp-rest-posts-controller.php(359): apply_filters('rest_post_query', Array, Object(WP_REST_Request))
+#4 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(1141): WP_REST_Posts_Controller->get_items(Object(WP_REST_Request))
+#5 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(988): WP_REST_Server->respond_to_request(Object(WP_REST_Request), '/wp/v2/posts', Array, NULL)
+#6 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(414): WP_REST_Server->dispatch(Object(WP_REST_Request))
+#7 C:\laragon\www\selectivegoose\wp-includes\rest-api.php(386): WP_REST_Server->serve_request('/wp/v2/posts')
+#8 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): rest_api_loaded(Object(WP))
+#9 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#10 C:\laragon\www\selectivegoose\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#11 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(396): do_action_ref_array('parse_request', Array)
+#12 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(758): WP->parse_request('')
+#13 C:\laragon\www\selectivegoose\wp-includes\functions.php(1310): WP->main('')
+#14 C:\laragon\www\selectivegoose\wp-blog-header.php(16): wp()
+#15 C:\laragon\www\selectivegoose\index.php(17): require('C:\\laragon\\www\\...')
+#16 {main}
+  thrown dans C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php à la ligne 202
+
+2022-05-02T21:52:27+00:00 CRITICAL Uncaught TypeError: in_array(): Argument #2 ($haystack) must be of type array, string given in C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php:202
+Stack trace:
+#0 C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php(202): in_array('product', 'post')
+#1 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): {closure}(Array, Object(WP_REST_Request))
+#2 C:\laragon\www\selectivegoose\wp-includes\plugin.php(189): WP_Hook->apply_filters(Array, Array)
+#3 C:\laragon\www\selectivegoose\wp-includes\rest-api\endpoints\class-wp-rest-posts-controller.php(359): apply_filters('rest_post_query', Array, Object(WP_REST_Request))
+#4 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(1141): WP_REST_Posts_Controller->get_items(Object(WP_REST_Request))
+#5 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(988): WP_REST_Server->respond_to_request(Object(WP_REST_Request), '/wp/v2/posts', Array, NULL)
+#6 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(414): WP_REST_Server->dispatch(Object(WP_REST_Request))
+#7 C:\laragon\www\selectivegoose\wp-includes\rest-api.php(386): WP_REST_Server->serve_request('/wp/v2/posts')
+#8 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): rest_api_loaded(Object(WP))
+#9 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#10 C:\laragon\www\selectivegoose\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#11 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(396): do_action_ref_array('parse_request', Array)
+#12 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(758): WP->parse_request('')
+#13 C:\laragon\www\selectivegoose\wp-includes\functions.php(1310): WP->main('')
+#14 C:\laragon\www\selectivegoose\wp-blog-header.php(16): wp()
+#15 C:\laragon\www\selectivegoose\index.php(17): require('C:\\laragon\\www\\...')
+#16 {main}
+  thrown dans C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php à la ligne 202
+
+2022-05-02T21:52:47+00:00 CRITICAL Uncaught TypeError: in_array(): Argument #2 ($haystack) must be of type array, string given in C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php:202
+Stack trace:
+#0 C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php(202): in_array('product', 'post')
+#1 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): {closure}(Array, Object(WP_REST_Request))
+#2 C:\laragon\www\selectivegoose\wp-includes\plugin.php(189): WP_Hook->apply_filters(Array, Array)
+#3 C:\laragon\www\selectivegoose\wp-includes\rest-api\endpoints\class-wp-rest-posts-controller.php(359): apply_filters('rest_post_query', Array, Object(WP_REST_Request))
+#4 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(1141): WP_REST_Posts_Controller->get_items(Object(WP_REST_Request))
+#5 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(988): WP_REST_Server->respond_to_request(Object(WP_REST_Request), '/wp/v2/posts', Array, NULL)
+#6 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(414): WP_REST_Server->dispatch(Object(WP_REST_Request))
+#7 C:\laragon\www\selectivegoose\wp-includes\rest-api.php(386): WP_REST_Server->serve_request('/wp/v2/posts')
+#8 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): rest_api_loaded(Object(WP))
+#9 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#10 C:\laragon\www\selectivegoose\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#11 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(396): do_action_ref_array('parse_request', Array)
+#12 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(758): WP->parse_request('')
+#13 C:\laragon\www\selectivegoose\wp-includes\functions.php(1310): WP->main('')
+#14 C:\laragon\www\selectivegoose\wp-blog-header.php(16): wp()
+#15 C:\laragon\www\selectivegoose\index.php(17): require('C:\\laragon\\www\\...')
+#16 {main}
+  thrown dans C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php à la ligne 202
+
+2022-05-02T21:52:47+00:00 CRITICAL Uncaught TypeError: in_array(): Argument #2 ($haystack) must be of type array, string given in C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php:202
+Stack trace:
+#0 C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php(202): in_array('product', 'post')
+#1 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): {closure}(Array, Object(WP_REST_Request))
+#2 C:\laragon\www\selectivegoose\wp-includes\plugin.php(189): WP_Hook->apply_filters(Array, Array)
+#3 C:\laragon\www\selectivegoose\wp-includes\rest-api\endpoints\class-wp-rest-posts-controller.php(359): apply_filters('rest_post_query', Array, Object(WP_REST_Request))
+#4 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(1141): WP_REST_Posts_Controller->get_items(Object(WP_REST_Request))
+#5 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(988): WP_REST_Server->respond_to_request(Object(WP_REST_Request), '/wp/v2/posts', Array, NULL)
+#6 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(414): WP_REST_Server->dispatch(Object(WP_REST_Request))
+#7 C:\laragon\www\selectivegoose\wp-includes\rest-api.php(386): WP_REST_Server->serve_request('/wp/v2/posts')
+#8 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): rest_api_loaded(Object(WP))
+#9 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#10 C:\laragon\www\selectivegoose\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#11 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(396): do_action_ref_array('parse_request', Array)
+#12 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(758): WP->parse_request('')
+#13 C:\laragon\www\selectivegoose\wp-includes\functions.php(1310): WP->main('')
+#14 C:\laragon\www\selectivegoose\wp-blog-header.php(16): wp()
+#15 C:\laragon\www\selectivegoose\index.php(17): require('C:\\laragon\\www\\...')
+#16 {main}
+  thrown dans C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php à la ligne 202
+
+2022-05-02T21:52:47+00:00 CRITICAL Uncaught TypeError: in_array(): Argument #2 ($haystack) must be of type array, string given in C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php:202
+Stack trace:
+#0 C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php(202): in_array('product', 'post')
+#1 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): {closure}(Array, Object(WP_REST_Request))
+#2 C:\laragon\www\selectivegoose\wp-includes\plugin.php(189): WP_Hook->apply_filters(Array, Array)
+#3 C:\laragon\www\selectivegoose\wp-includes\rest-api\endpoints\class-wp-rest-posts-controller.php(359): apply_filters('rest_post_query', Array, Object(WP_REST_Request))
+#4 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(1141): WP_REST_Posts_Controller->get_items(Object(WP_REST_Request))
+#5 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(988): WP_REST_Server->respond_to_request(Object(WP_REST_Request), '/wp/v2/posts', Array, NULL)
+#6 C:\laragon\www\selectivegoose\wp-includes\rest-api\class-wp-rest-server.php(414): WP_REST_Server->dispatch(Object(WP_REST_Request))
+#7 C:\laragon\www\selectivegoose\wp-includes\rest-api.php(386): WP_REST_Server->serve_request('/wp/v2/posts')
+#8 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): rest_api_loaded(Object(WP))
+#9 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#10 C:\laragon\www\selectivegoose\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#11 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(396): do_action_ref_array('parse_request', Array)
+#12 C:\laragon\www\selectivegoose\wp-includes\class-wp.php(758): WP->parse_request('')
+#13 C:\laragon\www\selectivegoose\wp-includes\functions.php(1310): WP->main('')
+#14 C:\laragon\www\selectivegoose\wp-blog-header.php(16): wp()
+#15 C:\laragon\www\selectivegoose\index.php(17): require('C:\\laragon\\www\\...')
+#16 {main}
+  thrown dans C:\laragon\www\selectivegoose\wp-content\themes\blocksy\inc\helpers.php à la ligne 202
+
