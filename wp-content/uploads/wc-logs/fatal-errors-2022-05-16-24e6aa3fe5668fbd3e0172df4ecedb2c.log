@@ -26,3 +26,22 @@ Stack trace:
 #9 {main}
   thrown dans C:\laragon\www\selectivegoose\wp-includes\media.php à la ligne 4975
 
+2022-05-16T14:29:54+00:00 CRITICAL Uncaught Error: Cannot use object of type Paypal_Checkout_For_Woocommerce_Settings as array in C:\laragon\www\selectivegooseShop\wp-content\plugins\woocommerce\includes\rest-api\Controllers\Version3\class-wc-rest-payment-gateways-controller.php:92
+Stack trace:
+#0 C:\laragon\www\selectivegooseShop\wp-content\plugins\woocommerce\includes\rest-api\Controllers\Version3\class-wc-rest-payment-gateways-controller.php(46): WC_REST_Payment_Gateways_Controller->get_settings(Object(Paypal_Checkout_For_Woocommerce_Gateway))
+#1 C:\laragon\www\selectivegooseShop\wp-content\plugins\woocommerce\includes\rest-api\Controllers\Version2\class-wc-rest-payment-gateways-v2-controller.php(127): WC_REST_Payment_Gateways_Controller->prepare_item_for_response(Object(Paypal_Checkout_For_Woocommerce_Gateway), Object(WP_REST_Request))
+#2 C:\laragon\www\selectivegooseShop\wp-includes\rest-api\class-wp-rest-server.php(1141): WC_REST_Payment_Gateways_V2_Controller->get_items(Object(WP_REST_Request))
+#3 C:\laragon\www\selectivegooseShop\wp-includes\rest-api\class-wp-rest-server.php(988): WP_REST_Server->respond_to_request(Object(WP_REST_Request), '/wc/v3/payment_...', Array, NULL)
+#4 C:\laragon\www\selectivegooseShop\wp-includes\rest-api\class-wp-rest-server.php(414): WP_REST_Server->dispatch(Object(WP_REST_Request))
+#5 C:\laragon\www\selectivegooseShop\wp-includes\rest-api.php(386): WP_REST_Server->serve_request('/wc/v3/payment_...')
+#6 C:\laragon\www\selectivegooseShop\wp-includes\class-wp-hook.php(307): rest_api_loaded(Object(WP))
+#7 C:\laragon\www\selectivegooseShop\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#8 C:\laragon\www\selectivegooseShop\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#9 C:\laragon\www\selectivegooseShop\wp-includes\class-wp.php(396): do_action_ref_array('parse_request', Array)
+#10 C:\laragon\www\selectivegooseShop\wp-includes\class-wp.php(758): WP->parse_request('')
+#11 C:\laragon\www\selectivegooseShop\wp-includes\functions.php(1310): WP->main('')
+#12 C:\laragon\www\selectivegooseShop\wp-blog-header.php(16): wp()
+#13 C:\laragon\www\selectivegooseShop\index.php(17): require('C:\\laragon\\www\\...')
+#14 {main}
+  thrown dans C:\laragon\www\selectivegooseShop\wp-content\plugins\woocommerce\includes\rest-api\Controllers\Version3\class-wc-rest-payment-gateways-controller.php à la ligne 92
+
