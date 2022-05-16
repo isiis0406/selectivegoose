@@ -1,4 +1,6 @@
 .elementor-widget-container {
+
+	// single product slider
 	.flex-viewport {
 		margin-bottom: 20px;
 	}
@@ -10,13 +12,13 @@
 			padding: 0 10px 10px 10px;
 		}
 	}
-}
 
-.elementor-section-wrap {
-	form.woocommerce-checkout {
-		--display: initial;
+	// checkout
+	.woocommerce > form.woocommerce-checkout {
+		display: initial;
 	}
 }
+
 
 // quantity input
 .elementor-add-to-cart--align-justify {

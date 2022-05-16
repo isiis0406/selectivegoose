@@ -21,6 +21,7 @@
 	--has-boxed-structure: var(--has-boxed);
 	
 	box-shadow: var(--has-boxed, var(--box-shadow));
+	border: var(--has-boxed, var(--boxed-content-border));
 	border-radius: var(--has-boxed, var(--border-radius));
 	padding: var(--has-boxed, var(--boxed-content-spacing));
 

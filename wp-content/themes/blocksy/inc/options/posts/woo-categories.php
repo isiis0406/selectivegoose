@@ -182,7 +182,7 @@ $options = [
 								(
 									function_exists('blc_fs')
 									&&
-									blc_fs()->can_use_premium_code__premium_only()
+									blc_fs()->can_use_premium_code()
 								) ? [
 									'has_archive_video_thumbnail' => [
 										'label' => __( 'Video Thumbnail', 'blocksy' ),

@@ -24,7 +24,7 @@ if (! function_exists('blc_load_xml_file')) {
 	function blc_load_xml_file($url, $useragent = '') {
 		set_time_limit(300);
 
-		if (ini_get('allow_url_fopen') == true) {
+		if (ini_get('allow_url_fopen') && ini_get('allow_url_fopen') !== 'Off') {
 			$context_options = [
 				"ssl" => [
 					"verify_peer"=>false,

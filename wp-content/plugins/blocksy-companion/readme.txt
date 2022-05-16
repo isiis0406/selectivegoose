@@ -5,7 +5,7 @@ Requires PHP: 7.0
 Tested up to: 5.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Stable tag: 1.8.27
+Stable tag: 1.8.31
 
 == Description ==
 
@@ -23,6 +23,15 @@ It runs and adds its enhancements only if the Blocksy theme is installed and act
 2. Activate the plugin by going to **Plugins** page in WordPress admin and clicking on **Activate** link.
 
 == Changelog ==
+1.8.31: 2022-05-11
+- Improvement: General fixes and improvements
+
+1.8.30: 2022-05-11
+- Improvement: General fixes and improvements
+
+1.8.29: 2022-05-10
+- Improvement: General fixes and improvements
+
 1.8.27: 2022-04-22
 - Improvement: General fixes and improvements
 

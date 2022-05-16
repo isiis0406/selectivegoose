@@ -199,7 +199,11 @@ add_filter(
 			$args = $next_args;
 		}
 
-		if (in_array('product', $args['post_type'])) {
+		if (
+			is_array($args['post_type'])
+			&&
+			in_array('product', $args['post_type'])
+		) {
 			if ('yes' === get_option('woocommerce_hide_out_of_stock_items')) {
 				$meta_query = [];
 

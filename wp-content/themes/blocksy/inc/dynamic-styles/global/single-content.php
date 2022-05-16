@@ -7,7 +7,7 @@ if ($prefix === 'courses_single' && function_exists('tutor')) {
 }
 
 if (strpos($prefix, 'block') !== false) {
-	$selector = ' > div > article';
+	$selector = ' > [class*="ct-container"] > article[class*="post"]';
 }
 
 if (! isset($source)) {
@@ -105,6 +105,53 @@ if (blocksy_some_device($has_boxed, 'boxed')) {
 		'tablet_css' => $tablet_css,
 		'mobile_css' => $mobile_css,
 		'selector' => blocksy_prefix_selector($selector, $prefix),
+		'property' => 'border-radius',
+		'value' => blocksy_akg_or_customizer(
+			'content_boxed_radius',
+			$source,
+			blocksy_spacing_value([
+				'linked' => true,
+				'top' => '3px',
+				'left' => '3px',
+				'right' => '3px',
+				'bottom' => '3px',
+			])
+		)
+	]);
+
+	blocksy_output_border([
+		'css' => $css,
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
+		'selector' => blocksy_prefix_selector($selector, $prefix),
+		'variableName' => 'boxed-content-border',
+		'value' => blocksy_akg_or_customizer(
+			'content_boxed_border',
+			$source,
+			[
+				'width' => 1,
+				'style' => 'none',
+				'color' => [
+					'color' => 'rgba(44,62,80,0.2)',
+				],
+			]
+		),
+		'default' => [
+			'width' => 1,
+			'style' => 'none',
+			'color' => [
+				'color' => 'rgba(44,62,80,0.2)',
+			],
+		],
+		'responsive' => true,
+		'skip_none' => true
+	]);
+
+	blocksy_output_spacing([
+		'css' => $css,
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
+		'selector' => blocksy_prefix_selector($selector, $prefix),
 		'property' => 'boxed-content-spacing',
 		'value' => blocksy_akg_or_customizer(
 			'boxed_content_spacing',
@@ -132,25 +179,6 @@ if (blocksy_some_device($has_boxed, 'boxed')) {
 					'bottom' => '20px',
 				]),
 			]
-		)
-	]);
-
-	blocksy_output_spacing([
-		'css' => $css,
-		'tablet_css' => $tablet_css,
-		'mobile_css' => $mobile_css,
-		'selector' => blocksy_prefix_selector($selector, $prefix),
-		'property' => 'border-radius',
-		'value' => blocksy_akg_or_customizer(
-			'content_boxed_radius',
-			$source,
-			blocksy_spacing_value([
-				'linked' => true,
-				'top' => '3px',
-				'left' => '3px',
-				'right' => '3px',
-				'bottom' => '3px',
-			])
 		)
 	]);
 

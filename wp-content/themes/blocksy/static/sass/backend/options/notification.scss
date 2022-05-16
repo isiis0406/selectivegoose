@@ -13,4 +13,9 @@
 		background: #fcf9e8;
 		border-left: 4px solid #dba617;
 	}
+
+	&[data-type="background:white"] {
+		background: #fff;
+		border-left: 4px solid var(--accentColor);
+	}
 }

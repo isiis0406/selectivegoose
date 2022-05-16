@@ -20,6 +20,12 @@ import $ from 'jquery'
 import ctEvents from 'ct-events'
 import ProOverlay from './components/ProOverlay'
 
+import WidgetArea from './options/ct-widget-area'
+
+ctEvents.on('blocksy:options:register', (opts) => {
+	opts['ct-widget-area'] = WidgetArea
+})
+
 listenToChanges()
 listenToVariables()
 

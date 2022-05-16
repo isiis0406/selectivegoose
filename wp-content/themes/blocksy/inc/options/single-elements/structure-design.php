@@ -84,6 +84,37 @@ $options = [
 				])
 			],
 
+			$prefix . 'content_boxed_border' => [
+				'label' => __( 'Content Area Border', 'blocksy' ),
+				'type' => 'ct-border',
+				'design' => 'block',
+				'sync' => 'live',
+				'divider' => 'top',
+				'responsive' => true,
+				'value' => [
+					'width' => 1,
+					'style' => 'none',
+					'color' => [
+						'color' => 'rgba(44,62,80,0.2)',
+					],
+				]
+			],
+
+			$prefix . 'content_boxed_radius' => [
+				'label' => __( 'Content Area Border Radius', 'blocksy' ),
+				'type' => 'ct-spacing',
+				'divider' => 'top',
+				'value' => blocksy_spacing_value([
+					'linked' => true,
+					'top' => '3px',
+					'left' => '3px',
+					'right' => '3px',
+					'bottom' => '3px',
+				]),
+				'responsive' => true,
+				'sync' => 'live',
+			],
+
 			$prefix . 'boxed_content_spacing' => [
 				'label' => __( 'Content Area Padding', 'blocksy' ),
 				'type' => 'ct-spacing',
@@ -115,20 +146,6 @@ $options = [
 				'sync' => 'live',
 			],
 
-			$prefix . 'content_boxed_radius' => [
-				'label' => __( 'Content Area Border Radius', 'blocksy' ),
-				'type' => 'ct-spacing',
-				'divider' => 'top',
-				'value' => blocksy_spacing_value([
-					'linked' => true,
-					'top' => '3px',
-					'left' => '3px',
-					'right' => '3px',
-					'bottom' => '3px',
-				]),
-				'responsive' => true,
-				'sync' => 'live',
-			],
 		],
 	],
 ];

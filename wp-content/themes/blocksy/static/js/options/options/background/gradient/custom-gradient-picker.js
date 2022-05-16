@@ -30,9 +30,6 @@ import {
 	DEFAULT_GRADIENT,
 } from './constants'
 
-// flex-grow: 5;
-const AccessoryWrapper = FlexBlock
-const SelectWrapper = FlexBlock
 
 const GradientAnglePicker = ({ gradientAST, hasGradient, onChange }) => {
 	const angle = get(
@@ -122,6 +119,10 @@ export default function CustomGradientPicker({
 		color: getStopCssColor(colorStop),
 		position: parseInt(colorStop.length.value),
 	}))
+
+// flex-grow: 5;
+const AccessoryWrapper = FlexBlock
+const SelectWrapper = FlexBlock
 
 	return (
 		<div className="components-custom-gradient-picker">

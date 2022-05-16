@@ -60,7 +60,6 @@ add_action(
 			'react',
 			'react-dom',
 			'wp-element',
-			'wp-components',
 			'wp-date',
 			'wp-i18n',
 			'ct-events',
@@ -71,6 +70,10 @@ add_action(
 		global $wp_customize;
 
 		if (! isset($wp_customize)) {
+			if ($current_screen->base !== 'edit') {
+				$deps[] = 'wp-components';
+			}
+
 			if (
 				$current_screen->base === 'nav-menus'
 				||

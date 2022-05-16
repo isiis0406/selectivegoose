@@ -1,3 +1,25 @@
+1.8.32: 2022-05-11
+
+
+1.8.31: 2022-05-11
+- Improvement: Smart loading of wp-components script to avoid CSP issues
+
+1.8.30: 2022-05-10
+- Improvement: Smarter check for wp.components presence in OptionsPanel
+
+1.8.29: 2022-05-10
+- New: Hooks for related posts module
+- Improvement: Group block inner container width when no background is set
+- Improvement: Do not require unsafe-eval CSP rule for script-src
+- Improvement: Cart & checkout page - output theme container div only when needed
+- Improvement: Dropdown menus sometimes get stuck under specific circumstances
+- Improvement: Border controls for boxed layouts
+- Improvement: CartFlows CSS checkout page conflict
+- Fix: Text alignment option doesn't work in tables in RTL mode
+- Fix: Dropdown menus parent element not accessible via keyboard
+- Fix: Shortcode slider autoplay option
+- Fix: WooCommerce product reviews pagination not inheriting styles
+
 1.8.28: 2022-04-22
 - Improvement: More robust handling for product visiblity in search
 

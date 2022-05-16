@@ -11,6 +11,8 @@
 		}
 
 		li {
+			display: flex;
+			flex-direction: column;
 			margin: 0;
 			box-sizing: border-box;
 			box-shadow: 0 2px 5px rgba(143, 163, 184, 0.12);
@@ -111,9 +113,10 @@
 }
 
 .ct-demo-actions {
+	flex: 1;
 	display: flex;
 	align-items: center;
-	padding: 20px 25px;
+	padding: 20px;
 	border-radius: 0 0 3px 3px;
 	border: 1px solid rgba(226, 230, 235, 0.7);
 	background: rgba(235, 237, 241, 0.2);
@@ -134,8 +137,9 @@
 		}
 	}
 
-	.ct-button {
-		margin-right: 15px;
+	> div {
+		display: flex;
+		gap: 15px;
 	}
 
 	button[disabled] {

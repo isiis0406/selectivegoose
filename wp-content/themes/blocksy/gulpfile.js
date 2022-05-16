@@ -371,8 +371,7 @@ var options = {
 		},
 
 		{
-			input:
-				'static/sass/frontend/8-integrations/page-scroll-to-id.scss',
+			input: 'static/sass/frontend/8-integrations/page-scroll-to-id.scss',
 			output: 'static/bundle',
 			filename: 'page-scroll-to-id.min',
 			header: buildProcess.headerFor(false, data),
@@ -596,11 +595,13 @@ gulp.task(
 				ignoreErrors: true,
 				verbose: true,
 			}
-		),
+		)
 
+		/*
 		shell.task(['yarn build'], {
 			ignoreErrors: true,
 			verbose: true,
 		})
+        */
 	)
 )

@@ -2,16 +2,48 @@
 # This file is distributed under the same license as the Plugins - Blocksy Companion - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-04-21 12:45:48+0000\n"
+"PO-Revision-Date: 2022-05-11 07:58:12+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/3.0.0\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: fr\n"
 "Project-Id-Version: Plugins - Blocksy Companion - Stable (latest release)\n"
 
-#: framework/extensions/trending/customizer.php:244
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/widgets/config.php:5
+msgctxt "Extension Brand Name"
+msgid "Widgets"
+msgstr "Widgets"
+
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/trending/config.php:5
+#: framework/extensions/trending/customizer.php:97
+msgctxt "Extension Brand Name"
+msgid "Trending Posts"
+msgstr "Articles tendance"
+
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/product-reviews/config.php:5
+msgctxt "Extension Brand Name"
+msgid "Product Reviews"
+msgstr "Avis sur le produit"
+
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/newsletter-subscribe/config.php:5
+msgctxt "Extension Brand Name"
+msgid "Newsletter Subscribe"
+msgstr "Inscription à la newsletter"
+
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/cookies-consent/config.php:5
+#: framework/extensions/cookies-consent/customizer.php:5
+msgctxt "Extension Brand Name"
+msgid "Cookies Consent"
+msgstr "Consentement aux cookies"
+
+#: framework/extensions/trending/customizer.php:245
 msgid "Image Size"
 msgstr "Taille de l’image"
 
@@ -27,28 +59,28 @@ msgstr "Effet"
 msgid "Thank you for subscribing to our newsletter!"
 msgstr "Merci de vous être abonné à notre lettre d’information."
 
-#: framework/extensions/cookies-consent/customizer.php:265
+#: framework/extensions/cookies-consent/customizer.php:266
 msgid "Decline Button"
 msgstr "Bouton refuser"
 
-#: framework/extensions/cookies-consent/customizer.php:198
+#: framework/extensions/cookies-consent/customizer.php:199
 msgid "Accept Button"
 msgstr "Bouton accepter"
 
-#: framework/extensions/cookies-consent/customizer.php:146
+#: framework/extensions/cookies-consent/customizer.php:147
 msgid "Text Color"
 msgstr "Couleur du texte"
 
-#: framework/extensions/cookies-consent/customizer.php:87
+#: framework/extensions/cookies-consent/customizer.php:88
 #: framework/extensions/cookies-consent/helpers.php:34
 msgid "Decline"
 msgstr "Refuser"
 
-#: framework/extensions/cookies-consent/customizer.php:84
+#: framework/extensions/cookies-consent/customizer.php:85
 msgid "Decline Button text"
 msgstr "Texte du bouton refuser"
 
-#: framework/extensions/cookies-consent/customizer.php:75
+#: framework/extensions/cookies-consent/customizer.php:76
 msgid "Accept Button text"
 msgstr "Texte du bouton accepter"
 
@@ -56,10 +88,6 @@ msgstr "Texte du bouton accepter"
 #: framework/extensions/widgets/widgets/ct-socials/options.php:28
 msgid "Configure the social links in Customizer ➝ General ➝ %sSocial Network Accounts%s."
 msgstr "Configurer les liens sociaux dans Apparence ➝ Général ➝ %sComptes de réseaux sociaux%s."
-
-#: framework/extensions/widgets/config.php:4
-msgid "Widgets"
-msgstr "Widgets"
 
 #: framework/extensions/product-reviews/metabox.php:60
 msgid "Please note that some of this information (price, sku, brand) won't be displayed on the front-end. It is solely used for Google's Schema.org markup."
@@ -197,7 +225,7 @@ msgstr "Couleur du titre"
 msgid "You can add here some arbitrary HTML code."
 msgstr "Vous pouvez ajouter ici du code HTML."
 
-#: framework/extensions/trending/customizer.php:122
+#: framework/extensions/trending/customizer.php:123
 msgid "Module Title Tag"
 msgstr "Balise de titre de module"
 
@@ -319,23 +347,28 @@ msgstr "Liez votre ID de suivi Google Analytics 4. Plus d’informations et d’
 msgid "Random"
 msgstr "Aléatoire"
 
-#: framework/extensions/widgets/config.php:5
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/widgets/config.php:6
 msgid "Add new handcrafted widgets to your sidebars! Social Network Icons, Newsletter Subscribe, Contact Info, Custom Ads and even a Popular/Recent Posts are the choices available."
 msgstr "Ajoutez de nouveaux widgets artisanaux à vos colonnes latérales ! Icônes de réseaux sociaux, abonnement à la newsletter, informations de contact, publicités personnalisées et même les publications populaires/récentes sont les choix disponibles."
 
-#: framework/extensions/trending/config.php:5
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/trending/config.php:6
 msgid "Highlight your most popular posts or products based on the number of comments or reviews they have gotten in the specified period of time."
 msgstr "Mettez en avant vos articles ou produits les plus populaires en fonction du nombre de commentaires ou d’avis qu’ils ont reçus au cours d’une période spécifiée."
 
-#: framework/extensions/product-reviews/config.php:5
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/product-reviews/config.php:6
 msgid "This extension lets you easily create an affiliate marketing type of website by giving you options to create a personalized product review and use your affiliate links to direct your readers to the purchase page."
 msgstr "Cette extension vous permet de créer facilement un site de type marketing d’affiliation en vous donnant les options pour créer un avis personnalisé sur un produit et d’utiliser vos liens d’affiliation pour diriger vos lecteurs vers la page d’achat."
 
-#: framework/extensions/newsletter-subscribe/config.php:5
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/newsletter-subscribe/config.php:6
 msgid "Easily capture new leads for your newsletter with the help of a widget, shortcode or even a block inserted on your pages or posts."
 msgstr "Captez facilement de nouveaux prospects pour votre newsletter à l’aide d’un widget, d’un code court ou même d’un bloc inséré sur vos pages ou articles."
 
-#: framework/extensions/cookies-consent/config.php:5
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/cookies-consent/config.php:6
 msgid "Display a cookie acceptance box in order to comply with the privacy regulations in your country."
 msgstr "Affichez une boîte d’acceptation des cookies afin de vous conformer aux règles de confidentialité en vigueur dans votre pays."
 
@@ -371,7 +404,7 @@ msgstr "Profil"
 msgid "bbPress"
 msgstr "bbPress"
 
-#: framework/extensions/cookies-consent/customizer.php:118
+#: framework/extensions/cookies-consent/customizer.php:119
 msgid "I accept the %sPrivacy Policy%s*"
 msgstr "J’accepte  la %spolitique de confidentialité%s*"
 
@@ -383,7 +416,7 @@ msgstr "Bloc de page unique"
 msgid "Widget"
 msgstr "Widget"
 
-#: framework/extensions/trending/customizer.php:114
+#: framework/extensions/trending/customizer.php:115
 msgid "Module Title"
 msgstr "Titre du module"
 
@@ -399,67 +432,67 @@ msgstr "Ombre de la modale"
 msgid "Modal Options"
 msgstr "Option de la modale"
 
-#: framework/extensions-manager.php:277
+#: framework/extensions-manager.php:342
 msgid "Increase the conversion rate by adding a product quick view modal, a floating cart. Control the single product gallery/slider and the layout, add a wishlits page."
 msgstr "Augmentez le taux de conversion en ajoutant une fenêtre modale de visualisation des produits, un panier flottant. Contrôlez la galerie/le diaporama de produit unique et la mise en page, ajoutez une page de souhaits."
 
-#: framework/extensions-manager.php:266
+#: framework/extensions-manager.php:330
 msgid "Change the theme and companion plugin branding to your own custom one."
 msgstr "Modifier le thème et l’image de marque de l’extension  companion pour votre propre marque personnalisée."
 
-#: framework/extensions-manager.php:265
+#: framework/extensions-manager.php:329
 msgid "White Label (Agency Package)"
 msgstr "Marque blanche (Package Agency)"
 
-#: framework/extensions-manager.php:255
+#: framework/extensions-manager.php:318
 msgid "Create unlimited number of sidebars and display them conditionaly on any page or post."
 msgstr "Créer un nombre illimité de colonnes latérales et les afficher conditionnellement sur n’importe quelle page ou publication."
 
-#: framework/extensions-manager.php:254
+#: framework/extensions-manager.php:317
 msgid "Multiple Sidebars"
 msgstr "Colonnes latérales multiples"
 
-#: framework/extensions-manager.php:244
+#: framework/extensions-manager.php:306
 msgid "Transform your website into a app like by displaying a neat shortcuts bar at the bottom of the vieport."
 msgstr "Transformez votre site en une sorte d’application en affichant une barre de raccourcis soignée au bas du portail."
 
-#: framework/extensions-manager.php:243
+#: framework/extensions-manager.php:305
 msgid "Shortcuts Bar"
 msgstr "Barre de raccourcis"
 
-#: framework/extensions-manager.php:233
+#: framework/extensions-manager.php:294
 msgid "Create beautiful mega menus, assign icons add badges to menu items, and content blocks inside menu items."
 msgstr "Créer de magnifiques méga-menus, assigner des icônes, ajouter des badges aux éléments de menu et des blocs de contenu dans les éléments de menu."
 
-#: framework/extensions-manager.php:232
+#: framework/extensions-manager.php:293
 msgid "Advanced Menu"
 msgstr "Menu avancé"
 
-#: framework/extensions-manager.php:222
+#: framework/extensions-manager.php:282
 msgid "Serve Google Fonts from your own server for full GDPR compliancy."
 msgstr "Utiliser les polices Google depuis votre propre serveur pour une conformité RGPD complète."
 
-#: framework/extensions-manager.php:221
+#: framework/extensions-manager.php:281
 msgid "Local Google Fonts"
 msgstr "Polices Google locales"
 
-#: framework/extensions-manager.php:211
+#: framework/extensions-manager.php:270
 msgid "Upload unlimited number of custom fonts or variable fonts and use them in any typography option."
 msgstr "Téléverser un nombre illimité de polices personnalisées ou de polices variables et utilisez-les dans n’importe quelle option typographique."
 
-#: framework/extensions-manager.php:200
+#: framework/extensions-manager.php:258
 msgid "Add custom code snippets in your header and footer, globally and per post or page individually."
 msgstr "Ajouter des extraits de code personnalisés dans votre en-tête et votre pied de page, globalement et individuellement par article ou par page."
 
-#: framework/extensions-manager.php:199
+#: framework/extensions-manager.php:257
 msgid "Custom Code Snippets"
 msgstr "Extraits de code personnalisé"
 
-#: framework/extensions-manager.php:189
+#: framework/extensions-manager.php:246
 msgid "Connect your Typekit account and use your fonts in any typography option."
 msgstr "Connecter votre compte Typekit et utiliser vos polices dans n’importe quelle option de typographie."
 
-#: framework/extensions-manager.php:188
+#: framework/extensions-manager.php:245
 msgid "Adobe Typekit"
 msgstr "Adobe Typekit"
 
@@ -467,27 +500,27 @@ msgstr "Adobe Typekit"
 msgid "Open links in new tab"
 msgstr "Ouvrir les liens dans un nouvel onglet"
 
-#: framework/extensions/trending/customizer.php:323
+#: framework/extensions/trending/customizer.php:324
 msgid "Add one or more conditions to display the trending block."
 msgstr "Ajouter une condition ou plus d’affichage du bloc tendances."
 
-#: framework/extensions/trending/customizer.php:322
+#: framework/extensions/trending/customizer.php:323
 msgid "Trending Block Display Conditions"
 msgstr "Conditions d’affichage du bloc de tendances"
 
-#: framework/extensions/trending/customizer.php:305
+#: framework/extensions/trending/customizer.php:306
 msgid "After Header"
 msgstr "Après l’en-tête"
 
-#: framework/extensions/trending/customizer.php:300
+#: framework/extensions/trending/customizer.php:301
 msgid "After Footer"
 msgstr "Après le pied de page"
 
-#: framework/extensions/trending/customizer.php:295
+#: framework/extensions/trending/customizer.php:296
 msgid "Before Footer"
 msgstr "Avant le pied de page"
 
-#: framework/extensions/trending/customizer.php:287
+#: framework/extensions/trending/customizer.php:288
 msgid "Display Location"
 msgstr "Afficher l’emplacement"
 
@@ -530,7 +563,7 @@ msgstr "Vérifiez vos e-mails"
 msgid "Registration complete. Please check your email, then visit the <a href=\"%s\">login page</a>."
 msgstr "Inscription terminé. Veuillez vérifier vos e-mails puis rendez-vous sur la <a href=\"%s\">page de connexion</a>."
 
-#: framework/extensions/trending/customizer.php:338
+#: framework/extensions/trending/customizer.php:339
 msgid "Posts Font"
 msgstr "Police des publications"
 
@@ -621,7 +654,6 @@ msgstr "Évaluation du produit parent"
 msgid "Product Review"
 msgstr "Évaluation du produit"
 
-#: framework/extensions/product-reviews/config.php:4
 #: framework/extensions/product-reviews/extension.php:434
 #: framework/extensions/product-reviews/extension.php:435
 #: framework/extensions/product-reviews/extension.php:438
@@ -633,7 +665,6 @@ msgstr "Évaluations de produits"
 msgid "Newsletter subscribe form"
 msgstr "Formulaire d’inscription à la newsletter"
 
-#: framework/extensions/newsletter-subscribe/config.php:4
 #: framework/extensions/newsletter-subscribe/ct-newsletter-subscribe/widget.php:13
 msgid "Newsletter Subscribe"
 msgstr "Inscription à la newsletter"
@@ -820,35 +851,35 @@ msgstr "Note globale"
 msgid "Rating"
 msgstr "Note"
 
-#: framework/theme-integration.php:315
+#: framework/theme-integration.php:317
 msgid "TikTok"
 msgstr "TikTok"
 
-#: framework/theme-integration.php:314
+#: framework/theme-integration.php:316
 msgid "Odnoklassniki"
 msgstr "Odnoklassniki"
 
-#: framework/theme-integration.php:313
+#: framework/theme-integration.php:315
 msgid "VKontakte"
 msgstr "VKontakte"
 
-#: framework/theme-integration.php:312
+#: framework/theme-integration.php:314
 msgid "Vimeo"
 msgstr "Vimeo"
 
-#: framework/theme-integration.php:311
+#: framework/theme-integration.php:313
 msgid "YouTube"
 msgstr "YouTube"
 
-#: framework/theme-integration.php:309
+#: framework/theme-integration.php:311
 msgid "GitHub"
 msgstr "GitHub"
 
-#: framework/theme-integration.php:308
+#: framework/theme-integration.php:310
 msgid "WordPress"
 msgstr "WordPress"
 
-#: framework/theme-integration.php:307
+#: framework/theme-integration.php:309
 msgid "Pinterest"
 msgstr "Pinterest"
 
@@ -995,12 +1026,12 @@ msgstr "Nombre de pages"
 msgid "Pages ID"
 msgstr "ID des pages"
 
-#: framework/extensions/trending/customizer.php:203
+#: framework/extensions/trending/customizer.php:204
 #: framework/extensions/widgets/widgets/ct-posts/options.php:247
 msgid "Separate posts ID by comma. How to find the %spost ID%s."
 msgstr "Séparer les ID de publications par une virgule. Comment trouver l’%sID de publication%s."
 
-#: framework/extensions/trending/customizer.php:199
+#: framework/extensions/trending/customizer.php:200
 #: framework/extensions/widgets/widgets/ct-posts/options.php:243
 msgid "Posts ID"
 msgstr "ID des publications"
@@ -1045,13 +1076,13 @@ msgstr "Récent"
 msgid "Sort by"
 msgstr "Trier par"
 
-#: framework/extensions/trending/customizer.php:176
+#: framework/extensions/trending/customizer.php:177
 #: framework/extensions/widgets/widgets/ct-posts/options.php:155
 #: framework/extensions/widgets/widgets/ct-posts/options.php:174
 msgid "Custom Query"
 msgstr "Requête personnalisée"
 
-#: framework/extensions/trending/customizer.php:175
+#: framework/extensions/trending/customizer.php:176
 #: framework/extensions/widgets/widgets/ct-posts/options.php:154
 msgid "Taxonomies"
 msgstr "Taxonomies"
@@ -1220,7 +1251,7 @@ msgstr "Grande"
 #: framework/extensions/widgets/widgets/ct-about-me/options.php:210
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:280
 #: framework/extensions/widgets/widgets/ct-socials/options.php:83
-#: framework/theme-integration.php:310
+#: framework/theme-integration.php:312
 msgid "Medium"
 msgstr "Moyenne"
 
@@ -1272,7 +1303,7 @@ msgstr "Image"
 msgid "Code"
 msgstr "Code"
 
-#: framework/extensions/trending/customizer.php:170
+#: framework/extensions/trending/customizer.php:171
 #: framework/extensions/widgets/widgets/ct-about-me/options.php:37
 #: framework/extensions/widgets/widgets/ct-advertisement/options.php:23
 #: framework/extensions/widgets/widgets/ct-posts/options.php:149
@@ -1352,7 +1383,7 @@ msgstr "Nom de l’auteur"
 msgid "Quote"
 msgstr "Citation"
 
-#: framework/extensions-manager.php:276
+#: framework/extensions-manager.php:341
 msgid "WooCommerce Extra"
 msgstr "Supplément WooCommerce"
 
@@ -1373,7 +1404,7 @@ msgstr "Outil de personnalisation"
 msgid "After installing and activating the Cookies Consent extension you will be able to configure it from this location:"
 msgstr "Après avoir installé et activé l’extension Cookies Consent, vous pourrez la configurer à partir de cet emplacement :"
 
-#: framework/extensions/cookies-consent/customizer.php:122
+#: framework/extensions/cookies-consent/customizer.php:123
 msgid "This text will appear under each comment form and subscribe form."
 msgstr "Ce texte apparaîtra sous chaque formulaire de commentaire et formulaire d’abonnement."
 
@@ -1381,25 +1412,25 @@ msgstr "Ce texte apparaîtra sous chaque formulaire de commentaire et formulaire
 msgid "I accept the %sPrivacy Policy%s"
 msgstr "J’accepte  la %spolitique de confidentialité%s"
 
-#: framework/extensions/cookies-consent/customizer.php:111
+#: framework/extensions/cookies-consent/customizer.php:112
 msgid "Forms Cookies Content"
 msgstr "Contenu des cookies des formulaires"
 
-#: framework/extensions/cookies-consent/customizer.php:97
+#: framework/extensions/cookies-consent/customizer.php:98
 msgid "Maximum Width"
 msgstr "Largeur maximale"
 
-#: framework/extensions/cookies-consent/customizer.php:79
+#: framework/extensions/cookies-consent/customizer.php:80
 #: framework/extensions/cookies-consent/helpers.php:33
 msgid "Accept"
 msgstr "Accepter"
 
-#: framework/extensions/cookies-consent/customizer.php:63
+#: framework/extensions/cookies-consent/customizer.php:64
 #: framework/extensions/cookies-consent/helpers.php:30
 msgid "We use cookies to ensure that we give you the best experience on our website."
 msgstr "Nous utilisons des cookies pour nous assurer que nous vous offrons la meilleure expérience possible sur notre site."
 
-#: framework/extensions/cookies-consent/customizer.php:61
+#: framework/extensions/cookies-consent/customizer.php:62
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:86
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:115
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:143
@@ -1410,61 +1441,53 @@ msgstr "Nous utilisons des cookies pour nous assurer que nous vous offrons la me
 msgid "Content"
 msgstr "Contenu"
 
-#: framework/extensions/cookies-consent/customizer.php:54
+#: framework/extensions/cookies-consent/customizer.php:55
 msgid "Forever"
 msgstr "Toujours"
 
-#: framework/extensions/cookies-consent/customizer.php:53
+#: framework/extensions/cookies-consent/customizer.php:54
 msgid "One year"
 msgstr "Un an"
 
-#: framework/extensions/cookies-consent/customizer.php:52
+#: framework/extensions/cookies-consent/customizer.php:53
 msgid "Six months"
 msgstr "Six mois"
 
-#: framework/extensions/cookies-consent/customizer.php:51
+#: framework/extensions/cookies-consent/customizer.php:52
 msgid "Three months"
 msgstr "Trois mois"
 
-#: framework/extensions/cookies-consent/customizer.php:50
+#: framework/extensions/cookies-consent/customizer.php:51
 msgid "One month"
 msgstr "Un mois"
 
-#: framework/extensions/cookies-consent/customizer.php:49
+#: framework/extensions/cookies-consent/customizer.php:50
 msgid "One week"
 msgstr "Une semaine"
 
-#: framework/extensions/cookies-consent/customizer.php:48
+#: framework/extensions/cookies-consent/customizer.php:49
 msgid "One day"
 msgstr "Un jour"
 
-#: framework/extensions/cookies-consent/customizer.php:47
+#: framework/extensions/cookies-consent/customizer.php:48
 msgid "One hour"
 msgstr "Une heure"
 
-#: framework/extensions/cookies-consent/customizer.php:39
+#: framework/extensions/cookies-consent/customizer.php:40
 msgid "Cookie period"
 msgstr "Durée des cookies"
 
-#: framework/extensions/cookies-consent/customizer.php:32
+#: framework/extensions/cookies-consent/customizer.php:33
 #: framework/features/header/items/account/options.php:189
 #: framework/features/header/items/account/options.php:395
 msgid "Type 2"
 msgstr "Type 2"
 
-#: framework/extensions/cookies-consent/customizer.php:27
+#: framework/extensions/cookies-consent/customizer.php:28
 #: framework/features/header/items/account/options.php:184
 #: framework/features/header/items/account/options.php:390
 msgid "Type 1"
 msgstr "Type 1"
-
-#: framework/extensions/cookies-consent/customizer.php:4
-msgid "Cookie Consent"
-msgstr "Acceptation des cookies"
-
-#: framework/extensions/cookies-consent/config.php:4
-msgid "Cookies Consent"
-msgstr "Cookies Consent"
 
 #: framework/extensions/newsletter-subscribe/readme.php:32
 msgid "Customizer ➝ Single Posts"
@@ -1482,9 +1505,9 @@ msgstr ""
 "Après l’installation et l’activation de l’extension Mailchimp,\n"
 " vous aurez deux possibilités d’afficher votre formulaire d’abonnement :"
 
-#: framework/extensions/cookies-consent/customizer.php:177
-#: framework/extensions/cookies-consent/customizer.php:233
-#: framework/extensions/cookies-consent/customizer.php:298
+#: framework/extensions/cookies-consent/customizer.php:178
+#: framework/extensions/cookies-consent/customizer.php:234
+#: framework/extensions/cookies-consent/customizer.php:299
 #: framework/features/header/items/account/options.php:1114
 msgid "Background Color"
 msgstr "Couleur d’arrière-plan"
@@ -1634,70 +1657,68 @@ msgstr "Visibilité"
 msgid "Instructions"
 msgstr "Instructions"
 
-#: framework/extensions/trending/customizer.php:117
+#: framework/extensions/trending/customizer.php:118
 #: framework/extensions/trending/helpers.php:221
 msgid "Trending now"
 msgstr "Tendance maintenant"
 
 #: framework/extensions/newsletter-subscribe/customizer.php:334
-#: framework/extensions/trending/customizer.php:379
+#: framework/extensions/trending/customizer.php:380
 msgid "Container Background"
 msgstr "Arrière-plan du conteneur"
 
-#: framework/extensions/cookies-consent/customizer.php:202
-#: framework/extensions/cookies-consent/customizer.php:269
-#: framework/extensions/trending/customizer.php:347
+#: framework/extensions/cookies-consent/customizer.php:203
+#: framework/extensions/cookies-consent/customizer.php:270
+#: framework/extensions/trending/customizer.php:348
 #: framework/features/header/items/account/options.php:842
 msgid "Font Color"
 msgstr "Couleur de la police"
 
 #: framework/extensions/newsletter-subscribe/customizer.php:138
-#: framework/extensions/trending/customizer.php:279
+#: framework/extensions/trending/customizer.php:280
 #: framework/features/header/items/account/options.php:246
 #: framework/features/header/items/account/options.php:452
 #: framework/features/header/items/account/options.php:1179
 msgid "Tablet"
 msgstr "Tablette"
 
-#: framework/extensions/trending/customizer.php:266
+#: framework/extensions/trending/customizer.php:267
 msgid "Container Visibility"
 msgstr "Visibilité du conteneur"
 
 #: framework/extensions/newsletter-subscribe/customizer.php:385
-#: framework/extensions/trending/customizer.php:395
+#: framework/extensions/trending/customizer.php:396
 msgid "Container Inner Spacing"
 msgstr "Espacement intérieur du conteneur"
 
-#: framework/extensions/trending/customizer.php:231
+#: framework/extensions/trending/customizer.php:232
 msgid "Last Month"
 msgstr "Le mois dernier"
 
-#: framework/extensions/trending/customizer.php:230
+#: framework/extensions/trending/customizer.php:231
 msgid "Last 7 Days"
 msgstr "Les 7 derniers jours"
 
-#: framework/extensions/trending/customizer.php:229
+#: framework/extensions/trending/customizer.php:230
 msgid "Last 24 Hours"
 msgstr "Les dernières 24 heures"
 
-#: framework/extensions/trending/customizer.php:228
+#: framework/extensions/trending/customizer.php:229
 #: framework/extensions/widgets/widgets/ct-posts/options.php:213
 msgid "All Time"
 msgstr "Tout le temps"
 
-#: framework/extensions/trending/customizer.php:219
+#: framework/extensions/trending/customizer.php:220
 msgid "Trending From"
 msgstr "Tendance depuis"
 
-#: framework/extensions/trending/customizer.php:148
-#: framework/extensions/trending/customizer.php:161
+#: framework/extensions/trending/customizer.php:149
+#: framework/extensions/trending/customizer.php:162
 #: framework/extensions/widgets/widgets/ct-posts/options.php:137
 msgid "Post Type"
 msgstr "Type de publication"
 
-#: framework/extensions/trending/config.php:4
-#: framework/extensions/trending/customizer.php:96
-#: framework/extensions/trending/customizer.php:105
+#: framework/extensions/trending/customizer.php:106
 msgid "Trending Posts"
 msgstr "Articles tendance"
 
@@ -1705,7 +1726,7 @@ msgstr "Articles tendance"
 msgid "Products"
 msgstr "Produits"
 
-#: framework/extensions/trending/customizer.php:311
+#: framework/extensions/trending/customizer.php:312
 #: framework/features/header/header-options.php:158 static/bundle/options.js:14
 #: static/js/header/EditConditions.js:98
 msgid "Display Conditions"
@@ -1716,7 +1737,7 @@ msgid "Transparent Functionality"
 msgstr "Fonction de transparence"
 
 #: framework/extensions/newsletter-subscribe/customizer.php:139
-#: framework/extensions/trending/customizer.php:280
+#: framework/extensions/trending/customizer.php:281
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:131
 #: framework/features/header/header-options.php:105
 #: framework/features/header/header-options.php:187
@@ -1727,7 +1748,7 @@ msgid "Mobile"
 msgstr "Mobile"
 
 #: framework/extensions/newsletter-subscribe/customizer.php:137
-#: framework/extensions/trending/customizer.php:278
+#: framework/extensions/trending/customizer.php:279
 #: framework/features/header/header-options.php:103
 #: framework/features/header/header-options.php:185
 #: framework/features/header/items/account/options.php:245
@@ -1794,27 +1815,27 @@ msgstr "Retour à la connexion"
 msgid "Get New Password"
 msgstr "Obtenir un nouveau mot de passe"
 
-#: framework/features/header/modal/login.php:22
+#: framework/features/header/modal/login.php:28
 #: framework/features/header/modal/lostpassword.php:5
 msgid "Username or Email Address"
 msgstr "Identifiant ou adresse e-mail"
 
-#: framework/features/header/modal/register.php:71
+#: framework/features/header/modal/register.php:63
 msgid "Register"
 msgstr "S’inscrire"
 
-#: framework/features/header/modal/register.php:64
+#: framework/features/header/modal/register.php:58
 msgid "Registration confirmation will be emailed to you"
 msgstr "La confirmation d’inscription vous sera envoyée par e-mail"
 
 #: framework/extensions/newsletter-subscribe/ct-newsletter-subscribe/view.php:107
 #: framework/extensions/newsletter-subscribe/helpers.php:166
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:215
-#: framework/features/header/modal/register.php:38
+#: framework/features/header/modal/register.php:36
 msgid "Email"
 msgstr "E-mail"
 
-#: framework/features/header/modal/register.php:27
+#: framework/features/header/modal/register.php:30
 msgid "Username"
 msgstr "Identifiant"
 
@@ -1822,16 +1843,16 @@ msgstr "Identifiant"
 msgid "Log In"
 msgstr "Connexion"
 
-#: framework/features/header/modal/login.php:48
+#: framework/features/header/modal/login.php:44
 msgid "Forgot Password?"
 msgstr "Mot de passe oublié ?"
 
-#: framework/features/header/modal/login.php:38
+#: framework/features/header/modal/login.php:40
 msgid "Remember Me"
 msgstr "Se souvenir de moi"
 
-#: framework/features/header/modal/login.php:29
-#: framework/features/header/modal/register.php:49
+#: framework/features/header/modal/login.php:33
+#: framework/features/header/modal/register.php:42
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -1851,14 +1872,14 @@ msgstr "Contexte de la modale"
 msgid "Item Margin"
 msgstr "Marge de l’élément"
 
-#: framework/extensions/cookies-consent/customizer.php:169
-#: framework/extensions/cookies-consent/customizer.php:225
-#: framework/extensions/cookies-consent/customizer.php:256
-#: framework/extensions/cookies-consent/customizer.php:291
-#: framework/extensions/cookies-consent/customizer.php:320
+#: framework/extensions/cookies-consent/customizer.php:170
+#: framework/extensions/cookies-consent/customizer.php:226
+#: framework/extensions/cookies-consent/customizer.php:257
+#: framework/extensions/cookies-consent/customizer.php:292
+#: framework/extensions/cookies-consent/customizer.php:321
 #: framework/extensions/newsletter-subscribe/customizer.php:196
 #: framework/extensions/newsletter-subscribe/customizer.php:327
-#: framework/extensions/trending/customizer.php:371
+#: framework/extensions/trending/customizer.php:372
 #: framework/features/header/items/account/options.php:601
 #: framework/features/header/items/account/options.php:632
 #: framework/features/header/items/account/options.php:662
@@ -1872,19 +1893,19 @@ msgstr "Marge de l’élément"
 msgid "Hover"
 msgstr "Survol"
 
-#: framework/extensions/cookies-consent/customizer.php:163
-#: framework/extensions/cookies-consent/customizer.php:190
-#: framework/extensions/cookies-consent/customizer.php:219
-#: framework/extensions/cookies-consent/customizer.php:250
-#: framework/extensions/cookies-consent/customizer.php:286
-#: framework/extensions/cookies-consent/customizer.php:315
+#: framework/extensions/cookies-consent/customizer.php:164
+#: framework/extensions/cookies-consent/customizer.php:191
+#: framework/extensions/cookies-consent/customizer.php:220
+#: framework/extensions/cookies-consent/customizer.php:251
+#: framework/extensions/cookies-consent/customizer.php:287
+#: framework/extensions/cookies-consent/customizer.php:316
 #: framework/extensions/newsletter-subscribe/customizer.php:165
 #: framework/extensions/newsletter-subscribe/customizer.php:190
 #: framework/extensions/newsletter-subscribe/customizer.php:222
 #: framework/extensions/newsletter-subscribe/customizer.php:253
 #: framework/extensions/newsletter-subscribe/customizer.php:290
 #: framework/extensions/newsletter-subscribe/customizer.php:322
-#: framework/extensions/trending/customizer.php:365
+#: framework/extensions/trending/customizer.php:366
 #: framework/features/header/items/account/options.php:595
 #: framework/features/header/items/account/options.php:627
 #: framework/features/header/items/account/options.php:657
@@ -1916,10 +1937,10 @@ msgstr "État transparent"
 msgid "Default State"
 msgstr "État par défaut"
 
-#: framework/extensions/cookies-consent/customizer.php:141
+#: framework/extensions/cookies-consent/customizer.php:142
 #: framework/extensions/newsletter-subscribe/customizer.php:147
 #: framework/extensions/product-reviews/extension.php:337
-#: framework/extensions/trending/customizer.php:332
+#: framework/extensions/trending/customizer.php:333
 #: framework/features/header/items/account/options.php:531
 msgid "Design"
 msgstr "Conception"
@@ -1973,11 +1994,11 @@ msgstr "Taille de l’icône"
 msgid "Icon"
 msgstr "Icône"
 
-#: framework/extensions/cookies-consent/customizer.php:14
+#: framework/extensions/cookies-consent/customizer.php:15
 #: framework/extensions/newsletter-subscribe/customizer.php:12
 #: framework/extensions/product-reviews/extension.php:297
 #: framework/extensions/product-reviews/metabox.php:6
-#: framework/extensions/trending/customizer.php:109
+#: framework/extensions/trending/customizer.php:110
 #: framework/features/header/items/account/options.php:68
 msgid "General"
 msgstr "Général"
@@ -2374,35 +2395,35 @@ msgstr "URL de la page Facebook"
 msgid "OpenGraph Meta Data"
 msgstr "Métadonnées OpenGraph"
 
-#: framework/theme-integration.php:403 static/bundle/dashboard.js:6
+#: framework/theme-integration.php:405 static/bundle/dashboard.js:6
 #: static/js/screens/SiteExport.js:106
 msgid "PRO"
 msgstr "Pro"
 
-#: framework/theme-integration.php:387
+#: framework/theme-integration.php:389
 msgid "Companion"
 msgstr "Companion"
 
-#: framework/theme-integration.php:306
+#: framework/theme-integration.php:308
 msgid "Instagram"
 msgstr "Instagram"
 
-#: framework/theme-integration.php:305
+#: framework/theme-integration.php:307
 msgid "Dribbble"
 msgstr "Dribbble"
 
-#: framework/theme-integration.php:304
+#: framework/theme-integration.php:306
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: framework/theme-integration.php:303
+#: framework/theme-integration.php:305
 msgid "Twitter"
 msgstr "Twitter"
 
 #: framework/extensions/widgets/widgets/ct-facebook/options.php:16
 #: framework/extensions/widgets/widgets/ct-facebook/view.php:12
 #: framework/extensions/widgets/widgets/ct-facebook/widget.php:13
-#: framework/theme-integration.php:302
+#: framework/theme-integration.php:304
 msgid "Facebook"
 msgstr "Facebook"
 
@@ -2422,7 +2443,7 @@ msgstr "Nom par défaut du widget"
 msgid "Default widget description"
 msgstr "Description par défaut du widget"
 
-#: framework/extensions-manager.php:210
+#: framework/extensions-manager.php:269
 msgid "Custom Fonts"
 msgstr "Polices personnalisées"
 

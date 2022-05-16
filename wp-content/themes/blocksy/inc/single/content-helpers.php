@@ -85,28 +85,6 @@ if (! function_exists('blocksy_single_content')) {
 function blocksy_single_content($content = null) {
 	$post_options = blocksy_get_post_options();
 
-	if (
-		function_exists('blc_get_content_block_that_matches')
-		&&
-		blc_get_content_block_that_matches([
-			'template_type' => 'single'
-		])
-	) {
-		?> <article
-				id="post-<?php the_ID(); ?>"
-				<?php post_class(); ?>><div class="entry-content"> <?php
-
-		echo blc_render_content_block(
-			blc_get_content_block_that_matches([
-				'template_type' => 'single'
-			])
-		);
-
-		echo '</div></article>';
-
-		return;
-	}
-
 	$prefix = blocksy_manager()->screen->get_prefix();
 
 	$has_post_tags = get_theme_mod(

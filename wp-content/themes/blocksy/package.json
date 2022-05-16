@@ -1,6 +1,6 @@
 {
 	"name": "small-ct",
-	"version": "1.8.28",
+	"version": "1.8.32",
 	"title": "Blocksy",
 	"browserslist": "> 1%, not opera > 0, not op_mini all",
 	"devDependencies": {
@@ -22,7 +22,8 @@
 		"deploy:tutorial": "NODE_ENV=production gulp build_zips && scp build_tmp/*-production.zip root@demo.creativethemes.com:/var/www/html && ssh root@demo.creativethemes.com 'cd /var/www/html && mv *-production.zip tutorial/wp-content/themes/ && cd tutorial/wp-content/themes && rm -rf blocksy && unzip *-production.zip && rm *-production.zip'",
 		"changelogs": "env-cmd node scripts/get-changelog.js",
 		"set-version": "node scripts/set-version.js",
-		"make-nightly": "scripts/make-nightly.sh"
+		"make-nightly": "scripts/make-nightly.sh",
+		"make-release": "scripts/make-release.sh"
 	},
 	"dependencies": {
 		"@reach/dialog": "^0.1.2",

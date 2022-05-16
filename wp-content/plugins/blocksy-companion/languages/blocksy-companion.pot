@@ -41,10 +41,6 @@ msgid ""
 msgstr ""
 
 #: framework/extensions-manager.php:257,
-#: framework/premium/extensions/code-snippets/config.php:4,
-#: framework/premium/extensions/code-snippets/extension.php:23,
-#: framework/premium/extensions/code-snippets/extension.php:63,
-#: framework/premium/extensions/code-snippets/extension.php:99,
 #: framework/premium/extensions/code-snippets/readme.php:38
 msgid "Custom Code Snippets"
 msgstr ""
@@ -75,8 +71,7 @@ msgstr ""
 msgid "Serve Google Fonts from your own server for full GDPR compliancy."
 msgstr ""
 
-#: framework/extensions-manager.php:293,
-#: framework/premium/extensions/mega-menu/config.php:4
+#: framework/extensions-manager.php:293
 msgid "Advanced Menu"
 msgstr ""
 
@@ -86,9 +81,7 @@ msgid ""
 "content blocks inside menu items."
 msgstr ""
 
-#: framework/extensions-manager.php:305,
-#: framework/premium/extensions/shortcuts/config.php:4,
-#: framework/premium/extensions/shortcuts/customizer.php:516
+#: framework/extensions-manager.php:305
 msgid "Shortcuts Bar"
 msgstr ""
 
@@ -98,8 +91,7 @@ msgid ""
 "the bottom of the vieport."
 msgstr ""
 
-#: framework/extensions-manager.php:317,
-#: framework/premium/extensions/sidebars/config.php:4
+#: framework/extensions-manager.php:317
 msgid "Multiple Sidebars"
 msgstr ""
 
@@ -117,8 +109,7 @@ msgstr ""
 msgid "Change the theme and companion plugin branding to your own custom one."
 msgstr ""
 
-#: framework/extensions-manager.php:341,
-#: framework/premium/extensions/woocommerce-extra/config.php:4
+#: framework/extensions-manager.php:341
 msgid "WooCommerce Extra"
 msgstr ""
 
@@ -129,72 +120,73 @@ msgid ""
 "a wishlits page."
 msgstr ""
 
-#: framework/theme-integration.php:295,
+#: framework/theme-integration.php:304,
 #: framework/extensions/widgets/widgets/ct-facebook/options.php:16,
 #: framework/extensions/widgets/widgets/ct-facebook/view.php:12,
 #: framework/extensions/widgets/widgets/ct-facebook/widget.php:13
 msgid "Facebook"
 msgstr ""
 
-#: framework/theme-integration.php:296
+#: framework/theme-integration.php:305
 msgid "Twitter"
 msgstr ""
 
-#: framework/theme-integration.php:297
+#: framework/theme-integration.php:306
 msgid "LinkedIn"
 msgstr ""
 
-#: framework/theme-integration.php:298
+#: framework/theme-integration.php:307
 msgid "Dribbble"
 msgstr ""
 
-#: framework/theme-integration.php:299
+#: framework/theme-integration.php:308
 msgid "Instagram"
 msgstr ""
 
-#: framework/theme-integration.php:300
+#: framework/theme-integration.php:309
 msgid "Pinterest"
 msgstr ""
 
-#: framework/theme-integration.php:301
+#: framework/theme-integration.php:310
 msgid "WordPress"
 msgstr ""
 
-#: framework/theme-integration.php:302
+#: framework/theme-integration.php:311
 msgid "GitHub"
 msgstr ""
 
-#: framework/theme-integration.php:303,
+#: framework/theme-integration.php:312,
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:280,
-#: framework/extensions/widgets/widgets/ct-socials/options.php:83
+#: framework/extensions/widgets/widgets/ct-socials/options.php:83,
+#: framework/premium/features/content-blocks/options/archive.php:47
 msgid "Medium"
 msgstr ""
 
-#: framework/theme-integration.php:304
+#: framework/theme-integration.php:313
 msgid "YouTube"
 msgstr ""
 
-#: framework/theme-integration.php:305
+#: framework/theme-integration.php:314
 msgid "Vimeo"
 msgstr ""
 
-#: framework/theme-integration.php:306
+#: framework/theme-integration.php:315
 msgid "VKontakte"
 msgstr ""
 
-#: framework/theme-integration.php:307
+#: framework/theme-integration.php:316
 msgid "Odnoklassniki"
 msgstr ""
 
-#: framework/theme-integration.php:308
+#: framework/theme-integration.php:317
 msgid "TikTok"
 msgstr ""
 
-#: framework/theme-integration.php:380
+#: framework/theme-integration.php:389
 msgid "Companion"
 msgstr ""
 
-#: framework/theme-integration.php:396 static/js/screens/SiteExport.js:106
+#: framework/theme-integration.php:405 static/js/screens/SiteExport.js:106
 msgid "PRO"
 msgstr ""
 
@@ -211,66 +203,60 @@ msgid "Widget Title"
 msgstr ""
 
 #. translators: %s: Link to the login page.
-#: framework/features/account-auth.php:82
+#: framework/features/account-auth.php:92
 msgid ""
 "Check your email for the confirmation link, then visit the <a href=\"%s"
 "\">login page</a>."
 msgstr ""
 
-#: framework/features/account-auth.php:94,
-#: framework/features/account-auth.php:221
+#: framework/features/account-auth.php:104,
+#: framework/features/account-auth.php:231
 msgid "Check your email"
 msgstr ""
 
-#: framework/features/account-auth.php:188
+#: framework/features/account-auth.php:198
 msgid ""
 "Your account was created successfully. Your login details have been sent to "
 "your email address. Please visit the <a href=\"%s\">login page</a>."
 msgstr ""
 
-#: framework/features/account-auth.php:197
+#: framework/features/account-auth.php:207
 msgid ""
 "Your account was created successfully and a password has been sent to your "
 "email address. Please visit the <a href=\"%s\">login page</a>."
 msgstr ""
 
-#: framework/features/account-auth.php:227
+#: framework/features/account-auth.php:237
 msgid "Registration Form"
 msgstr ""
 
-#: framework/features/account-auth.php:228
+#: framework/features/account-auth.php:238
 msgid "Register For This Site"
 msgstr ""
 
-#: framework/features/conditions-manager.php:344
-msgid "%s Single"
-msgstr ""
-
-#: framework/features/conditions-manager.php:352
-msgid "%s Archive"
-msgstr ""
-
-#: framework/features/conditions-manager.php:363
-msgid "%s %s Taxonomy"
-msgstr ""
-
-#: framework/features/conditions-manager.php:377
+#: framework/features/conditions-manager.php:463
 msgid "Entire Website"
 msgstr ""
 
-#: framework/features/conditions-manager.php:383
+#: framework/features/conditions-manager.php:471,
+#: framework/features/conditions-manager.php:513,
+#: framework/features/conditions-manager.php:545
 msgid "Basic"
 msgstr ""
 
-#: framework/features/conditions-manager.php:387
+#: framework/features/conditions-manager.php:475,
+#: framework/features/conditions-manager.php:549
 msgid "Singulars"
 msgstr ""
 
-#: framework/features/conditions-manager.php:392
+#: framework/features/conditions-manager.php:480,
+#: framework/features/conditions-manager.php:517
 msgid "Archives"
 msgstr ""
 
-#: framework/features/conditions-manager.php:398,
+#: framework/features/conditions-manager.php:486,
+#: framework/features/conditions-manager.php:523,
+#: framework/features/conditions-manager.php:555,
 #: framework/extensions/trending/customizer.php:4,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:11,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:98,
@@ -280,106 +266,122 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: framework/features/conditions-manager.php:402,
-#: framework/premium/features/content-blocks/hooks-manager.php:328,
-#: framework/premium/features/content-blocks/hooks-manager.php:336,
-#: framework/premium/features/content-blocks/hooks-manager.php:344,
-#: framework/premium/features/content-blocks/hooks-manager.php:351,
-#: framework/premium/features/content-blocks/hooks-manager.php:358,
-#: framework/premium/features/content-blocks/hooks-manager.php:366
+#: framework/features/conditions-manager.php:490,
+#: framework/features/conditions-manager.php:559,
+#: framework/premium/features/content-blocks/hooks-manager.php:399,
+#: framework/premium/features/content-blocks/hooks-manager.php:407,
+#: framework/premium/features/content-blocks/hooks-manager.php:415,
+#: framework/premium/features/content-blocks/hooks-manager.php:422,
+#: framework/premium/features/content-blocks/hooks-manager.php:429,
+#: framework/premium/features/content-blocks/hooks-manager.php:437
 msgid "Single Post"
 msgstr ""
 
-#: framework/features/conditions-manager.php:407
+#: framework/features/conditions-manager.php:495,
+#: framework/features/conditions-manager.php:527
 msgid "All Post Archives"
 msgstr ""
 
-#: framework/features/conditions-manager.php:412
+#: framework/features/conditions-manager.php:500,
+#: framework/features/conditions-manager.php:532
 msgid "Post Categories"
 msgstr ""
 
-#: framework/features/conditions-manager.php:417
+#: framework/features/conditions-manager.php:505,
+#: framework/features/conditions-manager.php:537
 msgid "Post Tags"
 msgstr ""
 
-#: framework/features/conditions-manager.php:423,
+#: framework/features/conditions-manager.php:567,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:12,
 #: framework/premium/features/premium-header/items/search-input/options.php:5
 msgid "Pages"
 msgstr ""
 
-#: framework/features/conditions-manager.php:427
+#: framework/features/conditions-manager.php:571
 msgid "Single Page"
 msgstr ""
 
-#: framework/features/conditions-manager.php:474
-msgid "Specific"
+#: framework/features/conditions-manager.php:598
+msgid "%s Single"
 msgstr ""
 
-#: framework/features/conditions-manager.php:478
+#: framework/features/conditions-manager.php:608
+msgid "%s Archive"
+msgstr ""
+
+#: framework/features/conditions-manager.php:621
+msgid "%s %s Taxonomy"
+msgstr ""
+
+#: framework/features/conditions-manager.php:636
 msgid "Post ID"
 msgstr ""
 
-#: framework/features/conditions-manager.php:483
+#: framework/features/conditions-manager.php:641
 msgid "Page ID"
 msgstr ""
 
-#: framework/features/conditions-manager.php:488
+#: framework/features/conditions-manager.php:646
 #: static/js/options/ConditionsManager/PostIdPicker.js:76
 msgid "Custom Post Type ID"
 msgstr ""
 
-#: framework/features/conditions-manager.php:493
-msgid "Taxonomy ID"
-msgstr ""
-
-#: framework/features/conditions-manager.php:498
+#: framework/features/conditions-manager.php:651
 msgid "Post with Taxonomy ID"
 msgstr ""
 
-#: framework/features/conditions-manager.php:504
+#: framework/features/conditions-manager.php:656
+msgid "Taxonomy ID"
+msgstr ""
+
+#: framework/features/conditions-manager.php:660
+msgid "Specific"
+msgstr ""
+
+#: framework/features/conditions-manager.php:666
 msgid "Other Pages"
 msgstr ""
 
-#: framework/features/conditions-manager.php:508
+#: framework/features/conditions-manager.php:670
 msgid "404"
 msgstr ""
 
-#: framework/features/conditions-manager.php:513,
+#: framework/features/conditions-manager.php:675,
 #: framework/premium/features/premium-header/items/search-input/options.php:45,
 #: framework/premium/features/premium-header/items/search-input/view.php:71
 msgid "Search"
 msgstr ""
 
-#: framework/features/conditions-manager.php:518
+#: framework/features/conditions-manager.php:680
 msgid "Blog"
 msgstr ""
 
-#: framework/features/conditions-manager.php:523
+#: framework/features/conditions-manager.php:685
 msgid "Front Page"
 msgstr ""
 
-#: framework/features/conditions-manager.php:535
+#: framework/features/conditions-manager.php:697
 msgid "Author"
 msgstr ""
 
-#: framework/features/conditions-manager.php:541
+#: framework/features/conditions-manager.php:748
 msgid "User Auth"
 msgstr ""
 
-#: framework/features/conditions-manager.php:545
+#: framework/features/conditions-manager.php:752
 msgid "User Logged In"
 msgstr ""
 
-#: framework/features/conditions-manager.php:550
+#: framework/features/conditions-manager.php:757
 msgid "User Logged Out"
 msgstr ""
 
-#: framework/features/conditions-manager.php:556
+#: framework/features/conditions-manager.php:763
 msgid "User Roles"
 msgstr ""
 
-#: framework/features/conditions-manager.php:561,
+#: framework/features/conditions-manager.php:768,
 #: framework/premium/features/content-blocks/options/404.php:19,
 #: framework/premium/features/content-blocks/options/header.php:19,
 #: framework/premium/features/content-blocks/options/hook.php:24,
@@ -387,11 +389,11 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: framework/features/conditions-manager.php:565
+#: framework/features/conditions-manager.php:772
 msgid "Post Author"
 msgstr ""
 
-#: framework/features/conditions-manager.php:657
+#: framework/features/conditions-manager.php:865
 msgid "Language"
 msgstr ""
 
@@ -470,27 +472,27 @@ msgstr ""
 msgid "Twitter Username"
 msgstr ""
 
-#: framework/extensions/cookies-consent/config.php:4
+#. translators: This is a brand name. Preferably to not be translated
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/cookies-consent/config.php:5,
+#: framework/extensions/cookies-consent/customizer.php:5
+msgctxt "Extension Brand Name"
 msgid "Cookies Consent"
 msgstr ""
 
-#: framework/extensions/cookies-consent/config.php:5
+#: framework/extensions/cookies-consent/config.php:6
 msgid ""
 "Display a cookie acceptance box in order to comply with the privacy "
 "regulations in your country."
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:4
-msgid "Cookie Consent"
-msgstr ""
-
-#: framework/extensions/cookies-consent/customizer.php:14,
+#: framework/extensions/cookies-consent/customizer.php:15,
 #: framework/extensions/newsletter-subscribe/customizer.php:12,
 #: framework/extensions/product-reviews/extension.php:297,
 #: framework/extensions/product-reviews/metabox.php:6,
-#: framework/extensions/trending/customizer.php:109,
+#: framework/extensions/trending/customizer.php:110,
 #: framework/premium/extensions/mega-menu/options.php:6,
-#: framework/premium/extensions/shortcuts/customizer.php:526,
+#: framework/premium/extensions/shortcuts/customizer.php:534,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:11,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:164,
 #: framework/features/header/items/account/options.php:68,
@@ -507,8 +509,8 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:27,
-#: framework/premium/extensions/shortcuts/customizer.php:538,
+#: framework/extensions/cookies-consent/customizer.php:28,
+#: framework/premium/extensions/shortcuts/customizer.php:546,
 #: framework/premium/extensions/woocommerce-extra/extension.php:73,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:186,
 #: framework/features/header/items/account/options.php:184,
@@ -518,8 +520,8 @@ msgstr ""
 msgid "Type 1"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:32,
-#: framework/premium/extensions/shortcuts/customizer.php:543,
+#: framework/extensions/cookies-consent/customizer.php:33,
+#: framework/premium/extensions/shortcuts/customizer.php:551,
 #: framework/premium/extensions/woocommerce-extra/extension.php:78,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:191,
 #: framework/features/header/items/account/options.php:189,
@@ -529,43 +531,43 @@ msgstr ""
 msgid "Type 2"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:39
+#: framework/extensions/cookies-consent/customizer.php:40
 msgid "Cookie period"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:47
+#: framework/extensions/cookies-consent/customizer.php:48
 msgid "One hour"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:48
+#: framework/extensions/cookies-consent/customizer.php:49
 msgid "One day"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:49
+#: framework/extensions/cookies-consent/customizer.php:50
 msgid "One week"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:50
+#: framework/extensions/cookies-consent/customizer.php:51
 msgid "One month"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:51
+#: framework/extensions/cookies-consent/customizer.php:52
 msgid "Three months"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:52
+#: framework/extensions/cookies-consent/customizer.php:53
 msgid "Six months"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:53
+#: framework/extensions/cookies-consent/customizer.php:54
 msgid "One year"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:54
+#: framework/extensions/cookies-consent/customizer.php:55
 msgid "Forever"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:61,
+#: framework/extensions/cookies-consent/customizer.php:62,
 #: framework/premium/features/content-blocks/hooks-manager.php:226,
 #: framework/premium/features/content-blocks/hooks-manager.php:234,
 #: framework/premium/features/content-blocks/hooks-manager.php:242,
@@ -587,54 +589,54 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:63,
+#: framework/extensions/cookies-consent/customizer.php:64,
 #: framework/extensions/cookies-consent/helpers.php:30
 msgid ""
 "We use cookies to ensure that we give you the best experience on our website."
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:75
+#: framework/extensions/cookies-consent/customizer.php:76
 msgid "Accept Button text"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:79,
+#: framework/extensions/cookies-consent/customizer.php:80,
 #: framework/extensions/cookies-consent/helpers.php:33
 msgid "Accept"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:84
+#: framework/extensions/cookies-consent/customizer.php:85
 msgid "Decline Button text"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:87,
+#: framework/extensions/cookies-consent/customizer.php:88,
 #: framework/extensions/cookies-consent/helpers.php:34
 msgid "Decline"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:97
+#: framework/extensions/cookies-consent/customizer.php:98
 msgid "Maximum Width"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:118
+#: framework/extensions/cookies-consent/customizer.php:119
 msgid "I accept the %sPrivacy Policy%s*"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:122
+#: framework/extensions/cookies-consent/customizer.php:123
 msgid "This text will appear under each comment form and subscribe form."
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:141,
+#: framework/extensions/cookies-consent/customizer.php:142,
 #: framework/extensions/newsletter-subscribe/customizer.php:147,
 #: framework/extensions/product-reviews/extension.php:337,
-#: framework/extensions/trending/customizer.php:313,
+#: framework/extensions/trending/customizer.php:333,
 #: framework/premium/extensions/mega-menu/options.php:516,
-#: framework/premium/extensions/shortcuts/customizer.php:770,
+#: framework/premium/extensions/shortcuts/customizer.php:778,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:81,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:31,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:279,
 #: framework/features/header/items/account/options.php:531,
 #: framework/premium/extensions/woocommerce-extra/includes/wish-list-options.php:126,
-#: framework/premium/features/content-blocks/options/popup.php:360,
+#: framework/premium/features/content-blocks/options/popup.php:361,
 #: framework/premium/extensions/post-types-extra/includes/filtering/customizer.php:167,
 #: framework/premium/extensions/post-types-extra/includes/read-progress/customizer.php:66,
 #: framework/premium/extensions/woocommerce-extra/header-items/wish-list/options.php:119,
@@ -645,29 +647,29 @@ msgstr ""
 msgid "Design"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:146,
+#: framework/extensions/cookies-consent/customizer.php:147,
 #: framework/premium/extensions/mega-menu/options.php:605
 msgid "Text Color"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:163,
-#: framework/extensions/cookies-consent/customizer.php:190,
-#: framework/extensions/cookies-consent/customizer.php:219,
-#: framework/extensions/cookies-consent/customizer.php:250,
-#: framework/extensions/cookies-consent/customizer.php:286,
-#: framework/extensions/cookies-consent/customizer.php:315,
+#: framework/extensions/cookies-consent/customizer.php:164,
+#: framework/extensions/cookies-consent/customizer.php:191,
+#: framework/extensions/cookies-consent/customizer.php:220,
+#: framework/extensions/cookies-consent/customizer.php:251,
+#: framework/extensions/cookies-consent/customizer.php:287,
+#: framework/extensions/cookies-consent/customizer.php:316,
 #: framework/extensions/newsletter-subscribe/customizer.php:165,
 #: framework/extensions/newsletter-subscribe/customizer.php:190,
 #: framework/extensions/newsletter-subscribe/customizer.php:222,
 #: framework/extensions/newsletter-subscribe/customizer.php:253,
 #: framework/extensions/newsletter-subscribe/customizer.php:290,
 #: framework/extensions/newsletter-subscribe/customizer.php:322,
-#: framework/extensions/trending/customizer.php:346,
+#: framework/extensions/trending/customizer.php:366,
 #: framework/premium/extensions/mega-menu/options.php:762,
 #: framework/premium/extensions/mega-menu/options.php:809,
 #: framework/premium/extensions/mega-menu/options.php:828,
-#: framework/premium/extensions/shortcuts/customizer.php:804,
-#: framework/premium/extensions/shortcuts/customizer.php:836,
+#: framework/premium/extensions/shortcuts/customizer.php:812,
+#: framework/premium/extensions/shortcuts/customizer.php:844,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:99,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:73,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:369,
@@ -731,17 +733,17 @@ msgstr ""
 msgid "Initial"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:169,
-#: framework/extensions/cookies-consent/customizer.php:225,
-#: framework/extensions/cookies-consent/customizer.php:256,
-#: framework/extensions/cookies-consent/customizer.php:291,
-#: framework/extensions/cookies-consent/customizer.php:320,
+#: framework/extensions/cookies-consent/customizer.php:170,
+#: framework/extensions/cookies-consent/customizer.php:226,
+#: framework/extensions/cookies-consent/customizer.php:257,
+#: framework/extensions/cookies-consent/customizer.php:292,
+#: framework/extensions/cookies-consent/customizer.php:321,
 #: framework/extensions/newsletter-subscribe/customizer.php:196,
 #: framework/extensions/newsletter-subscribe/customizer.php:327,
-#: framework/extensions/trending/customizer.php:352,
+#: framework/extensions/trending/customizer.php:372,
 #: framework/premium/extensions/mega-menu/options.php:767,
-#: framework/premium/extensions/shortcuts/customizer.php:810,
-#: framework/premium/extensions/shortcuts/customizer.php:842,
+#: framework/premium/extensions/shortcuts/customizer.php:818,
+#: framework/premium/extensions/shortcuts/customizer.php:850,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:374,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:409,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:448,
@@ -775,9 +777,9 @@ msgstr ""
 msgid "Hover"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:177,
-#: framework/extensions/cookies-consent/customizer.php:233,
-#: framework/extensions/cookies-consent/customizer.php:298,
+#: framework/extensions/cookies-consent/customizer.php:178,
+#: framework/extensions/cookies-consent/customizer.php:234,
+#: framework/extensions/cookies-consent/customizer.php:299,
 #: framework/premium/extensions/mega-menu/options.php:816,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:425,
 #: framework/features/header/items/account/options.php:1114,
@@ -787,11 +789,11 @@ msgstr ""
 msgid "Background Color"
 msgstr ""
 
-#: framework/extensions/cookies-consent/customizer.php:202,
-#: framework/extensions/cookies-consent/customizer.php:269,
-#: framework/extensions/trending/customizer.php:328,
+#: framework/extensions/cookies-consent/customizer.php:203,
+#: framework/extensions/cookies-consent/customizer.php:270,
+#: framework/extensions/trending/customizer.php:348,
 #: framework/premium/extensions/mega-menu/options.php:796,
-#: framework/premium/extensions/shortcuts/customizer.php:786,
+#: framework/premium/extensions/shortcuts/customizer.php:794,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:86,
 #: framework/features/header/items/account/options.php:842,
 #: framework/premium/extensions/post-types-extra/includes/filtering/customizer.php:184,
@@ -840,12 +842,13 @@ msgstr ""
 msgid "Customizer ➝ Cookie Consent"
 msgstr ""
 
-#: framework/extensions/newsletter-subscribe/config.php:4,
-#: framework/extensions/newsletter-subscribe/ct-newsletter-subscribe/widget.php:13
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/newsletter-subscribe/config.php:5
+msgctxt "Extension Brand Name"
 msgid "Newsletter Subscribe"
 msgstr ""
 
-#: framework/extensions/newsletter-subscribe/config.php:5
+#: framework/extensions/newsletter-subscribe/config.php:6
 msgid ""
 "Easily capture new leads for your newsletter with the help of a widget, "
 "shortcode or even a block inserted on your pages or posts."
@@ -919,14 +922,15 @@ msgstr ""
 #: framework/extensions/newsletter-subscribe/ct-newsletter-subscribe/options.php:54,
 #: framework/premium/extensions/shortcuts/customizer.php:250,
 #: framework/premium/extensions/shortcuts/customizer.php:276,
-#: framework/premium/extensions/post-types-extra/includes/dynamic-data.php:371
+#: framework/premium/extensions/post-types-extra/includes/dynamic-data.php:371,
+#: framework/premium/features/content-blocks/options/archive.php:48
 #: framework/premium/static/js/options/IconPicker/Modal.js:148
 msgid "Custom"
 msgstr ""
 
 #: framework/extensions/newsletter-subscribe/customizer.php:62,
 #: framework/extensions/newsletter-subscribe/ct-newsletter-subscribe/options.php:64
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:187
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:194
 msgid "List ID"
 msgstr ""
 
@@ -982,12 +986,12 @@ msgstr ""
 #: framework/premium/extensions/shortcuts/customizer.php:107,
 #: framework/premium/extensions/shortcuts/customizer.php:169,
 #: framework/premium/extensions/shortcuts/customizer.php:225,
-#: framework/premium/extensions/shortcuts/customizer.php:305,
-#: framework/premium/extensions/shortcuts/customizer.php:364,
-#: framework/premium/extensions/shortcuts/customizer.php:420,
-#: framework/premium/extensions/shortcuts/customizer.php:476,
-#: framework/premium/extensions/shortcuts/customizer.php:734,
-#: framework/premium/features/content-blocks/options/404.php:140,
+#: framework/premium/extensions/shortcuts/customizer.php:312,
+#: framework/premium/extensions/shortcuts/customizer.php:371,
+#: framework/premium/extensions/shortcuts/customizer.php:427,
+#: framework/premium/extensions/shortcuts/customizer.php:483,
+#: framework/premium/extensions/shortcuts/customizer.php:742,
+#: framework/premium/features/content-blocks/options/404.php:146,
 #: framework/premium/features/content-blocks/options/header.php:166,
 #: framework/premium/features/content-blocks/options/hook.php:325,
 #: framework/premium/features/content-blocks/options/popup.php:339,
@@ -997,25 +1001,27 @@ msgid "Visibility"
 msgstr ""
 
 #: framework/extensions/newsletter-subscribe/customizer.php:137,
-#: framework/extensions/trending/customizer.php:259,
-#: framework/features/header/header-options.php:89,
-#: framework/features/header/header-options.php:171,
+#: framework/extensions/trending/customizer.php:279,
+#: framework/features/header/header-options.php:103,
+#: framework/features/header/header-options.php:185,
 #: framework/premium/extensions/shortcuts/customizer.php:59,
 #: framework/premium/extensions/shortcuts/customizer.php:121,
 #: framework/premium/extensions/shortcuts/customizer.php:183,
 #: framework/premium/extensions/shortcuts/customizer.php:239,
-#: framework/premium/extensions/shortcuts/customizer.php:320,
-#: framework/premium/extensions/shortcuts/customizer.php:378,
-#: framework/premium/extensions/shortcuts/customizer.php:434,
-#: framework/premium/extensions/shortcuts/customizer.php:490,
-#: framework/premium/extensions/shortcuts/customizer.php:626,
-#: framework/premium/extensions/shortcuts/customizer.php:748,
+#: framework/premium/extensions/shortcuts/customizer.php:327,
+#: framework/premium/extensions/shortcuts/customizer.php:385,
+#: framework/premium/extensions/shortcuts/customizer.php:441,
+#: framework/premium/extensions/shortcuts/customizer.php:497,
+#: framework/premium/extensions/shortcuts/customizer.php:634,
+#: framework/premium/extensions/shortcuts/customizer.php:756,
+#: framework/premium/extensions/woocommerce-extra/extension.php:168,
+#: framework/premium/extensions/woocommerce-extra/extension.php:189,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:47,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:71,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:219,
 #: framework/features/header/items/account/options.php:245,
 #: framework/features/header/items/account/options.php:451,
-#: framework/premium/features/content-blocks/options/404.php:151,
+#: framework/premium/features/content-blocks/options/404.php:157,
 #: framework/premium/features/content-blocks/options/header.php:177,
 #: framework/premium/features/content-blocks/options/hook.php:336,
 #: framework/premium/features/content-blocks/options/popup.php:350,
@@ -1026,24 +1032,26 @@ msgid "Desktop"
 msgstr ""
 
 #: framework/extensions/newsletter-subscribe/customizer.php:138,
-#: framework/extensions/trending/customizer.php:260,
+#: framework/extensions/trending/customizer.php:280,
 #: framework/premium/extensions/shortcuts/customizer.php:60,
 #: framework/premium/extensions/shortcuts/customizer.php:122,
 #: framework/premium/extensions/shortcuts/customizer.php:184,
 #: framework/premium/extensions/shortcuts/customizer.php:240,
-#: framework/premium/extensions/shortcuts/customizer.php:321,
-#: framework/premium/extensions/shortcuts/customizer.php:379,
-#: framework/premium/extensions/shortcuts/customizer.php:435,
-#: framework/premium/extensions/shortcuts/customizer.php:491,
-#: framework/premium/extensions/shortcuts/customizer.php:627,
-#: framework/premium/extensions/shortcuts/customizer.php:749,
+#: framework/premium/extensions/shortcuts/customizer.php:328,
+#: framework/premium/extensions/shortcuts/customizer.php:386,
+#: framework/premium/extensions/shortcuts/customizer.php:442,
+#: framework/premium/extensions/shortcuts/customizer.php:498,
+#: framework/premium/extensions/shortcuts/customizer.php:635,
+#: framework/premium/extensions/shortcuts/customizer.php:757,
+#: framework/premium/extensions/woocommerce-extra/extension.php:169,
+#: framework/premium/extensions/woocommerce-extra/extension.php:190,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:48,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:72,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:220,
 #: framework/features/header/items/account/options.php:246,
 #: framework/features/header/items/account/options.php:452,
 #: framework/features/header/items/account/options.php:1179,
-#: framework/premium/features/content-blocks/options/404.php:152,
+#: framework/premium/features/content-blocks/options/404.php:158,
 #: framework/premium/features/content-blocks/options/header.php:178,
 #: framework/premium/features/content-blocks/options/hook.php:337,
 #: framework/premium/features/content-blocks/options/popup.php:351,
@@ -1054,19 +1062,21 @@ msgid "Tablet"
 msgstr ""
 
 #: framework/extensions/newsletter-subscribe/customizer.php:139,
-#: framework/extensions/trending/customizer.php:261,
-#: framework/features/header/header-options.php:91,
-#: framework/features/header/header-options.php:173,
+#: framework/extensions/trending/customizer.php:281,
+#: framework/features/header/header-options.php:105,
+#: framework/features/header/header-options.php:187,
 #: framework/premium/extensions/shortcuts/customizer.php:61,
 #: framework/premium/extensions/shortcuts/customizer.php:123,
 #: framework/premium/extensions/shortcuts/customizer.php:185,
 #: framework/premium/extensions/shortcuts/customizer.php:241,
-#: framework/premium/extensions/shortcuts/customizer.php:322,
-#: framework/premium/extensions/shortcuts/customizer.php:380,
-#: framework/premium/extensions/shortcuts/customizer.php:436,
-#: framework/premium/extensions/shortcuts/customizer.php:492,
-#: framework/premium/extensions/shortcuts/customizer.php:628,
-#: framework/premium/extensions/shortcuts/customizer.php:750,
+#: framework/premium/extensions/shortcuts/customizer.php:329,
+#: framework/premium/extensions/shortcuts/customizer.php:387,
+#: framework/premium/extensions/shortcuts/customizer.php:443,
+#: framework/premium/extensions/shortcuts/customizer.php:499,
+#: framework/premium/extensions/shortcuts/customizer.php:636,
+#: framework/premium/extensions/shortcuts/customizer.php:758,
+#: framework/premium/extensions/woocommerce-extra/extension.php:170,
+#: framework/premium/extensions/woocommerce-extra/extension.php:191,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:49,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:73,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:221,
@@ -1074,7 +1084,7 @@ msgstr ""
 #: framework/features/header/items/account/options.php:247,
 #: framework/features/header/items/account/options.php:453,
 #: framework/features/header/items/account/options.php:1180,
-#: framework/premium/features/content-blocks/options/404.php:153,
+#: framework/premium/features/content-blocks/options/404.php:159,
 #: framework/premium/features/content-blocks/options/header.php:179,
 #: framework/premium/features/content-blocks/options/hook.php:338,
 #: framework/premium/features/content-blocks/options/popup.php:352,
@@ -1147,8 +1157,8 @@ msgid "Button Color"
 msgstr ""
 
 #: framework/extensions/newsletter-subscribe/customizer.php:334,
-#: framework/extensions/trending/customizer.php:360,
-#: framework/premium/extensions/shortcuts/customizer.php:945
+#: framework/extensions/trending/customizer.php:380,
+#: framework/premium/extensions/shortcuts/customizer.php:953
 msgid "Container Background"
 msgstr ""
 
@@ -1157,12 +1167,12 @@ msgid "Container Border"
 msgstr ""
 
 #: framework/extensions/newsletter-subscribe/customizer.php:385,
-#: framework/extensions/trending/customizer.php:376
+#: framework/extensions/trending/customizer.php:396
 msgid "Container Inner Spacing"
 msgstr ""
 
 #: framework/extensions/newsletter-subscribe/customizer.php:400,
-#: framework/premium/extensions/shortcuts/customizer.php:966
+#: framework/premium/extensions/shortcuts/customizer.php:974
 msgid "Container Border Radius"
 msgstr ""
 
@@ -1216,15 +1226,13 @@ msgstr ""
 msgid "Customizer ➝ Single Posts"
 msgstr ""
 
-#: framework/extensions/product-reviews/config.php:4,
-#: framework/extensions/product-reviews/extension.php:434,
-#: framework/extensions/product-reviews/extension.php:435,
-#: framework/extensions/product-reviews/extension.php:438,
-#: framework/extensions/product-reviews/extension.php:440
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/product-reviews/config.php:5
+msgctxt "Extension Brand Name"
 msgid "Product Reviews"
 msgstr ""
 
-#: framework/extensions/product-reviews/config.php:5
+#: framework/extensions/product-reviews/config.php:6
 msgid ""
 "This extension lets you easily create an affiliate marketing type of website "
 "by giving you options to create a personalized product review and use your "
@@ -1273,6 +1281,13 @@ msgstr ""
 
 #: framework/extensions/product-reviews/extension.php:395
 msgid "Overll Score Background"
+msgstr ""
+
+#: framework/extensions/product-reviews/extension.php:434,
+#: framework/extensions/product-reviews/extension.php:435,
+#: framework/extensions/product-reviews/extension.php:438,
+#: framework/extensions/product-reviews/extension.php:440
+msgid "Product Reviews"
 msgstr ""
 
 #: framework/extensions/product-reviews/extension.php:439
@@ -1509,13 +1524,15 @@ msgstr ""
 msgid "Cons"
 msgstr ""
 
-#: framework/extensions/trending/config.php:4,
-#: framework/extensions/trending/customizer.php:96,
-#: framework/extensions/trending/customizer.php:105
+#. translators: This is a brand name. Preferably to not be translated
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/trending/config.php:5,
+#: framework/extensions/trending/customizer.php:97
+msgctxt "Extension Brand Name"
 msgid "Trending Posts"
 msgstr ""
 
-#: framework/extensions/trending/config.php:5
+#: framework/extensions/trending/config.php:6
 msgid ""
 "Highlight your most popular posts or products based on the number of "
 "comments or reviews they have gotten in the specified period of time."
@@ -1542,82 +1559,91 @@ msgstr ""
 msgid "All taxonomies"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:114
+#: framework/extensions/trending/customizer.php:106
+msgid "Trending Posts"
+msgstr ""
+
+#: framework/extensions/trending/customizer.php:115
 msgid "Module Title"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:117,
-#: framework/extensions/trending/helpers.php:218
+#: framework/extensions/trending/customizer.php:118,
+#: framework/extensions/trending/helpers.php:221
 msgid "Trending now"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:122
+#: framework/extensions/trending/customizer.php:123
 msgid "Module Title Tag"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:169,
+#: framework/extensions/trending/customizer.php:171,
 #: framework/extensions/widgets/widgets/ct-advertisement/options.php:23,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:149,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:168
 msgid "Source"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:174,
+#: framework/extensions/trending/customizer.php:176,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:154
 msgid "Taxonomies"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:175,
+#: framework/extensions/trending/customizer.php:177,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:155,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:174
 msgid "Custom Query"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:198,
+#: framework/extensions/trending/customizer.php:200,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:243
 msgid "Posts ID"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:202,
+#: framework/extensions/trending/customizer.php:204,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:247
 msgid "Separate posts ID by comma. How to find the %spost ID%s."
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:218
+#: framework/extensions/trending/customizer.php:220
 msgid "Trending From"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:227,
+#: framework/extensions/trending/customizer.php:229,
 #: framework/extensions/widgets/widgets/ct-posts/options.php:213
 msgid "All Time"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:228
+#: framework/extensions/trending/customizer.php:230
 msgid "Last 24 Hours"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:229
+#: framework/extensions/trending/customizer.php:231
 msgid "Last 7 Days"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:230
+#: framework/extensions/trending/customizer.php:232
 msgid "Last Month"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:247
+#: framework/extensions/trending/customizer.php:245
+msgid "Image Size"
+msgstr ""
+
+#: framework/extensions/trending/customizer.php:267
 msgid "Container Visibility"
 msgstr ""
 
-#: framework/extensions/trending/customizer.php:319
+#: framework/extensions/trending/customizer.php:339
 msgid "Posts Font"
 msgstr ""
 
-#: framework/extensions/widgets/config.php:4,
-#: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:18
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/extensions/widgets/config.php:5
+msgctxt "Extension Brand Name"
 msgid "Widgets"
 msgstr ""
 
-#: framework/extensions/widgets/config.php:5
+#: framework/extensions/widgets/config.php:6
 msgid ""
 "Add new handcrafted widgets to your sidebars! Social Network Icons, "
 "Newsletter Subscribe, Contact Info, Custom Ads and even a Popular/Recent "
@@ -1671,7 +1697,7 @@ msgid "Only Bottom Row"
 msgstr ""
 
 #: framework/features/header/header-options.php:63
-msgid "Sticky Effect"
+msgid "Effect"
 msgstr ""
 
 #: framework/features/header/header-options.php:72
@@ -1686,57 +1712,63 @@ msgstr ""
 msgid "Auto Hide/Show"
 msgstr ""
 
-#: framework/features/header/header-options.php:79,
-#: framework/features/header/header-options.php:160
+#: framework/features/header/header-options.php:79
+msgid "Offset"
+msgstr ""
+
+#: framework/features/header/header-options.php:92,
+#: framework/features/header/header-options.php:174
 msgid "Enable on"
 msgstr ""
 
-#: framework/features/header/header-options.php:106
+#: framework/features/header/header-options.php:120
 msgid "Transparent Functionality"
 msgstr ""
 
-#: framework/features/header/header-options.php:144,
-#: framework/premium/extensions/shortcuts/customizer.php:755,
+#: framework/features/header/header-options.php:158,
+#: framework/premium/extensions/shortcuts/customizer.php:763,
+#: framework/premium/features/content-blocks/options/archive.php:186,
 #: framework/premium/features/content-blocks/options/header.php:142,
 #: framework/premium/features/content-blocks/options/hook.php:236,
-#: framework/premium/features/content-blocks/options/popup.php:297
-#: framework/premium/extensions/sidebars/static/js/SettingsManager.js:45
+#: framework/premium/features/content-blocks/options/popup.php:297,
+#: framework/premium/features/content-blocks/options/single.php:119
+#: framework/premium/extensions/sidebars/static/js/SettingsManager.js:49
 #: framework/premium/static/js/footer/EditConditions.js:97
-#: static/js/header/EditConditions.js:96
+#: static/js/header/EditConditions.js:98
 msgid "Display Conditions"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:31
+#: framework/premium/features/content-blocks.php:114
 msgid "All types"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:120
+#: framework/premium/features/content-blocks.php:211
 msgid "Hooks Locations"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:285,
-#: framework/premium/extensions/shortcuts/customizer.php:530
+#: framework/premium/features/content-blocks.php:376,
+#: framework/premium/extensions/shortcuts/customizer.php:538
 msgid "Type"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:286
+#: framework/premium/features/content-blocks.php:377
 msgid "Location/Trigger"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:287
+#: framework/premium/features/content-blocks.php:378
 msgid "Conditions"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:288
+#: framework/premium/features/content-blocks.php:379
 msgid "Output"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:289
+#: framework/premium/features/content-blocks.php:380
 msgid "Enable/Disable"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:309,
-#: framework/premium/extensions/shortcuts/customizer.php:718,
+#: framework/premium/features/content-blocks.php:400,
+#: framework/premium/extensions/shortcuts/customizer.php:726,
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:293,
 #: framework/extensions/widgets/widgets/ct-socials/options.php:96,
 #: framework/features/header/items/account/options.php:141,
@@ -1744,98 +1776,98 @@ msgstr ""
 #: framework/premium/features/content-blocks/options/hook.php:9,
 #: framework/premium/features/content-blocks/options/hook.php:158,
 #: framework/premium/features/content-blocks/options/popup.php:162,
-#: framework/premium/features/content-blocks/options/popup.php:436,
+#: framework/premium/features/content-blocks/options/popup.php:437,
 #: framework/premium/features/premium-header/items/contacts/options.php:274
 msgid "None"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:310,
+#: framework/premium/features/content-blocks.php:401,
 #: framework/premium/features/content-blocks/options/popup.php:163
 msgid "On scroll"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:311,
+#: framework/premium/features/content-blocks.php:402,
 #: framework/premium/features/content-blocks/options/popup.php:164
 msgid "On scroll to element"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:312,
+#: framework/premium/features/content-blocks.php:403,
 #: framework/premium/features/content-blocks/options/popup.php:165
 msgid "On page load"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:313,
+#: framework/premium/features/content-blocks.php:404,
 #: framework/premium/features/content-blocks/options/popup.php:166
 msgid "After inactivity"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:314,
+#: framework/premium/features/content-blocks.php:405,
 #: framework/premium/features/content-blocks/options/popup.php:167
 msgid "After x time"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:315,
+#: framework/premium/features/content-blocks.php:406,
 #: framework/premium/features/content-blocks/options/popup.php:168
 msgid "After x pages"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:316,
+#: framework/premium/features/content-blocks.php:407,
 #: framework/premium/features/content-blocks/options/popup.php:169
 msgid "On page exit intent"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:320
+#: framework/premium/features/content-blocks.php:411
 msgid "Down"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:321
+#: framework/premium/features/content-blocks.php:412
 msgid "Up"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:727,
-#: framework/premium/features/content-blocks.php:733
+#: framework/premium/features/content-blocks.php:871,
+#: framework/premium/features/content-blocks.php:877
 msgid "Content Blocks"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:728,
+#: framework/premium/features/content-blocks.php:872,
 #: framework/premium/extensions/mega-menu/options.php:333
 msgid "Content Block"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:729
+#: framework/premium/features/content-blocks.php:873
 msgid "Add New"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:730
+#: framework/premium/features/content-blocks.php:874
 msgid "Add New Content Block"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:731
+#: framework/premium/features/content-blocks.php:875
 msgid "Edit Content Block"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:732
-#: framework/premium/static/js/hooks/CreateHook.js:32
+#: framework/premium/features/content-blocks.php:876
+#: framework/premium/static/js/hooks/CreateHook.js:33
 msgid "New Content Block"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:734
+#: framework/premium/features/content-blocks.php:878
 msgid "View Content Block"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:735
+#: framework/premium/features/content-blocks.php:879
 msgid "Search Content Blocks"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:736
+#: framework/premium/features/content-blocks.php:880
 msgid "Nothing found"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:737
+#: framework/premium/features/content-blocks.php:881
 msgid "Nothing found in Trash"
 msgstr ""
 
-#: framework/premium/features/content-blocks.php:1025
+#: framework/premium/features/content-blocks.php:1169
 msgid "Close popup"
 msgstr ""
 
@@ -1898,6 +1930,7 @@ msgstr ""
 
 #: framework/premium/features/premium-header.php:173,
 #: framework/premium/extensions/mega-menu/options.php:436,
+#: framework/premium/extensions/woocommerce-extra/extension.php:373,
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:272,
 #: framework/extensions/widgets/widgets/ct-socials/options.php:75,
 #: framework/premium/features/premium-header/items/contacts/options.php:246
@@ -1911,7 +1944,7 @@ msgstr ""
 
 #: framework/premium/features/premium-header.php:192,
 #: framework/premium/extensions/mega-menu/options.php:465,
-#: framework/premium/extensions/shortcuts/customizer.php:651,
+#: framework/premium/extensions/shortcuts/customizer.php:659,
 #: framework/features/header/items/account/options.php:276,
 #: framework/features/header/items/account/options.php:482,
 #: framework/premium/extensions/woocommerce-extra/header-items/wish-list/options.php:98
@@ -1920,7 +1953,7 @@ msgstr ""
 
 #: framework/premium/features/premium-header.php:193,
 #: framework/premium/extensions/mega-menu/options.php:466,
-#: framework/premium/extensions/shortcuts/customizer.php:652,
+#: framework/premium/extensions/shortcuts/customizer.php:660,
 #: framework/features/header/items/account/options.php:277,
 #: framework/features/header/items/account/options.php:483,
 #: framework/premium/extensions/woocommerce-extra/header-items/wish-list/options.php:99
@@ -1934,7 +1967,7 @@ msgstr ""
 
 #: framework/extensions/newsletter-subscribe/ct-newsletter-subscribe/options.php:30,
 #: framework/premium/extensions/mega-menu/options.php:493,
-#: framework/premium/extensions/shortcuts/customizer.php:881,
+#: framework/premium/extensions/shortcuts/customizer.php:889,
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:30,
 #: framework/extensions/widgets/widgets/ct-quote/options.php:31,
 #: framework/features/header/items/account/options.php:294
@@ -1957,6 +1990,10 @@ msgstr ""
 
 #: framework/extensions/newsletter-subscribe/ct-newsletter-subscribe/options.php:127
 msgid "Content Alignment"
+msgstr ""
+
+#: framework/extensions/newsletter-subscribe/ct-newsletter-subscribe/widget.php:13
+msgid "Newsletter Subscribe"
 msgstr ""
 
 #: framework/extensions/newsletter-subscribe/ct-newsletter-subscribe/widget.php:14
@@ -2009,25 +2046,39 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
-#: framework/premium/extensions/adobe-typekit/config.php:4
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/premium/extensions/adobe-typekit/config.php:5
+msgctxt "Extension Brand Name"
 msgid "Adobe Fonts"
 msgstr ""
 
-#: framework/premium/extensions/adobe-typekit/config.php:5
+#: framework/premium/extensions/adobe-typekit/config.php:6
 msgid ""
 "Connect your Adobe Fonts project and use the selected fonts throughout "
 "Blocksy and your favorite page builder."
 msgstr ""
 
-#: framework/premium/extensions/code-snippets/config.php:5
+#. translators: This is a brand name. Preferably to not be translated
+#. translators: This is a brand name. Preferably to not be translated
+#. translators: This is a brand name. Preferably to not be translated
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/premium/extensions/code-snippets/config.php:5,
+#: framework/premium/extensions/code-snippets/extension.php:24,
+#: framework/premium/extensions/code-snippets/extension.php:65,
+#: framework/premium/extensions/code-snippets/extension.php:102
+msgctxt "Extension Brand Name"
+msgid "Custom Code Snippets"
+msgstr ""
+
+#: framework/premium/extensions/code-snippets/config.php:6
 msgid ""
 "Inject custom code snippets throughout your website. The extension works "
 "globally or on a per post/page basis."
 msgstr ""
 
-#: framework/premium/extensions/code-snippets/extension.php:38,
-#: framework/premium/extensions/code-snippets/extension.php:78,
-#: framework/premium/extensions/code-snippets/extension.php:117
+#: framework/premium/extensions/code-snippets/extension.php:39,
+#: framework/premium/extensions/code-snippets/extension.php:80,
+#: framework/premium/extensions/code-snippets/extension.php:120
 msgid "After body open scripts"
 msgstr ""
 
@@ -2063,28 +2114,46 @@ msgstr ""
 msgid "%s Page Settings"
 msgstr ""
 
-#: framework/premium/extensions/custom-fonts/config.php:4
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/premium/extensions/custom-fonts/config.php:5
+msgctxt "Extension Brand Name"
+msgid "Custom Fonts"
+msgstr ""
+
+#: framework/premium/extensions/custom-fonts/config.php:6
 msgid ""
 "Upload an unlimited number of custom fonts or variable fonts and use them "
 "throughout Blocksy and your favorite page builder."
 msgstr ""
 
-#: framework/premium/extensions/local-google-fonts/config.php:4
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/premium/extensions/local-google-fonts/config.php:5
+msgctxt "Extension Brand Name"
+msgid "Local Google Fonts"
+msgstr ""
+
+#: framework/premium/extensions/local-google-fonts/config.php:6
 msgid ""
 "Serve your chosen Google Fonts from your own web server. This will increase "
 "the loading speed and makes sure your website complies with the privacy "
 "regulations."
 msgstr ""
 
+#. translators: This is a brand name. Preferably to not be translated
 #: framework/premium/extensions/mega-menu/config.php:5
+msgctxt "Extension Brand Name"
+msgid "Advanced Menu"
+msgstr ""
+
+#: framework/premium/extensions/mega-menu/config.php:6
 msgid ""
 "Create beautiful personalised menus that set your website apart from the "
 "others. Add icons and badges to your entries and even add Content Blocks "
 "inside your dropdowns."
 msgstr ""
 
-#: framework/premium/extensions/mega-menu/config.php:9,
-#: framework/premium/extensions/shortcuts/config.php:12
+#: framework/premium/extensions/mega-menu/config.php:10,
+#: framework/premium/extensions/shortcuts/config.php:13
 #: framework/extensions/newsletter-subscribe/dashboard-static/js/hooks/useActivationWithRequirements.js:60
 #: framework/extensions/product-reviews/static/js/EditSettings.js:30
 #: framework/premium/extensions/white-label/dashboard-static/js/EditSettings.js:96
@@ -2118,7 +2187,8 @@ msgstr ""
 msgid "Full Width"
 msgstr ""
 
-#: framework/premium/extensions/mega-menu/options.php:37
+#: framework/premium/extensions/mega-menu/options.php:37,
+#: framework/premium/features/content-blocks/options/archive.php:59
 msgid "Custom Width"
 msgstr ""
 
@@ -2160,9 +2230,11 @@ msgid "Enabled"
 msgstr ""
 
 #: framework/premium/extensions/mega-menu/options.php:408,
-#: framework/premium/features/content-blocks/options/404.php:104,
+#: framework/premium/features/content-blocks/options/404.php:110,
+#: framework/premium/features/content-blocks/options/archive.php:160,
 #: framework/premium/features/content-blocks/options/header.php:108,
-#: framework/premium/features/content-blocks/options/hook.php:113
+#: framework/premium/features/content-blocks/options/hook.php:113,
+#: framework/premium/features/content-blocks/options/single.php:81
 msgid "Disabled"
 msgstr ""
 
@@ -2185,7 +2257,7 @@ msgid "Vertical Alignment"
 msgstr ""
 
 #: framework/premium/extensions/mega-menu/options.php:534,
-#: framework/premium/extensions/shortcuts/customizer.php:875,
+#: framework/premium/extensions/shortcuts/customizer.php:883,
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:346,
 #: framework/features/header/items/account/options.php:1033
 msgid "Background"
@@ -2223,7 +2295,7 @@ msgid "Initial Color"
 msgstr ""
 
 #: framework/premium/extensions/mega-menu/options.php:624,
-#: framework/premium/extensions/shortcuts/customizer.php:892,
+#: framework/premium/extensions/shortcuts/customizer.php:900,
 #: framework/premium/features/premium-header/items/language-switcher/options.php:432,
 #: framework/premium/features/premium-header/items/search-input/options.php:826
 msgid "Items Divider"
@@ -2267,11 +2339,13 @@ msgstr ""
 msgid "Icon Color"
 msgstr ""
 
-#: framework/premium/extensions/post-types-extra/config.php:4
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/premium/extensions/post-types-extra/config.php:5
+msgctxt "Extension Brand Name"
 msgid "Post Types Extra"
 msgstr ""
 
-#: framework/premium/extensions/post-types-extra/config.php:5
+#: framework/premium/extensions/post-types-extra/config.php:6
 msgid ""
 "Enables support for Custom Fields inside archive cards and single page post "
 "title, adds a reading progress bar for your posts and lets you set featured "
@@ -2343,7 +2417,15 @@ msgstr ""
 msgid "Dashboard ➝ Posts ➝ Categories"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/config.php:5
+#. translators: This is a brand name. Preferably to not be translated
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/premium/extensions/shortcuts/config.php:5,
+#: framework/premium/extensions/shortcuts/customizer.php:524
+msgctxt "Extension Brand Name"
+msgid "Shortcuts Bar"
+msgstr ""
+
+#: framework/premium/extensions/shortcuts/config.php:6
 msgid ""
 "Easily turn your websites into mobile first experiences. You can easily add "
 "the most important actions at the bottom of the screen for easy access."
@@ -2351,7 +2433,7 @@ msgstr ""
 
 #: framework/premium/extensions/shortcuts/customizer.php:12,
 #: framework/premium/extensions/shortcuts/customizer.php:35,
-#: framework/premium/extensions/shortcuts/customizer.php:555,
+#: framework/premium/extensions/shortcuts/customizer.php:563,
 #: framework/premium/extensions/shortcuts/views/bar.php:13,
 #: framework/premium/extensions/shortcuts/views/bar.php:43
 msgid "Home"
@@ -2359,7 +2441,7 @@ msgstr ""
 
 #: framework/premium/extensions/shortcuts/customizer.php:68,
 #: framework/premium/extensions/shortcuts/customizer.php:91,
-#: framework/premium/extensions/shortcuts/customizer.php:564,
+#: framework/premium/extensions/shortcuts/customizer.php:572,
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:102,
 #: framework/premium/extensions/shortcuts/views/bar.php:22,
 #: framework/premium/extensions/shortcuts/views/bar.php:44,
@@ -2383,19 +2465,23 @@ msgstr ""
 msgid "Set link to nofollow"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:331,
-#: framework/premium/extensions/shortcuts/customizer.php:354,
+#: framework/premium/extensions/shortcuts/customizer.php:306
+msgid "Custom class"
+msgstr ""
+
+#: framework/premium/extensions/shortcuts/customizer.php:338,
+#: framework/premium/extensions/shortcuts/customizer.php:361,
 #: framework/premium/extensions/shortcuts/views/bar.php:47
 msgid "Cart"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:387,
-#: framework/premium/extensions/shortcuts/customizer.php:410
+#: framework/premium/extensions/shortcuts/customizer.php:394,
+#: framework/premium/extensions/shortcuts/customizer.php:417
 msgid "Shop"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:443,
-#: framework/premium/extensions/shortcuts/customizer.php:466,
+#: framework/premium/extensions/shortcuts/customizer.php:450,
+#: framework/premium/extensions/shortcuts/customizer.php:473,
 #: framework/premium/extensions/woocommerce-extra/readme.php:70,
 #: framework/premium/extensions/woocommerce-extra/header-items/wish-list/config.php:4,
 #: framework/premium/extensions/woocommerce-extra/header-items/wish-list/options.php:109,
@@ -2404,27 +2490,27 @@ msgstr ""
 msgid "Wishlist"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:549
+#: framework/premium/extensions/shortcuts/customizer.php:557
 msgid "Shortcuts"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:604,
+#: framework/premium/extensions/shortcuts/customizer.php:612,
 #: framework/features/header/items/account/options.php:233,
 #: framework/features/header/items/account/options.php:439,
 #: framework/premium/extensions/woocommerce-extra/header-items/wish-list/options.php:61
 msgid "Label Visibility"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:644,
+#: framework/premium/extensions/shortcuts/customizer.php:652,
 #: framework/features/header/items/account/options.php:269,
 #: framework/features/header/items/account/options.php:475,
 #: framework/premium/extensions/woocommerce-extra/header-items/wish-list/options.php:91
 msgid "Label Position"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:653,
+#: framework/premium/extensions/shortcuts/customizer.php:661,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:25,
-#: framework/premium/features/content-blocks/hooks-manager.php:365,
+#: framework/premium/features/content-blocks/hooks-manager.php:436,
 #: framework/features/header/items/account/options.php:278,
 #: framework/features/header/items/account/options.php:484,
 #: framework/premium/features/content-blocks/options/hook.php:307,
@@ -2432,38 +2518,38 @@ msgstr ""
 msgid "Bottom"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:664,
+#: framework/premium/extensions/shortcuts/customizer.php:672,
 #: framework/features/header/items/account/options.php:215,
 #: framework/features/header/items/account/options.php:421,
 #: framework/premium/extensions/woocommerce-extra/header-items/wish-list/options.php:39
 msgid "Icon Size"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:674
+#: framework/premium/extensions/shortcuts/customizer.php:682
 msgid "Container Height"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:689
+#: framework/premium/extensions/shortcuts/customizer.php:697
 msgid "Container Max Width"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:713
+#: framework/premium/extensions/shortcuts/customizer.php:721
 msgid "Scroll Interaction"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:719
+#: framework/premium/extensions/shortcuts/customizer.php:727
 msgid "Hide"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:761
+#: framework/premium/extensions/shortcuts/customizer.php:769
 msgid "Shortcuts Bar Display Conditions"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:762
+#: framework/premium/extensions/shortcuts/customizer.php:770
 msgid "Add one or more conditions to display the shortcuts bar."
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:776,
+#: framework/premium/extensions/shortcuts/customizer.php:784,
 #: framework/premium/extensions/post-types-extra/includes/filtering/customizer.php:173,
 #: framework/premium/features/premium-header/items/contacts/options.php:346,
 #: framework/premium/features/premium-header/items/language-switcher/options.php:192,
@@ -2471,7 +2557,7 @@ msgstr ""
 msgid "Font"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:818,
+#: framework/premium/extensions/shortcuts/customizer.php:826,
 #: framework/premium/features/premium-header/items/contacts/options.php:526,
 #: framework/premium/features/premium-header/items/contacts/options.php:555,
 #: framework/premium/features/premium-header/items/contacts/options.php:586,
@@ -2479,28 +2565,34 @@ msgstr ""
 msgid "Icons Color"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:857
+#: framework/premium/extensions/shortcuts/customizer.php:865
 msgid "Cart Badge Color"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:912
+#: framework/premium/extensions/shortcuts/customizer.php:920
 msgid "Items Divider Height"
 msgstr ""
 
-#: framework/premium/extensions/shortcuts/customizer.php:926,
+#: framework/premium/extensions/shortcuts/customizer.php:934,
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:123,
-#: framework/premium/features/content-blocks/options/popup.php:386,
+#: framework/premium/features/content-blocks/options/popup.php:387,
 #: framework/premium/features/premium-header/items/language-switcher/options.php:446
 msgid "Shadow"
 msgstr ""
 
+#. translators: This is a brand name. Preferably to not be translated
 #: framework/premium/extensions/sidebars/config.php:5
+msgctxt "Extension Brand Name"
+msgid "Multiple Sidebars"
+msgstr ""
+
+#: framework/premium/extensions/sidebars/config.php:6
 msgid ""
 "Create unlimited personalized sets of widget areas and display them on any "
 "page or post using our conditional logic functionality."
 msgstr ""
 
-#: framework/premium/extensions/sidebars/config.php:9
+#: framework/premium/extensions/sidebars/config.php:10
 msgid "Create New Sidebar"
 msgstr ""
 
@@ -2524,18 +2616,26 @@ msgstr ""
 msgid "Available Sidebars/Widget Areas"
 msgstr ""
 
-#: framework/premium/extensions/white-label/config.php:4
+#. translators: This is a brand name. Preferably to not be translated
+#: framework/premium/extensions/white-label/config.php:5
+msgctxt "Extension Brand Name"
 msgid "White Label"
 msgstr ""
 
-#: framework/premium/extensions/white-label/config.php:5
+#: framework/premium/extensions/white-label/config.php:6
 msgid ""
 "Replace Blocksy's branding with your own. Easily hide licensing info and "
 "other sections of the theme and companion plugin from your clients and make "
 "your final product look more professional."
 msgstr ""
 
+#. translators: This is a brand name. Preferably to not be translated
 #: framework/premium/extensions/woocommerce-extra/config.php:5
+msgctxt "Extension Brand Name"
+msgid "WooCommerce Extra"
+msgstr ""
+
+#: framework/premium/extensions/woocommerce-extra/config.php:6
 msgid ""
 "Make the shopping experience better for your visitors! Add features such as "
 "Product Quick View, Wishlist functionality and a Floating Add to Cart "
@@ -2582,35 +2682,55 @@ msgstr ""
 msgid "Number of Columns"
 msgstr ""
 
-#: framework/premium/extensions/woocommerce-extra/extension.php:636
+#: framework/premium/extensions/woocommerce-extra/extension.php:154
+msgid "Gallery Arrows Visibility"
+msgstr ""
+
+#: framework/premium/extensions/woocommerce-extra/extension.php:175
+msgid "Thumbnails Arrows Visibility"
+msgstr ""
+
+#: framework/premium/extensions/woocommerce-extra/extension.php:384
+msgid "Icons Spacing"
+msgstr ""
+
+#: framework/premium/extensions/woocommerce-extra/extension.php:428
+msgid "WooCommerce Offcanvas Filters"
+msgstr ""
+
+#: framework/premium/extensions/woocommerce-extra/extension.php:430
+msgid "Add widgets here."
+msgstr ""
+
+#: framework/premium/extensions/woocommerce-extra/extension.php:709
 msgid "Available Filters"
 msgstr ""
 
-#: framework/premium/extensions/woocommerce-extra/extension.php:637
+#: framework/premium/extensions/woocommerce-extra/extension.php:710
 msgid "Close filters modal"
 msgstr ""
 
-#: framework/premium/extensions/woocommerce-extra/extension.php:714
+#: framework/premium/extensions/woocommerce-extra/extension.php:787
 msgid "Quick view title before"
 msgstr ""
 
-#: framework/premium/extensions/woocommerce-extra/extension.php:719
+#: framework/premium/extensions/woocommerce-extra/extension.php:792
 msgid "Quick view title after"
 msgstr ""
 
-#: framework/premium/extensions/woocommerce-extra/extension.php:724
+#: framework/premium/extensions/woocommerce-extra/extension.php:797
 msgid "Quick view price before"
 msgstr ""
 
-#: framework/premium/extensions/woocommerce-extra/extension.php:729
+#: framework/premium/extensions/woocommerce-extra/extension.php:802
 msgid "Quick view price after"
 msgstr ""
 
-#: framework/premium/extensions/woocommerce-extra/extension.php:734
+#: framework/premium/extensions/woocommerce-extra/extension.php:807
 msgid "Quick view summary before"
 msgstr ""
 
-#: framework/premium/extensions/woocommerce-extra/extension.php:739
+#: framework/premium/extensions/woocommerce-extra/extension.php:812
 msgid "Quick view summary after"
 msgstr ""
 
@@ -2624,7 +2744,7 @@ msgid "Position"
 msgstr ""
 
 #: framework/premium/extensions/woocommerce-extra/floating-cart.php:24,
-#: framework/premium/features/content-blocks/hooks-manager.php:327,
+#: framework/premium/features/content-blocks/hooks-manager.php:398,
 #: framework/premium/features/content-blocks/options/hook.php:306
 msgid "Top"
 msgstr ""
@@ -2663,6 +2783,10 @@ msgstr ""
 
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:14
 msgid "Filter Widgets"
+msgstr ""
+
+#: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:18
+msgid "Widgets"
 msgstr ""
 
 #: framework/premium/extensions/woocommerce-extra/offcanvas-filter.php:36
@@ -2914,7 +3038,8 @@ msgid "Page/post title"
 msgstr ""
 
 #: framework/premium/features/content-blocks/hooks-manager.php:153,
-#: framework/premium/features/content-blocks/hooks-manager.php:271
+#: framework/premium/features/content-blocks/hooks-manager.php:271,
+#: framework/premium/features/content-blocks/hooks-manager.php:313
 msgid "Before title"
 msgstr ""
 
@@ -2931,7 +3056,8 @@ msgid "Before post meta"
 msgstr ""
 
 #: framework/premium/features/content-blocks/hooks-manager.php:185,
-#: framework/premium/features/content-blocks/hooks-manager.php:278
+#: framework/premium/features/content-blocks/hooks-manager.php:278,
+#: framework/premium/features/content-blocks/hooks-manager.php:320
 msgid "After title"
 msgstr ""
 
@@ -2956,12 +3082,12 @@ msgid "Before content"
 msgstr ""
 
 #: framework/premium/features/content-blocks/hooks-manager.php:233,
-#: framework/premium/features/content-blocks/hooks-manager.php:335
+#: framework/premium/features/content-blocks/hooks-manager.php:406
 msgid "Top content"
 msgstr ""
 
 #: framework/premium/features/content-blocks/hooks-manager.php:241,
-#: framework/premium/features/content-blocks/hooks-manager.php:357
+#: framework/premium/features/content-blocks/hooks-manager.php:428
 msgid "Bottom content"
 msgstr ""
 
@@ -2994,430 +3120,483 @@ msgstr ""
 msgid "After comments"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:299,
+#: framework/premium/features/content-blocks/hooks-manager.php:299
+msgid "Before related posts"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:300,
+#: framework/premium/features/content-blocks/hooks-manager.php:307,
+#: framework/premium/features/content-blocks/hooks-manager.php:314,
+#: framework/premium/features/content-blocks/hooks-manager.php:321,
+#: framework/premium/features/content-blocks/hooks-manager.php:328,
+#: framework/premium/features/content-blocks/hooks-manager.php:335,
+#: framework/premium/features/content-blocks/hooks-manager.php:342,
+#: framework/premium/features/content-blocks/hooks-manager.php:349,
+#: framework/premium/features/content-blocks/hooks-manager.php:357,
+#: framework/premium/features/content-blocks/hooks-manager.php:364
+msgid "Related posts"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:306
+msgid "Related posts top"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:327
+msgid "Card top"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:334
+msgid "Before featured image"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:341
+msgid "After featured image"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:348
+msgid "Card bottom"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:356
+msgid "Related posts bottom"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:363
+msgid "After related posts"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:370,
 #: framework/premium/extensions/post-types-extra/includes/dynamic-data.php:459
 msgid "Before"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:300,
-#: framework/premium/features/content-blocks/hooks-manager.php:307
+#: framework/premium/features/content-blocks/hooks-manager.php:371,
+#: framework/premium/features/content-blocks/hooks-manager.php:378
 msgid "Loop"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:306,
+#: framework/premium/features/content-blocks/hooks-manager.php:377,
 #: framework/premium/extensions/post-types-extra/includes/dynamic-data.php:470
 msgid "After"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:313
+#: framework/premium/features/content-blocks/hooks-manager.php:384
 msgid "Start"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:314,
-#: framework/premium/features/content-blocks/hooks-manager.php:321
+#: framework/premium/features/content-blocks/hooks-manager.php:385,
+#: framework/premium/features/content-blocks/hooks-manager.php:392
 msgid "Loop card"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:320
+#: framework/premium/features/content-blocks/hooks-manager.php:391
 msgid "End"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:343
+#: framework/premium/features/content-blocks/hooks-manager.php:414
 msgid "After certain number of blocks"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:350
+#: framework/premium/features/content-blocks/hooks-manager.php:421
 msgid "Before certain number of headings"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:373
+#: framework/premium/features/content-blocks/hooks-manager.php:444
 msgid "Login form start"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:374,
-#: framework/premium/features/content-blocks/hooks-manager.php:381,
-#: framework/premium/features/content-blocks/hooks-manager.php:388,
-#: framework/premium/features/content-blocks/hooks-manager.php:395,
-#: framework/premium/features/content-blocks/hooks-manager.php:402,
-#: framework/premium/features/content-blocks/hooks-manager.php:409,
-#: framework/premium/features/content-blocks/hooks-manager.php:416,
-#: framework/premium/features/content-blocks/hooks-manager.php:423,
-#: framework/premium/features/content-blocks/hooks-manager.php:430,
-#: framework/premium/features/content-blocks/hooks-manager.php:437
+#: framework/premium/features/content-blocks/hooks-manager.php:445,
+#: framework/premium/features/content-blocks/hooks-manager.php:452,
+#: framework/premium/features/content-blocks/hooks-manager.php:459,
+#: framework/premium/features/content-blocks/hooks-manager.php:466,
+#: framework/premium/features/content-blocks/hooks-manager.php:473,
+#: framework/premium/features/content-blocks/hooks-manager.php:480,
+#: framework/premium/features/content-blocks/hooks-manager.php:487,
+#: framework/premium/features/content-blocks/hooks-manager.php:494,
+#: framework/premium/features/content-blocks/hooks-manager.php:501,
+#: framework/premium/features/content-blocks/hooks-manager.php:508
 msgid "Auth forms"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:380
+#: framework/premium/features/content-blocks/hooks-manager.php:451
 msgid "Login form end"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:387
+#: framework/premium/features/content-blocks/hooks-manager.php:458
 msgid "Login form modal start"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:394
+#: framework/premium/features/content-blocks/hooks-manager.php:465
 msgid "Login form modal end"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:401
+#: framework/premium/features/content-blocks/hooks-manager.php:472
 msgid "Register form start"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:408
+#: framework/premium/features/content-blocks/hooks-manager.php:479
 msgid "Register form end"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:415
+#: framework/premium/features/content-blocks/hooks-manager.php:486
 msgid "Register form modal start"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:422
+#: framework/premium/features/content-blocks/hooks-manager.php:493
 msgid "Register form modal end"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:429
+#: framework/premium/features/content-blocks/hooks-manager.php:500
 msgid "Lost password form modal start"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:436
+#: framework/premium/features/content-blocks/hooks-manager.php:507
 msgid "Lost password form modal end"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:444
+#: framework/premium/features/content-blocks/hooks-manager.php:515
 msgid "Before main content"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:450
+#: framework/premium/features/content-blocks/hooks-manager.php:521
 msgid "After main content"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:453
+#: framework/premium/features/content-blocks/hooks-manager.php:527
+msgid "Offcanvas Filters Top"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:533
+msgid "Offcanvas Filters Bottom"
+msgstr ""
+
+#: framework/premium/features/content-blocks/hooks-manager.php:536
 msgid "WooCommerce Global"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:458
+#: framework/premium/features/content-blocks/hooks-manager.php:541
 msgid "Archive description"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:463
+#: framework/premium/features/content-blocks/hooks-manager.php:546
 msgid "Before shop loop"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:480
+#: framework/premium/features/content-blocks/hooks-manager.php:563
 msgid "Before shop loop item title"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:485
+#: framework/premium/features/content-blocks/hooks-manager.php:568
 msgid "After shop loop item title"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:490
+#: framework/premium/features/content-blocks/hooks-manager.php:573
 msgid "Before shop loop item price"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:495
+#: framework/premium/features/content-blocks/hooks-manager.php:578
 msgid "After shop loop item price"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:500
+#: framework/premium/features/content-blocks/hooks-manager.php:583
 msgid "Before shop loop item actions"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:505
+#: framework/premium/features/content-blocks/hooks-manager.php:588
 msgid "After shop loop item actions"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:510
+#: framework/premium/features/content-blocks/hooks-manager.php:593
 msgid "After shop loop"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:512
+#: framework/premium/features/content-blocks/hooks-manager.php:595
 msgid "WooCommerce Archive"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:517
+#: framework/premium/features/content-blocks/hooks-manager.php:600
 msgid "Before single product"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:535
+#: framework/premium/features/content-blocks/hooks-manager.php:618
 msgid "Product meta start"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:539
+#: framework/premium/features/content-blocks/hooks-manager.php:622
 msgid "Product meta end"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:543
+#: framework/premium/features/content-blocks/hooks-manager.php:626
 msgid "Share"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:547
+#: framework/premium/features/content-blocks/hooks-manager.php:630
 msgid "After single product"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:553
+#: framework/premium/features/content-blocks/hooks-manager.php:636
 msgid "Before single product excerpt"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:558
+#: framework/premium/features/content-blocks/hooks-manager.php:641
 msgid "After single product excerpt"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:563
+#: framework/premium/features/content-blocks/hooks-manager.php:646
 msgid "Before single product tabs"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:569
+#: framework/premium/features/content-blocks/hooks-manager.php:652
 msgid "After single product tabs"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:573
+#: framework/premium/features/content-blocks/hooks-manager.php:656
 msgid "WooCommerce Product"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:578
+#: framework/premium/features/content-blocks/hooks-manager.php:661
 msgid "Cart is empty"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:582
+#: framework/premium/features/content-blocks/hooks-manager.php:665
 msgid "Before cart"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:586
+#: framework/premium/features/content-blocks/hooks-manager.php:669
 msgid "Before cart table"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:590
+#: framework/premium/features/content-blocks/hooks-manager.php:673
 msgid "Before cart contents"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:594
+#: framework/premium/features/content-blocks/hooks-manager.php:677
 msgid "Cart contents"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:598
+#: framework/premium/features/content-blocks/hooks-manager.php:681
 msgid "After cart contents"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:602
+#: framework/premium/features/content-blocks/hooks-manager.php:685
 msgid "Cart coupon"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:606
+#: framework/premium/features/content-blocks/hooks-manager.php:689
 msgid "Cart actions"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:610
+#: framework/premium/features/content-blocks/hooks-manager.php:693
 msgid "After cart table"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:614
+#: framework/premium/features/content-blocks/hooks-manager.php:697
 msgid "Cart collaterals"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:618
+#: framework/premium/features/content-blocks/hooks-manager.php:701
 msgid "Before cart totals"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:622
+#: framework/premium/features/content-blocks/hooks-manager.php:705
 msgid "Cart totals before order total"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:626
+#: framework/premium/features/content-blocks/hooks-manager.php:709
 msgid "Cart totals after order total"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:630
+#: framework/premium/features/content-blocks/hooks-manager.php:713
 msgid "Proceed to checkout"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:634
+#: framework/premium/features/content-blocks/hooks-manager.php:717
 msgid "After cart totals"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:638
+#: framework/premium/features/content-blocks/hooks-manager.php:721
 msgid "After cart"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:643
+#: framework/premium/features/content-blocks/hooks-manager.php:726
 msgid "Before Mini Cart"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:648
+#: framework/premium/features/content-blocks/hooks-manager.php:731
 msgid "Before Mini Cart Contents"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:653
+#: framework/premium/features/content-blocks/hooks-manager.php:736
 msgid "Mini Cart Contents"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:658
+#: framework/premium/features/content-blocks/hooks-manager.php:741
 msgid "Widget Shopping Cart Before Buttons"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:663
+#: framework/premium/features/content-blocks/hooks-manager.php:746
 msgid "Widget Shopping Cart After Buttons"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:668
+#: framework/premium/features/content-blocks/hooks-manager.php:751
 msgid "After Mini Cart"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:670
+#: framework/premium/features/content-blocks/hooks-manager.php:753
 msgid "WooCommerce Cart"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:676
+#: framework/premium/features/content-blocks/hooks-manager.php:759
 msgid "Before checkout form"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:680
+#: framework/premium/features/content-blocks/hooks-manager.php:763
 msgid "Before customer details"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:684
+#: framework/premium/features/content-blocks/hooks-manager.php:767
 msgid "After customer details"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:688
+#: framework/premium/features/content-blocks/hooks-manager.php:771
 msgid "Checkout billing"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:692
+#: framework/premium/features/content-blocks/hooks-manager.php:775
 msgid "Before checkout billing form"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:696
+#: framework/premium/features/content-blocks/hooks-manager.php:779
 msgid "After checkout billing form"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:700
+#: framework/premium/features/content-blocks/hooks-manager.php:783
 msgid "Before order notes"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:704
+#: framework/premium/features/content-blocks/hooks-manager.php:787
 msgid "After order notes"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:708
+#: framework/premium/features/content-blocks/hooks-manager.php:791
 msgid "Checkout shipping"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:712
+#: framework/premium/features/content-blocks/hooks-manager.php:795
 msgid "Checkout before order review"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:716
+#: framework/premium/features/content-blocks/hooks-manager.php:799
 msgid "Checkout order review"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:720
+#: framework/premium/features/content-blocks/hooks-manager.php:803
 msgid "Review order before cart contents"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:724
+#: framework/premium/features/content-blocks/hooks-manager.php:807
 msgid "Review order after cart contents"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:728
+#: framework/premium/features/content-blocks/hooks-manager.php:811
 msgid "Review order before order total"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:732
+#: framework/premium/features/content-blocks/hooks-manager.php:815
 msgid "Review order after order total"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:736
+#: framework/premium/features/content-blocks/hooks-manager.php:819
 msgid "Review order before payment"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:740
+#: framework/premium/features/content-blocks/hooks-manager.php:823
 msgid "Review order before submit"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:744
+#: framework/premium/features/content-blocks/hooks-manager.php:827
 msgid "Review order after submit"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:748
+#: framework/premium/features/content-blocks/hooks-manager.php:831
 msgid "Review order after payment"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:752
+#: framework/premium/features/content-blocks/hooks-manager.php:835
 msgid "Checkout after order review"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:756
+#: framework/premium/features/content-blocks/hooks-manager.php:839
 msgid "After checkout form"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:759
+#: framework/premium/features/content-blocks/hooks-manager.php:842
 msgid "WooCommerce Checkout"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:765
+#: framework/premium/features/content-blocks/hooks-manager.php:848
 msgid "Before my account"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:769
+#: framework/premium/features/content-blocks/hooks-manager.php:852
 msgid "Before account navigation"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:773
+#: framework/premium/features/content-blocks/hooks-manager.php:856
 msgid "Account navigation"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:777
+#: framework/premium/features/content-blocks/hooks-manager.php:860
 msgid "After account navigation"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:781
+#: framework/premium/features/content-blocks/hooks-manager.php:864
 msgid "Account content"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:785
+#: framework/premium/features/content-blocks/hooks-manager.php:868
 msgid "Account dashboard"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:789
+#: framework/premium/features/content-blocks/hooks-manager.php:872
 msgid "After my account"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:791,
+#: framework/premium/features/content-blocks/hooks-manager.php:874,
 #: framework/features/header/items/account/options.php:17,
 #: framework/features/header/items/account/options.php:18
 msgid "WooCommerce Account"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:797
+#: framework/premium/features/content-blocks/hooks-manager.php:880
 msgid "WP footer"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:798,
-#: framework/premium/features/content-blocks/hooks-manager.php:806,
-#: framework/premium/features/content-blocks/hooks-manager.php:814
+#: framework/premium/features/content-blocks/hooks-manager.php:881,
+#: framework/premium/features/content-blocks/hooks-manager.php:889,
+#: framework/premium/features/content-blocks/hooks-manager.php:897
 msgid "Footer"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:805
+#: framework/premium/features/content-blocks/hooks-manager.php:888
 msgid "Footer before"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:813
+#: framework/premium/features/content-blocks/hooks-manager.php:896
 msgid "Footer after"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:828
+#: framework/premium/features/content-blocks/hooks-manager.php:911
 msgid "Custom Hook (%s)"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:834,
+#: framework/premium/features/content-blocks/hooks-manager.php:917,
 #: framework/premium/features/content-blocks/options/hook.php:197
 #: framework/premium/static/js/options/MultipleLocationsSelect.js:90
 msgid "After Block Number"
 msgstr ""
 
-#: framework/premium/features/content-blocks/hooks-manager.php:840,
+#: framework/premium/features/content-blocks/hooks-manager.php:923,
 #: framework/premium/features/content-blocks/options/hook.php:214
 #: framework/premium/static/js/options/MultipleLocationsSelect.js:112
 msgid "Before Heading Number"
@@ -3564,7 +3743,8 @@ msgid "Website:"
 msgstr ""
 
 #: framework/extensions/widgets/widgets/ct-contact-info/options.php:279,
-#: framework/extensions/widgets/widgets/ct-socials/options.php:82
+#: framework/extensions/widgets/widgets/ct-socials/options.php:82,
+#: framework/premium/features/content-blocks/options/archive.php:46
 msgid "Small"
 msgstr ""
 
@@ -4032,13 +4212,11 @@ msgstr ""
 msgid "Read Time"
 msgstr ""
 
-#: framework/premium/extensions/post-types-extra/includes/estimated-read-time.php:106
-msgid " min"
-msgstr ""
-
-#: framework/premium/extensions/post-types-extra/includes/estimated-read-time.php:109
-msgid " mins"
-msgstr ""
+#: framework/premium/extensions/post-types-extra/includes/estimated-read-time.php:107
+msgid "%s min"
+msgid_plural "%s mins"
+msgstr[0] ""
+msgstr[1] ""
 
 #: framework/premium/extensions/post-types-extra/includes/filtering.php:286
 msgid "All"
@@ -4053,7 +4231,7 @@ msgid "Accent Color"
 msgstr ""
 
 #: framework/premium/extensions/shortcuts/views/bar.php:49,
-#: framework/premium/extensions/woocommerce-extra/includes/wish-list.php:137
+#: framework/premium/extensions/woocommerce-extra/includes/wish-list.php:143
 msgid "Wish List"
 msgstr ""
 
@@ -4144,7 +4322,7 @@ msgstr ""
 msgid "Quick View Modal Button"
 msgstr ""
 
-#: framework/premium/extensions/woocommerce-extra/includes/wish-list-table.php:171
+#: framework/premium/extensions/woocommerce-extra/includes/wish-list-table.php:172
 msgid "You don't have any products in your wish list yet."
 msgstr ""
 
@@ -4168,60 +4346,119 @@ msgstr ""
 msgid "Container Structure"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/404.php:59,
+#: framework/premium/features/content-blocks/options/404.php:65,
 #: framework/premium/features/content-blocks/options/header.php:63,
 #: framework/premium/features/content-blocks/options/hook.php:68
 msgid "Narrow Width"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/404.php:64,
+#: framework/premium/features/content-blocks/options/404.php:70,
 #: framework/premium/features/content-blocks/options/header.php:68,
 #: framework/premium/features/content-blocks/options/hook.php:73
 msgid "Normal Width"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/404.php:70,
+#: framework/premium/features/content-blocks/options/404.php:76,
+#: framework/premium/features/content-blocks/options/archive.php:126,
 #: framework/premium/features/content-blocks/options/header.php:74,
-#: framework/premium/features/content-blocks/options/hook.php:79
+#: framework/premium/features/content-blocks/options/hook.php:79,
+#: framework/premium/features/content-blocks/options/single.php:47
 msgid "Content Area Style"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/404.php:84,
+#: framework/premium/features/content-blocks/options/404.php:90,
+#: framework/premium/features/content-blocks/options/archive.php:140,
 #: framework/premium/features/content-blocks/options/header.php:88,
 #: framework/premium/features/content-blocks/options/hook.php:93
 msgid "Content Area Vertical Spacing"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/404.php:95,
+#: framework/premium/features/content-blocks/options/404.php:101,
+#: framework/premium/features/content-blocks/options/archive.php:151,
 #: framework/premium/features/content-blocks/options/header.php:99,
-#: framework/premium/features/content-blocks/options/hook.php:104
+#: framework/premium/features/content-blocks/options/hook.php:104,
+#: framework/premium/features/content-blocks/options/single.php:72
 msgid "Top & Bottom"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/404.php:98,
+#: framework/premium/features/content-blocks/options/404.php:104,
+#: framework/premium/features/content-blocks/options/archive.php:154,
 #: framework/premium/features/content-blocks/options/header.php:102,
-#: framework/premium/features/content-blocks/options/hook.php:107
+#: framework/premium/features/content-blocks/options/hook.php:107,
+#: framework/premium/features/content-blocks/options/single.php:75
 msgid "Only Top"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/404.php:101,
+#: framework/premium/features/content-blocks/options/404.php:107,
+#: framework/premium/features/content-blocks/options/archive.php:157,
 #: framework/premium/features/content-blocks/options/header.php:105,
-#: framework/premium/features/content-blocks/options/hook.php:110
+#: framework/premium/features/content-blocks/options/hook.php:110,
+#: framework/premium/features/content-blocks/options/single.php:78
 msgid "Only Bottom"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/hook.php:148
-msgid "Location & Priority"
+#: framework/premium/features/content-blocks/options/archive.php:11
+msgid "Replacement Behavior"
 msgstr ""
 
+#: framework/premium/features/content-blocks/options/archive.php:17
+msgid "Only Card"
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/archive.php:18
+msgid "Full Page"
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/archive.php:28,
+#: framework/premium/features/content-blocks/options/single.php:105
+msgid "Dynamic Content Preview"
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/archive.php:35
+msgid ""
+"Select a post/page to preview it's content inside the editor while building "
+"the archive."
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/archive.php:39
+msgid "Editor/Card Width"
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/archive.php:50
+msgid ""
+"Set the editor width for better understanging the layout you are building "
+"(just for preview purpose, this option won't apply in frontend)."
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/archive.php:71
+msgid "Default Card Layout"
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/archive.php:76
+msgid ""
+"Inherit card wrapper settings from Customizer (background color, spacing, "
+"shadow)."
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/archive.php:91
+msgid "Page Structure"
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/archive.php:207,
+#: framework/premium/features/content-blocks/options/hook.php:256,
+#: framework/premium/features/content-blocks/options/popup.php:314,
+#: framework/premium/features/content-blocks/options/single.php:140
+msgid "Expiration Date/Time"
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/hook.php:23,
 #: framework/premium/features/content-blocks/options/hook.php:181
 #: framework/premium/static/js/options/MultipleLocationsSelect.js:72
 msgid "Custom Hook"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/hook.php:256,
-#: framework/premium/features/content-blocks/options/popup.php:314
-msgid "Expiration Date/Time"
+#: framework/premium/features/content-blocks/options/hook.php:148
+msgid "Location & Priority"
 msgstr ""
 
 #: framework/premium/features/content-blocks/options/hook.php:283
@@ -4370,59 +4607,69 @@ msgid ""
 "current visitor."
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:365
+#: framework/premium/features/content-blocks/options/popup.php:366
 msgid "Padding"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:375,
+#: framework/premium/features/content-blocks/options/popup.php:376,
 #: framework/premium/extensions/post-types-extra/includes/filtering/customizer.php:266,
 #: framework/premium/features/premium-header/items/language-switcher/options.php:465
 msgid "Border Radius"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:404
+#: framework/premium/features/content-blocks/options/popup.php:405
 msgid "Popup Offset"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:414
+#: framework/premium/features/content-blocks/options/popup.php:415
 msgid "Container Overflow"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:421
+#: framework/premium/features/content-blocks/options/popup.php:422
 msgid "Hidden"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:422
+#: framework/premium/features/content-blocks/options/popup.php:423
 msgid "Visible"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:423
+#: framework/premium/features/content-blocks/options/popup.php:424
 msgid "Scroll"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:425
+#: framework/premium/features/content-blocks/options/popup.php:426
 msgid ""
 "Control what happens to the content that is too big to fit into the popup."
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:429
+#: framework/premium/features/content-blocks/options/popup.php:430
 msgid "Close Button"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:437
+#: framework/premium/features/content-blocks/options/popup.php:438
 msgid "Inside"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:438
+#: framework/premium/features/content-blocks/options/popup.php:439
 msgid "Outside"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:512
+#: framework/premium/features/content-blocks/options/popup.php:513
 msgid "Popup Background"
 msgstr ""
 
-#: framework/premium/features/content-blocks/options/popup.php:526
+#: framework/premium/features/content-blocks/options/popup.php:527
 msgid "Popup Backdrop Background"
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/single.php:61
+msgid "Content Area Vel Spacing"
+msgstr ""
+
+#: framework/premium/features/content-blocks/options/single.php:111
+msgid ""
+"Select a post/page to preview it's content inside the editor while building "
+"the post/page."
 msgstr ""
 
 #: framework/premium/extensions/post-types-extra/includes/filtering/customizer.php:25
@@ -4622,7 +4869,7 @@ msgstr ""
 
 #: framework/extensions/newsletter-subscribe/admin-static/js/ListPicker.js:14
 #: framework/extensions/newsletter-subscribe/admin-static/js/ListPicker/Implementation.js:63
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:205
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:213
 #: static/js/screens/SiteExport.js:143
 msgid "Loading..."
 msgstr ""
@@ -4637,25 +4884,32 @@ msgstr ""
 msgid "Select list..."
 msgstr ""
 
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:123
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:100
+msgid "Pick Mailing Service"
+msgstr ""
+
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:125
 msgid "This option is available only in Blocksy premium %sversion%s."
 msgstr ""
 
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:139
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:141
 msgid ""
 "More info on how to generate an API key for Mailchimp can be found %shere%s."
 msgstr ""
 
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:156
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:158
 msgid ""
-"More info on how to generate an API key for Mailerlite can be found %shere%s."
+"More info on how to generate an API key for Mailerlite can be found %shere"
+"%s. Please note that we require at least one group to be created in your "
+"account for the integration to work. More info on how to create a group "
+"%shere%s."
 msgstr ""
 
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:173
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:178
 msgid "API Key"
 msgstr ""
 
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:207
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:215
 #: framework/extensions/newsletter-subscribe/dashboard-static/js/NewsletterSubscribe.js:74
 #: framework/extensions/product-reviews/static/js/ProductReviews.js:73
 #: framework/premium/extensions/adobe-typekit/static/js/AdobeTypekit.js:72
@@ -4666,9 +4920,9 @@ msgstr ""
 msgid "Activate"
 msgstr ""
 
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:208
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:216
 #: framework/premium/extensions/mega-menu/static/js/SettingsManager.js:221
-#: framework/premium/extensions/sidebars/static/js/SettingsManager.js:106
+#: framework/premium/extensions/sidebars/static/js/SettingsManager.js:110
 #: framework/premium/extensions/white-label/dashboard-static/js/EditSettings.js:978
 #: framework/premium/static/js/footer/EditConditions.js:143
 msgid "Save Settings"
@@ -4682,12 +4936,8 @@ msgstr ""
 msgid "Enter your Newsletter provider API credentials in the form below."
 msgstr ""
 
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:91
+#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:92
 msgid "Select Provider"
-msgstr ""
-
-#: framework/extensions/newsletter-subscribe/dashboard-static/js/EditCredentials.js:98
-msgid "Pick Mailing Service"
 msgstr ""
 
 #: framework/extensions/newsletter-subscribe/dashboard-static/js/ListPicker.js:84
@@ -4818,7 +5068,7 @@ msgid "Choose"
 msgstr ""
 
 #: framework/premium/extensions/custom-fonts/dashboard-static/js/Uploader.js:174
-#: static/js/options/ConditionsManager.js:91
+#: static/js/options/ConditionsManager.js:99
 msgid "Select variation"
 msgstr ""
 
@@ -4827,7 +5077,7 @@ msgid "Regular"
 msgstr ""
 
 #: framework/premium/extensions/custom-fonts/dashboard-static/js/Uploader.js:201
-#: framework/premium/static/js/typography/providers/kadence.js:66
+#: framework/premium/static/js/typography/providers/kadence.js:70
 msgid "Italic"
 msgstr ""
 
@@ -4898,11 +5148,11 @@ msgstr ""
 msgid "Remove Sidebar"
 msgstr ""
 
-#: framework/premium/extensions/sidebars/static/js/SettingsManager.js:60
+#: framework/premium/extensions/sidebars/static/js/SettingsManager.js:64
 msgid "%s - Sidebar Display Conditions"
 msgstr ""
 
-#: framework/premium/extensions/sidebars/static/js/SettingsManager.js:68
+#: framework/premium/extensions/sidebars/static/js/SettingsManager.js:72
 msgid "Add one or more conditions in order to display your sidebar."
 msgstr ""
 
@@ -5133,7 +5383,7 @@ msgstr ""
 
 #: framework/premium/static/js/footer/EditConditions.js:84
 #: static/js/header/EditConditions.js:83
-#: static/js/options/DisplayCondition.js:44
+#: static/js/options/DisplayCondition.js:55
 msgid "Add/Edit Conditions"
 msgstr ""
 
@@ -5151,9 +5401,9 @@ msgid ""
 msgstr ""
 
 #: framework/premium/static/js/footer/PanelsManager.js:211
-#: framework/premium/static/js/hooks/CodeEditor.js:60
+#: framework/premium/static/js/hooks/CodeEditor.js:166
 #: static/js/header/PanelsManager.js:215
-#: static/js/options/CustomizerOptionsManager.js:423
+#: static/js/options/CustomizerOptionsManager.js:422
 msgid "Cancel"
 msgstr ""
 
@@ -5194,68 +5444,96 @@ msgstr ""
 msgid "Header name"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CodeEditor.js:105
-msgid "Yes, continue"
-msgstr ""
-
-#: framework/premium/static/js/hooks/CodeEditor.js:24
+#: framework/premium/static/js/hooks/CodeEditor.js:127
 msgid "Use code editor"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CodeEditor.js:25
+#: framework/premium/static/js/hooks/CodeEditor.js:130
 msgid "Exit code editor"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CodeEditor.js:36
+#: framework/premium/static/js/hooks/CodeEditor.js:142
 msgid "Heads up!"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CodeEditor.js:38
+#: framework/premium/static/js/hooks/CodeEditor.js:144
 msgid ""
 "Enabling & disabling the code editor will erase everything from your post "
 "editor and this action is irreversible."
 msgstr ""
 
-#: framework/premium/static/js/hooks/CodeEditor.js:45
+#: framework/premium/static/js/hooks/CodeEditor.js:151
 msgid "Are you sure you want to continue?"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CreateHook.js:103
+#: framework/premium/static/js/hooks/CodeEditor.js:215
+msgid "Yes, continue"
+msgstr ""
+
+#: framework/premium/static/js/hooks/CodeEditor.js:56
+msgid "Code Editor"
+msgstr ""
+
+#: framework/premium/static/js/hooks/CreateHook.js:101
+msgid "Template Type"
+msgstr ""
+
+#: framework/premium/static/js/hooks/CreateHook.js:108
+msgid "Select template type..."
+msgstr ""
+
+#: framework/premium/static/js/hooks/CreateHook.js:116
+msgid "Archive Template"
+msgstr ""
+
+#: framework/premium/static/js/hooks/CreateHook.js:124
+msgid "Single Template"
+msgstr ""
+
+#: framework/premium/static/js/hooks/CreateHook.js:132
+msgid "Header Template"
+msgstr ""
+
+#: framework/premium/static/js/hooks/CreateHook.js:140
 msgid "Footer Template"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CreateHook.js:114
-msgid "Content Block Name"
+#: framework/premium/static/js/hooks/CreateHook.js:148
+msgid "404 Page Template"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CreateHook.js:143
+#: framework/premium/static/js/hooks/CreateHook.js:162
+msgid "Hook Name"
+msgstr ""
+
+#: framework/premium/static/js/hooks/CreateHook.js:166
+msgid "Popup Name"
+msgstr ""
+
+#: framework/premium/static/js/hooks/CreateHook.js:170
+msgid "Template Name"
+msgstr ""
+
+#: framework/premium/static/js/hooks/CreateHook.js:207
 msgid "Create Content Block"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CreateHook.js:35
+#: framework/premium/static/js/hooks/CreateHook.js:36
 msgid ""
 "Please select the type of your content block and place it in the location "
 "you want based on your display and user conditions."
 msgstr ""
 
-#: framework/premium/static/js/hooks/CreateHook.js:55
-msgid "Select template type..."
-msgstr ""
-
-#: framework/premium/static/js/hooks/CreateHook.js:67
+#: framework/premium/static/js/hooks/CreateHook.js:68
 msgid "Custom Content/Hooks"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CreateHook.js:76
-msgid "Popup Template"
+#: framework/premium/static/js/hooks/CreateHook.js:77
+msgid "Popup"
 msgstr ""
 
-#: framework/premium/static/js/hooks/CreateHook.js:85
-msgid "404 Page Template"
-msgstr ""
-
-#: framework/premium/static/js/hooks/CreateHook.js:94
-msgid "Header Template"
+#: framework/premium/static/js/hooks/CreateHook.js:86
+msgid "Custom Template"
 msgstr ""
 
 #: framework/premium/static/js/media-video-upload-button.js:27
@@ -5318,36 +5596,46 @@ msgstr ""
 msgid "Select location"
 msgstr ""
 
-#: framework/premium/static/js/typography/providers/kadence.js:17
-#: framework/premium/static/js/typography/providers/plus-addons.js:19
-#: framework/premium/static/js/typography/providers/stackable.js:19
-msgid "%s Local Google Fonts"
+#: framework/premium/static/js/options/PreviewedPostsSelect.js:107
+#: static/js/options/ConditionsManager/PostIdPicker.js:67
+msgid "Type to search by ID or title..."
+msgstr ""
+
+#: framework/premium/static/js/options/PreviewedPostsSelect.js:111
+#: static/js/options/ConditionsManager/PostIdPicker.js:73
+msgid "Select post"
 msgstr ""
 
 #: framework/premium/static/js/typography/providers/kadence.js:21
-#: framework/premium/static/js/typography/providers/plus-addons.js:24
+#: framework/premium/static/js/typography/providers/plus-addons.js:23
 #: framework/premium/static/js/typography/providers/stackable.js:23
+msgid "%s Local Google Fonts"
+msgstr ""
+
+#: framework/premium/static/js/typography/providers/kadence.js:25
+#: framework/premium/static/js/typography/providers/plus-addons.js:27
+#: framework/premium/static/js/typography/providers/stackable.js:27
 msgid "%s Typekit"
 msgstr ""
 
-#: framework/premium/static/js/typography/providers/kadence.js:26
-#: framework/premium/static/js/typography/providers/stackable.js:27
+#: framework/premium/static/js/typography/providers/kadence.js:30
+#: framework/premium/static/js/typography/providers/stackable.js:31
 msgid "%s Custom Fonts"
 msgstr ""
 
-#: framework/premium/static/js/typography/providers/kadence.js:54
+#: framework/premium/static/js/typography/providers/kadence.js:58
 msgid "Normal"
 msgstr ""
 
-#: framework/premium/static/js/typography/providers/kadence.js:78
+#: framework/premium/static/js/typography/providers/kadence.js:82
 msgid "Inherit"
 msgstr ""
 
-#: framework/premium/static/js/typography/providers/plus-addons.js:28
+#: framework/premium/static/js/typography/providers/plus-addons.js:31
 msgid "%s Custom"
 msgstr ""
 
-#: framework/premium/static/js/typography/providers/plus-addons.js:32
+#: framework/premium/static/js/typography/providers/plus-addons.js:35
 msgid "%s System"
 msgstr ""
 
@@ -5359,13 +5647,13 @@ msgstr ""
 msgid "Extensions"
 msgstr ""
 
-#: static/js/header/EditConditions.js:142
-#: static/js/options/DisplayCondition.js:76
-msgid "Save Conditions"
+#: static/js/header/EditConditions.js:102
+msgid "Add one or more conditions in order to display your header."
 msgstr ""
 
-#: static/js/header/EditConditions.js:98
-msgid "Add one or more conditions in order to display your header."
+#: static/js/header/EditConditions.js:146
+#: static/js/options/DisplayCondition.js:88
+msgid "Save Conditions"
 msgstr ""
 
 #: static/js/header/PanelsManager.js:166
@@ -5413,139 +5701,131 @@ msgid ""
 "features and future updates."
 msgstr ""
 
-#: static/js/options/ConditionsManager.js:116
-msgid "Select rule"
-msgstr ""
-
-#: static/js/options/ConditionsManager.js:173
-msgid "Select taxonomy"
-msgstr ""
-
-#: static/js/options/ConditionsManager.js:207
-msgid "Select language"
-msgstr ""
-
-#: static/js/options/ConditionsManager.js:238
-msgid "Select user"
-msgstr ""
-
-#: static/js/options/ConditionsManager.js:242
-msgid "Current user"
-msgstr ""
-
-#: static/js/options/ConditionsManager.js:302
-msgid "Add Display Condition"
-msgstr ""
-
-#: static/js/options/ConditionsManager.js:321
-msgid "Add User Condition"
-msgstr ""
-
-#: static/js/options/ConditionsManager.js:93
+#: static/js/options/ConditionsManager.js:104
 msgid "Include"
 msgstr ""
 
-#: static/js/options/ConditionsManager.js:94
+#: static/js/options/ConditionsManager.js:105
 msgid "Exclude"
 msgstr ""
 
-#: static/js/options/ConditionsManager/PostIdPicker.js:67
-msgid "Type to search by ID or title..."
+#: static/js/options/ConditionsManager.js:127
+msgid "Select rule"
 msgstr ""
 
-#: static/js/options/ConditionsManager/PostIdPicker.js:73
-msgid "Select post"
+#: static/js/options/ConditionsManager.js:184
+msgid "Select taxonomy"
+msgstr ""
+
+#: static/js/options/ConditionsManager.js:221
+msgid "Select language"
+msgstr ""
+
+#: static/js/options/ConditionsManager.js:255
+msgid "Select user"
+msgstr ""
+
+#: static/js/options/ConditionsManager.js:262
+msgid "Current user"
+msgstr ""
+
+#: static/js/options/ConditionsManager.js:325
+msgid "Add Display Condition"
+msgstr ""
+
+#: static/js/options/ConditionsManager.js:344
+msgid "Add User Condition"
 msgstr ""
 
 #: static/js/options/ConditionsManager/PostIdPicker.js:75
 msgid "Select page"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:102
+#: static/js/options/CustomizerOptionsManager.js:104
 msgid "Export Customizations"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:108
+#: static/js/options/CustomizerOptionsManager.js:110
 msgid "Import Options"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:111
+#: static/js/options/CustomizerOptionsManager.js:113
 msgid "Easily import the theme customizer settings."
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:134
+#: static/js/options/CustomizerOptionsManager.js:136
 msgid "Click or drop to upload a file..."
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:198
+#: static/js/options/CustomizerOptionsManager.js:197
 msgid "Import Customizations"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:207
+#: static/js/options/CustomizerOptionsManager.js:206
 msgid "Copy Options"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:210
+#: static/js/options/CustomizerOptionsManager.js:209
 msgid "Copy and import your customizations from parent or child theme."
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:270
+#: static/js/options/CustomizerOptionsManager.js:269
 msgid "Copy From Parent Theme"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:276
+#: static/js/options/CustomizerOptionsManager.js:275
 msgid "Copy From Child Theme"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:283
+#: static/js/options/CustomizerOptionsManager.js:282
 msgid ""
 "You are about to copy all the settings from your parent theme into the child "
 "theme. Are you sure you want to continue?"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:289
+#: static/js/options/CustomizerOptionsManager.js:288
 msgid ""
 "You are about to copy all the settings from your child theme into the parent "
 "theme. Are you sure you want to continue?"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:338
+#: static/js/options/CustomizerOptionsManager.js:337
 msgid "Yes, I am sure"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:352
+#: static/js/options/CustomizerOptionsManager.js:351
 msgid "Export Settings"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:356
+#: static/js/options/CustomizerOptionsManager.js:355
 msgid "Choose what set of settings you want to export."
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:384
+#: static/js/options/CustomizerOptionsManager.js:383
 msgid "Customizer settings"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:388
+#: static/js/options/CustomizerOptionsManager.js:387
 msgid "Widgets settings"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:502
+#: static/js/options/CustomizerOptionsManager.js:496
 msgid "Export"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:82
+#: static/js/options/CustomizerOptionsManager.js:84
 msgid "Export Options"
 msgstr ""
 
-#: static/js/options/CustomizerOptionsManager.js:85
+#: static/js/options/CustomizerOptionsManager.js:87
 msgid "Easily export the theme customizer settings."
 msgstr ""
 
-#: static/js/options/DisplayCondition.js:18
+#: static/js/options/DisplayCondition.js:20
 msgid "Transparent Header Display Conditions"
 msgstr ""
 
-#: static/js/options/DisplayCondition.js:19
+#: static/js/options/DisplayCondition.js:24
 msgid "Add one or more conditions to display the transparent header."
 msgstr ""
 
@@ -5819,11 +6099,11 @@ msgid ""
 "Please select your prefered one in order to continue."
 msgstr ""
 
-#: static/js/screens/DemoInstall/Wizzard/Plugins.js:67
+#: static/js/screens/DemoInstall/Wizzard/Plugins.js:65
 msgid "Install & Activate Plugins"
 msgstr ""
 
-#: static/js/screens/DemoInstall/Wizzard/Plugins.js:69
+#: static/js/screens/DemoInstall/Wizzard/Plugins.js:67
 msgid ""
 "The following plugins are required for this starter site in order to work "
 "properly."

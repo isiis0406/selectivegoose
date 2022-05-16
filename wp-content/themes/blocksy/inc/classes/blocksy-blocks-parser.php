@@ -10,7 +10,13 @@ class Blocksy_WP_Block_Parser extends WP_Block_Parser {
 		foreach ($result as $index => $first_level_block) {
 			$result[$index]['firstLevelBlock'] = true;
 
-			if (! empty(trim($first_level_block['innerHTML']))) {
+			if (
+				! empty(trim($first_level_block['innerHTML']))
+				&&
+				isset($first_level_block['blockName'])
+				&&
+				$first_level_block['blockName']
+			) {
 				$result[$index]['firstLevelBlockIndex'] = $current_index++;
 
 				if (

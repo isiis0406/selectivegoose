@@ -107,7 +107,7 @@ class Dashboard {
 				}
 
 				$result = [
-					'is_pro' => blc_fs()->can_use_premium_code__premium_only(),
+					'is_pro' => blc_fs()->can_use_premium_code(),
 					'is_anonymous' => $is_anonymous,
 					'connect_template' => $connect_template
 				];

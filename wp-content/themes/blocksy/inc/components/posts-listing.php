@@ -48,14 +48,12 @@ if (! function_exists('blocksy_get_listing_card_type')) {
 			]
 		);
 
-		$cards_type_output = '';
-
 		$blog_post_structure = blocksy_listing_page_structure([
 			'prefix' => $args['prefix']
 		]);
 
 		if ($blog_post_structure === 'gutenberg') {
-			return $cards_type_output;
+			return '';
 		}
 
 		$card_type = get_theme_mod($args['prefix'] . '_card_type', 'boxed');
@@ -76,7 +74,7 @@ if (! function_exists('blocksy_get_listing_card_type')) {
 			}
 		}
 
-		return 'data-cards="' . $card_type . '"';
+		return $card_type;
 	}
 }
 

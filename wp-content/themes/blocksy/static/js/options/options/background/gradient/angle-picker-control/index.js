@@ -9,22 +9,21 @@ import classnames from 'classnames'
  */
 import { __ } from 'ct-i18n'
 
-import {
-	Flex,
-	FlexBlock,
-	FlexItem,
-	__experimentalText as Text,
-	__experimentalSpacer as Spacer,
-	__experimentalInputControl as NumberControl,
-} from '@wordpress/components'
-
 /**
  * Internal dependencies
  */
 import AngleCircle from './angle-circle'
 
+const {
+	Flex,
+	FlexBlock,
+	FlexItem,
+	__experimentalText: Text,
+	__experimentalSpacer: Spacer,
+	__experimentalInputControl: NumberControl,
+} = window.wp.components
+
 // margin-bottom: 8px
-const Root = Flex
 
 const space = (n) => `${n * 4}px`
 
@@ -41,6 +40,8 @@ export default function AnglePickerControl({
 	}
 
 	const classes = classnames('components-angle-picker-control', className)
+
+	const Root = Flex
 
 	return (
 		<Root className={classes}>

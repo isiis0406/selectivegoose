@@ -91,7 +91,7 @@ foreach ($custom_post_types as $post_type) {
 		[
 			'title' => sprintf(
 				__('Single %s', 'blocksy'),
-				$post_type_object->labels->name
+				$post_type_object->labels->singular_name
 			),
 			'container' => ['priority' => 2.5, 'type' => 'child'],
 			'options' => blocksy_get_options('posts/custom-post-type-single', [

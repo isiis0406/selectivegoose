@@ -31,3 +31,8 @@ div#wc-square-digital-wallet {
 div.wc-square-wallet-buttons {
 	width: 100%;
 }
+
+// stripe input field width reset
+.woocommerce fieldset .wc-stripe-elements-field {
+	width: initial;
+}

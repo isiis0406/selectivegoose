@@ -137,7 +137,10 @@ const syncContentBlocks = ({ atts }) => {
 
 	document.body.classList.remove('ct-structure-narrow', 'ct-structure-normal')
 
-	if (atts.has_content_block_structure !== 'yes') {
+	if (
+		atts.has_content_block_structure &&
+		atts.has_content_block_structure !== 'yes'
+	) {
 		document.body.classList.add(`ct-structure-normal`)
 		return
 	}

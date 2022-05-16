@@ -1,7 +1,7 @@
-.single-product {
+.single-product article {
 
-	.related, 
-	.up-sells {
+	> .related, 
+	> .up-sells {
 		margin-top: 50px;
 
 		> h2 {

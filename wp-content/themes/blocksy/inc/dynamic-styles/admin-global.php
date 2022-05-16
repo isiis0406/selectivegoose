@@ -128,8 +128,9 @@ if ($post_id) {
 	$post_atts = blocksy_get_post_options($post_id);
 
 	$template_type = get_post_meta($post_id, 'template_type', true);
+	$template_subtype = blocksy_akg('template_subtype', $post_atts, 'card');
 
-	if ($template_type === 'archive') {
+	if ($template_type === 'archive' && $template_subtype === 'card') {
 		$source = [
 			'strategy' => $post_atts
 		];

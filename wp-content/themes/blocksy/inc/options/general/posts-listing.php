@@ -14,11 +14,12 @@ if (! isset($title)) {
 	$title = __('Blog', 'blocksy');
 }
 
-$has_matching_template = (
+$has_card_matching_template = (
 	function_exists('blc_get_content_block_that_matches')
 	&&
 	blc_get_content_block_that_matches([
 		'template_type' => 'archive',
+		'template_subtype' => 'card',
 		'match_conditions_strategy' => rtrim($prefix, '_')
 	])
 );
@@ -34,7 +35,7 @@ $overridable_card_options = [
 					'condition' => [
 						$prefix . 'structure' => '!gutenberg'
 					],
-					'perform_replace' => $has_matching_template ? [
+					'perform_replace' => $has_card_matching_template ? [
 						[
 							'condition' => [
 								$prefix . 'structure' => '!__never__'
@@ -67,7 +68,7 @@ $overridable_card_options = [
 								'cover' => __('Cover', 'blocksy'),
 							],
 							'conditions' => [
-								'cover' => $has_matching_template ? [
+								'cover' => $has_card_matching_template ? [
 									$prefix . 'structure' => '__never__'
 								] : [
 									$prefix . 'structure' => '!simple'
@@ -85,7 +86,7 @@ $overridable_card_options = [
 			[
 				$prefix . 'archive_order' => apply_filters('blocksy:options:posts-listing-archive-order', [
 					'label' => __('Card Elements', 'blocksy'),
-					'type' => $has_matching_template ? 'hidden' : 'ct-layers',
+					'type' => $has_card_matching_template ? 'hidden' : 'ct-layers',
 
 					'sync' => [
 						blocksy_sync_whole_page([
@@ -250,7 +251,7 @@ $overridable_card_options = [
 									],
 									'values_source' => 'global',
 									'perform_replace' => [
-										'condition' => $has_matching_template ? [
+										'condition' => $has_card_matching_template ? [
 											$prefix . 'structure' => '!__never__'
 										] : [
 											$prefix . 'structure' => 'simple'
@@ -314,7 +315,7 @@ $overridable_card_options = [
 										$prefix . 'structure' => '!gutenberg'
 									],
 									'values_source' => 'global',
-									'perform_replace' => $has_matching_template ? [
+									'perform_replace' => $has_card_matching_template ? [
 										[
 											'condition' => [
 												$prefix . 'structure' => '!__never__'
@@ -484,7 +485,7 @@ $overridable_card_options = [
 
 			],
 
-			$has_matching_template ? [] : [
+			$has_card_matching_template ? [] : [
 				blocksy_rand_md5() => [
 					'type' => 'ct-divider',
 				],
@@ -498,7 +499,7 @@ $overridable_card_options = [
 						$prefix . 'structure' => '!gutenberg'
 					],
 					'perform_replace' => array_merge([
-						'condition' => $has_matching_template ? [
+						'condition' => $has_card_matching_template ? [
 							$prefix . 'structure' => '!__never__'
 						] : [
 							$prefix . 'structure' => 'simple'
@@ -506,7 +507,7 @@ $overridable_card_options = [
 						'key' => $prefix . 'card_type',
 						'from' => 'cover',
 						'to' => 'boxed'
-					], $has_matching_template ? [
+					], $has_card_matching_template ? [
 						[
 							'condition' => [
 								$prefix . 'structure' => '!__never__'
@@ -561,9 +562,9 @@ $overridable_card_options = [
 				],
 			],
 
-			$has_matching_template ? [] : [
+			$has_card_matching_template ? [] : [
 				$prefix . 'content_horizontal_alignment' => [
-					'type' => $has_matching_template ? 'hidden' : 'ct-radio',
+					'type' => $has_card_matching_template ? 'hidden' : 'ct-radio',
 					'label' => __( 'Content Alignment', 'blocksy' ),
 					'view' => 'text',
 					'design' => 'block',
@@ -585,7 +586,7 @@ $overridable_card_options = [
 				'condition' => [
 					$prefix . 'structure' => '!gutenberg'
 				],
-				'perform_replace' => $has_matching_template ? [
+				'perform_replace' => $has_card_matching_template ? [
 					[
 						'condition' => [
 							$prefix . 'structure' => '!__never__'
@@ -604,7 +605,7 @@ $overridable_card_options = [
 						'to' => 'grid'
 					]
 				] : [],
-				'options' => $has_matching_template ? [] : [
+				'options' => $has_card_matching_template ? [] : [
 					$prefix . 'content_vertical_alignment' => [
 						'type' => 'ct-radio',
 						'label' => __( 'Vertical Alignment', 'blocksy' ),
@@ -1131,7 +1132,7 @@ $overridable_card_options = [
 					$prefix . 'structure' => '!gutenberg'
 				],
 				'perform_replace' => array_merge([
-					'condition' => $has_matching_template ? [
+					'condition' => $has_card_matching_template ? [
 						$prefix . 'structure' => '!__never__'
 					] : [
 						$prefix . 'structure' => 'simple'
@@ -1139,7 +1140,7 @@ $overridable_card_options = [
 					'key' => $prefix . 'card_type',
 					'from' => 'cover',
 					'to' => 'boxed'
-				], $has_matching_template ? [
+				], $has_card_matching_template ? [
 					[
 						'condition' => [
 							$prefix . 'structure' => '!__never__'
@@ -1170,7 +1171,7 @@ $overridable_card_options = [
 							$prefix . 'card_type' => 'cover',
 						],
 						'perform_replace' => [
-							'condition' => $has_matching_template ? [
+							'condition' => $has_card_matching_template ? [
 								$prefix . 'structure' => '!__never__'
 							] : [
 								$prefix . 'structure' => 'simple'
@@ -1320,7 +1321,7 @@ $options = [
 			],
 		],
 
-		'conditions' => $has_matching_template ? [
+		'conditions' => $has_card_matching_template ? [
 			'simple' => [
 				$prefix . 'structure' => '__never__'
 			],
@@ -1334,7 +1335,7 @@ $options = [
 	blocksy_rand_md5() => [
 		'type' => 'ct-condition',
 		'condition' => [ $prefix . 'structure' => '!grid' ],
-		'perform_replace' => $has_matching_template ? [
+		'perform_replace' => $has_card_matching_template ? [
 			[
 				'condition' => [
 					$prefix . 'structure' => '!__never__'
@@ -1374,6 +1375,25 @@ $options = [
 	blocksy_rand_md5() => [
 		'type' => 'ct-condition',
 		'condition' => [ $prefix . 'structure' => 'grid' ],
+		'perform_replace' => $has_card_matching_template ? [
+			[
+				'condition' => [
+					$prefix . 'structure' => '!__never__'
+				],
+				'key' => $prefix . 'structure',
+				'from' => 'simple',
+				'to' => 'grid'
+			],
+
+			[
+				'condition' => [
+					$prefix . 'structure' => '!__never__'
+				],
+				'key' => $prefix . 'structure',
+				'from' => 'gutenberg',
+				'to' => 'grid'
+			]
+		] : [],
 		'options' => [
 
 			blocksy_rand_md5() => [

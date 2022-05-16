@@ -1,0 +1,28 @@
+2022-05-16T10:42:56+00:00 CRITICAL Uncaught TypeError: parse_url(): Argument #1 ($url) must be of type string, array given in C:\laragon\www\selectivegoose\wp-includes\media.php:4975
+Stack trace:
+#0 C:\laragon\www\selectivegoose\wp-includes\media.php(4975): parse_url(Array)
+#1 C:\laragon\www\selectivegoose\wp-includes\customize\class-wp-customize-upload-control.php(59): attachment_url_to_postid(Array)
+#2 C:\laragon\www\selectivegoose\wp-includes\customize\class-wp-customize-cropped-image-control.php(78): WP_Customize_Upload_Control->to_json()
+#3 C:\laragon\www\selectivegoose\wp-includes\class-wp-customize-control.php(336): WP_Customize_Cropped_Image_Control->to_json()
+#4 C:\laragon\www\selectivegoose\wp-includes\class-wp-customize-manager.php(4971): WP_Customize_Control->json()
+#5 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): WP_Customize_Manager->customize_pane_settings('')
+#6 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#7 C:\laragon\www\selectivegoose\wp-includes\plugin.php(474): WP_Hook->do_action(Array)
+#8 C:\laragon\www\selectivegoose\wp-admin\customize.php(292): do_action('customize_contr...')
+#9 {main}
+  thrown dans C:\laragon\www\selectivegoose\wp-includes\media.php à la ligne 4975
+
+2022-05-16T10:43:13+00:00 CRITICAL Uncaught TypeError: parse_url(): Argument #1 ($url) must be of type string, array given in C:\laragon\www\selectivegoose\wp-includes\media.php:4975
+Stack trace:
+#0 C:\laragon\www\selectivegoose\wp-includes\media.php(4975): parse_url(Array)
+#1 C:\laragon\www\selectivegoose\wp-includes\customize\class-wp-customize-upload-control.php(59): attachment_url_to_postid(Array)
+#2 C:\laragon\www\selectivegoose\wp-includes\customize\class-wp-customize-cropped-image-control.php(78): WP_Customize_Upload_Control->to_json()
+#3 C:\laragon\www\selectivegoose\wp-includes\class-wp-customize-control.php(336): WP_Customize_Cropped_Image_Control->to_json()
+#4 C:\laragon\www\selectivegoose\wp-includes\class-wp-customize-manager.php(4971): WP_Customize_Control->json()
+#5 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(307): WP_Customize_Manager->customize_pane_settings('')
+#6 C:\laragon\www\selectivegoose\wp-includes\class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#7 C:\laragon\www\selectivegoose\wp-includes\plugin.php(474): WP_Hook->do_action(Array)
+#8 C:\laragon\www\selectivegoose\wp-admin\customize.php(292): do_action('customize_contr...')
+#9 {main}
+  thrown dans C:\laragon\www\selectivegoose\wp-includes\media.php à la ligne 4975
+

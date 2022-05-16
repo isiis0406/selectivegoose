@@ -5,10 +5,12 @@ const Notification = ({ option: { text = '', attr = {} } }) => (
 		<div
 			className="ct-notification"
 			{...{
-				...(attr || {})
-			}}>
-			{text}
-		</div>
+				...(attr || {}),
+			}}
+			dangerouslySetInnerHTML={{
+				__html: text,
+			}}
+		/>
 	</Fragment>
 )
 

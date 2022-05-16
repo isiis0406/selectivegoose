@@ -235,14 +235,16 @@ class ThemeIntegration {
 				}
 			}
 
-			if (strpos($query_args['post_type'], 'ct_cpt') !== false) {
+			$initial_query_args_post_type = $query_args['post_type'];
+
+			if (strpos($initial_query_args_post_type, 'ct_cpt') !== false) {
 				$query_args['post_type'] = array_diff(
 					get_post_types(['public' => true]),
 					['post', 'page', 'attachment', 'ct_content_block']
 				);
 			}
 
-			if (strpos($query_args['post_type'], 'ct_all_posts') !== false) {
+			if (strpos($initial_query_args_post_type, 'ct_all_posts') !== false) {
 				$query_args['post_type'] = array_diff(
 					get_post_types(['public' => true]),
 					['product', 'attachment', 'ct_content_block']
@@ -391,7 +393,7 @@ class ThemeIntegration {
 					}
 
 					if (
-						blc_fs()->can_use_premium_code__premium_only()
+						blc_fs()->can_use_premium_code()
 						&&
 						BLOCKSY_PATH . '/framework/premium/changelog.txt'
 					) {

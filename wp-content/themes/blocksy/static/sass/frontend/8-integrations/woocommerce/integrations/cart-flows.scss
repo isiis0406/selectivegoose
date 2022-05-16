@@ -1,11 +1,41 @@
-.wcf-embed-checkout-form input[type="checkbox"] {
-	position: initial;
-	top: initial;
-	border-radius: initial;
+// cartflows & wpfunels
+#wpfnl-checkout-form,
+#wcf-embed-checkout-form {
 
-	&:before {
+	form.woocommerce-checkout {
+		grid-column-gap: initial;
+	}
+}
+
+
+// cartflows
+#wcf-embed-checkout-form {
+
+	#payment .payment_methods > li > label {
+		display: flex;
+	}
+
+	// checkbox
+	input[type="checkbox"],
+	input[type="checkbox"]:before {
 		position: initial;
-		border: none;
+		top: initial;
+		height: initial;
+		border: initial;
 		transform: initial;
 	}
 }
+
+// wpfunels
+// #wpfnl-checkout-form {
+	
+// 	#payment .payment_methods > li {
+// 		border-top: 0;
+// 		border-left: 0;
+// 		border-right: 0;
+
+// 		> input[type="radio"]:first-child:checked + label:before {
+// 			border-width: 2px;
+// 		}
+// 	}
+// }

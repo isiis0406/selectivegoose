@@ -1,3 +1,5 @@
+import { isTouchDevice } from '../helpers/is-touch-device'
+
 const isRtl = () => document.querySelector('html').dir === 'rtl'
 
 const isEligibleForSubmenu = (el) =>
@@ -153,7 +155,7 @@ const closeSubmenu = (e) => {
 		;[...li.querySelectorAll('.ct-active')].map((el) => {
 			el.classList.remove('ct-active')
 		})
-	}, 200)
+	}, 100)
 }
 
 export const mountMenuLevel = (menuLevel, args = {}) => {
@@ -197,7 +199,7 @@ export const mountMenuLevel = (menuLevel, args = {}) => {
 					if (isIosDevice) {
 						openSubmenu({ target: el.firstElementChild })
 					} else {
-						setTimeout(() => {
+						requestAnimationFrame(() => {
 							openSubmenu({ target: el.firstElementChild })
 						})
 					}
@@ -205,14 +207,21 @@ export const mountMenuLevel = (menuLevel, args = {}) => {
 					e.target
 						.closest('li')
 						.addEventListener('focusout', (evt) => {
-							if (
-								!e.target
-									.closest('li')
-									.contains(evt.target)
-							) {
+							if (!e.target.closest('li').contains(evt.target)) {
 								closeSubmenu(e)
 							}
 						})
+
+					// If first level
+					if (!el.parentNode.classList.contains('.sub-menu')) {
+						;[...el.parentNode.children]
+							.filter((firstLevelEl) => firstLevelEl !== el)
+							.map((firstLevelEl) => {
+								closeSubmenu({
+									target: firstLevelEl.firstElementChild,
+								})
+							})
+					}
 
 					e.target.closest('li').addEventListener(
 						'mouseleave',
@@ -223,11 +232,20 @@ export const mountMenuLevel = (menuLevel, args = {}) => {
 					)
 				})
 
-				el.addEventListener('click', (e) => {
-					if (!el.classList.contains('ct-active')) {
-						e.preventDefault()
-					}
-				})
+				// On Android devices, allow only 2nd click to open the link.
+				// First click will ensure the submenu is opened
+				//
+				// iOS has this behaviour out of the box.
+				//
+				// Important: only perform this for touch devices so that keyboard
+				// users are not affected.
+				if (isTouchDevice()) {
+					el.addEventListener('click', (e) => {
+						if (!el.classList.contains('ct-active')) {
+							e.preventDefault()
+						}
+					})
+				}
 			}
 
 			if (hasClickInteraction) {
@@ -313,9 +331,7 @@ export const mountMenuLevel = (menuLevel, args = {}) => {
 							.closest('li')
 							.addEventListener('focusout', (evt) => {
 								if (
-									!e.target
-										.closest('li')
-										.contains(evt.target)
+									!e.target.closest('li').contains(evt.target)
 								) {
 									closeSubmenu(e)
 								}
@@ -362,19 +378,12 @@ const mouseenterHandler = ({ target }) => {
 	mountMenuLevel(menu)
 
 	if (menu.closest('[data-interaction="hover"]')) {
-		if (menu._timeout_id) {
-			clearTimeout(menu._timeout_id)
-		}
-
 		menu.parentNode.addEventListener(
 			'mouseleave',
 			() => {
-				menu._timeout_id = setTimeout(() => {
-					menu._timeout_id = null
-					;[...menu.children]
-						.filter((el) => isEligibleForSubmenu(el))
-						.map((el) => el.removeAttribute('data-submenu'))
-				}, 200)
+				;[...menu.children]
+					.filter((el) => isEligibleForSubmenu(el))
+					.map((el) => el.removeAttribute('data-submenu'))
 			},
 			{ once: true }
 		)

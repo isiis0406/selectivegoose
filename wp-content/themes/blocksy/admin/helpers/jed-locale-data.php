@@ -34,16 +34,15 @@ function blocksy_get_json_translation_files($domain) {
 
 if (! function_exists('blocksy_get_jed_locale_data')) {
 	function blocksy_get_jed_locale_data($domain) {
-		static $locale = null;
+		static $locale = [];
 
-		if ($locale !== null) {
-			return $locale;
+		if (isset($locale[$domain])) {
+			return $locale[$domain];
 		}
-
 
 		$translations = get_translations_for_domain($domain);
 
-		$locale = [
+		$locale[$domain] = [
 			'' => [
 				'domain' => $domain,
 				'lang' => is_admin() ? get_user_locale() : get_locale(),
@@ -51,11 +50,11 @@ if (! function_exists('blocksy_get_jed_locale_data')) {
 		];
 
 		if (! empty($translations->headers['Plural-Forms'])) {
-			$locale['']['plural_forms'] = $translations->headers['Plural-Forms'];
+			$locale[$domain]['']['plural_forms'] = $translations->headers['Plural-Forms'];
 		}
 
 		foreach ($translations->entries as $msgid => $entry) {
-			$locale[$msgid] = $entry->translations;
+			$locale[$domain][$msgid] = $entry->translations;
 		}
 
 		foreach (blocksy_get_json_translation_files('blocksy') as $file_path) {
@@ -74,10 +73,10 @@ if (! function_exists('blocksy_get_jed_locale_data')) {
 					continue;
 				}
 
-				$locale[$msgid] = $entry;
+				$locale[$domain][$msgid] = $entry;
 			}
 		}
 
-		return $locale;
+		return $locale[$domain];
 	}
 }

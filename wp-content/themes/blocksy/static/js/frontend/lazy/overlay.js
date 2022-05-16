@@ -1,17 +1,7 @@
 import { enable, disable } from './overlay/no-bounce'
-import focusLock from 'dom-focus-lock'
 import ctEvents from 'ct-events'
-
 import { mount as mountMobileMenu } from './overlay/mobile-menu'
-
-let focusLockToUse = focusLock
-
-if (window.ctFrontend && window.ctFrontend.focusLock) {
-	focusLockToUse = ctFrontend.focusLock
-} else {
-	window.ctFrontend = window.ctFrontend || {}
-	window.ctFrontend.focusLock = focusLockToUse
-}
+import { focusLockOn, focusLockOff } from '../helpers/focus-lock'
 
 const showOffcanvas = (settings) => {
 	settings = {
@@ -108,7 +98,7 @@ const showOffcanvas = (settings) => {
 		)
 
 		setTimeout(() => {
-			focusLockToUse.on(
+			focusLockOn(
 				settings.container.querySelector('.ct-panel-content').parentNode
 			)
 		})
@@ -188,7 +178,7 @@ const hideOffcanvas = (settings, args = {}) => {
 							  )
 					)
 
-					focusLockToUse.off(
+					focusLockOff(
 						settings.container.querySelector('.ct-panel-content')
 							.parentNode
 					)
@@ -305,6 +295,10 @@ export const handleClick = (e, settings) => {
 					maybeA = event.target.closest('a')
 				}
 
+				if (!maybeA.closest('.ct-panel').classList.contains('active')) {
+					return
+				}
+
 				if (!maybeA.matches('a')) {
 					return
 				}
@@ -312,6 +306,12 @@ export const handleClick = (e, settings) => {
 				hideOffcanvas(settings, {
 					closeInstant: maybeA.getAttribute('href')[0] !== '#',
 				})
+
+				setTimeout(() => {
+					if (maybeA.matches('.ct-offcanvas-trigger')) {
+						maybeA.click()
+					}
+				}, 600)
 			})
 		}
 	}

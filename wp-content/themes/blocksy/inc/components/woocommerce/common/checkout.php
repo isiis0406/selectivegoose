@@ -6,23 +6,73 @@ add_action('wp', function () {
 	}
 });
 
-if (! class_exists('FluidCheckout')) {
+add_action('elementor/widget/before_render_content', function($widget) {
+	if (! class_exists('ElementorPro\Modules\Woocommerce\Widgets\Checkout')) {
+		return;
+	}
+
+	if ($widget instanceof ElementorPro\Modules\Woocommerce\Widgets\Checkout) {
+		global $ct_skip_checkout;
+		$ct_skip_checkout = true;
+	}
+}, 10 , 1);
+
+add_action('wpfunnels/before_gb_checkout_form', function($widget) {
+	global $ct_skip_checkout;
+	$ct_skip_checkout = true;
+}, 10 , 1);
+
+add_action('wp', function () {
+	if (class_exists('FluidCheckout')) {
+		return;
+	}
+
+	global $post;
+
+	if ($post && $post->post_type === 'cartflows_step') {
+		return;
+	}
+
 	add_action('woocommerce_checkout_before_customer_details', function () {
+		global $ct_skip_checkout;
+
+		if ($ct_skip_checkout) {
+			return;
+		}
+
 		echo '<div class="ct-customer-details">';
 	}, PHP_INT_MIN);
 
 	add_action('woocommerce_checkout_after_customer_details', function () {
+		global $ct_skip_checkout;
+
+		if ($ct_skip_checkout) {
+			return;
+		}
+
 		echo '</div>';
 	}, PHP_INT_MAX);
 
 	add_action('woocommerce_checkout_before_order_review_heading', function () {
+		global $ct_skip_checkout;
+
+		if ($ct_skip_checkout) {
+			return;
+		}
+
 		echo '<div class="ct-order-review">';
 	}, PHP_INT_MIN);
 
 	add_action('woocommerce_checkout_after_order_review', function () {
+		global $ct_skip_checkout;
+
+		if ($ct_skip_checkout) {
+			return;
+		}
+
 		echo '</div>';
 	}, PHP_INT_MAX);
-}
+});
 
 add_action(
 	'woocommerce_before_template_part',

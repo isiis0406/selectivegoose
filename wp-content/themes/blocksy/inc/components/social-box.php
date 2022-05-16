@@ -51,11 +51,12 @@ if (! function_exists('blocksy_get_social_share_box')) {
 				'html_atts' => [],
 				'links_wrapper_attr' => [],
 				'type' => 'type-1',
-				'custom_share_url' => ''
+				'custom_share_url' => '',
+				'prefix' => blocksy_manager()->screen->get_prefix()
 			]
 		);
 
-		$prefix = blocksy_manager()->screen->get_prefix();
+		$prefix = $args['prefix'];
 
 		if (! isset($args['html_atts']['data-type'])) {
 			$args['html_atts']['data-type'] = $args['type'];
@@ -87,6 +88,7 @@ if (! function_exists('blocksy_get_social_share_box')) {
 
 		return blocksy_get_social_box([
 			'type' => 'share',
+			'prefix' => $prefix,
 			'root_class' => 'ct-share-box',
 			'class' => blocksy_visibility_classes(
 				get_theme_mod($prefix . '_share_box_visibility', [
@@ -998,8 +1000,15 @@ function blocksy_get_social_metadata($args = []) {
 }
 
 if (! function_exists('blocksy_get_social_share_items')) {
-	function blocksy_get_social_share_items() {
-		$prefix = blocksy_manager()->screen->get_prefix();
+	function blocksy_get_social_share_items($args = []) {
+		$args = wp_parse_args(
+			$args,
+			[
+				'prefix' => blocksy_manager()->screen->get_prefix()
+			]
+		);
+
+		$prefix = $args['prefix'];
 
 		return [
 			[
@@ -1132,12 +1141,15 @@ function blocksy_get_social_box($args = []) {
 			'custom_share_url' => '',
 
 			'links_target' => false,
-			'links_rel' => false
+			'links_rel' => false,
+			'prefix' => blocksy_manager()->screen->get_prefix()
 		]
 	);
 
 	if ($args['type'] === 'share') {
-		$args['socials'] = blocksy_get_social_share_items();
+		$args['socials'] = blocksy_get_social_share_items([
+			'prefix' => $args['prefix']
+		]);
 	}
 
 	if ($args['socials'] === null) {

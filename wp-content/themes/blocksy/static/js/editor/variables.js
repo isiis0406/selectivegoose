@@ -33,15 +33,24 @@ export const gutenbergVariables = {
 	}),
 
 	...withKeys(
-		['template_editor_width_source', 'template_editor_width'],
+		[
+			'template_subtype',
+			'template_editor_width_source',
+			'template_editor_width',
+		],
 		[
 			{
 				selector: `.editor-styles-wrapper`,
 				variable: 'block-max-width',
 				extractValue: ({
+					template_subtype = 'card',
 					template_editor_width_source = 'small',
 					template_editor_width = 1290,
 				}) => {
+					if (template_subtype !== 'card') {
+						return 'CT_CSS_SKIP_RULE'
+					}
+
 					if (template_editor_width_source === 'small') {
 						return 500
 					}
@@ -77,7 +86,7 @@ export const gutenbergVariables = {
 				responsive: true,
 				extractValue: ({
 					content_style_source = 'inherit',
-					has_content_block_structure,
+					has_content_block_structure = 'yes',
 					content_style = 'wide',
 				}) => {
 					if (!isContentBlock && content_style_source === 'inherit') {
@@ -126,7 +135,7 @@ export const gutenbergVariables = {
 				variable: 'has-wide',
 				responsive: true,
 				extractValue: ({
-					has_content_block_structure,
+					has_content_block_structure = 'yes',
 					content_style_source = 'inherit',
 					content_style = 'wide',
 				}) => {
@@ -180,7 +189,7 @@ export const gutenbergVariables = {
 					fullValue: true,
 				},
 				valueExtractor: ({
-					has_content_block_structure,
+					has_content_block_structure = 'yes',
 					content_style_source = 'inherit',
 					content_background,
 				}) => {
@@ -228,7 +237,7 @@ export const gutenbergVariables = {
 				extractValue: ({
 					content_style_source = 'inherit',
 					boxed_content_spacing,
-					has_content_block_structure,
+					has_content_block_structure = 'yes',
 				}) => {
 					if (!isContentBlock && content_style_source === 'inherit') {
 						boxed_content_spacing =
@@ -256,7 +265,7 @@ export const gutenbergVariables = {
 				extractValue: ({
 					content_style_source = 'inherit',
 					content_boxed_radius,
-					has_content_block_structure,
+					has_content_block_structure = 'yes',
 				}) => {
 					if (!isContentBlock && content_style_source === 'inherit') {
 						content_boxed_radius =
@@ -283,7 +292,7 @@ export const gutenbergVariables = {
 				extractValue: ({
 					content_style_source = 'inherit',
 					content_boxed_shadow,
-					has_content_block_structure,
+					has_content_block_structure = 'yes',
 				}) => {
 					if (!isContentBlock && content_style_source === 'inherit') {
 						content_boxed_shadow =

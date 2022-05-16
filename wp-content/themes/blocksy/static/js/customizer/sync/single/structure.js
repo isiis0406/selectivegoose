@@ -138,6 +138,14 @@ export const getSingleContentVariablesFor = () => {
 					variable: 'box-shadow',
 					responsive: true,
 				},
+
+				[`${prefix}_content_boxed_border`]: {
+					selector: `[data-prefix="${prefix}"] [class*="ct-container"] > article[class*="post"]`,
+					variable: 'boxed-content-border',
+					type: 'border',
+					responsive: true,
+					skip_none: true,
+				},
 			},
 			() => true
 		),

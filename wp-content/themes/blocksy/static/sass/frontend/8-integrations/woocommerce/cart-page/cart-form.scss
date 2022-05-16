@@ -13,12 +13,11 @@
 	h2 {
 		--fontSize: 17px;
 	}
-}
 
-
-.woocommerce-cart-form {
-	@include media-breakpoint-up (md) {
-		padding-top: 7px;
+	.woocommerce-cart-form {
+		@include media-breakpoint-up (md) {
+			padding-top: 7px;
+		}
 	}
 }
 

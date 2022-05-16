@@ -419,19 +419,25 @@ function blocksy_related_posts($location = null) {
 		<div class="<?php echo $container_class ?>">
 	<?php } ?>
 
-		<div class="<?php echo $boxed_container_class ?>" data-layout="grid">
+		<div class="<?php echo $boxed_container_class ?>">
+			<?php do_action('blocksy:single:related_posts:top') ?>
 
 			<?php if (! empty($label)) { ?>
+				<?php do_action('blocksy:single:related_posts:title:before') ?>
 				<<?php echo $label_tag ?> class="ct-block-title">
 					<?php echo wp_kses_post($label); ?>
 				</<?php echo $label_tag ?>>
+				<?php do_action('blocksy:single:related_posts:title:after') ?>
 			<?php } ?>
 
+			<div class="ct-related-posts-items" data-layout="grid">
 			<?php while ($query->have_posts()) { ?>
 				<?php $query->the_post(); ?>
 
 				<article <?php echo blocksy_schema_org_definitions('creative_work') ?>>
 					<?php
+						do_action('blocksy:single:related_posts:card:top');
+
 						if (
 							get_post_thumbnail_id()
 							&&
@@ -440,6 +446,8 @@ function blocksy_related_posts($location = null) {
 								'yes'
 							) === 'yes'
 						) {
+							do_action('blocksy:single:related_posts:featured_image:before');
+
 							echo blocksy_image(
 								[
 									'attachment_id' => get_post_thumbnail_id(),
@@ -460,6 +468,8 @@ function blocksy_related_posts($location = null) {
 									],
 								]
 							);
+
+							do_action('blocksy:single:related_posts:featured_image:after');
 						}
 					?>
 
@@ -473,9 +483,14 @@ function blocksy_related_posts($location = null) {
 						echo blocksy_post_meta($meta_elements, [
 							'meta_divider' => 'slash'
 						]);
+
+						do_action('blocksy:single:related_posts:card:bottom');
 					?>
 				</article>
 			<?php } ?>
+			</div>
+
+			<?php do_action('blocksy:single:related_posts:bottom') ?>
 		</div>
 
 	<?php if ($location === 'separated') { ?>

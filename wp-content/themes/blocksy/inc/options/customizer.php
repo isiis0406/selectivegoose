@@ -37,7 +37,7 @@ $pro_title = [
 	]
 ];
 
-if (function_exists('blc_fs') && blc_fs()->can_use_premium_code__premium_only()) {
+if (function_exists('blc_fs') && blc_fs()->can_use_premium_code()) {
 	$pro_title = [];
 }
 
@@ -106,7 +106,7 @@ $options = [
 		],
 
 		'single_blog_posts' => [
-			'title' => __( 'Single Posts', 'blocksy' ),
+			'title' => __( 'Single Post', 'blocksy' ),
 			'container' => [
 				'priority' => 2,
 				'type' => 'child',

@@ -47,7 +47,9 @@ function blocksy_display_page_elements($location = null) {
 	ob_start();
 
 	if ($has_related_posts) {
+		do_action('blocksy:single:related_posts:before');
 		blocksy_related_posts($location);
+		do_action('blocksy:single:related_posts:after');
 	}
 
 	$related_posts_output = ob_get_clean();

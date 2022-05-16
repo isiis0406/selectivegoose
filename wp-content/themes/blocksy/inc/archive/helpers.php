@@ -50,9 +50,13 @@ if (! function_exists('blocksy_render_archive_cards')) {
 			$entries_open .= ' data-layout="' . esc_attr($blog_post_structure) . '"';
 
 			if ($has_cards_type) {
-				$entries_open .= ' ' . blocksy_get_listing_card_type([
+				$card_type = blocksy_get_listing_card_type([
 					'prefix' => $args['prefix']
 				]);
+
+				if ($card_type) {
+					$entries_open .= ' ' . 'data-cards="' . $card_type . '"';
+				}
 			}
 
 			$entries_open .= ' ' . blocksy_schema_org_definitions('blog');

@@ -72,13 +72,10 @@ const Select = ({
 		}, 50)
 	}, [])
 
-	if (orderedChoices.length === 0) {
-		return null
-	}
-
 	let maybeSelectedItem = orderedChoices.find(
 		({ key }) => key === potentialValue
 	)
+
 	if (!maybeSelectedItem) {
 		maybeSelectedItem = orderedChoices.find(
 			({ key }) => parseInt(key) === parseInt(potentialValue)
@@ -277,7 +274,6 @@ const Select = ({
 									: placeholder ||
 									  __('Select value...', 'blocksy')
 							}
-							disabled={orderedChoices.length === 0}
 							readOnly={search ? !isOpen : true}
 						/>
 

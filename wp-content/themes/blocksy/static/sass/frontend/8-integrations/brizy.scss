@@ -54,3 +54,8 @@
 		top: calc(var(--header-height) * var(--has-transparent-header, 0));
 	}
 }
+
+// popup with brizy content
+[data-popup-animation]:not(.active) .brz-reset-all {
+	pointer-events: none;
+}

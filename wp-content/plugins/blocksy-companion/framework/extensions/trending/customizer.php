@@ -93,7 +93,8 @@ foreach ($all_post_types as $custom_post_type => $label) {
 }
 
 $options = [
-	'title' => __('Trending Posts', 'blocksy-companion'),
+	//  translators: This is a brand name. Preferably to not be translated
+	'title' => _x('Trending Posts', 'Extension Brand Name', 'blocksy-companion'),
 	'container' => [ 'priority' => 8 ],
 	'options' => [
 		'trending_posts_section_options' => [
@@ -282,7 +283,7 @@ $options = [
 							],
 						],
 
-						blc_fs()->can_use_premium_code__premium_only() ? [
+						blc_fs()->can_use_premium_code() ? [
 							'trending_block_location' => [
 								'label' => __('Display Location', 'blocksy-companion'),
 								'type' => 'ct-select',

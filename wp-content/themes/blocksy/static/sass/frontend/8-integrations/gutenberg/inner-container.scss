@@ -25,7 +25,7 @@
 .entry-content {
 
 	.wp-block-cover,
-	.wp-block-group.has-background {
+	.wp-block-group {
 
 		[class*="_inner-container"] {
 			width: 100%;
@@ -35,7 +35,7 @@
 				margin-right: auto;
 
 				&:not(.alignfull) {
-					width: #{'min(calc(100% - 60px), var(--container-width))'};
+					width: #{'min(var(--container-min-width, 100%), var(--container-width))'};
 				}
 
 				&:not(.alignwide):not(.alignfull) {

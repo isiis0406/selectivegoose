@@ -29,18 +29,9 @@ if ($structure === 'grid') {
 	]);
 }
 
-$card_type = get_theme_mod($prefix . '_card_type', 'boxed');
-$blog_post_structure = blocksy_listing_page_structure([
+$card_type = blocksy_get_listing_card_type([
 	'prefix' => $prefix
 ]);
-
-if (
-	$blog_post_structure === 'simple'
-	&&
-	$card_type === 'cover'
-) {
-	$card_type = 'boxed';
-}
 
 blocksy_output_font_css([
 	'font_value' => get_theme_mod(
@@ -283,7 +274,7 @@ if ($card_type === 'simple') {
 }
 
 // boxed card
-if ($card_type !== 'simple') {
+if ($card_type === 'boxed' || $card_type === 'cover') {
 
 	$card_spacing = get_theme_mod($prefix . '_card_spacing', 30);
 

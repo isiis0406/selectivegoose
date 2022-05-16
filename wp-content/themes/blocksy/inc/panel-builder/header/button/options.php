@@ -55,7 +55,7 @@ $options = [
 					'type' => (
 						function_exists('blc_fs')
 						&&
-						blc_fs()->can_use_premium_code__premium_only()
+						blc_fs()->can_use_premium_code()
 					) ? 'ct-select' : 'hidden',
 					'value' => 'link',
 					'view' => 'text',

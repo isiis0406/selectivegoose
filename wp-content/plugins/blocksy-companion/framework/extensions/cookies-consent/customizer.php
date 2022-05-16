@@ -1,7 +1,8 @@
 <?php
 
 $options = [
-	'title' => __('Cookie Consent', 'blocksy-companion'),
+	//  translators: This is a brand name. Preferably to not be translated
+	'title' => _x('Cookies Consent', 'Extension Brand Name', 'blocksy-companion'),
 	'container' => [ 'priority' => 8 ],
 	'options' => [
 

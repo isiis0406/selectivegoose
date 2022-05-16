@@ -59,7 +59,13 @@ htmlroot {
 	}
 
 	.wp-block-cover,
+	p.has-background,
 	.wp-block-group.has-background {
 		padding: 30px;
+		box-sizing: border-box;
 	}
+
+	// p.has-background {
+	// 	box-sizing: border-box;
+	// }
 }

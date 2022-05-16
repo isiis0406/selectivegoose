@@ -12,21 +12,33 @@ if (have_posts()) {
 }
 
 if (
-	! function_exists('blc_get_content_block_that_matches')
-	||
-	! blc_get_content_block_that_matches([
+	function_exists('blc_get_content_block_that_matches')
+	&&
+	blc_get_content_block_that_matches([
 		'template_type' => 'single'
 	])
 ) {
-	/**
-	 * Note to code reviewers: This line doesn't need to be escaped.
-	 * Function blocksy_output_hero_section() used here escapes the value properly.
-	 */
-	if (apply_filters('blocksy:single:has-default-hero', true)) {
-		echo blocksy_output_hero_section([
-			'type' => 'type-2'
-		]);
-	}
+	global $blocksy_template_output;
+	$blocksy_template_output = true;
+
+	echo blc_render_content_block(
+		blc_get_content_block_that_matches([
+			'template_type' => 'single'
+		])
+	);
+	have_posts();
+	wp_reset_query();
+	return;
+}
+
+/**
+ * Note to code reviewers: This line doesn't need to be escaped.
+ * Function blocksy_output_hero_section() used here escapes the value properly.
+ */
+if (apply_filters('blocksy:single:has-default-hero', true)) {
+	echo blocksy_output_hero_section([
+		'type' => 'type-2'
+	]);
 }
 
 $page_structure = blocksy_get_page_structure();
@@ -59,6 +71,7 @@ the_content(
 		get_the_title()
 	)
 );
+
 $post_content = ob_get_clean();
 
 ?>
@@ -86,21 +99,7 @@ $post_content = ob_get_clean();
 
 <?php
 
-$has_custom_content = false;
-
-if (
-	function_exists('blc_get_content_block_that_matches')
-	&&
-	blc_get_content_block_that_matches([
-		'template_type' => 'single'
-	])
-) {
-	$has_custom_content = true;
-}
-
-if (! $has_custom_content) {
-	blocksy_display_page_elements('separated');
-}
+blocksy_display_page_elements('separated');
 
 have_posts();
 wp_reset_query();

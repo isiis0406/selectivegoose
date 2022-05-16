@@ -89,12 +89,13 @@ $accent-color: #0e8ecc;
 			box-sizing: border-box;
 		}
 
-		&[data-type*="simple-small"] {
-			width: calc(100% - 24px);
-			padding-left: 0;
-			padding-right: 0;
-			margin-left: 14px;
-			margin-right: 14px;
+		&[data-type*="small-heading"] {
+			margin-top: 25px;
+			padding-top: 25px;
+
+			h3 {
+				font-size: 12px !important;
+			}
 		}
 
 		&[data-type*="no-border"] {
@@ -121,6 +122,16 @@ $accent-color: #0e8ecc;
 				border: 1px dashed #cecece;
 				background: rgba(255, 255, 255, 0.5);
 			}
+		}
+	}
+
+	.ct-panel-options-header + .ct-title {
+		padding-top: 0;
+		// margin-top: 25px;
+		border-top: none;
+
+		h3 {
+			font-size: 12px !important;
 		}
 	}
 

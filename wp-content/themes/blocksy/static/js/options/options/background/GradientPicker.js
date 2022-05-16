@@ -10,7 +10,15 @@ import {
 
 import classnames from 'classnames'
 
-import GradientPickerComponent from './gradient/index'
+let GradientPickerComponent = () => null
+
+setTimeout(() => {
+	if (window.wp.components) {
+		import('./gradient/index').then((res) => {
+			GradientPickerComponent = res.default
+		})
+	}
+}, 1000)
 
 const GradientPicker = ({ value, onChange }) => {
 	const allGradients = (window.ct_customizer_localizations ||
