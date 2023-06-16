@@ -8,11 +8,9 @@
  */
 
 // Widget title.
-$title = blocksy_default_akg( 'title', $atts, __('Social Icons', 'blocksy-companion') );
-
-echo wp_kses_post($before_widget . $before_title . $title . $after_title);
-
+$title = blocksy_default_akg('title', $atts, __('Social Icons', 'blocksy-companion'));
 $size = blocksy_default_akg('social_icons_size', $atts, 'medium');
+$color = blocksy_default_akg('social_icons_color', $atts, 'default');
 $type = blocksy_default_akg('social_type', $atts, 'simple');
 $fill = blocksy_default_akg('social_icons_fill', $atts, 'outline');
 
@@ -32,6 +30,16 @@ if ($link_rel === 'yes') {
 } else {
 	$link_rel = 'noopener';
 }
+
+
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo $before_widget;
+
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+if (! empty(trim($title))) {
+	echo $before_title . wp_kses_post($title) . $after_title;
+}
+
 
 /**
  * blocksy_social_icons() function is already properly escaped.
@@ -61,6 +69,7 @@ echo blc_call_fn(
 	),
 	[
 		'size' => $size,
+		'icons-color' => $color,
 		'fill' => $fill,
 		'type' => $type,
 		'links_target' => $link_target,
@@ -69,4 +78,3 @@ echo blc_call_fn(
 );
 
 echo wp_kses_post($after_widget);
-

@@ -3,7 +3,7 @@
 	align-items: center;
 	position: relative;
 	height: 30px;
-	width: var(--width, 100px);
+	width: 100px;
 
 	&[data-width="full"] {
 		width: 100%;

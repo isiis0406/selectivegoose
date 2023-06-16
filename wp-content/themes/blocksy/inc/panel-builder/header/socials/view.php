@@ -63,7 +63,7 @@ if ($link_rel === 'yes') {
 			$atts,
 			'solid'
 		),
-		'hide_labels' => !blocksy_some_device(blocksy_default_akg(
+		'label_visibility' => blocksy_akg(
 			'socialsLabelVisibility',
 			$atts,
 			[
@@ -71,8 +71,7 @@ if ($link_rel === 'yes') {
 				'tablet' => false,
 				'mobile' => false,
 			]
-		)),
-
+		),
 		'links_target' => $link_target,
 		'links_rel' => $link_rel,
 	]) ?>

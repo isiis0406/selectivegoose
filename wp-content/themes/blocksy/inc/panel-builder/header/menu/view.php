@@ -97,7 +97,14 @@ $menu_content = ob_get_clean();
 if (
 	strpos($menu_content, 'ubermenu') !== false
 	||
-	! apply_filters('blocksy:header:menu:has-responsive-desktop-menu', true)
+	! apply_filters(
+		'blocksy:header:menu:has-responsive-desktop-menu',
+		blocksy_default_akg(
+			'collapse_non_fitting_menu_items',
+			$atts,
+			'yes'
+		) === 'yes'
+	)
 ) {
 	$responsive_output = '';
 }

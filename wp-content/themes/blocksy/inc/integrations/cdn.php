@@ -18,6 +18,6 @@ if (! function_exists('blocksy_cdn_url')) {
 			$url = get_rocket_cdn_url($url);
 		}
 
-		return $url;
+		return apply_filters('blocksy:frontend:static-assets:cdn', $url);
 	}
 }

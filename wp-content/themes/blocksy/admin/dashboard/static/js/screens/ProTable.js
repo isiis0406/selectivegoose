@@ -305,34 +305,6 @@ export default () => {
 				</li>
 			</ul>
 
-			<ul>
-				<li className="ct-table-heading">
-					<span>{__('Coming Soon Features', 'blocksy')}</span>
-					<span>{__('Free', 'blocksy')}</span>
-					<span>{__('Pro', 'blocksy')}</span>
-				</li>
-
-				<li>
-					<span>
-						{__('Advanced Custom Post Types module', 'blocksy')}
-					</span>
-					<span className="dashicons dashicons-no-alt"></span>
-					<span className="dashicons dashicons-yes"></span>
-				</li>
-
-				<li>
-					<span>{__('Portfolio extension', 'blocksy')}</span>
-					<span className="dashicons dashicons-no-alt"></span>
-					<span className="dashicons dashicons-yes"></span>
-				</li>
-
-				<li>
-					<span>{__('Premium starter sites', 'blocksy')}</span>
-					<span className="dashicons dashicons-no-alt"></span>
-					<span className="dashicons dashicons-yes"></span>
-				</li>
-			</ul>
-
 			<div className="ct-cta-container">
 
 				<svg width="55" height="55" viewBox="0 0 40.5 48.3">

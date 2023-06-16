@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { ValidatedTextInput } from '@woocommerce/base-components/text-input';
+import { ValidatedTextInput, isPostcode } from '@woocommerce/blocks-checkout';
 import {
 	BillingCountryInput,
 	ShippingCountryInput,
@@ -10,7 +10,6 @@ import {
 	BillingStateInput,
 	ShippingStateInput,
 } from '@woocommerce/base-components/state-input';
-import { useValidationContext } from '@woocommerce/base-context';
 import { useEffect, useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { withInstanceId } from '@wordpress/compose';
@@ -20,8 +19,11 @@ import {
 	AddressFields,
 	AddressType,
 	defaultAddressFields,
-	EnteredAddress,
+	ShippingAddress,
 } from '@woocommerce/settings';
+import { useSelect, useDispatch, dispatch } from '@wordpress/data';
+import { VALIDATION_STORE_KEY } from '@woocommerce/block-data';
+import { FieldValidationStatus } from '@woocommerce/types';
 
 /**
  * Internal dependencies
@@ -31,18 +33,21 @@ import prepareAddressFields from './prepare-address-fields';
 // If it's the shipping address form and the user starts entering address
 // values without having set the country first, show an error.
 const validateShippingCountry = (
-	values: EnteredAddress,
-	setValidationErrors: ( errors: Record< string, unknown > ) => void,
+	values: ShippingAddress,
+	setValidationErrors: (
+		errors: Record< string, FieldValidationStatus >
+	) => void,
 	clearValidationError: ( error: string ) => void,
 	hasValidationError: boolean
 ): void => {
+	const validationErrorId = 'shipping_country';
 	if (
 		! hasValidationError &&
 		! values.country &&
 		( values.city || values.state || values.postcode )
 	) {
 		setValidationErrors( {
-			'shipping-missing-country': {
+			[ validationErrorId ]: {
 				message: __(
 					'Please select a country to calculate rates.',
 					'woo-gutenberg-products-block'
@@ -52,7 +57,7 @@ const validateShippingCountry = (
 		} );
 	}
 	if ( hasValidationError && values.country ) {
-		clearValidationError( 'shipping-missing-country' );
+		clearValidationError( validationErrorId );
 	}
 };
 
@@ -66,11 +71,11 @@ interface AddressFormProps {
 	// Field configuration for fields in form.
 	fieldConfig?: Record< keyof AddressFields, Partial< AddressField > >;
 	// Function to all for an form onChange event.
-	onChange: ( newValue: EnteredAddress ) => void;
+	onChange: ( newValue: ShippingAddress ) => void;
 	// Type of form.
 	type?: AddressType;
 	// Values for fields.
-	values: EnteredAddress;
+	values: ShippingAddress;
 }
 
 /**
@@ -78,29 +83,25 @@ interface AddressFormProps {
  */
 const AddressForm = ( {
 	id = '',
-	fields = ( Object.keys(
+	fields = Object.keys(
 		defaultAddressFields
-	) as unknown ) as ( keyof AddressFields )[],
+	) as unknown as ( keyof AddressFields )[],
 	fieldConfig = {} as Record< keyof AddressFields, Partial< AddressField > >,
 	instanceId,
 	onChange,
 	type = 'shipping',
 	values,
 }: AddressFormProps ): JSX.Element => {
-	const {
-		getValidationError,
-		setValidationErrors,
-		clearValidationError,
-	} = useValidationContext();
+	const validationErrorId = 'shipping_country';
+	const { setValidationErrors, clearValidationError } =
+		useDispatch( VALIDATION_STORE_KEY );
+
+	const countryValidationError = useSelect( ( select ) => {
+		const store = select( VALIDATION_STORE_KEY );
+		return store.getValidationError( validationErrorId );
+	} );
 
 	const currentFields = useShallowEqual( fields );
-
-	const countryValidationError = ( getValidationError(
-		'shipping-missing-country'
-	) || {} ) as {
-		message: string;
-		hidden: boolean;
-	};
 
 	const addressFormFields = useMemo( () => {
 		return prepareAddressFields(
@@ -122,20 +123,37 @@ const AddressForm = ( {
 		} );
 	}, [ addressFormFields, onChange, values ] );
 
+	// Clear postcode validation error if postcode is not required.
+	useEffect( () => {
+		addressFormFields.forEach( ( field ) => {
+			if ( field.key === 'postcode' && field.required === false ) {
+				const store = dispatch( 'wc/store/validation' );
+
+				if ( type === 'shipping' ) {
+					store.clearValidationError( 'shipping_postcode' );
+				}
+
+				if ( type === 'billing' ) {
+					store.clearValidationError( 'billing_postcode' );
+				}
+			}
+		} );
+	}, [ addressFormFields, type, clearValidationError ] );
+
 	useEffect( () => {
 		if ( type === 'shipping' ) {
 			validateShippingCountry(
 				values,
 				setValidationErrors,
 				clearValidationError,
-				!! countryValidationError.message &&
-					! countryValidationError.hidden
+				!! countryValidationError?.message &&
+					! countryValidationError?.hidden
 			);
 		}
 	}, [
 		values,
-		countryValidationError.message,
-		countryValidationError.hidden,
+		countryValidationError?.message,
+		countryValidationError?.hidden,
 		setValidationErrors,
 		clearValidationError,
 		type,
@@ -143,12 +161,44 @@ const AddressForm = ( {
 
 	id = id || instanceId;
 
+	/**
+	 * Custom validation handler for fields with field specific handling.
+	 */
+	const customValidationHandler = (
+		inputObject: HTMLInputElement,
+		field: string,
+		customValues: {
+			country: string;
+		}
+	): boolean => {
+		if (
+			field === 'postcode' &&
+			customValues.country &&
+			! isPostcode( {
+				postcode: inputObject.value,
+				country: customValues.country,
+			} )
+		) {
+			inputObject.setCustomValidity(
+				__(
+					'Please enter a valid postcode',
+					'woo-gutenberg-products-block'
+				)
+			);
+			return false;
+		}
+		return true;
+	};
+
 	return (
 		<div id={ id } className="wc-block-components-address-form">
 			{ addressFormFields.map( ( field ) => {
 				if ( field.hidden ) {
 					return null;
 				}
+
+				// Create a consistent error ID based on the field key and type
+				const errorId = `${ type }_${ field.key }`;
 
 				if ( field.key === 'country' ) {
 					const Tag =
@@ -159,6 +209,7 @@ const AddressForm = ( {
 						<Tag
 							key={ field.key }
 							id={ `${ id }-${ field.key }` }
+							errorId={ errorId }
 							label={
 								field.required
 									? field.label
@@ -172,11 +223,6 @@ const AddressForm = ( {
 									country: newValue,
 									state: '',
 								} )
-							}
-							errorId={
-								type === 'shipping'
-									? 'shipping-missing-country'
-									: null
 							}
 							errorMessage={ field.errorMessage }
 							required={ field.required }
@@ -193,6 +239,7 @@ const AddressForm = ( {
 						<Tag
 							key={ field.key }
 							id={ `${ id }-${ field.key }` }
+							errorId={ errorId }
 							country={ values.country }
 							label={
 								field.required
@@ -217,6 +264,7 @@ const AddressForm = ( {
 					<ValidatedTextInput
 						key={ field.key }
 						id={ `${ id }-${ field.key }` }
+						errorId={ errorId }
 						className={ `wc-block-components-address-form__${ field.key }` }
 						label={
 							field.required ? field.label : field.optionalLabel
@@ -227,8 +275,20 @@ const AddressForm = ( {
 						onChange={ ( newValue: string ) =>
 							onChange( {
 								...values,
-								[ field.key ]: newValue,
+								[ field.key ]:
+									field.key === 'postcode'
+										? newValue.trimStart().toUpperCase()
+										: newValue,
 							} )
+						}
+						customValidation={ ( inputObject: HTMLInputElement ) =>
+							field.required || inputObject.value
+								? customValidationHandler(
+										inputObject,
+										field.key,
+										values
+								  )
+								: true
 						}
 						errorMessage={ field.errorMessage }
 						required={ field.required }

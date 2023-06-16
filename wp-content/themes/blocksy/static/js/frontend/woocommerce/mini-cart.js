@@ -1,18 +1,5 @@
 import $ from 'jquery'
-import { markImagesAsLoaded } from '../lazy-load-helpers'
 import ctEvents from 'ct-events'
-
-const scheduleLoad = () => {
-	;[...document.querySelectorAll('.ct-header-cart')].map((singleCart) => {
-		setTimeout(() => {
-			markImagesAsLoaded(singleCart)
-		})
-
-		if (document.querySelector('#woo-cart-panel')) {
-			markImagesAsLoaded(document.querySelector('#woo-cart-panel'))
-		}
-	})
-}
 
 let mounted = false
 
@@ -27,8 +14,6 @@ export const mount = () => {
 
 	mounted = true
 
-	scheduleLoad()
-
 	$(document.body).on('adding_to_cart', () =>
 		[...document.querySelectorAll(selector)].map((cart) => {
 			if (!cart.closest('.ct-shortcuts-container')) {
@@ -41,10 +26,8 @@ export const mount = () => {
 	)
 
 	$(document.body).on('wc_fragments_loaded', () => {
-		setTimeout(() => ctEvents.trigger('ct:images:lazyload:update'))
 		setTimeout(() => ctEvents.trigger('ct:popper-elements:update'))
 		setTimeout(() => ctEvents.trigger('blocksy:frontend:init'))
-		scheduleLoad()
 	})
 
 	$(document.body).on('wc_cart_button_updated', () => {
@@ -61,14 +44,11 @@ export const mount = () => {
 						(document.body.classList.contains('single-product') &&
 							cart.querySelector('[data-auto-open*="product"]')))
 				) {
+					cart.querySelector('[data-auto-open]').focusDisabled = true
 					cart.querySelector('[data-auto-open]').click()
 				}
 			})
 		}, 100)
-	})
-
-	$(document.body).on('wc_fragments_refreshed', () => {
-		scheduleLoad()
 	})
 
 	$(document.body).on(
@@ -84,31 +64,6 @@ export const mount = () => {
 
 				elForOpen.classList.remove('ct-adding')
 				elForOpen.classList.add('ct-added')
-
-				if (document.querySelector('.ct-cart-content')) {
-					if (cart.querySelector('.ct-cart-content')) {
-						cart.querySelector(
-							'.ct-cart-content'
-						).innerHTML = Object.values(fragments)[0]
-
-						if (
-							cart.querySelector('.ct-cart-total') &&
-							cart.querySelector(
-								'.ct-cart-content .woocommerce-mini-cart__total .woocommerce-Price-amount'
-							)
-						) {
-							cart.querySelector(
-								'.ct-cart-total'
-							).firstElementChild.innerHTML = cart.querySelector(
-								'.ct-cart-content .woocommerce-mini-cart__total .woocommerce-Price-amount'
-							).innerHTML
-						}
-					}
-
-					markImagesAsLoaded(cart)
-				}
-
-				scheduleLoad()
 			})
 		}
 	)
@@ -131,7 +86,6 @@ export const mount = () => {
 
 	$(document).on('facetwp-loaded', () => {
 		ctEvents.trigger('ct:custom-select:init')
-		ctEvents.trigger('ct:images:lazyload:update')
 	})
 
 	$(window).on('wpf_ajax_success', function () {
@@ -153,10 +107,21 @@ export const mount = () => {
 		}
 	}, 1000)
 
+	const clearCartContent = () => {
+		let maybeCartContent = document.querySelector(
+			'.ct-header-cart .ct-cart-content'
+		)
+
+		if (maybeCartContent) {
+			maybeCartContent.removeAttribute('style')
+		}
+	}
+
 	$(document.body).on('wc_fragments_refreshed', () => {
 		setTimeout(() => {
 			ctEvents.trigger('blocksy:frontend:init')
 			ctEvents.trigger('ct:popper-elements:update')
+			clearCartContent()
 		})
 	})
 
@@ -164,6 +129,8 @@ export const mount = () => {
 		setTimeout(() => {
 			ctEvents.trigger('blocksy:frontend:init')
 			ctEvents.trigger('ct:popper-elements:update')
+
+			clearCartContent()
 		})
 	})
 }

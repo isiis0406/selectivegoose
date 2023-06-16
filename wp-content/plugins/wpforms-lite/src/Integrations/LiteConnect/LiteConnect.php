@@ -51,7 +51,7 @@ abstract class LiteConnect implements IntegrationInterface {
 	public static function is_allowed() {
 
 		// Disable Lite Connect integration for local hosts.
-		$allowed = ! self::is_local_not_debug();
+		$allowed = ! self::is_local_not_debug() && self::is_production();
 
 		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
 
@@ -109,7 +109,7 @@ abstract class LiteConnect implements IntegrationInterface {
 	 */
 	private static function is_local_not_debug() {
 
-		return ( ! defined( 'WPFORMS_DEBUG_LITE_CONNECT' ) ) && self::is_localhost();
+		return ! defined( 'WPFORMS_DEBUG_LITE_CONNECT' ) && self::is_localhost();
 	}
 
 	/**
@@ -120,13 +120,6 @@ abstract class LiteConnect implements IntegrationInterface {
 	 * @return bool
 	 */
 	private static function is_localhost() {
-
-		// Check for local IPs.
-		$ip = wpforms_get_ip();
-
-		if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
-			return true;
-		}
 
 		// Check for local TLDs.
 		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
@@ -148,6 +141,18 @@ abstract class LiteConnect implements IntegrationInterface {
 
 		// Return false if IP and TLD are not local.
 		return false;
+	}
+
+	/**
+	 * Whether Lite Connect is running on production website.
+	 *
+	 * @since 1.7.6
+	 *
+	 * @return bool
+	 */
+	private static function is_production() {
+
+		return wp_get_environment_type() === 'production';
 	}
 
 	/**
@@ -206,6 +211,7 @@ abstract class LiteConnect implements IntegrationInterface {
 		$settings         = get_option( Integration::get_option_name(), [] );
 		$settings['site'] = $response;
 
+		update_option( API::GENERATE_KEY_ATTEMPT_COUNTER_OPTION, 0 );
 		update_option( Integration::get_option_name(), $settings );
 
 		exit();

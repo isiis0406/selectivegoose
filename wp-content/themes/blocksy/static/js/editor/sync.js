@@ -7,8 +7,8 @@ import {
 import { getValueFromInput } from 'blocksy-options'
 import { gutenbergVariables } from './variables'
 
-let oldFn = wp.data.dispatch('core/edit-post')
-	.__experimentalSetPreviewDeviceType
+let oldFn =
+	wp.data.dispatch('core/edit-post').__experimentalSetPreviewDeviceType
 
 let oldFnToggleFeature = wp.data.dispatch('core/edit-post').toggleFeature
 
@@ -47,14 +47,18 @@ const performSelectorsReplace = () => {
 	})
 
 	const maybeIframe = document.querySelector(
-		'.edit-post-visual-editor__content-area iframe'
+		'.edit-post-visual-editor__content-area iframe[name="editor-canvas"]'
 	)
 
 	if (maybeIframe) {
 		;[...maybeIframe.contentDocument.querySelectorAll('style')].map(
 			(style) => {
 				if (
-					style.innerText.indexOf('narrow-container-max-width') === -1
+					!style.innerText ||
+					(style.innerText &&
+						style.innerText.indexOf(
+							'narrow-container-max-width'
+						) === -1)
 				) {
 					return
 				}
@@ -86,9 +90,8 @@ const performSelectorsReplace = () => {
 
 const performThemeEditorStylesUpdate = () => {
 	setTimeout(() => {
-		const themeStyles = select('core/edit-post').isFeatureActive(
-			'themeStyles'
-		)
+		const themeStyles =
+			select('core/edit-post').isFeatureActive('themeStyles')
 
 		document.body.classList.remove('ct-theme-editor-styles')
 
@@ -108,10 +111,13 @@ if (oldFn) {
 		...args
 	) => {
 		oldFn(...args)
-		setTimeout(() => {
+
+		const cb = () => {
 			overrideStylesWithAst()
 			performSelectorsReplace()
-		})
+		}
+
+		;[0, 200, 300, 400, 500].map((time) => setTimeout(cb, time))
 	}
 
 	wp.data.dispatch('core/edit-post').toggleFeature = (...args) => {
@@ -138,8 +144,9 @@ const syncContentBlocks = ({ atts }) => {
 	document.body.classList.remove('ct-structure-narrow', 'ct-structure-normal')
 
 	if (
-		atts.has_content_block_structure &&
-		atts.has_content_block_structure !== 'yes'
+		(atts.has_content_block_structure &&
+			atts.has_content_block_structure !== 'yes') ||
+		atts.template_subtype === 'content'
 	) {
 		document.body.classList.add(`ct-structure-normal`)
 		return
@@ -178,7 +185,8 @@ export const handleMetaboxValueChange = (optionId, optionValue) => {
 	if (
 		optionId === 'page_structure_type' ||
 		optionId === 'has_content_block_structure' ||
-		optionId === 'content_block_structure'
+		optionId === 'content_block_structure' ||
+		optionId === 'template_subtype'
 	) {
 		mountSync({
 			[optionId]: optionValue,

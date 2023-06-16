@@ -13,23 +13,13 @@
 	.remove {
 		position: absolute;
 		z-index: 2;
-		// top: 0;
 		right: 0;
-		// opacity: 0.8;
 		width: 11px;
 		height: 11px;
 		line-height: 11px;
 		--icon-size: 11px;
 		--icon-color: currentColor;
-		// font-size: 17px;
-		// text-align: center;
-		// font-weight: normal;
-		// transition: color 0.12s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-
-		&:hover {
-			// opacity: 1;
-			// --icon-color: #d83428;
-		}
+		--linkInitialColor: var(--color);
 	}
 
 	~ .buttons {

@@ -135,7 +135,7 @@ class Blocksy_Breadcrumbs_Builder {
 		$home_icon = '';
 
 		if (get_theme_mod('breadcrumb_home_item', 'text') === 'icon') {
-			$home_icon = '<svg class="ct-home-icon" width="15" viewBox="0 0 24 20"><path d="M12,0L0.4,10.5h3.2V20h6.3v-6.3h4.2V20h6.3v-9.5h3.2L12,0z"/></svg>';
+			$home_icon = '<svg class="ct-home-icon" width="15" viewBox="0 0 24 20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12,0L0.4,10.5h3.2V20h6.3v-6.3h4.2V20h6.3v-9.5h3.2L12,0z"/></svg>';
 		}
 
 		$return = [
@@ -179,15 +179,6 @@ class Blocksy_Breadcrumbs_Builder {
 				$return,
 				$this->get_custom_post_type_archive()
 			);
-		} elseif (is_home()) {
-			$blog = [
-				'name' => $this->settings['labels']['blogpage-title'],
-				'url'  => blocksy_current_url(),
-				'type' => 'front_page',
-				'icon' => ''
-			];
-
-			$return[] = $blog;
 		} elseif ($blocksy_is_page = blocksy_is_page()) {
 			$return = array_merge(
 				$return,
@@ -206,7 +197,22 @@ class Blocksy_Breadcrumbs_Builder {
 			global $post;
 
 			$taxonomies = get_object_taxonomies($post->post_type, 'objects');
-			$slugs = array();
+
+			$primary_taxonomy_hash = [
+				'post' => 'category',
+				'product' => 'product_cat'
+			];
+
+			$slugs = [];
+
+			if (isset($primary_taxonomy_hash[$post->post_type])) {
+				foreach ($taxonomies as $key => $tax) {
+					if ($tax->name === $primary_taxonomy_hash[$post->post_type]) {
+						$slugs[] = $tax->name;
+						break;
+					}
+				}
+			}
 
 			$return = array_merge(
 				$return,
@@ -214,15 +220,17 @@ class Blocksy_Breadcrumbs_Builder {
 			);
 
 			if (! empty($taxonomies)) {
-				foreach ($taxonomies as $key => $tax) {
-					if (
-						$tax->show_ui === true
-						&&
-						$tax->public === true
-						&&
-						$tax->hierarchical !== false
-					) {
-						array_push($slugs, $tax->name);
+				if (empty($slugs)) {
+					foreach ($taxonomies as $key => $tax) {
+						if (
+							$tax->show_ui === true
+							&&
+							$tax->public === true
+							&&
+							$tax->hierarchical !== false
+						) {
+							array_push($slugs, $tax->name);
+						}
 					}
 				}
 
@@ -515,7 +523,7 @@ class Blocksy_Breadcrumbs_Builder {
 						'wrap_after'  => '</nav>',
 						'before'      => '',
 						'after'       => '',
-						'home'        => _x( 'Home', 'breadcrumb', 'woocommerce' ),
+						'home'        => _x( 'Home', 'breadcrumb', 'blocksy' ),
 					]
 				)
 			);
@@ -541,7 +549,7 @@ class Blocksy_Breadcrumbs_Builder {
 			$content = ob_get_clean();
 
 			if (! empty($content)) {
-				return '<div class="ct-breadcrumbs">' . $content . '</div>';
+				return '<div class="ct-breadcrumbs" data-source="' . $source . '">' . $content . '</div>';
 			}
 		}
 
@@ -551,8 +559,12 @@ class Blocksy_Breadcrumbs_Builder {
 			$source === 'yoast'
 		) {
 			ob_start();
-			yoast_breadcrumb('<div class="ct-breadcrumbs">', '</div>');
-			return ob_get_clean();
+			yoast_breadcrumb('<div class="ct-breadcrumbs" data-source="' . $source . '">', '</div>');
+			$content = ob_get_clean();
+
+			if (! empty($content)) {
+				return $content;
+			}
 		}
 
 		if (
@@ -561,7 +573,7 @@ class Blocksy_Breadcrumbs_Builder {
 			$source === 'seopress'
 		) {
 			ob_start();
-			echo '<div class="ct-breadcrumbs">';
+			echo '<div class="ct-breadcrumbs" data-source="' . $source . '">';
 			seopress_display_breadcrumbs();
 			echo '</div>';
 			return ob_get_clean();
@@ -573,7 +585,7 @@ class Blocksy_Breadcrumbs_Builder {
 			$source === 'bcnxt'
 		) {
 			ob_start();
-			echo '<div class="ct-breadcrumbs">';
+			echo '<div class="ct-breadcrumbs" data-source="' . $source . '">';
 			bcn_display();
 			echo '</div>';
 			return ob_get_clean();
@@ -582,11 +594,11 @@ class Blocksy_Breadcrumbs_Builder {
 		$items = $this->get_breadcrumbs();
 
 		$separators = [
-			'type-1' => '<svg class="separator" width="8" height="8" viewBox="0 0 8 8">
+			'type-1' => '<svg class="separator" fill="currentColor" width="8" height="8" viewBox="0 0 8 8" aria-hidden="true" focusable="false">
 				<path d="M2,6.9L4.8,4L2,1.1L2.6,0l4,4l-4,4L2,6.9z"/>
 			</svg>',
 
-			'type-2' => '<svg class="separator" width="8" height="8" viewBox="0 0 8 8">
+			'type-2' => '<svg class="separator" fill="currentColor" width="8" height="8" viewBox="0 0 8 8" aria-hidden="true" focusable="false">
 				<polygon points="2.5,0 6.9,4 2.5,8 "/>
 			</svg>',
 
@@ -611,7 +623,7 @@ class Blocksy_Breadcrumbs_Builder {
 
 		?>
 
-			<nav class="<?php echo $class ?>" <?php echo blocksy_schema_org_definitions('breadcrumb_list') ?>><?php
+			<nav class="<?php echo $class ?>" data-source="<?php echo $source; ?>" <?php echo blocksy_schema_org_definitions('breadcrumb_list') ?>><?php
 				for ($i = 0; $i < count($items); $i++) {
 					if ($i === (count($items) - 1)) {
 						$should_be_link = false;
@@ -638,7 +650,7 @@ class Blocksy_Breadcrumbs_Builder {
 							}
 						}
 
-						echo '<span class="last-item" ' . blocksy_schema_org_definitions('breadcrumb_item') . '>';
+						echo '<span class="last-item" aria-current="page" ' . blocksy_schema_org_definitions('breadcrumb_item') . '>';
 
 						if (blocksy_has_schema_org_markup()) {
 							echo '<meta itemprop="position" content="' . ($i + 1) . '">';
@@ -647,21 +659,39 @@ class Blocksy_Breadcrumbs_Builder {
 						if (isset($items[$i]['url']) && $should_be_link) {
 							echo '<a href="' . esc_attr( $items[ $i ]['url'] ) . '" ' . blocksy_schema_org_definitions('item'). '>';
 
-							if (isset($items[$i]['icon'])) {
+							$span_attr = blocksy_schema_org_definitions('name', [
+								'array' => true
+							]);
+
+							if (
+								isset($items[$i]['icon'])
+								&&
+								! empty($items[$i]['icon'])
+							) {
+								$span_attr['class'] = 'screen-reader-text';
 								echo $items[$i]['icon'];
 							}
 
-							echo '<span ' . blocksy_schema_org_definitions('name') . '>';
+							echo '<span ' . blocksy_attr_to_html($span_attr) . '>';
 							echo $items[ $i ]['name'];
 							echo '</span>';
 
 							echo '</a>';
 						} else {
-							if (isset($items[$i]['icon'])) {
+							$span_attr = blocksy_schema_org_definitions('name', [
+								'array' => true
+							]);
+
+							if (
+								isset($items[$i]['icon'])
+								&&
+								! empty($items[$i]['icon'])
+							) {
+								$span_attr['class'] = 'screen-reader-text';
 								echo $items[$i]['icon'];
 							}
 
-							echo '<span ' . blocksy_schema_org_definitions('name') . '>';
+							echo '<span ' . blocksy_attr_to_html($span_attr) . '>';
 							echo $items[ $i ]['name'];
 							echo '</span>';
 						}
@@ -683,14 +713,23 @@ class Blocksy_Breadcrumbs_Builder {
 						}
 
 						if (isset($items[$i]['url'])) {
-							echo '<a href="' . esc_attr( $items[ $i ]['url'] ) . '" ' . blocksy_schema_org_definitions('item') . '>';
+							echo '<a href="' . esc_attr($items[$i]['url']) . '" ' . blocksy_schema_org_definitions('item') . '>';
 
-							if (isset($items[$i]['icon'])) {
+							$span_attr = blocksy_schema_org_definitions('name', [
+								'array' => true
+							]);
+
+							if (
+								isset($items[$i]['icon'])
+								&&
+								! empty($items[$i]['icon'])
+							) {
+								$span_attr['class'] = 'screen-reader-text';
 								echo $items[$i]['icon'];
 							}
 
-							echo '<span ' . blocksy_schema_org_definitions('name') . '>';
-							echo $items[ $i ]['name'];
+							echo '<span ' . blocksy_attr_to_html($span_attr) . '>';
+							echo $items[$i]['name'];
 							echo '</span>';
 
 							echo '</a>';
@@ -703,7 +742,7 @@ class Blocksy_Breadcrumbs_Builder {
 							&&
 							isset($items[$i]['url'])
 						) {
-							echo '<meta itemprop="url" content="' . esc_attr( $items[ $i ]['url'] ) . '"/>';
+							echo '<meta itemprop="url" content="' . esc_attr($items[$i]['url']) . '"/>';
 						}
 
 						echo $separator;
@@ -719,11 +758,20 @@ class Blocksy_Breadcrumbs_Builder {
 						if (isset($items[$i]['url'])) {
 							echo '<a href="' . esc_attr( $items[ $i ]['url'] ) . '" ' . blocksy_schema_org_definitions('item') . '>';
 
-							if (isset($items[$i]['icon'])) {
+							$span_attr = blocksy_schema_org_definitions('name', [
+								'array' => true
+							]);
+
+							if (
+								isset($items[$i]['icon'])
+								&&
+								! empty($items[$i]['icon'])
+							) {
+								$span_attr['class'] = 'screen-reader-text';
 								echo $items[$i]['icon'];
 							}
 
-							echo '<span ' . blocksy_schema_org_definitions('name') . '>';
+							echo '<span ' . blocksy_attr_to_html($span_attr) . '>';
 							echo $items[ $i ]['name'];
 							echo '</span>';
 

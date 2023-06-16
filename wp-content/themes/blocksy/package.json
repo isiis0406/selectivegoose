@@ -1,29 +1,32 @@
 {
 	"name": "small-ct",
-	"version": "1.8.32",
+	"version": "1.8.92",
 	"title": "Blocksy",
 	"browserslist": "> 1%, not opera > 0, not op_mini all",
 	"devDependencies": {
 		"@babel/plugin-transform-parameters": "^7.13.0",
 		"@octokit/core": "^3.2.5",
 		"babel-plugin-lodash": "^3.3.4",
-		"ct-build-process": "^5.3.7",
+		"ct-build-process": "^5.4.8",
 		"env-cmd": "^10.1.0",
 		"gulp-remove-code": "^3.0.4",
 		"negotiator": "^0.6.2",
 		"webpack-bundle-analyzer": "^3.8.0"
 	},
 	"scripts": {
-		"dev": "gulp dev",
-		"build": "cross-env NODE_ENV=production gulp build",
-		"gettext-generate": "gulp gettext-generate",
+		"dev": "gulp dev --silent",
+		"build": "cross-env NODE_ENV=production gulp build --silent",
+		"gettext-generate": "gulp gettext-generate --silent",
 		"deploy:staging": "scripts/deploy-staging.sh demo.creativethemes.com staging/wp-content",
 		"deploy:speed-test": "scripts/deploy-staging.sh demo.creativethemes.com speed-test/wp-content",
 		"deploy:tutorial": "NODE_ENV=production gulp build_zips && scp build_tmp/*-production.zip root@demo.creativethemes.com:/var/www/html && ssh root@demo.creativethemes.com 'cd /var/www/html && mv *-production.zip tutorial/wp-content/themes/ && cd tutorial/wp-content/themes && rm -rf blocksy && unzip *-production.zip && rm *-production.zip'",
-		"changelogs": "env-cmd node scripts/get-changelog.js",
+		"changelogs": "env-cmd --silent node scripts/get-changelog.js",
+		"get-next-version": "node scripts/get-next-version.js",
 		"set-version": "node scripts/set-version.js",
 		"make-nightly": "scripts/make-nightly.sh",
-		"make-release": "scripts/make-release.sh"
+		"make-release": "scripts/make-release.sh",
+		"create-github-release": "env-cmd --silent node scripts/create-github-release.js",
+		"sync-google-fonts": "node scripts/sync-google-fonts.js"
 	},
 	"dependencies": {
 		"@reach/dialog": "^0.1.2",
@@ -41,16 +44,15 @@
 		"cross-env": "^7.0.3",
 		"ct-log": "^1.0.0",
 		"ct-wp-js-log": "^1.0.4",
-		"customizer-sync-helpers": "^0.0.41",
+		"customizer-sync-helpers": "^0.0.51",
 		"deep-equal": "^1.0.1",
 		"dom-chef": "^3.3.0",
-		"dom-focus-lock": "^1.0.4",
 		"downshift": "^6.0.6",
 		"file-saver": "^2.0.0-rc.4",
 		"flexy": "git+ssh://git@github.com:sergiu-radu/flexy.git",
 		"gradient-parser": "^1.0.2",
 		"infinite-scroll": "^4.0.1",
-		"match-conditions": "^1.0.10",
+		"match-conditions": "^1.0.11",
 		"md5": "^2.2.1",
 		"nanoid": "^2.0.0",
 		"react-sortable-hoc": "^1.8.3",
@@ -60,7 +62,6 @@
 		"scriptjs": "^2.5.9",
 		"simple-linear-scale": "^1.0.1",
 		"use-force-update": "^1.0.4",
-		"vanilla-lazyload": "^17.4.0",
 		"webfontloader": "^1.6.28"
 	}
 }

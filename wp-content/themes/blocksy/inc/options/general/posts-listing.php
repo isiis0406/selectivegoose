@@ -373,7 +373,7 @@ $overridable_card_options = [
 											'type' => 'ct-number',
 											'design' => 'inline',
 											'value' => 40,
-											'min' => 10,
+											'min' => 1,
 											'max' => 300,
 										],
 
@@ -418,24 +418,6 @@ $overridable_card_options = [
 									'sync' => [
 										'id' => $prefix . 'archive_order_button',
 									]
-								],
-
-								'read_more_alignment' => [
-									'type' => 'ct-radio',
-									'label' => __('Alignment', 'blocksy'),
-									'value' => 'left',
-									'view' => 'text',
-									'attr' => ['data-type' => 'alignment'],
-									'design' => 'block',
-									'sync' => [
-										'prefix' => $prefix,
-										'id' => $prefix . 'archive_order_skip',
-									],
-									'choices' => [
-										'left' => '',
-										'center' => '',
-										'right' => '',
-									],
 								],
 							],
 						],
@@ -550,22 +532,59 @@ $overridable_card_options = [
 					'value' => 30,
 				],
 
-				$prefix . 'card_spacing' => [
-					'label' => __( 'Card Inner Spacing', 'blocksy' ),
-					'type' => 'ct-slider',
-					'min' => 0,
-					'max' => 100,
-					'responsive' => true,
-					'value' => 30,
-					'divider' => 'top',
-					'sync' => 'live',
+				blocksy_rand_md5() => [
+					'type' => 'ct-condition',
+					'condition' => [
+						$prefix . 'structure' => '!gutenberg',
+						$prefix . 'card_type' => 'cover|boxed',
+					],
+					'perform_replace' => array_merge([
+						'condition' => $has_card_matching_template ? [
+							$prefix . 'structure' => '!__never__'
+						] : [
+							$prefix . 'structure' => 'simple'
+						],
+						'key' => $prefix . 'card_type',
+						'from' => 'cover',
+						'to' => 'boxed'
+					], $has_card_matching_template ? [
+						[
+							'condition' => [
+								$prefix . 'structure' => '!__never__'
+							],
+							'key' => $prefix . 'structure',
+							'from' => 'simple',
+							'to' => 'grid'
+						],
+
+						[
+							'condition' => [
+								$prefix . 'structure' => '!__never__'
+							],
+							'key' => $prefix . 'structure',
+							'from' => 'gutenberg',
+							'to' => 'grid'
+						]
+					] : []),
+					'options' => $has_card_matching_template ? [] : [
+						$prefix . 'card_spacing' => [
+							'label' => __( 'Card Inner Spacing', 'blocksy' ),
+							'type' => 'ct-slider',
+							'min' => 0,
+							'max' => 100,
+							'responsive' => true,
+							'value' => 30,
+							'divider' => 'top',
+							'sync' => 'live',
+						],
+					],
 				],
 			],
 
 			$has_card_matching_template ? [] : [
 				$prefix . 'content_horizontal_alignment' => [
 					'type' => $has_card_matching_template ? 'hidden' : 'ct-radio',
-					'label' => __( 'Content Alignment', 'blocksy' ),
+					'label' => __( 'Horizontal Alignment', 'blocksy' ),
 					'view' => 'text',
 					'design' => 'block',
 					'divider' => 'top',
@@ -584,9 +603,19 @@ $overridable_card_options = [
 			blocksy_rand_md5() => [
 				'type' => 'ct-condition',
 				'condition' => [
-					$prefix . 'structure' => '!gutenberg'
+					$prefix . 'structure' => '!gutenberg',
+					$prefix . 'card_type' => 'cover',
 				],
-				'perform_replace' => $has_card_matching_template ? [
+				'perform_replace' => array_merge([
+					'condition' => $has_card_matching_template ? [
+						$prefix . 'structure' => '!__never__'
+					] : [
+						$prefix . 'structure' => 'simple'
+					],
+					'key' => $prefix . 'card_type',
+					'from' => 'cover',
+					'to' => 'boxed'
+				], $has_card_matching_template ? [
 					[
 						'condition' => [
 							$prefix . 'structure' => '!__never__'
@@ -604,7 +633,7 @@ $overridable_card_options = [
 						'from' => 'gutenberg',
 						'to' => 'grid'
 					]
-				] : [],
+				] : []),
 				'options' => $has_card_matching_template ? [] : [
 					$prefix . 'content_vertical_alignment' => [
 						'type' => 'ct-radio',
@@ -1271,6 +1300,7 @@ $overridable_card_options = [
 
 
 $options = [
+
 	blocksy_rand_md5() => [
 		'type'  => 'ct-title',
 		'label' => sprintf(
@@ -1285,154 +1315,89 @@ $options = [
 		),
 	],
 
-	$prefix . 'structure' => [
-		'label' => false,
-		'type' => 'ct-image-picker',
-		'value' => 'grid',
-		'divider' => 'bottom',
-		'sync' => blocksy_sync_whole_page([
-			'prefix' => $prefix,
-			'loader_selector' => '.entries > article'
-		]),
-		'choices' => [
-			'simple' => [
-				'src' => blocksy_image_picker_url('simple.svg'),
-				'title' => __('Simple', 'blocksy'),
-			],
-
-			'classic' => [
-				'src' => blocksy_image_picker_url('classic.svg'),
-				'title' => __('Classic', 'blocksy'),
-			],
-
-			'grid' => [
-				'src' => blocksy_image_picker_url('grid.svg'),
-				'title' => __('Grid', 'blocksy'),
-			],
-
-			'enhanced-grid' => [
-				'src' => blocksy_image_picker_url('enhanced-grid.svg'),
-				'title' => __('Enhanced Grid', 'blocksy'),
-			],
-
-			'gutenberg' => [
-				'src' => blocksy_image_picker_url('gutenberg.svg'),
-				'title' => __('Gutenberg', 'blocksy'),
-			],
-		],
-
-		'conditions' => $has_card_matching_template ? [
-			'simple' => [
-				$prefix . 'structure' => '__never__'
-			],
-
-			'gutenberg' => [
-				$prefix . 'structure' => '__never__'
-			],
-		] : [],
-	],
-
 	blocksy_rand_md5() => [
-		'type' => 'ct-condition',
-		'condition' => [ $prefix . 'structure' => '!grid' ],
-		'perform_replace' => $has_card_matching_template ? [
-			[
-				'condition' => [
-					$prefix . 'structure' => '!__never__'
-				],
-				'key' => $prefix . 'structure',
-				'from' => 'simple',
-				'to' => 'grid'
-			],
-
-			[
-				'condition' => [
-					$prefix . 'structure' => '!__never__'
-				],
-				'key' => $prefix . 'structure',
-				'from' => 'gutenberg',
-				'to' => 'grid'
-			]
-		] : [],
+		'title' => __( 'General', 'blocksy' ),
+		'type' => 'tab',
 		'options' => [
 
-			$prefix . 'archive_per_page' => [
-				'label' => __( 'Number of Posts', 'blocksy' ),
-				'type' => 'ct-number',
-				'value' => get_option('posts_per_page', 10),
-				'min' => 1,
-				'max' => 500,
-				'design' => 'inline',
+			$prefix . 'structure' => [
+				'label' => false,
+				'type' => 'ct-image-picker',
+				'value' => 'grid',
+				'divider' => 'bottom',
 				'sync' => blocksy_sync_whole_page([
 					'prefix' => $prefix,
 					'loader_selector' => '.entries > article'
 				]),
-			],
-
-		],
-	],
-
-	blocksy_rand_md5() => [
-		'type' => 'ct-condition',
-		'condition' => [ $prefix . 'structure' => 'grid' ],
-		'perform_replace' => $has_card_matching_template ? [
-			[
-				'condition' => [
-					$prefix . 'structure' => '!__never__'
-				],
-				'key' => $prefix . 'structure',
-				'from' => 'simple',
-				'to' => 'grid'
-			],
-
-			[
-				'condition' => [
-					$prefix . 'structure' => '!__never__'
-				],
-				'key' => $prefix . 'structure',
-				'from' => 'gutenberg',
-				'to' => 'grid'
-			]
-		] : [],
-		'options' => [
-
-			blocksy_rand_md5() => [
-				'type' => 'ct-group',
-				'label' => __( 'Columns & Posts', 'blocksy' ),
-				'attr' => [ 'data-columns' => '2:medium' ],
-				'responsive' => true,
-				'options' => [
-
-					$prefix . 'columns' => [
-						'label' => false,
-						'desc' => __( 'Number of columns', 'blocksy' ),
-						'type' => 'ct-number',
-						'value' => [
-							'desktop' => 3,
-							'tablet' => 2,
-							'mobile' => 1
-						],
-						'min' => 1,
-						'max' => 6,
-						'design' => 'block',
-						'disableRevertButton' => true,
-						'attr' => [ 'data-width' => 'full' ],
-						'sync' => 'live',
-						'responsive' => true,
-						'skipResponsiveControls' => true
+				'choices' => [
+					'simple' => [
+						'src' => blocksy_image_picker_url('simple.svg'),
+						'title' => __('Simple', 'blocksy'),
 					],
 
+					'classic' => [
+						'src' => blocksy_image_picker_url('classic.svg'),
+						'title' => __('Classic', 'blocksy'),
+					],
+
+					'grid' => [
+						'src' => blocksy_image_picker_url('grid.svg'),
+						'title' => __('Grid', 'blocksy'),
+					],
+
+					'enhanced-grid' => [
+						'src' => blocksy_image_picker_url('enhanced-grid.svg'),
+						'title' => __('Enhanced Grid', 'blocksy'),
+					],
+
+					'gutenberg' => [
+						'src' => blocksy_image_picker_url('gutenberg.svg'),
+						'title' => __('Gutenberg', 'blocksy'),
+					],
+				],
+
+				'conditions' => $has_card_matching_template ? [
+					'simple' => [
+						$prefix . 'structure' => '__never__'
+					],
+
+					'gutenberg' => [
+						$prefix . 'structure' => '__never__'
+					],
+				] : [],
+			],
+
+			blocksy_rand_md5() => [
+				'type' => 'ct-condition',
+				'condition' => [ $prefix . 'structure' => '!grid' ],
+				'perform_replace' => $has_card_matching_template ? [
+					[
+						'condition' => [
+							$prefix . 'structure' => '!__never__'
+						],
+						'key' => $prefix . 'structure',
+						'from' => 'simple',
+						'to' => 'grid'
+					],
+
+					[
+						'condition' => [
+							$prefix . 'structure' => '!__never__'
+						],
+						'key' => $prefix . 'structure',
+						'from' => 'gutenberg',
+						'to' => 'grid'
+					]
+				] : [],
+				'options' => [
+
 					$prefix . 'archive_per_page' => [
-						'label' => false,
-						'desc' => __( 'Number of posts', 'blocksy' ),
+						'label' => __( 'Number of Posts', 'blocksy' ),
 						'type' => 'ct-number',
 						'value' => get_option('posts_per_page', 10),
 						'min' => 1,
 						'max' => 500,
-						'markAsAutoFor' => ['tablet', 'mobile'],
-						'design' => 'block',
-						'disableRevertButton' => true,
-						'attr' => [ 'data-width' => 'full' ],
+						'design' => 'inline',
 						'sync' => blocksy_sync_whole_page([
 							'prefix' => $prefix,
 							'loader_selector' => '.entries > article'
@@ -1442,19 +1407,125 @@ $options = [
 				],
 			],
 
+			blocksy_rand_md5() => [
+				'type' => 'ct-condition',
+				'condition' => [ $prefix . 'structure' => 'grid' ],
+				'perform_replace' => $has_card_matching_template ? [
+					[
+						'condition' => [
+							$prefix . 'structure' => '!__never__'
+						],
+						'key' => $prefix . 'structure',
+						'from' => 'simple',
+						'to' => 'grid'
+					],
+
+					[
+						'condition' => [
+							$prefix . 'structure' => '!__never__'
+						],
+						'key' => $prefix . 'structure',
+						'from' => 'gutenberg',
+						'to' => 'grid'
+					]
+				] : [],
+				'options' => [
+
+					blocksy_rand_md5() => [
+						'type' => 'ct-group',
+						'label' => __( 'Columns & Posts', 'blocksy' ),
+						'attr' => [ 'data-columns' => '2:medium' ],
+						'responsive' => true,
+						'options' => [
+
+							$prefix . 'columns' => [
+								'label' => false,
+								'desc' => __( 'Number of columns', 'blocksy' ),
+								'type' => 'ct-number',
+								'value' => [
+									'desktop' => 3,
+									'tablet' => 2,
+									'mobile' => 1
+								],
+								'min' => 1,
+								'max' => 6,
+								'design' => 'block',
+								'disableRevertButton' => true,
+								'attr' => [ 'data-width' => 'full' ],
+								'sync' => 'live',
+								'responsive' => true,
+								'skipResponsiveControls' => true
+							],
+
+							$prefix . 'archive_per_page' => [
+								'label' => false,
+								'desc' => __( 'Number of posts', 'blocksy' ),
+								'type' => 'ct-number',
+								'value' => get_option('posts_per_page', 10),
+								'min' => 1,
+								'max' => 500,
+								'markAsAutoFor' => ['tablet', 'mobile'],
+								'design' => 'block',
+								'disableRevertButton' => true,
+								'attr' => [ 'data-width' => 'full' ],
+								'sync' => blocksy_sync_whole_page([
+									'prefix' => $prefix,
+									'loader_selector' => '.entries > article'
+								]),
+							],
+
+						],
+					],
+
+				],
+			],
+
+			blocksy_rand_md5() => [
+				'type' => 'ct-divider',
+				'attr' => ['data-type' => 'small']
+			],
+
+			$prefix . 'archive_listing_panel' => [
+				'label' => __('Cards Options', 'blocksy'),
+				'type' => 'ct-panel',
+				'value' => 'yes',
+				'wrapperAttr' => ['data-panel' => 'only-arrow'],
+				'inner-options' => $overridable_card_options
+			],
+
 		],
 	],
 
 	blocksy_rand_md5() => [
-		'type' => 'ct-divider',
-		'attr' => ['data-type' => 'small']
-	],
+		'title' => __( 'Design', 'blocksy' ),
+		'type' => 'tab',
+		'options' => [
 
-	$prefix . 'archive_listing_panel' => [
-		'label' => __('Cards Options', 'blocksy'),
-		'type' => 'ct-panel',
-		'value' => 'yes',
-		'wrapperAttr' => ['data-panel' => 'only-arrow'],
-		'inner-options' => $overridable_card_options
+			$prefix . 'background' => [
+				'label' => __('Page Background', 'blocksy'),
+				'type' => 'ct-background',
+				'design' => 'block:right',
+				'responsive' => true,
+				'sync' => 'live',
+				'divider' => 'bottom',
+				'value' => blocksy_background_default_value([
+					'backgroundColor' => [
+						'default' => [
+							'color' => Blocksy_Css_Injector::get_skip_rule_keyword(),
+						],
+					],
+				]),
+				'desc' => sprintf(
+					// translators: placeholder here means the actual URL.
+					__( 'Please note, by default this option is inherited from Colors ➝ %sSite Background%s.', 'blocksy' ),
+					sprintf(
+						'<a data-trigger-section="color" href="%s">',
+						admin_url('/customize.php?autofocus[section]=color')
+					),
+					'</a>'
+				),
+			],
+
+		],
 	],
 ];

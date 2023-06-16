@@ -122,6 +122,7 @@ class DemoInstallOptionsInstaller {
 
 		foreach ($options['mods'] as $key => $val) {
 			if ($key === 'sidebars_widgets') continue;
+			if ($key === 'custom_css_post_id') continue;
 			do_action('customize_save_' . $key, $wp_customize);
 			set_theme_mod($key, $val);
 		}
@@ -194,6 +195,8 @@ class DemoInstallOptionsInstaller {
 				! empty($default_post_id)
 				&&
 				isset($options['elementor_active_kit_settings'])
+				&&
+				! empty($options['elementor_active_kit_settings'])
 			) {
 				update_post_meta(
 					$default_post_id,
@@ -346,7 +349,7 @@ class DemoInstallOptionsInstaller {
 		}
 
 		// Set variables for storage, fix file filename for query strings.
-		preg_match('/[^\?]+\.(jpe?g|jpe|gif|png|svg)\b/i', $file, $matches);
+		preg_match('/[^\?]+\.(jpe?g|jpe|gif|png|svg|webp)\b/i', $file, $matches);
 
 		$file_array = [];
 
@@ -377,6 +380,18 @@ class DemoInstallOptionsInstaller {
 		$data->url = wp_get_attachment_url($id);
 		$data->thumbnail_url = wp_get_attachment_thumb_url($id);
 
+		if ('svg' === $file_array['extension']) {
+			$dimensions = Plugin::instance()
+				->theme_integration
+				->svg_dimensions($file);
+
+			$data->width = (int) $dimensions->width;
+			$data->height = (int) $dimensions->height;
+		} else {
+			$data->height = $meta['height'];
+			$data->width = $meta['width'];
+		}
+
 		if ($meta && is_array($meta)) {
 			$data->height = $meta['height'];
 			$data->width = $meta['width'];
@@ -389,7 +404,7 @@ class DemoInstallOptionsInstaller {
 
 	private function is_image_url($string = '') {
 		if (is_string($string)) {
-			if (preg_match('/\.(jpg|jpeg|png|gif|svg)/i', $string)) {
+			if (preg_match('/\.(jpg|jpeg|png|gif|svg|webp)/i', $string)) {
 				return true;
 			}
 		}

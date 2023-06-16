@@ -142,6 +142,24 @@ export const handleBackgroundOptionFor = ({
 							).getPropertyValue('--paletteColor5')
 						}
 
+						if (color.indexOf('paletteColor6') > -1) {
+							color = getComputedStyle(
+								document.body
+							).getPropertyValue('--paletteColor6')
+						}
+
+						if (color.indexOf('paletteColor7') > -1) {
+							color = getComputedStyle(
+								document.body
+							).getPropertyValue('--paletteColor7')
+						}
+
+						if (color.indexOf('paletteColor8') > -1) {
+							color = getComputedStyle(
+								document.body
+							).getPropertyValue('--paletteColor8')
+						}
+
 						if (color.indexOf('rgb') > -1) {
 							const rgb_array = str_replace(
 								'rgb(',
@@ -294,5 +312,6 @@ export const getBackgroundVariablesFor = () => ({
 		id: 'site_background',
 		selector: 'body',
 		responsive: true,
+		forced_background_image: true,
 	}),
 })

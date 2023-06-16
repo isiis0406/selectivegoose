@@ -54,7 +54,7 @@ function blocksy_get_frontend_selector_for_prefix($prefix = '') {
 }
 
 function blocksy_sync_single_post_container($args = []) {
-	$selector = 'article[id*="post"]';
+	$selector = 'article[id*="post"][class*="type-"]';
 
 	if (isset($args['prefix']) && strpos($args['prefix'], 'product') !== false) {
 		$selector = 'main#main';
@@ -98,7 +98,7 @@ function blocksy_sync_single_post_container($args = []) {
 }
 
 function blocksy_replace_current_template() {
-	$tag_templates = array(
+	$tag_templates = [
 		'is_embed'             => 'get_embed_template',
 		'is_404'               => 'get_404_template',
 		'is_search'            => 'get_search_template',
@@ -116,9 +116,9 @@ function blocksy_replace_current_template() {
 		'is_author'            => 'get_author_template',
 		'is_date'              => 'get_date_template',
 		'is_archive'           => 'get_archive_template',
-	);
+	];
 
-	$template      = false;
+	$template = false;
 
 	foreach ($tag_templates as $tag => $template_getter) {
 		if (call_user_func($tag)) {
@@ -142,7 +142,13 @@ function blocksy_replace_current_template() {
 		&&
 		strpos($template, $theme_directory) !== false
 		&&
-		! is_singular('courses')
+		(
+			! is_singular('courses')
+			&&
+			function_exists('tutor_course_enrolled_lead_info')
+			||
+			! function_exists('tutor_course_enrolled_lead_info')
+		)
 	) {
 		ob_start();
 
@@ -156,6 +162,7 @@ function blocksy_replace_current_template() {
 
 		return ob_get_clean();
 	}
+
 
 	if (
 		strpos($template, $theme_directory) !== false
@@ -187,7 +194,10 @@ function blocksy_replace_current_template() {
 		preg_match('/<main id="main".*?\\>/s', $content, $result);
 
 		$without_header = preg_split('/<main id="main".*?\\>/s', $content)[1];
-		$without_footer = preg_split('/<\\/main>/s', $without_header)[0];
+		$without_footer = preg_split(
+			'/<footer id="footer" class="ct-footer".*?\\>/s',
+			$without_header
+		)[0];
 
 		return $result[0] . $without_footer . '</main>';
 	}

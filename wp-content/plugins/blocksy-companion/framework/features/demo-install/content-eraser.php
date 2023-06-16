@@ -91,6 +91,7 @@ class DemoInstallContentEraser {
 			$term = get_term($term_id);
 
 			if (! $term) continue;
+			if (is_wp_error($term)) continue;
 
 			wp_delete_term($term_id, $term->taxonomy);
 		}

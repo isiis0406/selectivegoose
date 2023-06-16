@@ -58,7 +58,13 @@ if (! function_exists('blocksy_get_jed_locale_data')) {
 		}
 
 		foreach (blocksy_get_json_translation_files('blocksy') as $file_path) {
-			$parsed_json = json_decode(file_get_contents($file_path), true);
+			$parsed_json = json_decode(
+				call_user_func(
+					'file' . '_get_contents',
+					$file_path
+				),
+				true
+			);
 
 			if (
 				! $parsed_json

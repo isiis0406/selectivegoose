@@ -283,7 +283,7 @@ $options = [
 							],
 						],
 
-						blc_fs()->can_use_premium_code() ? [
+						function_exists('blc_fs') && blc_fs()->can_use_premium_code() ? [
 							'trending_block_location' => [
 								'label' => __('Display Location', 'blocksy-companion'),
 								'type' => 'ct-select',

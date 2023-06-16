@@ -28,7 +28,10 @@ $options = [
 					],
 				],
 
-				'settings' => blocksy_get_social_networks_list(),
+				'settings' => apply_filters(
+					'blocksy:header:socials:options:icon', 
+					blocksy_get_social_networks_list()
+				),
 				'desc' => sprintf(
 					// translators: placeholder here means the actual URL.
 					__( 'Configure the social links in General ➝ %sSocial Network Accounts%s.', 'blocksy' ),

@@ -102,9 +102,9 @@
 }
 
 .ct-icons-list {
+	flex: 1;
 	overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: calc(100% - 59px);
+	overflow-x: hidden;
 	padding: 0 14px;
 	box-sizing: border-box;
 
@@ -150,14 +150,16 @@
 }
 
 .ct-predefined-icons-container {
-	max-height: calc(100% - 43px);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
 
 	.ct-option-input {
 		padding: 14px;
 		border-bottom: 1px dashed #eee;
 
 		input[type='text'] {
-			--height: 30px;
+			--input-height: 30px;
 		}
 	}
 }

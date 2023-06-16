@@ -17,7 +17,8 @@ class Blocksy_Css_Injector {
 	 *
 	 * @var array $attr Attributes.
 	 */
-	private $attr = array();
+	private $attr = [];
+	private $additional_symbols = [];
 	private $selector_prefix = null;
 	private $fonts_manager = null;
 
@@ -48,7 +49,7 @@ class Blocksy_Css_Injector {
 			$this->selector_prefix = $args['selector_prefix'];
 		}
 
-		$this->additional_symbols = array('-', '%', 'px', 's');
+		$this->additional_symbols = ['-', '%', 'px', 's'];
 
 		if ($args['fonts_manager']) {
 			$this->fonts_manager = $args['fonts_manager'];

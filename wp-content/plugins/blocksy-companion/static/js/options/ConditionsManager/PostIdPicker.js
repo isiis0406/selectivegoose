@@ -74,16 +74,18 @@ const PostIdPicker = ({ condition, onChange }) => {
 						: condition.rule === 'page_ids'
 						? __('Select page', 'blocksy-companion')
 						: __('Custom Post Type ID', 'blocksy-companion'),
-				choices: allPosts
-					.filter(({ post_type }) =>
-						postTypeToDisplay === 'ct_cpt'
-							? post_type !== 'post' && post_type !== 'page'
-							: postTypeToDisplay === post_type
-					)
-					.map((post) => ({
-						key: post.ID,
-						value: post.post_title,
-					})),
+				choices: [
+					...allPosts
+						.filter(({ post_type }) =>
+							postTypeToDisplay === 'ct_cpt'
+								? post_type !== 'post' && post_type !== 'page'
+								: postTypeToDisplay === post_type
+						)
+						.map((post) => ({
+							key: post.ID,
+							value: post.post_title,
+						})),
+				],
 				search: true,
 			}}
 			value={currentPostId}

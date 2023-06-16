@@ -1,0 +1,109 @@
+{
+    "version": "0.4",
+    "title": "Jkit-Tab Description",
+    "type": "section",
+    "metadata": {
+        "template_type": "section-other",
+        "include_in_zip": "1",
+        "elementor_pro_required": null,
+        "wp_page_template": "elementor_canvas"
+    },
+    "content": [
+        {
+            "id": "536dcb50",
+            "settings": [],
+            "elements": [
+                {
+                    "id": "747b97a7",
+                    "settings": {
+                        "_column_size": 100,
+                        "_inline_size": null,
+                        "padding": {
+                            "unit": "px",
+                            "top": "0",
+                            "right": "0",
+                            "bottom": "0",
+                            "left": "0",
+                            "isLinked": true
+                        }
+                    },
+                    "elements": [
+                        {
+                            "id": "65ba56b",
+                            "settings": {
+                                "editor": "Lorem ipsum dolor sit amet, an sea sale simul. Nonumy essent menandri ne usu, enim dicant euismod no sed. At eum eius inani. Ius at sint velit, nec at labores scaevola prodesset. An est quem probatus, justo suscipit mea et. Reque porro placerat qui ut, cu pro esse tibique",
+                                "__globals__": {
+                                    "text_color": "globals\/colors?id=primary"
+                                }
+                            },
+                            "elements": [],
+                            "isInner": false,
+                            "widgetType": "text-editor",
+                            "elType": "widget"
+                        },
+                        {
+                            "id": "180df8ef",
+                            "settings": {
+                                "icon_list": [
+                                    {
+                                        "text": "Bombshell add-2-cups push-up padding",
+                                        "selected_icon": {
+                                            "value": "fas fa-circle",
+                                            "library": "fa-solid"
+                                        },
+                                        "_id": "5385db8"
+                                    },
+                                    {
+                                        "text": "Underwire",
+                                        "selected_icon": {
+                                            "value": "fas fa-circle",
+                                            "library": "fa-solid"
+                                        },
+                                        "_id": "6becb50"
+                                    },
+                                    {
+                                        "text": "Adjustable straps",
+                                        "selected_icon": {
+                                            "value": "fas fa-circle",
+                                            "library": "fa-solid"
+                                        },
+                                        "_id": "ab11ae4"
+                                    },
+                                    {
+                                        "text": "Keyhole back",
+                                        "selected_icon": {
+                                            "value": "fas fa-circle",
+                                            "library": "fa-solid"
+                                        },
+                                        "_id": "7a2219d"
+                                    }
+                                ],
+                                "space_between": {
+                                    "unit": "px",
+                                    "size": 10,
+                                    "sizes": []
+                                },
+                                "icon_size": {
+                                    "unit": "px",
+                                    "size": 6,
+                                    "sizes": []
+                                },
+                                "__globals__": {
+                                    "text_color": "globals\/colors?id=primary"
+                                }
+                            },
+                            "elements": [],
+                            "isInner": false,
+                            "widgetType": "icon-list",
+                            "elType": "widget"
+                        }
+                    ],
+                    "isInner": false,
+                    "elType": "column"
+                }
+            ],
+            "isInner": false,
+            "elType": "section"
+        }
+    ]
+}

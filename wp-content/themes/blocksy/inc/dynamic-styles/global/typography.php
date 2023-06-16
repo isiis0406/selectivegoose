@@ -126,7 +126,18 @@ blocksy_output_font_css([
 
 blocksy_output_font_css([
 	'font_value' => get_theme_mod(
-		'blockquote',
+		'quote',
+		blocksy_typography_default_values([])
+	),
+	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
+	'selector' => '.wp-block-quote'
+]);
+
+blocksy_output_font_css([
+	'font_value' => get_theme_mod(
+		'pullquote',
 		blocksy_typography_default_values([
 			'family' => 'Georgia',
 			'size' => '25px',
@@ -136,7 +147,7 @@ blocksy_output_font_css([
 	'css' => $css,
 	'tablet_css' => $tablet_css,
 	'mobile_css' => $mobile_css,
-	'selector' => '.wp-block-quote.is-style-large p, .wp-block-pullquote p, .ct-quote-widget blockquote'
+	'selector' => '.wp-block-pullquote, .ct-quote-widget blockquote'
 ]);
 
 blocksy_output_font_css([

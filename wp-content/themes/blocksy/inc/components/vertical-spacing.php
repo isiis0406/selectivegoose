@@ -1,10 +1,22 @@
 <?php
 
-function blocksy_get_v_spacing() {
-	$v_spacing_output = 'data-vertical-spacing="top:bottom"';
+function blocksy_get_v_spacing($args = []) {
+	$args = wp_parse_args(
+		$args,
+		[
+			'array' => false
+		]
+	);
 
-	if (is_singular() || blocksy_is_page()) {
-		$prefix = blocksy_manager()->screen->get_prefix();
+	$v_spacing_output = [
+		'data-vertical-spacing' => 'top:bottom'
+	];
+
+	$prefix = blocksy_manager()->screen->get_prefix();
+
+	if (is_singular() || blocksy_is_page([
+		'blog_is_page' => false
+	])) {
 		$post_options = blocksy_get_post_options();
 
 		$page_vertical_spacing_source = blocksy_default_akg(
@@ -44,11 +56,20 @@ function blocksy_get_v_spacing() {
 			$v_spacing_components[] = 'bottom';
 		}
 
-		$v_spacing_output = empty($v_spacing_components) ? '' : 'data-vertical-spacing="' . implode(
-			':',
-			$v_spacing_components
-		) . '"';
+		$v_spacing_output = [];
+
+		if (! empty($v_spacing_components)) {
+			$v_spacing_output['data-vertical-spacing'] = implode(':', $v_spacing_components);
+		}
 	}
 
-	return $v_spacing_output;
+	if ($args['array']) {
+		return $v_spacing_output;
+	}
+
+	if (empty($v_spacing_output)) {
+		return '';
+	}
+
+	return 'data-vertical-spacing="' . $v_spacing_output['data-vertical-spacing'] . '"';
 }

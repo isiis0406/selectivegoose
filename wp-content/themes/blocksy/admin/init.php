@@ -130,6 +130,10 @@ add_action(
 				'nonce' => wp_create_nonce('ct-ajax-nonce'),
 				'public_url' => get_template_directory_uri() . '/static/bundle/',
 				'static_public_url' => get_template_directory_uri() . '/static/',
+				'dismissed_google_fonts_notice' => get_option(
+					'dismissed-blocksy_google_fonts_notice',
+					'no'
+				) === 'yes',
 				'ajax_url' => admin_url('admin-ajax.php'),
 				'rest_url' => get_rest_url(),
 				'customizer_url' => admin_url('/customize.php?autofocus'),

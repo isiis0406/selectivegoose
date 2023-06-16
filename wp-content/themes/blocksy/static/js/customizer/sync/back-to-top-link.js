@@ -1,40 +1,25 @@
 import { responsiveClassesFor } from './helpers'
-import { checkAndReplace } from './helpers'
 import ctEvents from 'ct-events'
 
-checkAndReplace({
-	id: 'has_back_top',
+const render = () => {
+	const backTop = document.querySelector('.ct-back-to-top')
 
-	parent_selector: 'body',
-	selector: '.ct-back-to-top',
-	fragment_id: 'back-to-top-link',
+	ctEvents.trigger('ct:back-to-top:mount')
 
-	strategy: 'append',
+	responsiveClassesFor('back_top_visibility', backTop)
 
-	watch: [
-		'top_button_type',
-		'top_button_shape',
-		'top_button_alignment',
-		'back_top_visibility',
-	],
+	backTop.dataset.shape = wp.customize('top_button_shape')()
+	backTop.dataset.alignment = wp.customize('top_button_alignment')()
+}
 
-	beforeInsert: (el) =>
-		window.scrollY > 500
-			? el.classList.add('ct-show')
-			: el.classList.remove('ct-show'),
+wp.customize('top_button_shape', (val) => {
+	val.bind((to) => render())
+})
 
-	whenInserted: () => {
-		const backTop = document.querySelector('.ct-back-to-top')
+wp.customize('top_button_alignment', (val) => {
+	val.bind((to) => render())
+})
 
-		ctEvents.trigger('ct:back-to-top:mount')
-
-		responsiveClassesFor('back_top_visibility', backTop)
-
-		backTop.innerHTML = document.querySelector(
-			`.ct-back-to-top [data-top="${wp.customize('top_button_type')()}"]`
-		).innerHTML
-
-		backTop.dataset.shape = wp.customize('top_button_shape')()
-		backTop.dataset.alignment = wp.customize('top_button_alignment')()
-	},
+wp.customize('back_top_visibility', (val) => {
+	val.bind((to) => render())
 })

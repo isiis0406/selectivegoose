@@ -97,16 +97,16 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		$this->maybe_init_pre_orders();
 
 		// Get setting values.
-		$this->title                = $this->get_option( 'title' );
-		$this->description          = $this->get_option( 'description' );
+		$this->title                = $this->get_validated_option( 'title' );
+		$this->description          = $this->get_validated_option( 'description' );
 		$this->enabled              = $this->get_option( 'enabled' );
 		$this->testmode             = 'yes' === $this->get_option( 'testmode' );
 		$this->inline_cc_form       = 'yes' === $this->get_option( 'inline_cc_form' );
 		$this->capture              = 'yes' === $this->get_option( 'capture', 'yes' );
-		$this->statement_descriptor = WC_Stripe_Helper::clean_statement_descriptor( $this->get_option( 'statement_descriptor' ) );
+		$this->statement_descriptor = WC_Stripe_Helper::clean_statement_descriptor( $this->get_validated_option( 'statement_descriptor' ) );
 		$this->saved_cards          = 'yes' === $this->get_option( 'saved_cards' );
-		$this->secret_key           = $this->testmode ? $this->get_option( 'test_secret_key' ) : $this->get_option( 'secret_key' );
-		$this->publishable_key      = $this->testmode ? $this->get_option( 'test_publishable_key' ) : $this->get_option( 'publishable_key' );
+		$this->secret_key           = $this->testmode ? $this->get_validated_option( 'test_secret_key' ) : $this->get_validated_option( 'secret_key' );
+		$this->publishable_key      = $this->testmode ? $this->get_validated_option( 'test_publishable_key' ) : $this->get_validated_option( 'publishable_key' );
 		$this->payment_request      = 'yes' === $this->get_option( 'payment_request', 'yes' );
 
 		WC_Stripe_API::set_secret_key( $this->secret_key );
@@ -184,17 +184,15 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		global $wp;
 		$user                 = wp_get_current_user();
 		$display_tokenization = $this->supports( 'tokenization' ) && is_checkout() && $this->saved_cards;
-		$total                = WC()->cart->total;
 		$user_email           = '';
 		$description          = $this->get_description();
 		$description          = ! empty( $description ) ? $description : '';
 		$firstname            = '';
 		$lastname             = '';
 
-		// If paying from order, we need to get total from order not cart.
-		if ( isset( $_GET['pay_for_order'] ) && ! empty( $_GET['key'] ) ) { // wpcs: csrf ok.
-			$order      = wc_get_order( wc_clean( $wp->query_vars['order-pay'] ) ); // wpcs: csrf ok, sanitization ok.
-			$total      = $order->get_total();
+		// If paying for order, we need to get email from the order not the user account.
+		if ( parent::is_valid_pay_for_order_endpoint() ) {
+			$order      = wc_get_order( wc_clean( $wp->query_vars['order-pay'] ) );
 			$user_email = $order->get_billing_email();
 		} else {
 			if ( $user->ID ) {
@@ -393,14 +391,6 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 				$prepared_source = $this->prepare_source( get_current_user_id(), $force_save_source, $stripe_customer_id );
 			}
 
-			// If we are using a saved payment method that is PaymentMethod (pm_) and not a Source (src_) we need to use
-			// the process_payment() from the UPE gateway which uses the PaymentMethods API instead of Sources API.
-			// This happens when using a saved payment method that was added with the UPE gateway.
-			if ( $this->is_using_saved_payment_method() && ! empty( $prepared_source->source ) && substr( $prepared_source->source, 0, 3 ) === 'pm_' ) {
-				$upe_gateway = new WC_Stripe_UPE_Payment_Gateway();
-				return $upe_gateway->process_payment_with_saved_payment_method( $order_id );
-			}
-
 			$this->maybe_disallow_prepaid_card( $prepared_source->source_object );
 			$this->check_source( $prepared_source );
 			$this->save_source_to_order( $order, $prepared_source );
@@ -457,7 +447,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 
 						return [
 							'result'   => 'success',
-							'redirect' => $redirect_url,
+							'redirect' => wp_sanitize_redirect( esc_url_raw( $redirect_url ) ),
 						];
 					} else {
 						/**
@@ -519,7 +509,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		$user_id  = get_current_user_id();
 		$customer = new WC_Stripe_Customer( $user_id );
 
-		if ( ( $user_id && 'reusable' === $source_object->usage ) ) {
+		if ( ( $user_id && WC_Stripe_Helper::is_reusable_payment_method( $source_object ) ) ) {
 			$response = $customer->add_source( $source_object->id );
 
 			if ( ! empty( $response->error ) ) {
@@ -819,14 +809,22 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		$verification_url = add_query_arg( $query_params, WC_AJAX::get_endpoint( 'wc_stripe_verify_intent' ) );
 
 		if ( isset( $result['payment_intent_secret'] ) ) {
-			$redirect = sprintf( '#confirm-pi-%s:%s', $result['payment_intent_secret'], rawurlencode( $verification_url ) );
+			$redirect_signature = sprintf(
+				'#confirm-pi-%s:%s',
+				$result['payment_intent_secret'],
+				rawurlencode( wp_sanitize_redirect( esc_url_raw( $verification_url ) ) )
+			);
 		} elseif ( isset( $result['setup_intent_secret'] ) ) {
-			$redirect = sprintf( '#confirm-si-%s:%s', $result['setup_intent_secret'], rawurlencode( $verification_url ) );
+			$redirect_signature = sprintf(
+				'#confirm-si-%s:%s',
+				$result['setup_intent_secret'],
+				rawurlencode( wp_sanitize_redirect( esc_url_raw( $verification_url ) ) )
+			);
 		}
 
 		return [
 			'result'   => 'success',
-			'redirect' => $redirect,
+			'redirect' => $redirect_signature, // This signature will be used by JS to redirect to the proper URL.
 		];
 	}
 
@@ -952,7 +950,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		if ( isset( $_GET['wc-stripe-confirmation'] ) && isset( $wp->query_vars['order-pay'] ) && $wp->query_vars['order-pay'] == $order->get_id() ) {
 			$pay_url = add_query_arg( 'wc-stripe-confirmation', 1, $pay_url );
 		}
-		return $pay_url;
+		return esc_url_raw( $pay_url );
 	}
 
 	/**
@@ -992,7 +990,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 	public function validate_publishable_key_field( $key, $value ) {
 		$value = $this->validate_text_field( $key, $value );
 		if ( ! empty( $value ) && ! preg_match( '/^pk_live_/', $value ) ) {
-			throw new Exception( __( 'The "Live Publishable Key" should start with "pk_live", enter the correct key.', 'woocommerce-gateway-stripe' ) );
+			return '';
 		}
 		return $value;
 	}
@@ -1000,7 +998,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 	public function validate_secret_key_field( $key, $value ) {
 		$value = $this->validate_text_field( $key, $value );
 		if ( ! empty( $value ) && ! preg_match( '/^[rs]k_live_/', $value ) ) {
-			throw new Exception( __( 'The "Live Secret Key" should start with "sk_live" or "rk_live", enter the correct key.', 'woocommerce-gateway-stripe' ) );
+			return '';
 		}
 		return $value;
 	}
@@ -1008,7 +1006,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 	public function validate_test_publishable_key_field( $key, $value ) {
 		$value = $this->validate_text_field( $key, $value );
 		if ( ! empty( $value ) && ! preg_match( '/^pk_test_/', $value ) ) {
-			throw new Exception( __( 'The "Test Publishable Key" should start with "pk_test", enter the correct key.', 'woocommerce-gateway-stripe' ) );
+			return '';
 		}
 		return $value;
 	}
@@ -1016,7 +1014,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 	public function validate_test_secret_key_field( $key, $value ) {
 		$value = $this->validate_text_field( $key, $value );
 		if ( ! empty( $value ) && ! preg_match( '/^[rs]k_test_/', $value ) ) {
-			throw new Exception( __( 'The "Test Secret Key" should start with "sk_test" or "rk_test", enter the correct key.', 'woocommerce-gateway-stripe' ) );
+			return '';
 		}
 		return $value;
 	}
@@ -1035,50 +1033,6 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 			}
 		}
 		return $settings;
-	}
-
-	/**
-	 * This is overloading the title type so the oauth url is only fetched if we are on the settings page.
-	 *
-	 * @param string $key Field key.
-	 * @param array  $data Field data.
-	 * @return string
-	 */
-	public function generate_stripe_account_keys_html( $key, $data ) {
-		if ( woocommerce_gateway_stripe()->connect->is_connected() ) {
-			$reset_link = add_query_arg(
-				[
-					'_wpnonce'                     => wp_create_nonce( 'reset_stripe_api_credentials' ),
-					'reset_stripe_api_credentials' => true,
-				],
-				admin_url( 'admin.php?page=wc-settings&tab=checkout&section=stripe' )
-			);
-
-			$api_credentials_text = sprintf(
-			/* translators: %1, %2, %3, and %4 are all HTML markup tags */
-				__( '%1$sClear all Stripe account keys.%2$s %3$sThis will disable any connection to Stripe.%4$s', 'woocommerce-gateway-stripe' ),
-				'<a id="wc_stripe_connect_button" href="' . $reset_link . '" class="button button-secondary">',
-				'</a>',
-				'<span style="color:red;">',
-				'</span>'
-			);
-		} else {
-			$oauth_url = woocommerce_gateway_stripe()->connect->get_oauth_url();
-
-			if ( ! is_wp_error( $oauth_url ) ) {
-				$api_credentials_text = sprintf(
-				/* translators: %1, %2 and %3 are all HTML markup tags */
-					__( '%1$sSet up or link an existing Stripe account.%2$s By clicking this button you agree to the %3$sTerms of Service%2$s. Or, manually enter Stripe account keys below.', 'woocommerce-gateway-stripe' ),
-					'<a id="wc_stripe_connect_button" href="' . $oauth_url . '" class="button button-primary">',
-					'</a>',
-					'<a href="https://wordpress.com/tos">'
-				);
-			} else {
-				$api_credentials_text = __( 'Manually enter Stripe keys below.', 'woocommerce-gateway-stripe' );
-			}
-		}
-		$data['description'] = $api_credentials_text;
-		return $this->generate_title_html( $key, $data );
 	}
 
 	/**
@@ -1246,5 +1200,58 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		}
 
 		return $settings;
+	}
+
+	/**
+	 * Validates a field value before updating.
+	 *
+	 * @param string $field_key the form field key.
+	 * @param string $field_value the form field value.
+	 *
+	 * @return bool True if the value was updated, false otherwise.
+	 */
+	public function update_validated_option( $field_key, $field_value ) {
+		$validated_field_value = $this->validate_field( $field_key, $field_value );
+		return $this->update_option( $field_key, $validated_field_value );
+	}
+
+	/**
+	 * Retrieves validated field value.
+	 *
+	 * @param string $field_key the form field key.
+	 * @param mixed $empty_value fallback value.
+	 *
+	 * @return string validated field value.
+	 */
+	public function get_validated_option( $field_key, $empty_value = null ) {
+		$value = parent::get_option( $field_key, $empty_value );
+		return $this->validate_field( $field_key, $value );
+	}
+
+	/**
+	 * Ensures validated field values.
+	 *
+	 * @param string $field_key the form field key.
+	 * @param string $field_value the form field value.
+	 *
+	 * @return string validated field value.
+	 */
+	private function validate_field( $field_key, $field_value ) {
+		if ( is_callable( [ $this, 'validate_' . $field_key . '_field' ] ) ) {
+			return $this->{'validate_' . $field_key . '_field'}( $field_key, $field_value );
+		}
+
+		if ( empty( $this->form_fields ) ) {
+			$this->init_form_fields();
+		}
+		if ( key_exists( $field_key, $this->form_fields ) ) {
+			$field_type = $this->form_fields[ $field_key ]['type'];
+
+			if ( is_callable( [ $this, 'validate_' . $field_type . '_field' ] ) ) {
+				return $this->{'validate_' . $field_type . '_field'}( $field_key, $field_value );
+			}
+		}
+
+		return $this->validate_text_field( $field_key, $field_value );
 	}
 }

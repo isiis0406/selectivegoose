@@ -234,7 +234,7 @@ class ExtensionsManager {
 	}
 
 	private function register_fake_extensions() {
-		if (blc_fs()->can_use_premium_code()) {
+		if (function_exists('blc_fs') && blc_fs()->can_use_premium_code()) {
 			return;
 		}
 
@@ -441,6 +441,10 @@ class ExtensionsManager {
 	}
 
 	private function read_readme_for($path) {
+		if (! $path) {
+			return null;
+		}
+
 		$readme = '';
 
 		ob_start();

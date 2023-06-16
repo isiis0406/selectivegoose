@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7bdc24c7e7155c0e5d8285672b5d2b6c
+class ComposerStaticInit6467fdf5537603a03081e16fc115241d
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -26,6 +26,7 @@ class ComposerStaticInit7bdc24c7e7155c0e5d8285672b5d2b6c
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
             'Symfony\\Component\\CssSelector\\' => 30,
+            'Stripe\\' => 7,
         ),
     );
 
@@ -54,20 +55,17 @@ class ComposerStaticInit7bdc24c7e7155c0e5d8285672b5d2b6c
         array (
             0 => __DIR__ . '/..' . '/symfony/css-selector',
         ),
-    );
-
-    public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'XLSXWriter' => __DIR__ . '/..' . '/mk-j/php_xlsxwriter/xlsxwriter.class.php',
-        'XLSXWriter_BuffererWriter' => __DIR__ . '/..' . '/mk-j/php_xlsxwriter/xlsxwriter.class.php',
+        'Stripe\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
+        ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7bdc24c7e7155c0e5d8285672b5d2b6c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7bdc24c7e7155c0e5d8285672b5d2b6c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit7bdc24c7e7155c0e5d8285672b5d2b6c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6467fdf5537603a03081e16fc115241d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6467fdf5537603a03081e16fc115241d::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

@@ -12,33 +12,32 @@ import classnames from 'classnames'
 import { DemosContext } from '../../DemoInstall'
 import Checkbox from '../../../helpers/Checkbox'
 
-export const getNameForPlugin = (plugin) =>
-	((
-		{
-			coblocks: 'CoBlocks',
-			'contact-form-7': 'Contact Form 7',
-			woocommerce: 'WooCommerce',
-			elementor: 'Elementor',
-			brizy: 'Brizy',
-			getwid: 'Getwid',
-			'wpforms-lite': 'WPForms - Contact Form',
-			'simply-gallery-block': 'SimpLy Gallery Block & Lightbox',
-			'recipe-card-blocks-by-wpzoom': 'Recipe Card Blocks by WPZOOM',
-			'stackable-ultimate-gutenberg-blocks': 'Stackable – Gutenberg Blocks',
-			'map-block-gutenberg': 'Map Block for Google Maps',
-			'mb-custom-post-type': 'MB Custom Post Types & Custom Taxonomies',
-			'leadin': 'HubSpot',
-			'block-slider': 'Block Slider',
-		}[plugin] || plugin
-	).replace(/\b\w/, (v) => v.toUpperCase()))
+export const getPluginsMap = (plugins) => ({
+	'stackable-ultimate-gutenberg-blocks': 'Stackable - Gutenberg Blocks',
+	'wpforms-lite': 'WPForms - Contact Form',
+	woocommerce: 'WooCommerce',
+	elementor: 'Elementor',
+	brizy: 'Brizy',
+	getwid: 'Getwid',
+	'simply-gallery-block': 'SimpLy Gallery Block & Lightbox',
+	'recipe-card-blocks-by-wpzoom': 'Recipe Card Blocks by WPZOOM',
+	'map-block-gutenberg': 'Map Block for Google Maps',
+	'mb-custom-post-type': 'MB Custom Post Types & Custom Taxonomies',
+	leadin: 'HubSpot',
+	'block-slider': 'Block Slider',
+	'ht-slider-for-elementor': 'HT Slider For Elementor',
+	'modula-best-grid-gallery': 'Modula - Image Gallery',
+})
+
+export const getNameForPlugin = (plugin) => {
+	return (getPluginsMap()[plugin] || plugin).replace(/\b\w/, (v) =>
+		v.toUpperCase()
+	)
+}
 
 const Plugins = ({ demoConfiguration, setDemoConfiguration, style }) => {
-	const {
-		currentDemo,
-		demos_list,
-		pluginsStatus,
-		setCurrentDemo,
-	} = useContext(DemosContext)
+	const { currentDemo, demos_list, pluginsStatus, setCurrentDemo } =
+		useContext(DemosContext)
 
 	const [properDemoName, _] = (currentDemo || '').split(':')
 

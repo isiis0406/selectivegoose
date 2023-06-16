@@ -69,6 +69,9 @@ export const updateAndSaveEl = (
 					...document.querySelectorAll(
 						`header#header [data-device="${onlyView}"] ${selector}`
 					),
+					...document.querySelectorAll(
+						`#offcanvas [data-device="${onlyView}"] ${selector}`
+					),
 			  ]
 			: [
 					...document.querySelectorAll(`header#header ${selector}`),
@@ -95,4 +98,3 @@ export {
 } from './sync/helpers'
 export { responsiveClassesFor } from './sync/helpers'
 export { typographyOption } from './sync/variables/typography'
-export { checkAndReplace } from './sync/helpers'

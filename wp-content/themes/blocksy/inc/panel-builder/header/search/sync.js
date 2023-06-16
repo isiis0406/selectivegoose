@@ -346,6 +346,26 @@ ctEvents.on(
 				},
 			],
 
+			search_close_button_icon_size: {
+				selector: assembleSelector(
+					`${
+						getRootSelectorFor({ itemId })[0]
+					} #search-modal .ct-toggle-close`
+				),
+				variable: 'icon-size',
+				unit: 'px',
+			},
+
+			search_close_button_border_radius: {
+				selector: assembleSelector(
+					`${
+						getRootSelectorFor({ itemId })[0]
+					} #search-modal .ct-toggle-close`
+				),
+				variable: 'toggle-button-radius',
+				unit: 'px',
+			},
+
 			...handleBackgroundOptionFor({
 				id: 'searchHeaderBackground',
 
@@ -423,17 +443,42 @@ ctEvents.on('ct:header:sync:item:search', ({ optionId, optionValue }) => {
 	}
 
 	if (optionId === 'header_search_placeholder') {
-		document.querySelector(
-			'#search-modal [type="search"]'
-		).placeholder = optionValue
+		document.querySelector('#search-modal [type="search"]').placeholder =
+			optionValue
 	}
 
 	if (optionId === 'searchHeaderImages') {
 		let searchModal = document.querySelector(
 			'#search-modal [data-live-results]'
 		)
+		let liveResultsAttr = searchModal.dataset.liveResults.split(':')
+		if (optionValue === 'yes') {
+			liveResultsAttr.push('thumbs')
+		} else {
+			liveResultsAttr = liveResultsAttr.filter(
+				(attr) => attr !== 'thumbs'
+			)
+		}
 
-		searchModal.dataset.liveResults = optionValue === 'yes' ? 'thumbs' : ''
+		searchModal.dataset.liveResults = liveResultsAttr.join(':')
+	}
+
+	if (optionId === 'searchHeaderProductPrice') {
+		let searchModal = document.querySelector(
+			'#search-modal [data-live-results]'
+		)
+		let liveResultsAttr = searchModal.dataset.liveResults.split(':')
+		if (optionValue === 'yes') {
+			liveResultsAttr.push('product_price')
+		} else {
+			liveResultsAttr = liveResultsAttr.filter(
+				(attr) => attr !== 'product_price'
+			)
+		}
+
+		searchModal.dataset.liveResults = liveResultsAttr.join(':')
+		searchModal.querySelector('[name="ct_product_price"]').value =
+			optionValue === 'yes'
 	}
 
 	if (optionId === 'search_close_button_type') {

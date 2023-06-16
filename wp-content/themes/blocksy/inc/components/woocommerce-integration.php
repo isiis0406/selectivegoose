@@ -3,6 +3,7 @@
 require get_template_directory() . '/inc/components/woocommerce/general.php';
 
 require get_template_directory() . '/inc/components/woocommerce/common/checkout.php';
+require get_template_directory() . '/inc/components/woocommerce/common/cart.php';
 require get_template_directory() . '/inc/components/woocommerce/common/account.php';
 require get_template_directory() . '/inc/components/woocommerce/common/store-notice.php';
 require get_template_directory() . '/inc/components/woocommerce/common/mini-cart.php';
@@ -83,6 +84,8 @@ add_action('wp_enqueue_scripts', function () {
 }, 100);
 
 add_action('wp_enqueue_scripts', function () {
+	wp_enqueue_script('wc-cart-fragments');
+
 	// return;
 	if (! function_exists('is_shop')) return;
 

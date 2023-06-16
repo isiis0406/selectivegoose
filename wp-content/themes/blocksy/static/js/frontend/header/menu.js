@@ -1,4 +1,5 @@
 import { isTouchDevice } from '../helpers/is-touch-device'
+import { isIosDevice } from '../helpers/is-ios-device'
 
 const isRtl = () => document.querySelector('html').dir === 'rtl'
 
@@ -36,14 +37,6 @@ function furthest(el, s) {
 
 	return nodes[nodes.length - 1]
 }
-
-const isIosDevice =
-	typeof window !== 'undefined' &&
-	window.navigator &&
-	window.navigator.platform &&
-	(/iP(ad|hone|od)/.test(window.navigator.platform) ||
-		(window.navigator.platform === 'MacIntel' &&
-			window.navigator.maxTouchPoints > 1))
 
 const getPreferedPlacementFor = (el) => {
 	const farmost = furthest(el, 'li.menu-item')
@@ -127,6 +120,10 @@ const openSubmenu = (e) => {
 }
 
 const closeSubmenu = (e) => {
+	if (!e.target) {
+		return
+	}
+
 	const li = e.target.closest('li')
 	li.classList.remove('ct-active')
 
@@ -140,6 +137,7 @@ const closeSubmenu = (e) => {
 
 	if (childIndicator) {
 		childIndicator.setAttribute('aria-expanded', 'false')
+
 		if (childIndicator.tagName.toLowerCase() === 'button') {
 			childIndicator.setAttribute(
 				'aria-label',
@@ -155,7 +153,7 @@ const closeSubmenu = (e) => {
 		;[...li.querySelectorAll('.ct-active')].map((el) => {
 			el.classList.remove('ct-active')
 		})
-	}, 100)
+	}, 30)
 }
 
 export const mountMenuLevel = (menuLevel, args = {}) => {
@@ -193,24 +191,38 @@ export const mountMenuLevel = (menuLevel, args = {}) => {
 				'[data-interaction*="click"] *'
 			)
 
+			if (!el.hasFocusEventListener) {
+				el.hasFocusEventListener = true
+
+				el.addEventListener('keydown', function (e) {
+					if (e.keyCode == 27) {
+						closeSubmenu({
+							target: el.firstElementChild,
+						})
+					}
+				})
+
+				el.addEventListener('focusout', (evt) => {
+					if (el.contains(evt.relatedTarget)) {
+						return
+					}
+
+					closeSubmenu({
+						target: el.firstElementChild,
+					})
+				})
+			}
+
 			if (!hasClickInteraction) {
 				el.addEventListener('mouseenter', (e) => {
 					// So that mouseenter event is catched before the open itself
-					if (isIosDevice) {
+					if (isIosDevice()) {
 						openSubmenu({ target: el.firstElementChild })
 					} else {
 						requestAnimationFrame(() => {
 							openSubmenu({ target: el.firstElementChild })
 						})
 					}
-
-					e.target
-						.closest('li')
-						.addEventListener('focusout', (evt) => {
-							if (!e.target.closest('li').contains(evt.target)) {
-								closeSubmenu(e)
-							}
-						})
 
 					// If first level
 					if (!el.parentNode.classList.contains('.sub-menu')) {
@@ -269,7 +281,7 @@ export const mountMenuLevel = (menuLevel, args = {}) => {
 						} else {
 							openSubmenu(e)
 
-							if (isIosDevice) {
+							if (isIosDevice()) {
 								e.target.closest('li').addEventListener(
 									'mouseleave',
 									() => {
@@ -281,36 +293,24 @@ export const mountMenuLevel = (menuLevel, args = {}) => {
 								)
 							}
 
-							// Add the event a bit later
-							setTimeout(() => {
-								document.addEventListener(
-									'click',
-									(evt) => {
-										if (
-											!e.target
-												.closest('li')
-												.contains(evt.target)
-										) {
-											closeSubmenu(e)
+							if (!e.target.hasDocumentListener) {
+								e.target.hasDocumentListener = true
+								// Add the event a bit later
+								setTimeout(() => {
+									document.addEventListener(
+										'click',
+										(evt) => {
+											if (
+												!e.target
+													.closest('li')
+													.contains(evt.target)
+											) {
+												closeSubmenu(e)
+											}
 										}
-									},
-									{
-										once: true,
-									}
-								)
-							})
-
-							e.target
-								.closest('li')
-								.addEventListener('focusout', (evt) => {
-									if (
-										!e.target
-											.closest('li')
-											.contains(evt.target)
-									) {
-										closeSubmenu(e)
-									}
+									)
 								})
+							}
 						}
 					})
 				}
@@ -326,16 +326,6 @@ export const mountMenuLevel = (menuLevel, args = {}) => {
 						closeSubmenu(e)
 					} else {
 						openSubmenu(e)
-
-						e.target
-							.closest('li')
-							.addEventListener('focusout', (evt) => {
-								if (
-									!e.target.closest('li').contains(evt.target)
-								) {
-									closeSubmenu(e)
-								}
-							})
 					}
 				})
 			}

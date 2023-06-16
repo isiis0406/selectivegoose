@@ -1,6 +1,9 @@
 .ct-breadcrumbs {
 	color: var(--color);
+}
 
+.ct-breadcrumbs[data-source="default"] {
+	
 	> span {
 		display: inline-flex;
 		align-items: center;
@@ -9,16 +12,6 @@
 		.separator {
 			margin: 0 8px;
 		}
-	}
-
-	.first-item, .last-item {
-		svg + span {
-			display: none;
-		}
-	}
-
-	svg {
-		fill: currentColor;
 	}
 
 	.ct-home-icon {

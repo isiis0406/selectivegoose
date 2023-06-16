@@ -9,7 +9,7 @@ namespace Automattic\WooCommerce\Admin\API;
 
 use Automattic\WooCommerce\Internal\Admin\Onboarding\OnboardingIndustries;
 use Automattic\WooCommerce\Internal\Admin\Onboarding\OnboardingProfile;
-use Automattic\WooCommerce\Admin\Features\OnboardingTasks\Init as OnboardingTasksFeature;
+use Automattic\WooCommerce\Admin\Features\Features;
 use Automattic\WooCommerce\Admin\Features\OnboardingTasks\TaskLists;
 use Automattic\WooCommerce\Admin\Features\OnboardingTasks\DeprecatedExtendedTask;
 
@@ -295,10 +295,14 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	/**
 	 * Check if a given request has access to manage woocommerce.
 	 *
+	 * @deprecated 7.8.0 snooze task is deprecated.
+	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
 	 */
 	public function snooze_task_permissions_check( $request ) {
+		wc_deprecated_function( __CLASS__ . '::' . __FUNCTION__, '7.8.0' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			return new \WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to snooze onboarding tasks.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
@@ -340,12 +344,12 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public static function import_sample_products() {
-		$sample_csv_file = WC_ABSPATH . 'sample-data/sample_products.csv';
+		$sample_csv_file = Features::is_enabled( 'experimental-fashion-sample-products' ) ? WC_ABSPATH . 'sample-data/experimental_fashion_sample_9_products.csv' :
+		WC_ABSPATH . 'sample-data/experimental_sample_9_products.csv';
 
 		$import = self::import_sample_products_from_csv( $sample_csv_file );
 		return rest_ensure_response( $import );
 	}
-
 
 	/**
 	 * Creates a product from a template name passed in through the template_name param.
@@ -355,7 +359,7 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public static function create_product_from_template( $request ) {
-		$template_name = $request->get_param( 'template_name' );
+		$template_name = basename( $request->get_param( 'template_name' ) );
 		$template_path = __DIR__ . '/Templates/' . $template_name . '_product.csv';
 		$template_path = apply_filters( 'woocommerce_product_template_csv_file_path', $template_path, $template_name );
 
@@ -447,9 +451,11 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 			<p class="has-text-color has-text-align-center">' . __( 'Write a short welcome message here', 'woocommerce' ) . '</p>
 			<!-- /wp:paragraph -->
 
-			<!-- wp:button {"align":"center"} -->
-			<div class="wp-block-button aligncenter"><a href="' . esc_url( $shop_url ) . '" class="wp-block-button__link">' . __( 'Go shopping', 'woocommerce' ) . '</a></div>
-			<!-- /wp:button --></div></div>
+			<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+			<div class="wp-block-buttons"><!-- wp:button -->
+			<div class="wp-block-button"><a class="wp-block-button__link" href="' . esc_url( $shop_url ) . '">' . __( 'Go shopping', 'woocommerce' ) . '</a></div>
+			<!-- /wp:button --></div>
+			<!-- /wp:buttons --></div></div>
 			<!-- /wp:cover -->';
 		}
 
@@ -462,9 +468,11 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 		<p class="has-text-color has-text-align-center">' . __( 'Write a short welcome message here', 'woocommerce' ) . '</p>
 		<!-- /wp:paragraph -->
 
-		<!-- wp:button {"align":"center"} -->
-		<div class="wp-block-button aligncenter"><a href="' . esc_url( $shop_url ) . '" class="wp-block-button__link">' . __( 'Go shopping', 'woocommerce' ) . '</a></div>
-		<!-- /wp:button --></div></div>
+		<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+		<div class="wp-block-buttons"><!-- wp:button -->
+		<div class="wp-block-button"><a class="wp-block-button__link" href="' . esc_url( $shop_url ) . '">' . __( 'Go shopping', 'woocommerce' ) . '</a></div>
+		<!-- /wp:button --></div>
+		<!-- /wp:buttons --></div></div>
 		<!-- /wp:cover -->';
 	}
 
@@ -812,11 +820,15 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	/**
 	 * Snooze an onboarding task.
 	 *
+	 * @deprecated 7.8.0 snooze task is deprecated.
+	 *
 	 * @param WP_REST_Request $request Request data.
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function snooze_task( $request ) {
+		wc_deprecated_function( __CLASS__ . '::' . __FUNCTION__, '7.8.0' );
+
 		$task_id      = $request->get_param( 'id' );
 		$task_list_id = $request->get_param( 'task_list_id' );
 		$duration     = $request->get_param( 'duration' );
@@ -849,10 +861,14 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	/**
 	 * Undo snooze of a single task.
 	 *
+	 * @deprecated 7.8.0 undo snooze task is deprecated.
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Request|WP_Error
 	 */
 	public function undo_snooze_task( $request ) {
+		wc_deprecated_function( __CLASS__ . '::' . __FUNCTION__, '7.8.0' );
+
 		$id   = $request->get_param( 'id' );
 		$task = TaskLists::get_task( $id );
 

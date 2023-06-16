@@ -11,9 +11,8 @@
  * the readme will list any important changes.
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
- * @author  WooThemes
- * @package WooCommerce/Templates
- * @version 3.3.0
+ * @package WooCommerce\Templates
+ * @version 7.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <form role="search" method="get" class="woocommerce-product-search search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
 	<label class="screen-reader-text" for="woocommerce-product-search-field-<?php echo isset( $index ) ? absint( $index ) : 0; ?>"><?php esc_html_e( 'Search for:', 'blocksy' ); ?></label>
 	
-	<input type="search" id="woocommerce-product-search-field-<?php echo isset( $index ) ? absint( $index ) : 0; ?>" class="search-field" placeholder="<?php echo esc_attr__( 'Search products&hellip;', 'blocksy' ); ?>" value="<?php echo get_search_query(); ?>" name="s" />
+	<input type="search" id="woocommerce-product-search-field-<?php echo isset( $index ) ? absint( $index ) : 0; ?>" class="search-field" placeholder="<?php echo esc_attr__( 'Search products&hellip;', 'blocksy' ); ?>" value="<?php echo get_search_query(); ?>" name="s">
 
 	<button type="submit" class="search-submit" aria-label="<?php echo __('Search', 'blocksy')?>">
 		<svg class="ct-icon" width="15" height="15" viewBox="0 0 15 15">
@@ -34,6 +33,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<span data-loader="circles"><span></span><span></span><span></span></span>
 	</button>
 
-	<input type="hidden" name="post_type" value="product" />
+	<input type="hidden" name="post_type" value="product">
 </form>
-

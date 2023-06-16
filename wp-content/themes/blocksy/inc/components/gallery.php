@@ -18,6 +18,7 @@ function blocksy_flexy($args = []) {
 		'class' => '',
 
 		'size' => 'medium',
+		'lazyload' => true,
 		'href' => null,
 
 		'has_pills' => true,
@@ -101,7 +102,8 @@ function blocksy_flexy($args = []) {
 					'data-width' => $width,
 					'data-height' => $height
 				] : []),
-				'inner_content' => $args['slide_inner_content']
+				'inner_content' => $args['slide_inner_content'],
+				'lazyload' => $args['lazyload'],
 			];
 
 			if ($args['slide_image_args']) {
@@ -119,7 +121,7 @@ function blocksy_flexy($args = []) {
 			}
 
 			if (
-				$args['images_ratio'] === 'original'
+				( $args['images_ratio'] === 'original' || is_customize_preview() )
 				&&
 				$index === (intval($args['active_index']) - 1)
 			) {
@@ -229,7 +231,8 @@ if (! function_exists('blocksy_flexy_pills')) {
 			'pills_container_attr' => [],
 			'pills_have_arrows' => false,
 			'active_index' => 1,
-			'pills_arrows_class' => ''
+			'pills_arrows_class' => '',
+			'pills_class' => ''
 		]);
 
 		if ($args['pills_count'] === 0) return;
@@ -242,7 +245,13 @@ if (! function_exists('blocksy_flexy_pills')) {
 			$container_attr = ' ' . $container_attr;
 		}
 
-		echo '<div class="flexy-pills" data-type="' . $type . '">';
+		$class = 'flexy-pills';
+
+		if (! empty($args['pills_class'])) {
+			$class .= ' ' . $args['pills_class'];
+		}
+
+		echo '<div class="' . $class . '" data-type="' . $type . '">';
 		echo '<ol' . $container_attr . '>';
 
 		foreach (range(1, ceil($args['pills_count'])) as $index) {
@@ -261,7 +270,8 @@ if (! function_exists('blocksy_flexy_pills')) {
 					'html_atts' => [
 						'aria-label' => sprintf(__('Slide %s', 'blocksy'), $index)
 					],
-					'display_video' => 'pill'
+					'display_video' => 'pill',
+					'lazyload' => $args['lazyload']
 				]) . '</li>';
 
 				echo $image_output;

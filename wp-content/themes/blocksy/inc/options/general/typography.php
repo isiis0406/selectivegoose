@@ -109,9 +109,16 @@ $options = [
 				'setting' => [ 'transport' => 'postMessage' ],
 			],
 
-			'blockquote' => [
+			'quote' => [
 				'type' => 'ct-typography',
-				'label' => __( 'Blockquote', 'blocksy' ),
+				'label' => __( 'Quote', 'blocksy' ),
+				'value' => blocksy_typography_default_values([]),
+				'setting' => [ 'transport' => 'postMessage' ],
+			],
+
+			'pullquote' => [
+				'type' => 'ct-typography',
+				'label' => __( 'Pullquote', 'blocksy' ),
 				'value' => blocksy_typography_default_values([
 					'family' => 'Georgia',
 					'size' => '25px',

@@ -1,26 +1,8 @@
 <?php
 
-function blc_output_newsletter_subscribe_form_cache() {
-	if (! is_customize_preview()) return;
-
-	blocksy_add_customizer_preview_cache(
-		blocksy_html_tag(
-			'div',
-			[ 'data-id' => 'blocksy-mailchimp-subscribe' ],
-			blc_ext_newsletter_subscribe_form(true)
-		)
-	);
-}
-
-function blc_ext_newsletter_subscribe_form($forced = false) {
-	if (! $forced) {
-		blc_output_newsletter_subscribe_form_cache();
-	}
-
+function blc_ext_newsletter_subscribe_form() {
 	if (get_theme_mod('newsletter_subscribe_single_post_enabled', 'yes') !== 'yes') {
-		if (! $forced) {
-			return '';
-		}
+		return '';
 	}
 
 	if (
@@ -61,10 +43,6 @@ function blc_ext_newsletter_subscribe_form($forced = false) {
 			__('Your email', 'blocksy-companion')
 		)
 	];
-
-	if ($forced) {
-		$args['has_name'] = 'yes';
-	}
 
 	$list_id = null;
 
@@ -149,7 +127,7 @@ function blc_ext_newsletter_subscribe_output_form($args = []) {
 			<h3><?php echo esc_html($args['title']) ?></h3>
 		<?php } ?>
 
-		<?php if ($args['has_description']) { ?>
+		<?php if ($args['has_description'] && ! empty($args['description'])) { ?>
 			<p class="ct-newsletter-subscribe-description">
 				<?php echo $args['description'] ?>
 			</p>
@@ -157,26 +135,27 @@ function blc_ext_newsletter_subscribe_output_form($args = []) {
 
 		<form target="_blank" action="<?php echo esc_attr($form_url) ?>" method="post"
 			data-provider="<?php echo $provider_data['provider'] ?>"
-			class="ct-newsletter-subscribe-block-form" <?php echo $skip_submit_output ?>>
-			<section data-fields="<?php echo $fields_number ?>">
-				<?php if ($has_name) { ?>
-					<input type="text" name="FNAME" placeholder="<?php esc_attr_e($args['name_label'], 'blocksy-companion'); ?>" title="<?php echo __('Name', 'blocksy-companion') ?>" />
-				<?php } ?>
+			class="ct-newsletter-subscribe-block-form"
+			data-fields="<?php echo $fields_number ?>"
+			<?php echo $skip_submit_output ?>>
 
-				<input type="email" name="EMAIL" placeholder="<?php esc_attr_e($args['email_label'], 'blocksy-companion'); ?> *" title="<?php echo __('Email', 'blocksy-companion') ?>" required />
+			<?php if ($has_name) { ?>
+				<input type="text" name="FNAME" placeholder="<?php esc_attr_e($args['name_label'], 'blocksy-companion'); ?>" aria-label="<?php echo __('First name', 'blocksy-companion') ?>">
+			<?php } ?>
 
-				<button class="button">
-					<?php echo esc_html($args['button_text']) ?>
-				</button>
-			</section>
-
-			<div class="ct-newsletter-subscribe-message"></div>
+			<input type="email" name="EMAIL" placeholder="<?php esc_attr_e($args['email_label'], 'blocksy-companion'); ?> *" aria-label="<?php echo __('Email address', 'blocksy-companion') ?>" required>
 
 			<?php
 				if (function_exists('blocksy_ext_cookies_checkbox')) {
 					echo blocksy_ext_cookies_checkbox('subscribe');
 				}
 			?>
+
+			<button class="button">
+				<?php echo esc_html($args['button_text']) ?>
+			</button>
+
+			<div class="ct-newsletter-subscribe-message"></div>
 		</form>
 
 	</div>

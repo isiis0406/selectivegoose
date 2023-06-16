@@ -1,7 +1,4 @@
 .demo_store {
-	position: fixed;
-	left: var(--frame-size, 0px);
-	right: var(--frame-size, 0px);
 	margin: 0;
 	padding: 13px 60px 13px 30px;
 	font-size: 15px;
@@ -48,10 +45,14 @@
 
 	// position
 	&[data-position="top"] {
-		top: calc(var(--admin-bar, 0px) + var(--frame-size, 0px));
+		position: relative;
+		// top: calc(var(--admin-bar, 0px) + var(--frame-size, 0px));
 	}
 
 	&[data-position="bottom"] {
+		position: fixed;
+		left: var(--frame-size, 0px);
+		right: var(--frame-size, 0px);
 		bottom: var(--frame-size, 0px);
 	}
 }

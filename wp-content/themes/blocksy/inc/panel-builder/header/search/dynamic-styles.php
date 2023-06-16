@@ -385,7 +385,7 @@ blocksy_output_colors([
 	],
 ]);
 
-if (is_customize_preview() || $close_button_type === 'type-2') {
+if ($close_button_type === 'type-2') {
 	blocksy_output_colors([
 		'value' => blocksy_akg('search_close_button_border_color', $atts),
 		'default' => [
@@ -412,7 +412,7 @@ if (is_customize_preview() || $close_button_type === 'type-2') {
 	]);
 }
 
-if (is_customize_preview() || $close_button_type === 'type-3') {
+if ($close_button_type === 'type-3') {
 	blocksy_output_colors([
 		'value' => blocksy_akg('search_close_button_shape_color', $atts),
 		'default' => [
@@ -437,6 +437,31 @@ if (is_customize_preview() || $close_button_type === 'type-3') {
 			]
 		],
 	]);
+}
+
+$search_close_button_icon_size = blocksy_akg( 'search_close_button_icon_size', $atts, 12 );
+
+if ($search_close_button_icon_size !== 12) {
+	$css->put( 
+		blocksy_assemble_selector(
+			$root_selector[0] . ' #search-modal .ct-toggle-close'
+		),
+		'--icon-size: ' . $search_close_button_icon_size . 'px' 
+	);
+}
+
+
+if ($close_button_type !== 'type-1') {
+	$search_close_button_border_radius = blocksy_akg( 'search_close_button_border_radius', $atts, 5 );
+
+	if ($search_close_button_border_radius !== 5) {
+		$css->put( 
+			blocksy_assemble_selector(
+				$root_selector[0] . ' #search-modal .ct-toggle-close'
+			),
+			'--toggle-button-radius: ' . $search_close_button_border_radius . 'px' 
+		);
+	}
 }
 
 // Modal background

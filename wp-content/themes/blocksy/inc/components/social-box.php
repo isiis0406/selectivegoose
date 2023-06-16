@@ -9,7 +9,12 @@ if (! function_exists('blocksy_social_icons')) {
 				'type' => 'simple',
 				'size' => 'custom',
 				'fill' => false,
-				'hide_labels' => true,
+				'label_attr' => [],
+				'label_visibility' => [
+				  'desktop' => false,
+				  'tablet' => false,
+				  'mobile' => false,
+				],
 				'links_target' => false,
 				'links_rel' => false
 			]
@@ -33,7 +38,8 @@ if (! function_exists('blocksy_social_icons')) {
 		return blocksy_get_social_box([
 			'attr' => $attr,
 			'socials' => $socials_descriptor,
-			'hide_labels' => $args['hide_labels'],
+			'label_attr' => $args['label_attr'],
+			'label_visibility' => $args['label_visibility'],
 			'links_target' => $args['links_target'],
 			'links_rel' => $args['links_rel']
 		]);
@@ -145,7 +151,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Facebook',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -159,7 +164,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Twitter',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -173,7 +177,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Instagram',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -188,7 +191,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Pinterest',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -202,7 +204,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Dribbble',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -216,7 +217,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Deviantart',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -230,7 +230,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Behance',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -244,7 +243,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Unsplash',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -258,7 +256,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => '500px',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -272,7 +269,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'LinkedIn',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -286,7 +282,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'WordPress',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -300,7 +295,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Parler',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -314,7 +308,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Mastodon',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -328,7 +321,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Medium',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -342,7 +334,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Slack',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -356,7 +347,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'CodePen',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -370,7 +360,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Reddit',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -384,7 +373,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Twitch',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -398,7 +386,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'TikTok',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -412,7 +399,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Snapchat',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -426,7 +412,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Spotify',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -440,7 +425,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'SoundCloud',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -454,7 +438,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Bandcamp',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -468,7 +451,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => __( 'Apple Podcasts', 'blocksy' ),
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -482,7 +464,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Patreon',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -496,7 +477,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Alignable',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -510,7 +490,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Skype',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -524,7 +503,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'GitHub',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -538,7 +516,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'GitLab',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -552,7 +529,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'YouTube',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewbox="0 0 20 20"
@@ -566,7 +542,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Vimeo',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -580,7 +555,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'DTube',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -594,7 +568,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => __( 'VK', 'blocksy' ),
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -608,7 +581,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => __( 'Odnoklassniki', 'blocksy' ),
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -622,7 +594,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'RSS',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -636,7 +607,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => __( 'Facebook Group', 'blocksy' ),
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -650,7 +620,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => __( 'Facebook Messenger', 'blocksy' ),
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -664,7 +633,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Discord',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -678,7 +646,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'TripAdvisor',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -692,7 +659,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Foursquare',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -706,7 +672,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Yelp',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -720,7 +685,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Hacker News',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -734,7 +698,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Xing',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -748,7 +711,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'WhatsApp',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -762,7 +724,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Flipboard',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -777,7 +738,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Viber',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -791,7 +751,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Telegram',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -805,7 +764,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Line',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20px"
 				height="20px"
 				viewBox="0 0 20 20"
@@ -819,7 +777,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Weibo',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -833,7 +790,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Tumblr',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -847,7 +803,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'QQ',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -861,7 +816,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'WeChat',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -875,7 +829,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Strava',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -889,7 +842,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => 'Flickr',
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -904,7 +856,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => __( 'Phone', 'blocksy' ),
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -918,7 +869,6 @@ function blocksy_get_social_metadata($args = []) {
 			'name' => __( 'Email', 'blocksy' ),
 			'icon' => '
 				<svg
-				class="ct-icon"
 				width="20"
 				height="20"
 				viewBox="0 0 20 20"
@@ -952,6 +902,16 @@ function blocksy_get_social_metadata($args = []) {
 
 		if (empty(trim($single_metadata['url']))) {
 			$single_metadata['url'] = '#';
+		}
+
+		if (
+			$args['social'] === 'email'
+			&&
+			strpos($single_metadata['url'], 'mailto:') === false
+			&&
+			strpos($single_metadata['url'], '@') !== false
+		) {
+			$single_metadata['url'] = 'mailto:' . $single_metadata['url'];
 		}
 	}
 
@@ -1135,14 +1095,21 @@ function blocksy_get_social_box($args = []) {
 
 			'after_links_content' => '',
 			'has_count' => false,
-			'hide_labels' => false,
+			'label_attr' => [],
+			'label_visibility' => [
+				'desktop' => false,
+				'tablet' => false,
+				'mobile' => false,
+			],
 			'root_class' => 'ct-social-box',
 			'force_output' => false,
 			'custom_share_url' => '',
 
 			'links_target' => false,
 			'links_rel' => false,
-			'prefix' => blocksy_manager()->screen->get_prefix()
+			'prefix' => blocksy_manager()->screen->get_prefix(),
+			'icon_source' => 'default',
+			'icon'	=> ''
 		]
 	);
 
@@ -1301,7 +1268,8 @@ function blocksy_get_social_box($args = []) {
 								wp_allowed_protocols(),
 								[
 									'viber',
-									'whatsapp'
+									'whatsapp',
+									'skype'
 								]
 							)
 						),
@@ -1309,6 +1277,10 @@ function blocksy_get_social_box($args = []) {
 						'data-network' => $single_social['id'],
 						'aria-label' => $metadata['name']
 					];
+
+					if (strpos($attr['href'], 'mailto:') !== false) {
+						$attr['href'] = blocksy_safe_antispambot($attr['href']);
+					}
 
 					if (
 						(
@@ -1342,11 +1314,21 @@ function blocksy_get_social_box($args = []) {
 						$attr['rel'] = trim($attr['rel']);
 					}
 
-					$label_attr = ['class' => 'ct-label'];
+					$class = 'ct-label';
 
-					if ($args['hide_labels']) {
-						$label_attr['hidden'] = '';
+					if (isset($args['label_attr']['class'])) {
+						if (! empty($args['label_attr']['class'])) {
+							$class .= ' ' . $args['label_attr']['class'];
+						}
 					}
+
+					$class .= ' ' . blocksy_visibility_classes(
+						$args['label_visibility']
+					);
+
+					$label_attr = $args['label_attr'];
+
+					$label_attr['class'] = $class;
 				?>
 
 				<a <?php echo blocksy_attr_to_html($attr) ?>>
@@ -1356,7 +1338,7 @@ function blocksy_get_social_box($args = []) {
 						// }
 
 						if (true || $args['type'] === 'url') {
-							echo blocksy_html_tag(
+							$icon = blocksy_html_tag(
 								'span',
 								[
 									'class' => 'ct-icon-container'
@@ -1364,12 +1346,35 @@ function blocksy_get_social_box($args = []) {
 								$metadata['icon']
 							);
 
+							if (function_exists('blc_get_icon')) {
+								$icon_source = blocksy_default_akg('icon_source', $single_social, 'default');
+
+								if ( $icon_source === 'custom' ) {
+									$icon = blc_get_icon([
+										'icon_descriptor' => blocksy_akg(
+											'icon',
+											$single_social,
+											['icon' => 'blc blc-email']
+										),
+									]);
+								}
+
+							}
+
+							echo $icon;
+
 							if ($args['type'] === 'url') {
-								echo blocksy_html_tag(
-									'span',
-									$label_attr,
-									$metadata['name']
-								);
+								if (
+									blocksy_some_device($args['label_visibility'])
+									||
+									is_customize_preview()
+								) {
+									echo blocksy_html_tag(
+										'span',
+										$label_attr,
+										$metadata['name']
+									);
+								}
 							}
 						}
 					?>

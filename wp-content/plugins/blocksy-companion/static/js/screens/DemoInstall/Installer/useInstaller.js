@@ -6,14 +6,14 @@ import {
 	useRef,
 	createContext,
 	useContext,
-	Fragment
+	Fragment,
 } from '@wordpress/element'
 import DashboardContext from '../../../DashboardContext'
 import { DemosContext } from '../../DemoInstall'
 
 import { sprintf, __ } from 'ct-i18n'
 
-const listener = e => {
+const listener = (e) => {
 	e.preventDefault()
 	e.returnValue = ''
 }
@@ -22,7 +22,7 @@ export const getStepsForDemoConfiguration = ({
 	demoConfiguration,
 	pluginsStatus,
 	is_child_theme,
-	includeMetaSteps = false
+	includeMetaSteps = false,
 }) => {
 	let steps = []
 
@@ -66,21 +66,21 @@ export const getStepsForDemoConfiguration = ({
 	return steps
 }
 
-export const useInstaller = demoConfiguration => {
+export const useInstaller = (demoConfiguration) => {
 	const {
 		demos_list,
 		currentDemo,
 		setCurrentDemo,
 		setInstallerBlockingReleased,
 		setCurrentlyInstalledDemo,
-		pluginsStatus
+		pluginsStatus,
 	} = useContext(DemosContext)
 
-	const { home_url, customizer_url, is_child_theme, Link } = useContext(
-		DashboardContext
-	)
+	const { home_url, customizer_url, is_child_theme, Link } =
+		useContext(DashboardContext)
 
 	const [isCompleted, setIsCompleted] = useState(false)
+	const [isError, setIsError] = useState(false)
 	const [currentStep, setCurrentStep] = useState(0)
 
 	const [properDemoName, _] = (currentDemo || '').split(':')
@@ -112,13 +112,13 @@ export const useInstaller = demoConfiguration => {
 					? demoVariations[0].builder
 					: demoConfiguration.builder
 			}`,
-			expected_signals: 1
+			expected_signals: 1,
 		},
 
 		child_theme: {
 			title: __('Child theme', 'blocksy-companion'),
 			query_string: `action=blocksy_demo_install_child_theme`,
-			expected_signals: 3
+			expected_signals: 3,
 		},
 
 		plugins: {
@@ -126,25 +126,25 @@ export const useInstaller = demoConfiguration => {
 			query_string: `action=blocksy_demo_activate_plugins&plugins=${pluginsToActivate.join(
 				':'
 			)}`,
-			expected_signals: pluginsToActivate.length * 2 + 1
+			expected_signals: pluginsToActivate.length * 2 + 1,
 		},
 
 		fake_step: {
 			title: __('Fake Required plugins', 'blocksy-companion'),
 			query_string: `action=blocksy_demo_fake_step`,
-			expected_signals: 6
+			expected_signals: 6,
 		},
 
 		erase_content: {
 			title: __('Erase content', 'blocksy-companion'),
 			query_string: `action=blocksy_demo_erase_content&wp_customize=on`,
-			expected_signals: 6
+			expected_signals: 6,
 		},
 
 		install_finish: {
 			title: __('Final touches', 'blocksy-companion'),
 			query_string: 'action=blocksy_demo_install_finish&wp_customize=on',
-			expected_signals: 1
+			expected_signals: 1,
 		},
 
 		options: {
@@ -155,7 +155,7 @@ export const useInstaller = demoConfiguration => {
 					? demoVariations[0].builder
 					: demoConfiguration.builder
 			}`,
-			expected_signals: 5
+			expected_signals: 5,
 		},
 		widgets: {
 			title: __('Import widgets', 'blocksy-companion'),
@@ -164,7 +164,7 @@ export const useInstaller = demoConfiguration => {
 					? demoVariations[0].builder
 					: demoConfiguration.builder
 			}`,
-			expected_signals: 3
+			expected_signals: 3,
 		},
 
 		content: {
@@ -174,15 +174,15 @@ export const useInstaller = demoConfiguration => {
 					? demoVariations[0].builder
 					: demoConfiguration.builder
 			}`,
-			expected_signals: 50
-		}
+			expected_signals: 50,
+		},
 	})
 
 	const stepsForConfiguration = getStepsForDemoConfiguration({
 		demoConfiguration,
 		pluginsStatus,
 		is_child_theme,
-		includeMetaSteps: true
+		includeMetaSteps: true,
 	})
 
 	const stepName = stepsForConfiguration[currentStep]
@@ -198,7 +198,7 @@ export const useInstaller = demoConfiguration => {
 		stepsDescriptorsRef.current = stepsDescriptors
 	})
 
-	const getPercentageForStep = step => {
+	const getPercentageForStep = (step) => {
 		if (step === 'content') {
 			return stepsForConfiguration.length === 1 ? 100 : 50
 		}
@@ -227,7 +227,11 @@ export const useInstaller = demoConfiguration => {
 			`${ctDashboardLocalizations.ajax_url}?${stepDescriptor.query_string}`
 		)
 
-		evtSource.onmessage = e => {
+		evtSource.onerror = (e) => {
+			setIsError(true)
+		}
+
+		evtSource.onmessage = (e) => {
 			var data = JSON.parse(e.data)
 
 			setProgressSignals(progressSignalsRef.current + 1)
@@ -245,8 +249,8 @@ export const useInstaller = demoConfiguration => {
 							[`${kind}_count`]:
 								stepsDescriptorsRef.current.content[
 									`${kind}_count`
-								] + 1
-						}
+								] + 1,
+						},
 					})
 				}
 			} else {
@@ -259,7 +263,7 @@ export const useInstaller = demoConfiguration => {
 					media_count,
 					post_count,
 					term_count,
-					users
+					users,
 				} = data.data
 
 				const preliminary_data = {
@@ -275,7 +279,7 @@ export const useInstaller = demoConfiguration => {
 						(total, post) => total + (post.comments || []).length,
 						0
 					),
-					users_count: Object.keys(data.data.authors).length
+					users_count: Object.keys(data.data.authors).length,
 				}
 
 				setStepsDescriptors({
@@ -296,8 +300,8 @@ export const useInstaller = demoConfiguration => {
 							preliminary_data.post_count +
 							preliminary_data.term_count +
 							preliminary_data.users_count +
-							3
-					}
+							3,
+					},
 				})
 			}
 
@@ -344,7 +348,7 @@ export const useInstaller = demoConfiguration => {
 		window.addEventListener('beforeunload', listener)
 
 		setCurrentlyInstalledDemo({
-			demo: `${currentDemo}:${demoConfiguration.builder}`
+			demo: `${currentDemo}:${demoConfiguration.builder}`,
 		})
 
 		return () => {
@@ -354,9 +358,10 @@ export const useInstaller = demoConfiguration => {
 
 	return {
 		isCompleted,
+		isError,
 		stepName,
 		stepsDescriptors,
 		lastMessage,
-		progress
+		progress,
 	}
 }

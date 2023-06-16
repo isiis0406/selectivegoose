@@ -214,14 +214,18 @@ class DemoInstallWidgetsInstaller {
 			// All instances for that widget ID base, get fresh every time.
 			global $wpdb;
 
-			$single_widget_instances = maybe_unserialize(
-				$wpdb->get_row(
-					$wpdb->prepare(
-						"SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1",
-						'widget_' . $id_base
-					)
-				)->option_value
+			$single_widget_instances = [];
+
+			$row = $wpdb->get_row(
+				$wpdb->prepare(
+					"SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1",
+					'widget_' . $id_base
+				)
 			);
+
+			if (! is_null($row)) {
+				$single_widget_instances = maybe_unserialize($row->option_value);
+			}
 
 			if (empty($single_widget_instances)) {
 				$single_widget_instances = [

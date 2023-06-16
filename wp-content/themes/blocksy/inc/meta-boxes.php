@@ -32,6 +32,19 @@ if (! function_exists('blocksy_get_post_options')) {
 			}
 		}
 
+		if (is_array($post_id)) {
+			blocksy_debug_log(
+				'blocksy_get_post_options() post_id is array. This is not valid.',
+				[
+					'post_id' => $post_id,
+					'is_page' => blocksy_is_page(),
+					'args' => $args
+				]
+			);
+
+			return [];
+		}
+
 		$cache_key = $post_id . ':' . $args['meta_id'];
 
 		if (isset($post_opts[$cache_key])) {

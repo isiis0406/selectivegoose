@@ -209,6 +209,29 @@ class WC_Install {
 		'6.5.1' => array(
 			'wc_update_651_approved_download_directories',
 		),
+		'6.7.0' => array(
+			'wc_update_670_purge_comments_count_cache',
+			'wc_update_670_delete_deprecated_remote_inbox_notifications_option',
+		),
+		'7.0.0' => array(
+			'wc_update_700_remove_download_log_fk',
+			'wc_update_700_remove_recommended_marketing_plugins_transient',
+		),
+		'7.2.1' => array(
+			'wc_update_721_adjust_new_zealand_states',
+			'wc_update_721_adjust_ukraine_states',
+		),
+		'7.2.2' => array(
+			'wc_update_722_adjust_new_zealand_states',
+			'wc_update_722_adjust_ukraine_states',
+		),
+		'7.5.0' => array(
+			'wc_update_750_add_columns_to_order_stats_table',
+			'wc_update_750_disable_new_product_management_experience',
+		),
+		'7.7.0' => array(
+			'wc_update_770_remove_multichannel_marketing_feature_options',
+		),
 	);
 
 	/**
@@ -240,10 +263,20 @@ class WC_Install {
 		$requires_update = version_compare( $wc_version, $wc_code_version, '<' );
 		if ( ! Constants::is_defined( 'IFRAME_REQUEST' ) && $requires_update ) {
 			self::install();
+			/**
+			 * Run after WooCommerce has been updated.
+			 *
+			 * @since 2.2.0
+			 */
 			do_action( 'woocommerce_updated' );
 			do_action_deprecated( 'woocommerce_admin_updated', array(), $wc_code_version, 'woocommerce_updated' );
 			// If there is no woocommerce_version option, consider it as a new install.
 			if ( ! $wc_version ) {
+				/**
+				 * Run when WooCommerce has been installed for the first time.
+				 *
+				 * @since 6.5.0
+				 */
 				do_action( 'woocommerce_newly_installed' );
 				do_action_deprecated( 'woocommerce_admin_newly_installed', array(), $wc_code_version, 'woocommerce_newly_installed' );
 			}
@@ -382,8 +415,23 @@ class WC_Install {
 		// plugin version update. We base plugin age off of this value.
 		add_option( 'woocommerce_admin_install_timestamp', time() );
 
+		/**
+		 * Flush the rewrite rules after install or update.
+		 *
+		 * @since 2.7.0
+		 */
 		do_action( 'woocommerce_flush_rewrite_rules' );
+		/**
+		 * Run after WooCommerce has been installed or updated.
+		 *
+		 * @since 3.2.0
+		 */
 		do_action( 'woocommerce_installed' );
+		/**
+		 * Run after WooCommerce Admin has been installed or updated.
+		 *
+		 * @since 6.5.0
+		 */
 		do_action( 'woocommerce_admin_installed' );
 	}
 
@@ -499,6 +547,11 @@ class WC_Install {
 	 */
 	private static function maybe_update_db_version() {
 		if ( self::needs_db_update() ) {
+			/**
+			 * Allow WooCommerce to auto-update without prompting the user.
+			 *
+			 * @since 3.2.0
+			 */
 			if ( apply_filters( 'woocommerce_enable_auto_update_db', false ) ) {
 				self::update();
 			} else {
@@ -612,6 +665,11 @@ class WC_Install {
 		$held_duration = get_option( 'woocommerce_hold_stock_minutes', '60' );
 
 		if ( '' !== $held_duration ) {
+			/**
+			 * Determines the interval at which to cancel unpaid orders in minutes.
+			 *
+			 * @since 5.1.0
+			 */
 			$cancel_unpaid_interval = apply_filters( 'woocommerce_cancel_unpaid_orders_interval_minutes', absint( $held_duration ) );
 			wp_schedule_single_event( time() + ( absint( $cancel_unpaid_interval ) * 60 ), 'woocommerce_cancel_unpaid_orders' );
 		}
@@ -624,6 +682,11 @@ class WC_Install {
 		wp_schedule_event( time() + ( 3 * HOUR_IN_SECONDS ), 'daily', 'woocommerce_cleanup_logs' );
 		wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'woocommerce_cleanup_sessions' );
 		wp_schedule_event( time() + MINUTE_IN_SECONDS, 'fifteendays', 'woocommerce_geoip_updater' );
+		/**
+		 * How frequent to schedule the tracker send event.
+		 *
+		 * @since 2.3.0
+		 */
 		wp_schedule_event( time() + 10, apply_filters( 'woocommerce_tracker_event_recurrence', 'daily' ), 'woocommerce_tracker_send_event' );
 		wp_schedule_event( time() + ( 3 * HOUR_IN_SECONDS ), 'daily', 'woocommerce_cleanup_rate_limits' );
 
@@ -647,8 +710,37 @@ class WC_Install {
 	 * Create pages that the plugin relies on, storing page IDs in variables.
 	 */
 	public static function create_pages() {
+		// Set the locale to the store locale to ensure pages are created in the correct language.
+		wc_switch_to_site_locale();
+
 		include_once dirname( __FILE__ ) . '/admin/wc-admin-functions.php';
 
+		/**
+		 * Determines the cart shortcode tag used for the cart page.
+		 *
+		 * @since 2.1.0
+		 */
+		$cart_shortcode = apply_filters( 'woocommerce_cart_shortcode_tag', 'woocommerce_cart' );
+
+		/**
+		 * Determines the checkout shortcode tag used on the checkout page.
+		 *
+		 * @since 2.1.0
+		 */
+		$checkout_shortcode = apply_filters( 'woocommerce_checkout_shortcode_tag', 'woocommerce_checkout' );
+
+		/**
+		 * Determines the my account shortcode tag used on the my account page.
+		 *
+		 * @since 2.1.0
+		 */
+		$my_account_shortcode = apply_filters( 'woocommerce_my_account_shortcode_tag', 'woocommerce_my_account' );
+
+		/**
+		 * Determines which pages are created during install.
+		 *
+		 * @since 2.1.0
+		 */
 		$pages = apply_filters(
 			'woocommerce_create_pages',
 			array(
@@ -660,17 +752,17 @@ class WC_Install {
 				'cart'           => array(
 					'name'    => _x( 'cart', 'Page slug', 'woocommerce' ),
 					'title'   => _x( 'Cart', 'Page title', 'woocommerce' ),
-					'content' => '<!-- wp:shortcode -->[' . apply_filters( 'woocommerce_cart_shortcode_tag', 'woocommerce_cart' ) . ']<!-- /wp:shortcode -->',
+					'content' => '<!-- wp:shortcode -->[' . $cart_shortcode . ']<!-- /wp:shortcode -->',
 				),
 				'checkout'       => array(
 					'name'    => _x( 'checkout', 'Page slug', 'woocommerce' ),
 					'title'   => _x( 'Checkout', 'Page title', 'woocommerce' ),
-					'content' => '<!-- wp:shortcode -->[' . apply_filters( 'woocommerce_checkout_shortcode_tag', 'woocommerce_checkout' ) . ']<!-- /wp:shortcode -->',
+					'content' => '<!-- wp:shortcode -->[' . $checkout_shortcode . ']<!-- /wp:shortcode -->',
 				),
 				'myaccount'      => array(
 					'name'    => _x( 'my-account', 'Page slug', 'woocommerce' ),
 					'title'   => _x( 'My account', 'Page title', 'woocommerce' ),
-					'content' => '<!-- wp:shortcode -->[' . apply_filters( 'woocommerce_my_account_shortcode_tag', 'woocommerce_my_account' ) . ']<!-- /wp:shortcode -->',
+					'content' => '<!-- wp:shortcode -->[' . $my_account_shortcode . ']<!-- /wp:shortcode -->',
 				),
 				'refund_returns' => array(
 					'name'        => _x( 'refund_returns', 'Page slug', 'woocommerce' ),
@@ -691,6 +783,9 @@ class WC_Install {
 				! empty( $page['post_status'] ) ? $page['post_status'] : 'publish'
 			);
 		}
+
+		// Restore the locale to the default locale.
+		wc_restore_locale();
 	}
 
 	/**
@@ -705,7 +800,7 @@ class WC_Install {
 		$settings = WC_Admin_Settings::get_settings_pages();
 
 		foreach ( $settings as $section ) {
-			if ( ! method_exists( $section, 'get_settings' ) ) {
+			if ( ! is_a( $section, 'WC_Settings_Page' ) || ! method_exists( $section, 'get_settings' ) ) {
 				continue;
 			}
 			$subsections = array_unique( array_merge( array( '' ), array_keys( $section->get_sections() ) ) );
@@ -748,17 +843,24 @@ class WC_Install {
 		global $wpdb;
 		$obsolete_notes_names = array(
 			'wc-admin-welcome-note',
+			'wc-admin-insight-first-product-and-payment',
 			'wc-admin-store-notice-setting-moved',
 			'wc-admin-store-notice-giving-feedback',
+			'wc-admin-first-downloadable-product',
 			'wc-admin-learn-more-about-product-settings',
+			'wc-admin-adding-and-managing-products',
 			'wc-admin-onboarding-profiler-reminder',
 			'wc-admin-historical-data',
+			'wc-admin-manage-store-activity-from-home-screen',
 			'wc-admin-review-shipping-settings',
 			'wc-admin-home-screen-feedback',
+			'wc-admin-update-store-details',
 			'wc-admin-effortless-payments-by-mollie',
 			'wc-admin-google-ads-and-marketing',
+			'wc-admin-insight-first-sale',
 			'wc-admin-marketing-intro',
 			'wc-admin-draw-attention',
+			'wc-admin-welcome-to-woocommerce-for-store-users',
 			'wc-admin-need-some-inspiration',
 			'wc-admin-choose-niche',
 			'wc-admin-start-dropshipping-business',
@@ -767,8 +869,16 @@ class WC_Install {
 			'wc-admin-getting-started-ecommerce-webinar',
 			'wc-admin-navigation-feedback',
 			'wc-admin-navigation-feedback-follow-up',
+			'wc-admin-set-up-additional-payment-types',
+			'wc-admin-deactivate-plugin',
+			'wc-admin-complete-store-details',
 		);
 
+		/**
+		 * An array of deprecated notes to delete on update.
+		 *
+		 * @since 6.5.0
+		 */
 		$additional_obsolete_notes_names = apply_filters(
 			'woocommerce_admin_obsolete_notes_names',
 			array()
@@ -781,10 +891,42 @@ class WC_Install {
 			);
 		}
 
-		foreach ( $obsolete_notes_names as $obsolete_notes_name ) {
-			$wpdb->delete( $wpdb->prefix . 'wc_admin_notes', array( 'name' => $obsolete_notes_name ) );
-			$wpdb->delete( $wpdb->prefix . 'wc_admin_note_actions', array( 'name' => $obsolete_notes_name ) );
+		$note_names_placeholder = substr( str_repeat( ',%s', count( $obsolete_notes_names ) ), 1 );
+
+		$note_ids = $wpdb->get_results(
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Ignored for allowing interpolation in the IN statement.
+			$wpdb->prepare(
+				"SELECT note_id FROM {$wpdb->prefix}wc_admin_notes WHERE name IN ( $note_names_placeholder )",
+				$obsolete_notes_names
+			),
+			ARRAY_N
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare.
+		);
+
+		if ( ! $note_ids ) {
+			return;
 		}
+
+		$note_ids             = array_column( $note_ids, 0 );
+		$note_ids_placeholder = substr( str_repeat( ',%d', count( $note_ids ) ), 1 );
+
+		$wpdb->query(
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Ignored for allowing interpolation in the IN statement.
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->prefix}wc_admin_notes WHERE note_id IN ( $note_ids_placeholder )",
+				$note_ids
+			)
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare.
+		);
+
+		$wpdb->query(
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Ignored for allowing interpolation in the IN statement.
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->prefix}wc_admin_note_actions WHERE note_id IN ( $note_ids_placeholder )",
+				$note_ids
+			)
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare.
+		);
 	}
 
 	/**
@@ -900,6 +1042,8 @@ class WC_Install {
 	 *      woocommerce_order_itemmeta - Order line item meta is stored in a table for storing extra data.
 	 *      woocommerce_tax_rates - Tax Rates are stored inside 2 tables making tax queries simple and efficient.
 	 *      woocommerce_tax_rate_locations - Each rate can be applied to more than one postcode/city hence the second table.
+	 *
+	 * @return array Strings containing the results of the various update queries as returned by dbDelta.
 	 */
 	public static function create_tables() {
 		global $wpdb;
@@ -914,7 +1058,7 @@ class WC_Install {
 		 */
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}woocommerce_downloadable_product_permissions';" ) ) {
 			if ( ! $wpdb->get_var( "SHOW COLUMNS FROM `{$wpdb->prefix}woocommerce_downloadable_product_permissions` LIKE 'permission_id';" ) ) {
-				$wpdb->query( "ALTER TABLE {$wpdb->prefix}woocommerce_downloadable_product_permissions DROP PRIMARY KEY, ADD `permission_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT;" );
+				$wpdb->query( "ALTER TABLE {$wpdb->prefix}woocommerce_downloadable_product_permissions DROP PRIMARY KEY, ADD `permission_id` bigint(20) unsigned NOT NULL PRIMARY KEY AUTO_INCREMENT;" );
 			}
 		}
 
@@ -934,7 +1078,7 @@ class WC_Install {
 			}
 		}
 
-		dbDelta( self::get_schema() );
+		$db_delta_result = dbDelta( self::get_schema() );
 
 		$index_exists = $wpdb->get_row( "SHOW INDEX FROM {$wpdb->comments} WHERE column_name = 'comment_type' and key_name = 'woo_idx_comment_type'" );
 
@@ -944,34 +1088,10 @@ class WC_Install {
 			$wpdb->query( "ALTER TABLE {$wpdb->comments} ADD INDEX woo_idx_comment_type (comment_type)" );
 		}
 
-		// Get tables data types and check it matches before adding constraint.
-		$download_log_columns     = $wpdb->get_results( "SHOW COLUMNS FROM {$wpdb->prefix}wc_download_log WHERE Field = 'permission_id'", ARRAY_A );
-		$download_log_column_type = '';
-		if ( isset( $download_log_columns[0]['Type'] ) ) {
-			$download_log_column_type = $download_log_columns[0]['Type'];
-		}
-
-		$download_permissions_columns     = $wpdb->get_results( "SHOW COLUMNS FROM {$wpdb->prefix}woocommerce_downloadable_product_permissions WHERE Field = 'permission_id'", ARRAY_A );
-		$download_permissions_column_type = '';
-		if ( isset( $download_permissions_columns[0]['Type'] ) ) {
-			$download_permissions_column_type = $download_permissions_columns[0]['Type'];
-		}
-
-		// Add constraint to download logs if the columns matches.
-		if ( ! empty( $download_permissions_column_type ) && ! empty( $download_log_column_type ) && $download_permissions_column_type === $download_log_column_type ) {
-			$fk_result = $wpdb->get_row( "SHOW CREATE TABLE {$wpdb->prefix}wc_download_log" );
-			if ( false === strpos( $fk_result->{'Create Table'}, "fk_{$wpdb->prefix}wc_download_log_permission_id" ) ) {
-				$wpdb->query(
-					"ALTER TABLE `{$wpdb->prefix}wc_download_log`
-					ADD CONSTRAINT `fk_{$wpdb->prefix}wc_download_log_permission_id`
-					FOREIGN KEY (`permission_id`)
-					REFERENCES `{$wpdb->prefix}woocommerce_downloadable_product_permissions` (`permission_id`) ON DELETE CASCADE;"
-				);
-			}
-		}
-
 		// Clear table caches.
 		delete_transient( 'wc_attribute_taxonomies' );
+
+		return $db_delta_result;
 	}
 
 	/**
@@ -1010,16 +1130,16 @@ class WC_Install {
 
 		$tables = "
 CREATE TABLE {$wpdb->prefix}woocommerce_sessions (
-  session_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  session_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   session_key char(32) NOT NULL,
   session_value longtext NOT NULL,
-  session_expiry BIGINT UNSIGNED NOT NULL,
+  session_expiry bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (session_id),
   UNIQUE KEY session_key (session_key)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_api_keys (
-  key_id BIGINT UNSIGNED NOT NULL auto_increment,
-  user_id BIGINT UNSIGNED NOT NULL,
+  key_id bigint(20) unsigned NOT NULL auto_increment,
+  user_id bigint(20) unsigned NOT NULL,
   description varchar(200) NULL,
   permissions varchar(10) NOT NULL,
   consumer_key char(64) NOT NULL,
@@ -1032,7 +1152,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_api_keys (
   KEY consumer_secret (consumer_secret)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_attribute_taxonomies (
-  attribute_id BIGINT UNSIGNED NOT NULL auto_increment,
+  attribute_id bigint(20) unsigned NOT NULL auto_increment,
   attribute_name varchar(200) NOT NULL,
   attribute_label varchar(200) NULL,
   attribute_type varchar(20) NOT NULL,
@@ -1042,17 +1162,17 @@ CREATE TABLE {$wpdb->prefix}woocommerce_attribute_taxonomies (
   KEY attribute_name (attribute_name(20))
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_downloadable_product_permissions (
-  permission_id BIGINT UNSIGNED NOT NULL auto_increment,
+  permission_id bigint(20) unsigned NOT NULL auto_increment,
   download_id varchar(36) NOT NULL,
-  product_id BIGINT UNSIGNED NOT NULL,
-  order_id BIGINT UNSIGNED NOT NULL DEFAULT 0,
+  product_id bigint(20) unsigned NOT NULL,
+  order_id bigint(20) unsigned NOT NULL DEFAULT 0,
   order_key varchar(200) NOT NULL,
   user_email varchar(200) NOT NULL,
-  user_id BIGINT UNSIGNED NULL,
+  user_id bigint(20) unsigned NULL,
   downloads_remaining varchar(9) NULL,
   access_granted datetime NOT NULL default '0000-00-00 00:00:00',
   access_expires datetime NULL default null,
-  download_count BIGINT UNSIGNED NOT NULL DEFAULT 0,
+  download_count bigint(20) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY  (permission_id),
   KEY download_order_key_product (product_id,order_id,order_key(16),download_id),
   KEY download_order_product (download_id,order_id,product_id),
@@ -1060,16 +1180,16 @@ CREATE TABLE {$wpdb->prefix}woocommerce_downloadable_product_permissions (
   KEY user_order_remaining_expires (user_id,order_id,downloads_remaining,access_expires)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_order_items (
-  order_item_id BIGINT UNSIGNED NOT NULL auto_increment,
-  order_item_name TEXT NOT NULL,
+  order_item_id bigint(20) unsigned NOT NULL auto_increment,
+  order_item_name text NOT NULL,
   order_item_type varchar(200) NOT NULL DEFAULT '',
-  order_id BIGINT UNSIGNED NOT NULL,
+  order_id bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (order_item_id),
   KEY order_id (order_id)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_order_itemmeta (
-  meta_id BIGINT UNSIGNED NOT NULL auto_increment,
-  order_item_id BIGINT UNSIGNED NOT NULL,
+  meta_id bigint(20) unsigned NOT NULL auto_increment,
+  order_item_id bigint(20) unsigned NOT NULL,
   meta_key varchar(255) default NULL,
   meta_value longtext NULL,
   PRIMARY KEY  (meta_id),
@@ -1077,15 +1197,15 @@ CREATE TABLE {$wpdb->prefix}woocommerce_order_itemmeta (
   KEY meta_key (meta_key(32))
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_tax_rates (
-  tax_rate_id BIGINT UNSIGNED NOT NULL auto_increment,
+  tax_rate_id bigint(20) unsigned NOT NULL auto_increment,
   tax_rate_country varchar(2) NOT NULL DEFAULT '',
   tax_rate_state varchar(200) NOT NULL DEFAULT '',
   tax_rate varchar(8) NOT NULL DEFAULT '',
   tax_rate_name varchar(200) NOT NULL DEFAULT '',
-  tax_rate_priority BIGINT UNSIGNED NOT NULL,
+  tax_rate_priority bigint(20) unsigned NOT NULL,
   tax_rate_compound int(1) NOT NULL DEFAULT 0,
   tax_rate_shipping int(1) NOT NULL DEFAULT 1,
-  tax_rate_order BIGINT UNSIGNED NOT NULL,
+  tax_rate_order bigint(20) unsigned NOT NULL,
   tax_rate_class varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY  (tax_rate_id),
   KEY tax_rate_country (tax_rate_country),
@@ -1094,23 +1214,23 @@ CREATE TABLE {$wpdb->prefix}woocommerce_tax_rates (
   KEY tax_rate_priority (tax_rate_priority)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_tax_rate_locations (
-  location_id BIGINT UNSIGNED NOT NULL auto_increment,
+  location_id bigint(20) unsigned NOT NULL auto_increment,
   location_code varchar(200) NOT NULL,
-  tax_rate_id BIGINT UNSIGNED NOT NULL,
+  tax_rate_id bigint(20) unsigned NOT NULL,
   location_type varchar(40) NOT NULL,
   PRIMARY KEY  (location_id),
   KEY tax_rate_id (tax_rate_id),
   KEY location_type_code (location_type(10),location_code(20))
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_shipping_zones (
-  zone_id BIGINT UNSIGNED NOT NULL auto_increment,
+  zone_id bigint(20) unsigned NOT NULL auto_increment,
   zone_name varchar(200) NOT NULL,
-  zone_order BIGINT UNSIGNED NOT NULL,
+  zone_order bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (zone_id)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_shipping_zone_locations (
-  location_id BIGINT UNSIGNED NOT NULL auto_increment,
-  zone_id BIGINT UNSIGNED NOT NULL,
+  location_id bigint(20) unsigned NOT NULL auto_increment,
+  zone_id bigint(20) unsigned NOT NULL,
   location_code varchar(200) NOT NULL,
   location_type varchar(40) NOT NULL,
   PRIMARY KEY  (location_id),
@@ -1118,26 +1238,26 @@ CREATE TABLE {$wpdb->prefix}woocommerce_shipping_zone_locations (
   KEY location_type_code (location_type(10),location_code(20))
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_shipping_zone_methods (
-  zone_id BIGINT UNSIGNED NOT NULL,
-  instance_id BIGINT UNSIGNED NOT NULL auto_increment,
+  zone_id bigint(20) unsigned NOT NULL,
+  instance_id bigint(20) unsigned NOT NULL auto_increment,
   method_id varchar(200) NOT NULL,
-  method_order BIGINT UNSIGNED NOT NULL,
+  method_order bigint(20) unsigned NOT NULL,
   is_enabled tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY  (instance_id)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_payment_tokens (
-  token_id BIGINT UNSIGNED NOT NULL auto_increment,
+  token_id bigint(20) unsigned NOT NULL auto_increment,
   gateway_id varchar(200) NOT NULL,
   token text NOT NULL,
-  user_id BIGINT UNSIGNED NOT NULL DEFAULT '0',
+  user_id bigint(20) unsigned NOT NULL DEFAULT '0',
   type varchar(200) NOT NULL,
   is_default tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY  (token_id),
   KEY user_id (user_id)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_payment_tokenmeta (
-  meta_id BIGINT UNSIGNED NOT NULL auto_increment,
-  payment_token_id BIGINT UNSIGNED NOT NULL,
+  meta_id bigint(20) unsigned NOT NULL auto_increment,
+  payment_token_id bigint(20) unsigned NOT NULL,
   meta_key varchar(255) NULL,
   meta_value longtext NULL,
   PRIMARY KEY  (meta_id),
@@ -1145,7 +1265,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_payment_tokenmeta (
   KEY meta_key (meta_key(32))
 ) $collate;
 CREATE TABLE {$wpdb->prefix}woocommerce_log (
-  log_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  log_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   timestamp datetime NOT NULL,
   level smallint(4) NOT NULL,
   source varchar(200) NOT NULL,
@@ -1155,10 +1275,10 @@ CREATE TABLE {$wpdb->prefix}woocommerce_log (
   KEY level (level)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_webhooks (
-  webhook_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  webhook_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   status varchar(200) NOT NULL,
   name text NOT NULL,
-  user_id BIGINT UNSIGNED NOT NULL,
+  user_id bigint(20) unsigned NOT NULL,
   delivery_url text NOT NULL,
   secret text NOT NULL,
   topic varchar(200) NOT NULL,
@@ -1173,11 +1293,11 @@ CREATE TABLE {$wpdb->prefix}wc_webhooks (
   KEY user_id (user_id)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_download_log (
-  download_log_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  download_log_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   timestamp datetime NOT NULL,
-  permission_id BIGINT UNSIGNED NOT NULL,
-  user_id BIGINT UNSIGNED NULL,
-  user_ip_address VARCHAR(100) NULL DEFAULT '',
+  permission_id bigint(20) unsigned NOT NULL,
+  user_id bigint(20) unsigned NULL,
+  user_ip_address varchar(100) NULL DEFAULT '',
   PRIMARY KEY  (download_log_id),
   KEY permission_id (permission_id),
   KEY timestamp (timestamp)
@@ -1206,7 +1326,7 @@ CREATE TABLE {$wpdb->prefix}wc_product_meta_lookup (
   KEY min_max_price (`min_price`, `max_price`)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_tax_rate_classes (
-  tax_rate_class_id BIGINT UNSIGNED NOT NULL auto_increment,
+  tax_rate_class_id bigint(20) unsigned NOT NULL auto_increment,
   name varchar(200) NOT NULL DEFAULT '',
   slug varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY  (tax_rate_class_id),
@@ -1221,18 +1341,18 @@ CREATE TABLE {$wpdb->prefix}wc_reserved_stock (
 	PRIMARY KEY  (`order_id`, `product_id`)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_rate_limits (
-  rate_limit_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  rate_limit_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   rate_limit_key varchar(200) NOT NULL,
-  rate_limit_expiry BIGINT UNSIGNED NOT NULL,
+  rate_limit_expiry bigint(20) unsigned NOT NULL,
   rate_limit_remaining smallint(10) NOT NULL DEFAULT '0',
   PRIMARY KEY  (rate_limit_id),
   UNIQUE KEY rate_limit_key (rate_limit_key($max_index_length))
 ) $collate;
 $product_attributes_lookup_table_creation_sql
 CREATE TABLE {$wpdb->prefix}wc_product_download_directories (
-	url_id BIGINT UNSIGNED NOT NULL auto_increment,
+	url_id bigint(20) unsigned NOT NULL auto_increment,
 	url varchar(256) NOT NULL,
-	enabled TINYINT(1) NOT NULL DEFAULT 0,
+	enabled tinyint(1) NOT NULL DEFAULT 0,
 	PRIMARY KEY (url_id),
 	KEY url (url($max_index_length))
 ) $collate;
@@ -1241,27 +1361,29 @@ CREATE TABLE {$wpdb->prefix}wc_order_stats (
 	parent_id bigint(20) unsigned DEFAULT 0 NOT NULL,
 	date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 	date_created_gmt datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+	date_paid datetime DEFAULT '0000-00-00 00:00:00',
+	date_completed datetime DEFAULT '0000-00-00 00:00:00',
 	num_items_sold int(11) DEFAULT 0 NOT NULL,
 	total_sales double DEFAULT 0 NOT NULL,
 	tax_total double DEFAULT 0 NOT NULL,
 	shipping_total double DEFAULT 0 NOT NULL,
 	net_total double DEFAULT 0 NOT NULL,
-	returning_customer boolean DEFAULT NULL,
+	returning_customer tinyint(1) DEFAULT NULL,
 	status varchar(200) NOT NULL,
-	customer_id BIGINT UNSIGNED NOT NULL,
+	customer_id bigint(20) unsigned NOT NULL,
 	PRIMARY KEY (order_id),
 	KEY date_created (date_created),
 	KEY customer_id (customer_id),
 	KEY status (status({$max_index_length}))
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_order_product_lookup (
-	order_item_id BIGINT UNSIGNED NOT NULL,
-	order_id BIGINT UNSIGNED NOT NULL,
-	product_id BIGINT UNSIGNED NOT NULL,
-	variation_id BIGINT UNSIGNED NOT NULL,
-	customer_id BIGINT UNSIGNED NULL,
+	order_item_id bigint(20) unsigned NOT NULL,
+	order_id bigint(20) unsigned NOT NULL,
+	product_id bigint(20) unsigned NOT NULL,
+	variation_id bigint(20) unsigned NOT NULL,
+	customer_id bigint(20) unsigned NULL,
 	date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-	product_qty INT NOT NULL,
+	product_qty int(11) NOT NULL,
 	product_net_revenue double DEFAULT 0 NOT NULL,
 	product_gross_revenue double DEFAULT 0 NOT NULL,
 	coupon_amount double DEFAULT 0 NOT NULL,
@@ -1275,8 +1397,8 @@ CREATE TABLE {$wpdb->prefix}wc_order_product_lookup (
 	KEY date_created (date_created)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_order_tax_lookup (
-	order_id BIGINT UNSIGNED NOT NULL,
-	tax_rate_id BIGINT UNSIGNED NOT NULL,
+	order_id bigint(20) unsigned NOT NULL,
+	tax_rate_id bigint(20) unsigned NOT NULL,
 	date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 	shipping_tax double DEFAULT 0 NOT NULL,
 	order_tax double DEFAULT 0 NOT NULL,
@@ -1286,8 +1408,8 @@ CREATE TABLE {$wpdb->prefix}wc_order_tax_lookup (
 	KEY date_created (date_created)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_order_coupon_lookup (
-	order_id BIGINT UNSIGNED NOT NULL,
-	coupon_id BIGINT NOT NULL,
+	order_id bigint(20) unsigned NOT NULL,
+	coupon_id bigint(20) NOT NULL,
 	date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 	discount_amount double DEFAULT 0 NOT NULL,
 	PRIMARY KEY (order_id, coupon_id),
@@ -1295,7 +1417,7 @@ CREATE TABLE {$wpdb->prefix}wc_order_coupon_lookup (
 	KEY date_created (date_created)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_admin_notes (
-	note_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	note_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	name varchar(255) NOT NULL,
 	type varchar(20) NOT NULL,
 	locale varchar(20) NOT NULL,
@@ -1306,17 +1428,17 @@ CREATE TABLE {$wpdb->prefix}wc_admin_notes (
 	source varchar(200) NOT NULL,
 	date_created datetime NOT NULL default '0000-00-00 00:00:00',
 	date_reminder datetime NULL default null,
-	is_snoozable boolean DEFAULT 0 NOT NULL,
+	is_snoozable tinyint(1) DEFAULT 0 NOT NULL,
 	layout varchar(20) DEFAULT '' NOT NULL,
 	image varchar(200) NULL DEFAULT NULL,
-	is_deleted boolean DEFAULT 0 NOT NULL,
-	is_read boolean DEFAULT 0 NOT NULL,
+	is_deleted tinyint(1) DEFAULT 0 NOT NULL,
+	is_read tinyint(1) DEFAULT 0 NOT NULL,
 	icon varchar(200) NOT NULL default 'info',
 	PRIMARY KEY (note_id)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_admin_note_actions (
-	action_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	note_id BIGINT UNSIGNED NOT NULL,
+	action_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	note_id bigint(20) unsigned NOT NULL,
 	name varchar(255) NOT NULL,
 	label varchar(255) NOT NULL,
 	query longtext NOT NULL,
@@ -1328,8 +1450,8 @@ CREATE TABLE {$wpdb->prefix}wc_admin_note_actions (
 	KEY note_id (note_id)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_customer_lookup (
-	customer_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	user_id BIGINT UNSIGNED DEFAULT NULL,
+	customer_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	user_id bigint(20) unsigned DEFAULT NULL,
 	username varchar(60) DEFAULT '' NOT NULL,
 	first_name varchar(255) NOT NULL,
 	last_name varchar(255) NOT NULL,
@@ -1345,8 +1467,8 @@ CREATE TABLE {$wpdb->prefix}wc_customer_lookup (
 	KEY email (email)
 ) $collate;
 CREATE TABLE {$wpdb->prefix}wc_category_lookup (
-	category_tree_id BIGINT UNSIGNED NOT NULL,
-	category_id BIGINT UNSIGNED NOT NULL,
+	category_tree_id bigint(20) unsigned NOT NULL,
+	category_id bigint(20) unsigned NOT NULL,
 	PRIMARY KEY (category_tree_id,category_id)
 ) $collate;
 		";
@@ -1404,6 +1526,7 @@ CREATE TABLE {$wpdb->prefix}wc_category_lookup (
 		 * If WooCommerce plugins need to add new tables, they can inject them here.
 		 *
 		 * @param array $tables An array of WooCommerce-specific database table names.
+		 * @since 3.4.0
 		 */
 		$tables = apply_filters( 'woocommerce_install_get_tables', $tables );
 
@@ -1421,7 +1544,9 @@ CREATE TABLE {$wpdb->prefix}wc_category_lookup (
 		$tables = self::get_tables();
 
 		foreach ( $tables as $table ) {
-			$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$wpdb->query( "DROP TABLE IF EXISTS {$table}" );
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		}
 	}
 
@@ -1447,7 +1572,7 @@ CREATE TABLE {$wpdb->prefix}wc_category_lookup (
 		}
 
 		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles(); // @codingStandardsIgnoreLine
+			$wp_roles = new WP_Roles(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		}
 
 		// Dummy gettext calls to get strings in the catalog.
@@ -1577,7 +1702,7 @@ CREATE TABLE {$wpdb->prefix}wc_category_lookup (
 		}
 
 		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles(); // @codingStandardsIgnoreLine
+			$wp_roles = new WP_Roles(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		}
 
 		$capabilities = self::get_core_capabilities();
@@ -1597,7 +1722,11 @@ CREATE TABLE {$wpdb->prefix}wc_category_lookup (
 	 * Create files/directories.
 	 */
 	private static function create_files() {
-		// Bypass if filesystem is read-only and/or non-standard upload system is used.
+		/**
+		 * Bypass if filesystem is read-only and/or non-standard upload system is used.
+		 *
+		 * @since 3.2.0
+		 */
 		if ( apply_filters( 'woocommerce_install_skip_create_files', false ) ) {
 			return;
 		}
@@ -1726,14 +1855,42 @@ CREATE TABLE {$wpdb->prefix}wc_category_lookup (
 			return $links;
 		}
 
+		/**
+		 * The WooCommerce documentation URL.
+		 *
+		 * @since 2.7.0
+		 */
+		$docs_url = apply_filters( 'woocommerce_docs_url', 'https://docs.woocommerce.com/documentation/plugins/woocommerce/' );
+
+		/**
+		 * The WooCommerce API documentation URL.
+		 *
+		 * @since 2.2.0
+		 */
+		$api_docs_url = apply_filters( 'woocommerce_apidocs_url', 'https://docs.woocommerce.com/wc-apidocs/' );
+
+		/**
+		 * The community WooCommerce support URL.
+		 *
+		 * @since 2.2.0
+		 */
+		$community_support_url = apply_filters( 'woocommerce_community_support_url', 'https://wordpress.org/support/plugin/woocommerce/' );
+
+		/**
+		 * The premium support URL.
+		 *
+		 * @since
+		 */
+		$support_url = apply_filters( 'woocommerce_support_url', 'https://woocommerce.com/my-account/create-a-ticket/' );
+
 		$row_meta = array(
-			'docs'    => '<a href="' . esc_url( apply_filters( 'woocommerce_docs_url', 'https://docs.woocommerce.com/documentation/plugins/woocommerce/' ) ) . '" aria-label="' . esc_attr__( 'View WooCommerce documentation', 'woocommerce' ) . '">' . esc_html__( 'Docs', 'woocommerce' ) . '</a>',
-			'apidocs' => '<a href="' . esc_url( apply_filters( 'woocommerce_apidocs_url', 'https://docs.woocommerce.com/wc-apidocs/' ) ) . '" aria-label="' . esc_attr__( 'View WooCommerce API docs', 'woocommerce' ) . '">' . esc_html__( 'API docs', 'woocommerce' ) . '</a>',
-			'support' => '<a href="' . esc_url( apply_filters( 'woocommerce_community_support_url', 'https://wordpress.org/support/plugin/woocommerce/' ) ) . '" aria-label="' . esc_attr__( 'Visit community forums', 'woocommerce' ) . '">' . esc_html__( 'Community support', 'woocommerce' ) . '</a>',
+			'docs'    => '<a href="' . esc_url( $docs_url ) . '" aria-label="' . esc_attr__( 'View WooCommerce documentation', 'woocommerce' ) . '">' . esc_html__( 'Docs', 'woocommerce' ) . '</a>',
+			'apidocs' => '<a href="' . esc_url( $api_docs_url ) . '" aria-label="' . esc_attr__( 'View WooCommerce API docs', 'woocommerce' ) . '">' . esc_html__( 'API docs', 'woocommerce' ) . '</a>',
+			'support' => '<a href="' . esc_url( $community_support_url ) . '" aria-label="' . esc_attr__( 'Visit community forums', 'woocommerce' ) . '">' . esc_html__( 'Community support', 'woocommerce' ) . '</a>',
 		);
 
 		if ( WCConnectionHelper::is_connected() ) {
-			$row_meta['premium_support'] = '<a href="' . esc_url( apply_filters( 'woocommerce_support_url', 'https://woocommerce.com/my-account/create-a-ticket/' ) ) . '" aria-label="' . esc_attr__( 'Visit premium customer support', 'woocommerce' ) . '">' . esc_html__( 'Premium support', 'woocommerce' ) . '</a>';
+			$row_meta['premium_support'] = '<a href="' . esc_url( $support_url ) . '" aria-label="' . esc_attr__( 'Visit premium customer support', 'woocommerce' ) . '">' . esc_html__( 'Premium support', 'woocommerce' ) . '</a>';
 		}
 
 		return array_merge( $links, $row_meta );

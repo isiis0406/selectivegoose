@@ -127,6 +127,14 @@ $options = [
 				'setting' => [ 'transport' => 'postMessage' ],
 			],
 
+			'collapse_non_fitting_menu_items' => [
+				'label' => __('Collapse Non Fitting Items', 'blocksy'),
+				'type' => 'ct-switch',
+				'value' => 'yes',
+				'divider' => 'top',
+				'desc' => __('Collapse menu items in to a dropdown if there is no enough room in the row. ', 'blocksy'),
+				'setting' => [ 'transport' => 'postMessage' ],
+			],
 		],
 	],
 
@@ -642,6 +650,7 @@ $options = [
 				'max' => 20,
 				'divider' => 'top',
 				'setting' => [ 'transport' => 'postMessage' ],
+				'desc' => __( 'Please note, this option will affect only submenus on 3rd level and below.', 'blocksy' ),
 			],
 		],
 	],

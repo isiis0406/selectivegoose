@@ -20,7 +20,7 @@ $pages = get_pages(
 $page_choices_result = [];
 
 $page_choices = array(
-	'' => __('No page set', 'woocommerce')
+	'' => __('No page set', 'blocksy')
 ) + array_combine(
 	array_map(
 		'strval',
@@ -809,7 +809,7 @@ $options = [
 											'value' => 35,
 											'min' => 20,
 											'max' => 100,
-											'divider' => 'top',
+											'divider' => 'bottom',
 											'setting' => [ 'transport' => 'postMessage' ],
 										],
 									],
@@ -819,7 +819,6 @@ $options = [
 									'label' => __( 'User Name', 'blocksy' ),
 									'type' => 'ct-switch',
 									'value' => 'no',
-									'divider' => 'top',
 									'sync' => blocksy_sync_whole_page([
 										'prefix' => 'single_page',
 										'loader_selector' => '.ct-woo-account'
@@ -830,7 +829,6 @@ $options = [
 									'label' => __( 'Navigation Quick Links', 'blocksy' ),
 									'type' => 'ct-switch',
 									'value' => 'no',
-									'divider' => 'top',
 									'sync' => blocksy_sync_whole_page([
 										'prefix' => 'single_page',
 										'loader_selector' => '.ct-woo-account'
@@ -970,6 +968,7 @@ $options = [
 							'label' => __('Highlight Required Fields', 'blocksy'),
 							'type' => 'ct-switch',
 							'value' => 'yes',
+							'behavior' => 'bool',
 							'divider' => 'bottom',
 							'setting' => [
 								'type' => 'option'
@@ -1078,7 +1077,7 @@ $options = [
 							'value' => sprintf(
 								__(
 									'I have read and agree to the website %s',
-									'woocommerce'
+									'blocksy'
 								),
 								'[terms]'
 							),
@@ -1106,6 +1105,7 @@ $options = [
 				'type' => 'ct-panel',
 				'switch' => true,
 				'value' => 'no',
+				'switchBehavior' => 'boolean',
 				'setting' => [
 					'type' => 'option',
 				],
@@ -1132,7 +1132,7 @@ $options = [
 								'label' => __( 'Notice Position', 'blocksy' ),
 								'value' => 'bottom',
 								'view' => 'text',
-								'disableRevertButton' => true,
+								// 'disableRevertButton' => true,
 								'setting' => [ 'transport' => 'postMessage' ],
 								'choices' => [
 									'top' => __('Top', 'blocksy'),

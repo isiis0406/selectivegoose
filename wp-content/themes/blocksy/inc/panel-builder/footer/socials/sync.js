@@ -1,8 +1,5 @@
 import ctEvents from 'ct-events'
-import {
-	getCache,
-	handleResponsiveSwitch,
-} from '../../../../static/js/customizer/sync/helpers'
+import { handleResponsiveSwitch } from '../../../../static/js/customizer/sync/helpers'
 import {
 	responsiveClassesFor,
 	getRootSelectorFor,
@@ -197,19 +194,6 @@ ctEvents.on(
 				// important: true
 			},
 
-			socialsLabelVisibility: handleResponsiveSwitch({
-				selector: assembleSelector(
-					mutateSelector({
-						selector: getRootSelectorFor({
-							itemId,
-							panelType: 'footer',
-						}),
-						operation: 'suffix',
-						to_add: '.ct-label',
-					})
-				),
-			}),
-
 			footer_socials_direction: {
 				selector: assembleSelector(
 					getRootSelectorFor({ itemId, panelType: 'footer' })
@@ -227,26 +211,6 @@ ctEvents.on(
 	({ itemId, optionId, optionValue, values }) => {
 		const el = document.querySelector(`.ct-footer [data-id="${itemId}"]`)
 
-		if (optionId === 'footer_socials_visibility') {
-			responsiveClassesFor(optionValue, el)
-		}
-
-		if (optionId === 'socialsLabelVisibility') {
-			if (
-				optionValue.desktop ||
-				optionValue.tablet ||
-				optionValue.mobile
-			) {
-				;[...el.querySelectorAll('span.ct-label')].map((el) =>
-					el.setAttribute('hidden', '')
-				)
-			} else {
-				;[...el.querySelectorAll('span.ct-label')].map((el) =>
-					el.removeAttribute('hidden')
-				)
-			}
-		}
-
 		if (optionId === 'socialsType' || optionId === 'socialsFillType') {
 			const box = el.querySelector('.ct-social-box')
 
@@ -262,48 +226,14 @@ ctEvents.on(
 				values.socialsIconSize
 		}
 
-		if (optionId === 'footer_socials') {
-			const newHtml = getCache().querySelector(
-				`.ct-customizer-preview-cache [data-id="socials-general-cache"]`
-			).innerHTML
-
-			const cache = document.createElement('div')
-			cache.innerHTML = newHtml
-
-			el.querySelector('.ct-social-box').innerHTML = ''
-
-			optionValue.map(({ id, enabled }) => {
-				if (!enabled) return
-
-				el.querySelector('.ct-social-box').appendChild(
-					cache.querySelector(`[data-network=${id}]`)
-				)
+		if (optionId === 'socialsLabelVisibility') {
+			;[...el.querySelectorAll('.ct-label')].map((label) => {
+				responsiveClassesFor(optionValue, label)
 			})
 		}
 
-		if (
-			optionId === 'footer_socials' ||
-			optionId === 'socialsLabelVisibility'
-		) {
-			let socialsLabelVisibility = values.socialsLabelVisibility || {
-				desktop: false,
-				tablet: false,
-				mobile: false,
-			}
-
-			if (
-				socialsLabelVisibility.desktop ||
-				socialsLabelVisibility.tablet ||
-				socialsLabelVisibility.mobile
-			) {
-				;[...el.querySelectorAll('span.ct-label')].map((el) =>
-					el.removeAttribute('hidden')
-				)
-			} else {
-				;[...el.querySelectorAll('span.ct-label')].map((el) =>
-					el.setAttribute('hidden', '')
-				)
-			}
+		if (optionId === 'footer_socials_visibility') {
+			responsiveClassesFor(optionValue, el)
 		}
 	}
 )

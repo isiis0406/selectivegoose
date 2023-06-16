@@ -193,3 +193,8 @@ blocksy_output_colors([
 	],
 ]);
 
+$checkboxBorderRadius = get_theme_mod( 'checkboxBorderRadius', 3 );
+
+if ($checkboxBorderRadius !== 3) {
+	$css->put( ':root', '--form-checkbox-border-radius: ' . $checkboxBorderRadius . 'px' );
+}

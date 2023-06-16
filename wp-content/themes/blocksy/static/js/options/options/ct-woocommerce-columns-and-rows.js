@@ -27,7 +27,13 @@ const WooColumnsAndRows = ({
 			{...(device !== 'desktop' ? { 'data-disabled-last': '' } : {})}>
 			<div>
 				<NumberOption
-					option={option}
+					option={{
+						...option,
+						attr: {
+							...(option.attr || {}),
+							'data-width': 'full',
+						},
+					}}
 					value={
 						!columns_id && device === 'desktop'
 							? woocommerce_catalog_columns
@@ -51,6 +57,9 @@ const WooColumnsAndRows = ({
 						max: 100,
 						responsive: false,
 						value: 4,
+						attr: {
+							'data-width': 'full',
+						},
 					}}
 					value={device === 'desktop' ? rowsValue : 'auto'}
 					onChange={(val) => {

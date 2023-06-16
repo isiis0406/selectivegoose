@@ -4,7 +4,6 @@ if (! function_exists('blocksy_output_drawer_canvas')) {
 	function blocksy_output_drawer_canvas() {
 		$default_footer_elements = [];
 
-
 		$elements = new Blocksy_Header_Builder_Elements();
 
 		global $blocksy_has_default_header;
@@ -30,11 +29,16 @@ if (! function_exists('blocksy_output_drawer_canvas')) {
 
 		$footer_elements = apply_filters(
 			'blocksy:footer:offcanvas-drawer',
-			$default_footer_elements
+			$default_footer_elements,
+			$blocksy_has_default_header
 		);
 
 		if (function_exists('blocksy_woo_floating_cart')) {
-			$footer_elements[] = blocksy_woo_floating_cart();
+			$maybe_floating_cart = blocksy_woo_floating_cart();
+
+			if (! empty($maybe_floating_cart)) {
+				$footer_elements[] = $maybe_floating_cart;
+			}
 		}
 
 		if (! empty($footer_elements)) {
@@ -53,32 +57,5 @@ add_action('wp_body_open', function () {
 	if (! is_admin()) {
 		blocksy_output_drawer_canvas();
 	}
-});
+}, 60);
 
-add_action('wp_footer', function () {
-	if (is_customize_preview()) {
-		blocksy_add_customizer_preview_cache(
-			function () {
-				return blocksy_html_tag(
-					'div',
-					['data-id' => 'socials-general-cache'],
-					'<section>' . blocksy_social_icons(null, [
-						'type' => 'simple-small'
-					]) . '</section>'
-				);
-			}
-		);
-	}
-
-	if (is_customize_preview()) {
-		blocksy_add_customizer_preview_cache(function () {
-			return blocksy_html_tag(
-				'div',
-				['data-id' => 'back-to-top-link'],
-				blocksy_collect_and_return(function () {
-					blocksy_output_back_to_top_link(true);
-				})
-			);
-		});
-	}
-}, 5);

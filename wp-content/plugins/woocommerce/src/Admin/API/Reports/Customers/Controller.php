@@ -9,9 +9,9 @@ namespace Automattic\WooCommerce\Admin\API\Reports\Customers;
 
 defined( 'ABSPATH' ) || exit;
 
-use \Automattic\WooCommerce\Admin\API\Reports\ExportableTraits;
-use \Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
-use \Automattic\WooCommerce\Admin\API\Reports\TimeInterval;
+use Automattic\WooCommerce\Admin\API\Reports\ExportableTraits;
+use Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
+use Automattic\WooCommerce\Admin\API\Reports\TimeInterval;
 
 /**
  * REST API Reports customers controller class.
@@ -77,6 +77,8 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 		$args['last_order_before']   = $request['last_order_before'];
 		$args['last_order_after']    = $request['last_order_after'];
 		$args['customers']           = $request['customers'];
+		$args['users']               = $request['users'];
+		$args['force_cache_refresh'] = $request['force_cache_refresh'];
 
 		$between_params_numeric    = array( 'orders_count', 'total_spend', 'avg_order_value' );
 		$normalized_params_numeric = TimeInterval::normalize_between_params( $request, $between_params_numeric, false );
@@ -185,6 +187,7 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 		 * @param WP_REST_Response $response The response object.
 		 * @param object           $report   The original report object.
 		 * @param WP_REST_Request  $request  Request used to generate the response.
+		 * @since 4.0.0
 		 */
 		return apply_filters( 'woocommerce_rest_prepare_report_customers', $response, $report, $request );
 	}
@@ -417,22 +420,22 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 			),
 		);
 		$params['name_includes']           = array(
-			'description'       => __( 'Limit response to objects with specfic names.', 'woocommerce' ),
+			'description'       => __( 'Limit response to objects with specific names.', 'woocommerce' ),
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['name_excludes']           = array(
-			'description'       => __( 'Limit response to objects excluding specfic names.', 'woocommerce' ),
+			'description'       => __( 'Limit response to objects excluding specific names.', 'woocommerce' ),
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['username_includes']       = array(
-			'description'       => __( 'Limit response to objects with specfic usernames.', 'woocommerce' ),
+			'description'       => __( 'Limit response to objects with specific usernames.', 'woocommerce' ),
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['username_excludes']       = array(
-			'description'       => __( 'Limit response to objects excluding specfic usernames.', 'woocommerce' ),
+			'description'       => __( 'Limit response to objects excluding specific usernames.', 'woocommerce' ),
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
@@ -447,12 +450,12 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['country_includes']        = array(
-			'description'       => __( 'Limit response to objects with specfic countries.', 'woocommerce' ),
+			'description'       => __( 'Limit response to objects with specific countries.', 'woocommerce' ),
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['country_excludes']        = array(
-			'description'       => __( 'Limit response to objects excluding specfic countries.', 'woocommerce' ),
+			'description'       => __( 'Limit response to objects excluding specific countries.', 'woocommerce' ),
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
@@ -573,6 +576,21 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 				'type' => 'integer',
 			),
 		);
+		$params['users']                   = array(
+			'description'       => __( 'Limit result to items with specified user ids.', 'woocommerce' ),
+			'type'              => 'array',
+			'sanitize_callback' => 'wp_parse_id_list',
+			'validate_callback' => 'rest_validate_request_arg',
+			'items'             => array(
+				'type' => 'integer',
+			),
+		);
+		$params['force_cache_refresh'] = array(
+			'description'       => __( 'Force retrieval of fresh data instead of from the cache.', 'woocommerce' ),
+			'type'              => 'boolean',
+			'sanitize_callback' => 'wp_validate_boolean',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
 
 		return $params;
 	}
@@ -632,6 +650,13 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 			'postcode'        => $item['postcode'],
 		);
 
+		/**
+		 * Filter the column values of an item being exported.
+		 *
+		 * @param object $export_item Key value pair of Column ID => Row Value.
+		 * @param object $item        Single report item/row.
+		 * @since 4.0.0
+		 */
 		return apply_filters(
 			'woocommerce_report_customers_prepare_export_item',
 			$export_item,

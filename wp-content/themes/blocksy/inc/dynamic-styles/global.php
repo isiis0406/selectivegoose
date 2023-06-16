@@ -134,6 +134,14 @@ if (class_exists('bbPress')) {
 	$supported_post_types[] = 'bbpress';
 }
 
+if (function_exists('tutor')) {
+	$supported_post_types[] = 'courses_archive';
+}
+
+if (function_exists('is_buddypress')) {
+	$supported_post_types[] = 'buddypress';
+}
+
 foreach ($supported_post_types as $post_type) {
 	if (
 		$post_type !== 'single_blog_post'
@@ -141,6 +149,8 @@ foreach ($supported_post_types as $post_type) {
 		$post_type !== 'single_page'
 		&&
 		$post_type !== 'product'
+		&&
+		$post_type !== 'courses_archive'
 	) {
 		$post_type .= '_single';
 	}

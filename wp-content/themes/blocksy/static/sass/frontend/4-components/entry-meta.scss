@@ -2,7 +2,6 @@
 	--items-spacing: 9px;
 
 	li {
-		// display: inline;
 		display: inline-block;
 
 		&:not(:last-of-type) {
@@ -15,10 +14,24 @@
 
 		svg,
 		&:after,
-		[class*="ct-image-container"] {
+		[class*='ct-image-container'] {
 			position: relative;
 			top: -0.1em;
 			vertical-align: var(--vertical-align, middle);
+		}
+
+		[class*='ct-image-container'] {
+			border-radius: 100%;
+			margin-inline-end: 10px;
+
+			+ svg {
+				display: none;
+			}
+		}
+
+		svg {
+			fill: currentColor;
+			margin-inline-end: 7px;
 		}
 
 		> span {
@@ -26,53 +39,39 @@
 		}
 	}
 
-	[class*="ct-image-container"] {
-		border-radius: 100%;
-		margin-inline-end: 10px;
-
-		+ svg {
-			display: none;
-		}
-	}
-
-	svg {
-		fill: currentColor;
-		margin-inline-end: 7px;
-	}
-
 	// meta style
-	&[data-type*="none"] li:not(:last-of-type) {
+	&[data-type*='none'] li:not(:last-of-type) {
 		--items-spacing: 20px;
 	}
 
-	&[data-type*="slash"] li:not(:last-of-type) {
+	&[data-type*='slash'] li:not(:last-of-type) {
 		&:after {
 			content: '/';
 			--vertical-align: baseline;
 		}
 	}
 
-	&[data-type*="line"] li:not(:last-of-type) {
+	&[data-type*='line'] li:not(:last-of-type) {
 		&:after {
 			content: '-';
 		}
 	}
 
-	&[data-type*="circle"] li:not(:last-of-type) {
+	&[data-type*='circle'] li:not(:last-of-type) {
 		&:after {
 			content: '●';
 			font-size: 0.35em;
 		}
 	}
 
-	&[data-type*="icons"] svg {
+	&[data-type*='icons'] svg {
 		width: 13px;
 		height: 13px;
 	}
 
 	// categories type
-	[data-type="pill"],
-	[data-type="underline"] {
+	[data-type='pill'],
+	[data-type='underline'] {
 		a {
 			display: inline-flex;
 			align-items: center;
@@ -81,7 +80,7 @@
 		}
 	}
 
-	[data-type="pill"] a {
+	[data-type='pill'] a {
 		min-height: 25px;
 		padding: 0 8px;
 		border-radius: 3px;
@@ -99,7 +98,7 @@
 		}
 	}
 
-	[data-type="underline"] a {
+	[data-type='underline'] a {
 		position: relative;
 
 		&:before {

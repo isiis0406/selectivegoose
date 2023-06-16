@@ -14,16 +14,15 @@ export const computeFadeSlide = ({
 			].join(':')
 
 			setTimeout(() => {
-				stickyContainer.dataset.sticky = stickyContainer.dataset.sticky.replace(
-					'yes-start',
-					'yes-end'
-				)
+				stickyContainer.dataset.sticky =
+					stickyContainer.dataset.sticky.replace(
+						'yes-start',
+						'yes-end'
+					)
 
 				setTimeout(() => {
-					stickyContainer.dataset.sticky = stickyContainer.dataset.sticky.replace(
-						'yes-end',
-						'yes'
-					)
+					stickyContainer.dataset.sticky =
+						stickyContainer.dataset.sticky.replace('yes-end', 'yes')
 				}, 200)
 			}, 1)
 		}
@@ -51,15 +50,15 @@ export const computeFadeSlide = ({
 				].join(':')
 
 				requestAnimationFrame(() => {
-					stickyContainer.dataset.sticky = stickyContainer.dataset.sticky.replace(
-						'yes-hide-start',
-						'yes-hide-end'
-					)
+					stickyContainer.dataset.sticky =
+						stickyContainer.dataset.sticky.replace(
+							'yes-hide-start',
+							'yes-hide-end'
+						)
 
 					setTimeout(() => {
-						stickyContainer.dataset.sticky = stickyComponents.join(
-							':'
-						)
+						stickyContainer.dataset.sticky =
+							stickyComponents.join(':')
 
 						setTimeout(() => {
 							Array.from(

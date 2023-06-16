@@ -1,17 +1,10 @@
-.ct-widget-inner {
-	border-radius: 3px;
+.ct-newsletter-subscribe-widget {
 
-	&[data-alignment='center'] {
+	[data-alignment='center'] {
 		text-align: center;
 	}
 
-	&[data-alignment='right'] {
+	[data-alignment='right'] {
 		text-align: right;
-	}
-}
-
-.ct-newsletter-subscribe-widget-form {
-	> *:not(:first-child) {
-		margin-top: 10px;
 	}
 }

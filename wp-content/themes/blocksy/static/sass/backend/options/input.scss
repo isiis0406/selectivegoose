@@ -1,11 +1,11 @@
-[class*="ct-option"] {
+[class^="ct-option"] {
 
 	input[type="text"],
 	input[type="number"] {
 		--fontSize: 12px;
 
-		height: var(--height, 30px) !important;
-		width: var(--width, 100%) !important;
+		height: var(--input-height, 30px) !important;
+		width: var(--input-width, 100%) !important;
 		margin: var(--margin, 0) !important;
 		padding: var(--padding, 3px 8px) !important;
 		min-height: initial;

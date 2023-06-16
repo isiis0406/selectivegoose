@@ -1,5 +1,9 @@
 [data-layout="enhanced-grid"] {
 
+	@include media-breakpoint-down (sm) {
+		--grid-template-columns: repeat(1, minmax(0, 1fr));
+	}
+
 	@include media-breakpoint-up (md) {
 		--grid-template-columns: repeat( 6, 1fr);
 	}

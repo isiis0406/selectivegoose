@@ -311,9 +311,29 @@ class Blocksy_Header_Builder_Render extends Blocksy_Builder_Render {
 			$attr['data-row'] .= ':boxed';
 		}
 
-		$middle = $this->get_placement_by($row, 'middle');
+		/*
+		if (
+			$count === 2
+			&&
+			$this->should_column_be_expanded($row, 'start')
+		) {
+			$attr['data-column-expand'] = 'left';
+		}
 
-		if (in_array('search-input', $middle['items']) && $count > 1) {
+		if (
+			$count === 2
+			&&
+			$this->should_column_be_expanded($row, 'end')
+		) {
+			$attr['data-column-expand'] = 'right';
+		}
+		 */
+
+		if (
+			$count === 3
+			&&
+			$this->should_column_be_expanded($row, 'middle')
+		) {
 			$attr['data-middle'] = 'search-input';
 		}
 
@@ -702,6 +722,36 @@ class Blocksy_Header_Builder_Render extends Blocksy_Builder_Render {
 
 	public function get_primary_item($id) {
 		return [];
+	}
+
+	public function should_column_be_expanded($row, $placement) {
+		$menus = [
+			'menu',
+			'menu-secondary',
+			'menu-tertiary',
+		];
+
+		$items = $this->get_placement_by($row, $placement)['items'];
+
+		if (in_array('search-input', $items)) {
+			return true;
+		}
+
+		/*
+		foreach ($menus as $menu_id) {
+			if (! in_array($menu_id, $items)) {
+				continue;
+			}
+
+			$atts = $this->get_item_data_for($menu_id);
+
+			if (blocksy_default_akg('stretch_menu', $atts, 'no') === 'yes') {
+				return true;
+			}
+		}
+		 */
+
+		return false;
 	}
 }
 

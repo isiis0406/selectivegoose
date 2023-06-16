@@ -8,7 +8,6 @@ import {
 	getRootSelectorFor,
 	responsiveClassesFor,
 } from 'blocksy-customizer-sync'
-import { markImagesAsLoaded } from 'blocksy-frontend'
 
 ctEvents.on(
 	'ct:header:sync:collect-variable-descriptors',
@@ -155,13 +154,15 @@ ctEvents.on(
 
 				account_close_button_border_color: [
 					{
-						selector: '#account-modal .ct-toggle-close[data-type="type-2"]',
+						selector:
+							'#account-modal .ct-toggle-close[data-type="type-2"]',
 						variable: 'toggle-button-border-color',
 						type: 'color:default',
 					},
 
 					{
-						selector: '#account-modal .ct-toggle-close[data-type="type-2"]:hover',
+						selector:
+							'#account-modal .ct-toggle-close[data-type="type-2"]:hover',
 						variable: 'toggle-button-border-color',
 						type: 'color:hover',
 					},
@@ -169,13 +170,15 @@ ctEvents.on(
 
 				account_close_button_shape_color: [
 					{
-						selector: '#account-modal .ct-toggle-close[data-type="type-3"]',
+						selector:
+							'#account-modal .ct-toggle-close[data-type="type-3"]',
 						variable: 'toggle-button-background',
 						type: 'color:default',
 					},
 
 					{
-						selector: '#account-modal .ct-toggle-close[data-type="type-3"]:hover',
+						selector:
+							'#account-modal .ct-toggle-close[data-type="type-3"]:hover',
 						variable: 'toggle-button-background',
 						type: 'color:hover',
 					},

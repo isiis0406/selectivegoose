@@ -17,7 +17,8 @@ $options = [
 						'type' => 'ct-slider',
 						'value' => '100%',
 						'units' => blocksy_units_config([
-							[ 'unit' => '%', 'min' => 30, 'max' => 100 ],
+							[ 'unit' => '%', 'min' => 0, 'max' => 100 ],
+							[ 'unit' => 'px', 'min' => 0, 'max' => 500 ],
 						]),
 						'responsive' => true,
 						'setting' => [ 'transport' => 'postMessage' ],

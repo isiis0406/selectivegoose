@@ -9,8 +9,8 @@ namespace Automattic\WooCommerce\Admin\API\Reports\Downloads;
 
 defined( 'ABSPATH' ) || exit;
 
-use \Automattic\WooCommerce\Admin\API\Reports\Controller as ReportsController;
-use \Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
+use Automattic\WooCommerce\Admin\API\Reports\Controller as ReportsController;
+use Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
 
 /**
  * REST API Reports downloads controller class.
@@ -19,12 +19,6 @@ use \Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
  * @extends Automattic\WooCommerce\Admin\API\Reports\Controller
  */
 class Controller extends ReportsController implements ExportableInterface {
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'wc-analytics';
 
 	/**
 	 * Route base.
@@ -369,7 +363,6 @@ class Controller extends ReportsController implements ExportableInterface {
 				'type' => 'string',
 			),
 		);
-
 		$params['ip_address_excludes'] = array(
 			'description'       => __( 'Limit response to objects that don\'t have a specified ip address.', 'woocommerce' ),
 			'type'              => 'array',
@@ -377,6 +370,12 @@ class Controller extends ReportsController implements ExportableInterface {
 			'items'             => array(
 				'type' => 'string',
 			),
+		);
+		$params['force_cache_refresh'] = array(
+			'description'       => __( 'Force retrieval of fresh data instead of from the cache.', 'woocommerce' ),
+			'type'              => 'boolean',
+			'sanitize_callback' => 'wp_validate_boolean',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		return $params;

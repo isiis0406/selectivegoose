@@ -117,9 +117,7 @@ $options = [
 
 		blocksy_rand_md5() => [
 			'type' => 'ct-condition',
-			'condition' => [
-				'posts_type' => 'small-thumbs|large-thumbs|large-small',
-			],
+			'condition' => ['posts_type' => 'small-thumbs|large-thumbs|large-small'],
 			'options' => [
 
 				'post_widget_image_ratio' => [
@@ -127,6 +125,30 @@ $options = [
 					'type' => 'ct-ratio',
 					'value' => 'original',
 					'design' => 'inline',
+				],
+
+			],
+		],
+
+		blocksy_rand_md5() => [
+			'type' => 'ct-condition',
+			'condition' => ['posts_type' => '!no-thumbs'],
+			'options' => [
+
+				'post_widget_thumb_size' => [
+					'label' => __('Image Size', 'blocksy-companion'),
+					'type' => 'ct-select',
+					'value' => 'default',
+					'view' => 'text',
+					'design' => 'inline',
+					'choices' => blocksy_ordered_keys(
+						array_merge(
+							[
+								'default' => __('Default', 'blocksy-companion'),
+							],
+							blocksy_get_all_image_sizes()
+						)
+					),
 				],
 
 			],

@@ -344,9 +344,13 @@ class DataStore extends \WC_Data_Store_WP implements \WC_Object_Data_Store_Inter
 		$offset        = $args['per_page'] * ( $args['page'] - 1 );
 		$where_clauses = $this->get_notes_where_clauses( $args, $context );
 
+		// sanitize order and orderby.
+		$order_by  = '`' . str_replace( '`', '', $args['orderby'] ) . '`';
+		$order_dir = 'asc' === strtolower( $args['order'] ) ? 'ASC' : 'DESC';
+
 		$query = $wpdb->prepare(
 			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			"SELECT * FROM {$wpdb->prefix}wc_admin_notes WHERE 1=1{$where_clauses} ORDER BY {$args['orderby']} {$args['order']} LIMIT %d, %d",
+			"SELECT * FROM {$wpdb->prefix}wc_admin_notes WHERE 1=1{$where_clauses} ORDER BY {$order_by} {$order_dir} LIMIT %d, %d",
 			$offset,
 			$args['per_page']
 		);
@@ -372,7 +376,11 @@ class DataStore extends \WC_Data_Store_WP implements \WC_Object_Data_Store_Inter
 
 		$where_clauses = $this->args_to_where_clauses( $args );
 
-		$query = "SELECT * FROM {$wpdb->prefix}wc_admin_notes WHERE 1=1{$where_clauses} ORDER BY {$args['orderby']} {$args['order']}";
+		// sanitize order and orderby.
+		$order_by  = '`' . str_replace( '`', '', $args['orderby'] ) . '`';
+		$order_dir = 'asc' === strtolower( $args['order'] ) ? 'ASC' : 'DESC';
+
+		$query = "SELECT * FROM {$wpdb->prefix}wc_admin_notes WHERE 1=1{$where_clauses} ORDER BY {$order_by} {$order_dir}";
 
 		return $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	}
@@ -383,7 +391,7 @@ class DataStore extends \WC_Data_Store_WP implements \WC_Object_Data_Store_Inter
 	 * @param string $type Comma separated list of note types.
 	 * @param string $status Comma separated list of statuses.
 	 * @param string $context Optional argument that the woocommerce_note_where_clauses filter can use to determine whether to apply extra conditions. Extensions should define their own contexts and use them to avoid adding to notes where clauses when not needed.
-	 * @return array An array of objects containing a note id.
+	 * @return string Count of objects with given type, status and context.
 	 */
 	public function get_notes_count( $type = array(), $status = array(), $context = self::WC_ADMIN_NOTE_OPER_GLOBAL ) {
 		global $wpdb;
@@ -498,6 +506,10 @@ class DataStore extends \WC_Data_Store_WP implements \WC_Object_Data_Store_Inter
 
 		if ( ! empty( $escaped_where_source ) ) {
 			$where_clauses .= " AND source IN ($escaped_where_source)";
+		}
+
+		if ( isset( $args['is_read'] ) ) {
+			$where_clauses .= $args['is_read'] ? ' AND is_read = 1' : ' AND is_read = 0';
 		}
 
 		$where_clauses .= $escaped_is_deleted ? ' AND is_deleted = 1' : ' AND is_deleted = 0';

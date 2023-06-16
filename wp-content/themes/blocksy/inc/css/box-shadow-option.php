@@ -9,7 +9,7 @@ if (! function_exists('blocksy_compute_box_shadow_var_for')) {
 			||
 			(isset($value['inherit']) && $value['inherit'])
 		) {
-			return $should_skip_output ? 'CT_CSS_SKIP_RULE' : 'none';
+			return 'none';
 		}
 
 		if (
@@ -126,6 +126,18 @@ if (! function_exists('blocksy_output_box_shadow')) {
 				$args['should_skip_output']
 			) : 'none')
 		];
+
+		if (
+			$shadow_value['desktop'] === 'none'
+			&&
+			$shadow_value['tablet'] === 'none'
+			&&
+			$shadow_value['mobile'] === 'none'
+		) {
+			$shadow_value['desktop'] = $args['should_skip_output'] ? 'CT_CSS_SKIP_RULE' : 'none';
+			$shadow_value['tablet'] = $args['should_skip_output'] ? 'CT_CSS_SKIP_RULE' : 'none';
+			$shadow_value['mobile'] = $args['should_skip_output'] ? 'CT_CSS_SKIP_RULE' : 'none';
+		}
 
 		$args['value'] = $shadow_value;
 

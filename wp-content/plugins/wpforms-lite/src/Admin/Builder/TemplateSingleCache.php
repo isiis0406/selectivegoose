@@ -2,12 +2,15 @@
 
 namespace WPForms\Admin\Builder;
 
+use WPForms\Helpers\CacheBase;
+use WPForms\Tasks\Actions\AsyncRequestTask;
+
 /**
  * Single template cache handler.
  *
  * @since 1.6.8
  */
-class TemplateSingleCache extends \WPForms\Helpers\CacheBase {
+class TemplateSingleCache extends CacheBase {
 
 	/**
 	 * Template Id (hash).
@@ -36,9 +39,11 @@ class TemplateSingleCache extends \WPForms\Helpers\CacheBase {
 	 */
 	protected function allow_load() {
 
-		// Load only in the Form Builder.
-		$allow = wp_doing_ajax() || wpforms_is_admin_page( 'builder' );
+		$has_permissions  = wpforms_current_user_can( [ 'create_forms', 'edit_forms' ] );
+		$allowed_requests = wpforms_is_admin_ajax() || wpforms_is_admin_page( 'builder' ) || wpforms_is_admin_page( 'templates' );
+		$allow            = wp_doing_cron() || wpforms_doing_wp_cli() || ( $has_permissions && $allowed_requests );
 
+		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
 		/**
 		 * Whether to allow to load this class.
 		 *
@@ -46,7 +51,8 @@ class TemplateSingleCache extends \WPForms\Helpers\CacheBase {
 		 *
 		 * @param bool $allow True or false.
 		 */
-		return apply_filters( 'wpforms_admin_builder_templatesinglecache_allow_load', $allow );
+		return (bool) apply_filters( 'wpforms_admin_builder_templatesinglecache_allow_load', $allow );
+		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
@@ -87,6 +93,7 @@ class TemplateSingleCache extends \WPForms\Helpers\CacheBase {
 			'cache_file'    => $this->get_cache_file_name(),
 
 			// This filter is documented in wpforms/src/Admin/Builder/TemplatesCache.php.
+			// phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName, WPForms.Comments.PHPDocHooks.RequiredHookDocumentation
 			'cache_ttl'     => (int) apply_filters( 'wpforms_admin_builder_templates_cache_ttl', WEEK_IN_SECONDS ),
 		];
 	}
@@ -96,21 +103,66 @@ class TemplateSingleCache extends \WPForms\Helpers\CacheBase {
 	 *
 	 * @since 1.6.8
 	 *
+	 * @param bool $cache True if the cache arg should be appended to the URL.
+	 *
 	 * @return string
 	 */
-	private function remote_source() {
+	private function remote_source( $cache = false ) {
 
 		if ( ! isset( $this->license['key'] ) ) {
 			return '';
 		}
 
+		$args = [
+			'license' => $this->license['key'],
+			'site'    => site_url(),
+		];
+
+		if ( $cache ) {
+			$args['cache'] = 1;
+		}
+
 		return add_query_arg(
-			[
-				'license' => $this->license['key'],
-				'site'    => site_url(),
-			],
+			$args,
 			'https://wpforms.com/templates/api/get/' . $this->id
 		);
+	}
+
+	/**
+	 * Get cached data.
+	 *
+	 * @since 1.8.2
+	 *
+	 * @return array Cached data.
+	 */
+	public function get() {
+
+		$data = parent::get();
+
+		if ( parent::$updated === false ) {
+			$this->update_usage_tracking();
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Sends a request to update the form template usage tracking database.
+	 *
+	 * @since 1.7.5
+	 */
+	private function update_usage_tracking() {
+
+		$tasks = wpforms()->get( 'tasks' );
+
+		if ( ! $tasks ) {
+			return;
+		}
+
+		$url  = $this->remote_source( true );
+		$args = [ 'blocking' => false ];
+
+		$tasks->create( AsyncRequestTask::ACTION )->async()->params( $url, $args )->register();
 	}
 
 	/**
@@ -170,5 +222,24 @@ class TemplateSingleCache extends \WPForms\Helpers\CacheBase {
 		unset( $cache_data['data']['settings']['notifications'][1]['sender_name'] );
 
 		return $cache_data;
+	}
+
+	/**
+	 * Wipe cache of an empty templates.
+	 *
+	 * @since 1.7.5
+	 */
+	public function wipe_empty_templates_cache() {
+
+		$cache_dir = $this->get_cache_dir();
+		$files     = glob( $cache_dir . '*.json' );
+
+		foreach ( $files as $filename ) {
+			$content = file_get_contents( $filename );
+
+			if ( empty( $content ) || trim( $content ) === '[]' ) {
+				unlink( $filename );
+			}
+		}
 	}
 }

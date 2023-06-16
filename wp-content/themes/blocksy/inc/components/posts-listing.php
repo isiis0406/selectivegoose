@@ -21,11 +21,27 @@ add_action('parse_tax_query', function ($query) {
 		return;
 	}
 
+	$prefix = blocksy_manager()->screen->get_prefix();
+
+	if (
+		$prefix === 'bbpress_single'
+		||
+		(
+			$prefix === 'courses_archive'
+			&&
+			function_exists('tutor')
+		)
+	) {
+		return;
+	}
+
 	$prefix = blocksy_manager()->screen->get_prefix([
 		'allowed_prefixes' => [
 			'blog',
 			'categories',
-			'woo_categories'
+			'woo_categories',
+			'search',
+			'author'
 		],
 		'default_prefix' => 'blog'
 	]);

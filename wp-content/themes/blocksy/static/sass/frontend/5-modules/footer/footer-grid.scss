@@ -4,7 +4,6 @@
 		display: grid;
 		grid-template-columns: var(--grid-template-columns);
 		grid-column-gap: var(--columns-gap, 50px);
-		// grid-row-gap: var(--widgets-gap, 40px);
 		grid-row-gap: var(--columns-gap, 50px);
 
 		padding-top: var(--container-spacing);
@@ -24,7 +23,7 @@
 	}
 
 	[data-column*="widget"] {
-		text-align: var(--horizontal-alignment);
+		text-align: var(--text-horizontal-alignment);
 	}
 
 	[data-column="ghost"] {

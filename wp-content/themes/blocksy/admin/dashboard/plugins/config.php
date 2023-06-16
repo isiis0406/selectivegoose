@@ -22,10 +22,10 @@ $plug = [
 		'description' => __( 'Toolset helps WordPress professionals build advanced dynamic sites without programming.', 'blocksy' ),
 	],
 
-	'getwid' => [
+	'modula-best-grid-gallery' => [
 		'type' => 'web',
-		'title' => 'Getwid – Gutenberg Blocks',
-		'description' => __( '40+ Gutenberg Blocks, plus multiple pre-made free block templates for the WordPress block editor.', 'blocksy' ),
+		'title' => 'Modula – Customizable Gallery Plugin',
+		'description' => __( 'Build stunning lightbox galleries, masonry grids, custom grids with no more than a few clicks right from the WordPress dashboard.', 'blocksy' ),
 	],
 
 	'translatepress-multilingual' => [

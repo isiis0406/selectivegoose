@@ -51,6 +51,15 @@ if (
 	in_array($device, $has_sticky_header['devices'])
 	&&
 	! empty($sticky_logo[$device])
+    &&
+	(
+		$has_sticky_header['behaviour'] === 'entire_header'
+		||
+		strpos(
+			$has_sticky_header['behaviour'],
+			str_replace('-row', '', $row_id)
+		) !== false
+	)
 ) {
 	if (! $custom_logo_id) {
 		$custom_logo_id = $sticky_logo[$device];
@@ -105,7 +114,7 @@ if ($custom_logo_id) {
 	$logo_html = sprintf(
 		'<a href="%1$s" class="site-logo-container" rel="home" itemprop="url">%2$s</a>',
 		esc_url(
-			apply_filters('blocksy:header:logo:url', home_url('/'))
+			apply_filters('blocksy:' . $panel_type . ':logo:url', home_url('/'))
 		),
 		$image_logo_html
 	);
@@ -128,15 +137,8 @@ $site_title_class = 'site-title ' . blocksy_visibility_classes(
 );
 
 $tag = 'span';
-
-// if (is_home() || is_front_page()) {
-// 	if ($device !== 'mobile') {
-// 		$tag = 'h1';
-// 	}
-// }
-
-$tag = apply_filters('blocksy:header:logo:tag', $tag);
-$wrapper_tag = apply_filters('blocksy:header:logo:wrapper-tag', 'div');
+$tag = apply_filters('blocksy:' . $panel_type . ':logo:tag', $tag);
+$wrapper_tag = apply_filters('blocksy:' . $panel_type . ':logo:wrapper-tag', 'div');
 
 $has_site_title = blocksy_akg('has_site_title', $atts, 'yes') === 'yes';
 $has_tagline = blocksy_akg('has_tagline', $atts, 'no') === 'yes';
@@ -159,7 +161,15 @@ if (
 	$logo_position = 'data-logo="' . $logo_position_v[$device] . '"';
 }
 
-$class = trim('site-branding' . ' ' . blocksy_visibility_classes(
+$wrapper_class = 'site-branding';
+
+$wrapper_class = trim($wrapper_class . ' ' . blocksy_default_akg(
+	'header_logo_class',
+	$atts,
+	''
+));
+
+$wrapper_class = trim($wrapper_class . ' ' . blocksy_visibility_classes(
 	blocksy_akg('visibility', $atts, [
 		'desktop' => true,
 		'tablet' => true,
@@ -170,10 +180,10 @@ $class = trim('site-branding' . ' ' . blocksy_visibility_classes(
 ?>
 
 <<?php echo $wrapper_tag ?>
-	class="<?php echo $class ?>"
+	class="<?php echo $wrapper_class ?>"
 	<?php echo blocksy_attr_to_html($attr) ?>
 	<?php echo $logo_position ?>
-	<?php echo blocksy_schema_org_definitions('logo') ?>>
+	<?php echo blocksy_schema_org_definitions('logo', ['condition' => $device === 'desktop']) ?>>
 
 	<?php if ($custom_logo_id) { ?>
 		<?php echo wp_kses_post($logo_html); ?>
@@ -182,27 +192,27 @@ $class = trim('site-branding' . ' ' . blocksy_visibility_classes(
 	<?php if ($has_site_title || $has_tagline) { ?>
 		<div class="site-title-container">
 			<?php if ($has_site_title) { ?>
-				<<?php echo $tag ?> class="<?php echo $site_title_class ?>" <?php echo blocksy_schema_org_definitions('name') ?>>
-					<a href="<?php echo esc_url(apply_filters('blocksy:header:logo:url', home_url('/'))); ?>" rel="home" <?php echo blocksy_schema_org_definitions('url')?>>
+				<<?php echo $tag ?> class="<?php echo $site_title_class ?>" <?php echo blocksy_schema_org_definitions('name', ['condition' => $device === 'desktop']) ?>>
+					<a href="<?php echo esc_url(apply_filters('blocksy:' . $panel_type . ':logo:url', home_url('/'))); ?>" rel="home" <?php echo blocksy_schema_org_definitions('url', ['condition' => $device === 'desktop'])?>>
 						<?php
 							echo blocksy_translate_dynamic(blocksy_default_akg(
 								'blogname',
 								$atts,
 								get_bloginfo('name')
-							), 'header:' . $section_id . ':logo:blogname');
+							), $panel_type . ':' . $section_id . ':logo:blogname');
 						?>
 					</a>
 				</<?php echo $tag ?>>
 			<?php } ?>
 
 			<?php if ($has_tagline) { ?>
-				<p class="<?php echo $tagline_class ?>" <?php echo blocksy_schema_org_definitions('description') ?>>
+				<p class="<?php echo $tagline_class ?>" <?php echo blocksy_schema_org_definitions('description', ['condition' => $device === 'desktop']) ?>>
 					<?php
 						echo blocksy_translate_dynamic(blocksy_default_akg(
 							'blogdescription',
 							$atts,
 							get_bloginfo('description')
-						), 'header:' . $section_id . ':logo:blogdescription');
+						), $panel_type . ':' . $section_id . ':logo:blogdescription');
 					?>
 				</p>
 			<?php } ?>

@@ -178,7 +178,7 @@ blocksy_output_colors([
 
 // Content spacing
 $contentSpacingMap = [
-	'none' => '0',
+	'none' => '0px',
 	'compact' => '0.8em',
 	'comfortable' => '1.5em',
 	'spacious' => '2em',
@@ -186,11 +186,15 @@ $contentSpacingMap = [
 
 $contentSpacing = get_theme_mod('contentSpacing', 'comfortable');
 
-$contentSpacing = isset(
+$contentSpacingResult = isset(
 	$contentSpacingMap[$contentSpacing]
 ) ? $contentSpacingMap[$contentSpacing] : $contentSpacingMap['comfortable'];
 
-$css->put(':root', '--content-spacing: ' . $contentSpacing);
+$css->put(':root', '--content-spacing: ' . $contentSpacingResult);
+
+if ($contentSpacing === 'none') {
+	$css->put(':root', '--has-content-spacing: 0');
+}
 
 // Buttons
 blocksy_output_responsive([
@@ -340,7 +344,7 @@ if ($sidebar_width !== 27) {
 }
 
 // sidebar gap
-$sidebarGap = blocksy_get_with_percentage( 'sidebarGap', '4%' );
+$sidebarGap = blocksy_get_with_percentage('sidebarGap', '4%');
 if ($sidebarGap !== '4%') {
 	$css->put(
 		'[data-sidebar]',

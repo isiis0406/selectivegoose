@@ -16,41 +16,12 @@ if (! isset($product)) {
 }
 
 if ($product->get_type() === 'variable' && ! $blocksy_current_variation) {
-	$default_attributes = $product->get_default_attributes();
-
-	$is_default_variation = false;
-
-	foreach($product->get_available_variations() as $variation_values ) {
-		foreach ($variation_values['attributes'] as $key => $attribute_value) {
-			$attribute_name = str_replace( 'attribute_', '', $key );
-			$default_value = $product->get_variation_default_attribute($attribute_name);
-
-			if ($default_value == $attribute_value) {
-				$is_default_variation = true;
-			} else {
-				$is_default_variation = false;
-				break;
-			}
-		}
-
-		if ($is_default_variation ) {
-			$variation_id = $variation_values['variation_id'];
-			break;
-		}
-	}
-
-	if ($is_default_variation) {
-		$default_variation = wc_get_product($variation_id);
-		$blocksy_current_variation = $default_variation;
-	}
-
-	$maybe_variation = (new \WC_Product_Data_Store_CPT())->find_matching_product_variation(
-		$product,
-		$_GET
+	$maybe_current_variation = blocksy_retrieve_product_default_variation(
+		$product
 	);
 
-	if ($maybe_variation) {
-		$blocksy_current_variation = wc_get_product($maybe_variation);
+	if ($maybe_current_variation) {
+		$blocksy_current_variation = $maybe_current_variation;
 	}
 }
 
@@ -130,6 +101,10 @@ $gallery_images = apply_filters(
 
 $ratio = '3/4';
 $single_ratio = get_theme_mod('product_gallery_ratio', '3/4');
+$has_lazy_load_single_product_image = get_theme_mod(
+	'has_lazy_load_single_product_image',
+	'yes'
+) === 'yes';
 
 global $blocksy_is_quick_view;
 
@@ -141,8 +116,6 @@ if (! $blocksy_is_quick_view) {
 }
 
 ob_start();
-
-echo '<div ' . blocksy_attr_to_html($product_view_attr) . '>';
 
 if ($product->is_in_stock()) {
 	if (get_theme_mod('has_product_single_onsale', 'yes') === 'yes') {
@@ -166,7 +139,8 @@ if (! $blocksy_is_quick_view) {
 	);
 }
 
-do_action('blocksy:woocommerce:product-view:start');
+do_action('blocksy:woocommerce:product-view:start', $gallery_images);
+
 
 $gallery_actions = [];
 
@@ -230,11 +204,17 @@ if (! $maybe_custom_content && count($gallery_images) === 1) {
 			'data-width' => $width,
 			'data-height' => $height
 		] : []),
-		'display_video' => true
+		'display_video' => true,
+		'lazyload' => $has_lazy_load_single_product_image
 	]);
 }
 
 if (! $maybe_custom_content && count($gallery_images) > 1) {
+	$has_lazy_load_single_product_image = get_theme_mod(
+		'has_lazy_load_single_product_image',
+		'yes'
+	) === 'yes';
+
 	$flexy_args = apply_filters(
 		'blocksy:woocommerce:single_product:flexy-args',
 		[
@@ -242,7 +222,8 @@ if (! $maybe_custom_content && count($gallery_images) > 1) {
 			'images' => $gallery_images,
 			'size' => 'woocommerce_single',
 			'pills_images' => $is_single ? $gallery_images : null,
-			'images_ratio' => $is_single ? $single_ratio : $default_ratio
+			'images_ratio' => $is_single ? $single_ratio : $default_ratio,
+			'lazyload' => $has_lazy_load_single_product_image
 		]
 	);
 
@@ -253,16 +234,23 @@ if ($maybe_custom_content) {
 	echo $maybe_custom_content;
 }
 
-do_action('blocksy:woocommerce:product-view:end');
+do_action('blocksy:woocommerce:product-view:end', $gallery_images);
 do_action('woocommerce_product_thumbnails');
-
-echo '</div>';
 
 $result_html = ob_get_clean();
 
-echo apply_filters(
-	'woocommerce_single_product_image_thumbnail_html',
-	$result_html,
-	$gallery_images[0]
-);
+if (! empty($result_html)) {
+	$result_html = blocksy_html_tag(
+		'div',
+		$product_view_attr,
+		$result_html
+	);
+
+	echo apply_filters(
+		'woocommerce_single_product_image_thumbnail_html',
+		$result_html,
+		$gallery_images[0]
+	);
+}
+
 

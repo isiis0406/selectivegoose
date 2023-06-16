@@ -189,29 +189,6 @@ blocksy_output_spacing([
 	)
 ]);
 
-if (function_exists('blocksy_output_responsive_switch')) {
-	blocksy_output_responsive_switch([
-		'css' => $css,
-		'tablet_css' => $tablet_css,
-		'mobile_css' => $mobile_css,
-		'selector' => blocksy_assemble_selector(blocksy_mutate_selector([
-			'selector' => $root_selector,
-			'operation' => 'suffix',
-			'to_add' => '.ct-label'
-		])),
-		'value' => blocksy_default_akg(
-			'socialsLabelVisibility',
-			$atts,
-			[
-				'desktop' => false,
-				'tablet' => false,
-				'mobile' => false,
-			]
-		),
-		'on' => 'block'
-	]);
-}
-
 // transparent state
 if (isset($has_transparent_header) && $has_transparent_header) {
 

@@ -216,11 +216,35 @@ $options = [
 							],
 						],
 					],
+
+					blocksy_rand_md5() => [
+						'type' => 'ct-condition',
+						'condition' => [ 'meta_type' => 'icons' ],
+						'values_source' => 'parent',
+						'options' => apply_filters(
+							'blocksy:general:card:options:icon', 
+							[],
+							'blc blc-feather'
+						)
+					],
+					
 				],
 			],
 
 			'comments' => [
 				'label' => __('Comments', 'blocksy'),
+				'options' => [
+					blocksy_rand_md5() => [
+						'type' => 'ct-condition',
+						'condition' => [ 'meta_type' => 'icons' ],
+						'values_source' => 'parent',
+						'options' => apply_filters(
+							'blocksy:general:card:options:icon', 
+							[],
+							'blc blc-comments'
+						)
+					],
+				]
 			],
 
 			'post_date' => [
@@ -242,7 +266,19 @@ $options = [
 							],
 							],
 						],
+
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => [ 'meta_type' => 'icons' ],
+							'values_source' => 'parent',
+							'options' => apply_filters(
+								'blocksy:general:card:options:icon', 
+								[],
+								'blc blc-clock'
+							)
+						],
 					],
+					
 				],
 			],
 
@@ -264,6 +300,17 @@ $options = [
 									'value' => __('On', 'blocksy')
 							],
 							],
+						],
+
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => [ 'meta_type' => 'icons' ],
+							'values_source' => 'parent',
+							'options' => apply_filters(
+								'blocksy:general:card:options:icon', 
+								[],
+								'blc blc-clock'
+							)
 						],
 					],
 				],
@@ -312,6 +359,17 @@ $options = [
 								'sync' => $skip_sync_id
 							] : []),
 						],
+					],
+
+					blocksy_rand_md5() => [
+						'type' => 'ct-condition',
+						'condition' => [ 'meta_type' => 'icons' ],
+						'values_source' => 'parent',
+						'options' => apply_filters(
+							'blocksy:general:card:options:icon', 
+							[],
+							'blc blc-box'
+						)
 					],
 				],
 			]

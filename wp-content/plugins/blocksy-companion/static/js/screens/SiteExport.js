@@ -12,13 +12,15 @@ import useActivationAction from '../helpers/useActivationAction'
 import fileSaver from 'file-saver'
 import Overlay from '../helpers/Overlay'
 
+import { getPluginsMap } from './DemoInstall/Wizzard/Plugins'
+
 const SiteExport = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [isShowing, setIsShowing] = useState(false)
 
 	const [name, setName] = useState('')
 	const [builder, setBuilder] = useState('')
-	const [plugins, setPlugins] = useState('coblocks,elementor,contact-form-7')
+	const [plugins, setPlugins] = useState([])
 	const [url, setUrl] = useState('')
 	const [isPro, setIsPro] = useState(false)
 
@@ -32,7 +34,7 @@ const SiteExport = () => {
 		body.append('is_pro', isPro)
 		body.append('url', url)
 		body.append('builder', builder)
-		body.append('plugins', plugins)
+		body.append('plugins', plugins.join(','))
 		body.append('wp_customize', 'on')
 
 		try {
@@ -94,7 +96,10 @@ const SiteExport = () => {
 							{__('Preview URL', 'blocksy-companion')}
 							<input
 								type="text"
-								placeholder={__('Preview URL', 'blocksy-companion')}
+								placeholder={__(
+									'Preview URL',
+									'blocksy-companion'
+								)}
 								value={url}
 								onChange={({ target: { value } }) =>
 									setUrl(value)
@@ -125,15 +130,37 @@ const SiteExport = () => {
 							/>
 						</label>
 
-						<label>
-							{__('Plugins', 'blocksy-companion')}
-							<textarea
-								placeholder={__('Plugins', 'blocksy-companion')}
-								value={plugins}
-								onChange={({ target: { value } }) =>
-									setPlugins(value)
-								}></textarea>
-						</label>
+						<h3>Required plugins</h3>
+
+						<div className="ct-bundled-plugins-list ct-modal-scroll">
+							{Object.keys(getPluginsMap()).map((plugin) => (
+								<label
+									tabindex="0"
+									onClick={(e) => {
+										e.preventDefault()
+
+										setPlugins((plugins) => {
+											if (plugins.includes(plugin)) {
+												return plugins.filter(
+													(p) => p !== plugin
+												)
+											}
+
+											return [...plugins, plugin]
+										})
+									}}>
+									<span>{getPluginsMap()[plugin]}</span>
+
+									<input
+										type="checkbox"
+										checked={plugins.indexOf(plugin) > -1}
+										onChange={({
+											target: { checked },
+										}) => {}}
+									/>
+								</label>
+							))}
+						</div>
 
 						<button
 							className="ct-button"

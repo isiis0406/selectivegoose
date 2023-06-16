@@ -16,6 +16,10 @@ export const mount = (el, { event: mountEvent }) => {
 			return
 		}
 
+		if (el.querySelector('video,iframe')) {
+			return
+		}
+
 		var pswpElement = $('.pswp')[0],
 			eventTarget = $(el),
 			clicked = eventTarget

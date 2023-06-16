@@ -19,6 +19,9 @@ if (
 	blc_fs()->can_use_premium_code()
 ) {
 	$config['name'] = __('Mobile Menu 1', 'blocksy');
-	unset($config['allowed_in']);
+
+	$config['allowed_in'] = [
+		'desktop' => ['offcanvas']
+	];
 }
 

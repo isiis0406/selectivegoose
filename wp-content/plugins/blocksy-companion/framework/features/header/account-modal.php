@@ -4,11 +4,24 @@ if (! isset($current_url)) {
 	$current_url = home_url();
 }
 
-$users_can_register = get_option('users_can_register');
+$users_can_register = null;
 
-if (get_option('woocommerce_enable_myaccount_registration') === 'yes') {
-	$users_can_register = true;
+if (get_option('users_can_register')) {
+	$users_can_register = 'wp';
 }
+
+if (
+	function_exists('is_product')
+	&&
+	get_option('woocommerce_enable_myaccount_registration') === 'yes'
+) {
+	$users_can_register = 'woocommerce';
+}
+
+$users_can_register = apply_filters(
+	'blocksy:account:register:strategy',
+	$users_can_register
+);
 
 $form_views = [
 	'login' => '',
@@ -68,7 +81,7 @@ $close_button_type = blocksy_akg('account_close_button_type', $atts, 'type-1');
 			<div class="ct-account-panel ct-forgot-password-form">
 				<?php echo $form_views['lostpassword'] ?>
 
-				<a href="<?php echo wp_login_url() ?>" class="ct-back-to-login ct-login">
+				<a href="#" class="ct-back-to-login ct-login">
 					← <?php echo __('Back to login', 'blocksy-companion') ?>
 				</a>
 			</div>

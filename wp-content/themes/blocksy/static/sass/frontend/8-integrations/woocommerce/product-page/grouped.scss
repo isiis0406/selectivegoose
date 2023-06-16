@@ -2,16 +2,15 @@ form.grouped_form {
 	--form-margin-bottom: 0;
 
 	table {
-		margin: 0;
-		border: none;
+		margin-bottom: 1em;
 	}
 
 	td {
-		padding: 0 0.6em 1.8em 0;
-		border: none;
+		padding-top: 0;
+		padding-bottom: 1.5em;
 
-		&:last-child {
-			padding-right: 0;
+		&:not(:last-child) {
+			padding-inline-end: 0.6em;
 		}
 	}
 
@@ -30,8 +29,8 @@ form.grouped_form {
 	}
 
 	.woocommerce-grouped-product-list-item__label {
-		padding-left: 0.6em;
-		padding-right: 1.2em;
+		padding-inline-start: 0.6em;
+		padding-inline-end: 1.2em;
 
 		label {
 			--fontSize: 16px;
@@ -50,7 +49,8 @@ form.grouped_form {
 
 		del {
 			order: initial;
-			margin: 0 5px 0 0;
+			margin-inline-end: 5px;
+			margin-inline-start: 0;
 		}
 	}
 
@@ -66,17 +66,4 @@ form.grouped_form {
 			width: calc(50% - 7px);
 		}
 	}
-
-	// .added_to_cart {
-	// 	@include media-breakpoint-down (xs) {
-	// 		margin-top: 1em;
-	// 		margin-left: 0;
-	// 	}
-	// }
-
-	// .single_add_to_cart_button {
-	// 	@include media-breakpoint-up (sm) {
-	// 		margin-right: 14px;
-	// 	}
-	// }
 }

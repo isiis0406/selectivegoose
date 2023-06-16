@@ -40,6 +40,22 @@ $inner_options = [
 			'type' => 'ct-switch',
 			'value' => 'yes',
 		],
+
+		blocksy_rand_md5() => [
+			'type' => 'ct-condition',
+			'condition' => [ 'search_enable_live_results' => 'yes' ],
+			'options' => function_exists('is_shop') ? [
+
+				'searchProductPrice' => [
+					'label' => __( 'Live Results Product Price', 'blocksy' ),
+					'type' => 'ct-switch',
+					'value' => 'no',
+					'divider' => 'top',
+				],
+
+			] : []
+		],
+		
 	]
 ];
 

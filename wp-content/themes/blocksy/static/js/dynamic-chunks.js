@@ -39,16 +39,26 @@ const loadChunkWithPayload = (chunk, payload = {}, el = null) => {
 				(id) => chunk.deps_data[id]
 			)
 
-			if (depsThatAreNotLoadedIds.includes('underscore')) {
-				$script(chunk.deps_data.underscore, () => {
-					$script(
-						[chunk.url, ...depsThatAreNotLoaded],
-						immediateMount
-					)
+			;[...depsThatAreNotLoadedIds, 'root']
+				.map((x) => () => {
+					return new Promise((resolve) => {
+						if (x === 'root') {
+							$script([chunk.url], () => {
+								resolve()
+								immediateMount()
+							})
+							return
+						}
+
+						$script([chunk.deps_data[x]], () => {
+							resolve()
+						})
+					})
 				})
-			} else {
-				$script([chunk.url, ...depsThatAreNotLoaded], immediateMount)
-			}
+				.reduce(
+					(before, after) => before.then((_) => after()),
+					Promise.resolve()
+				)
 		} else {
 			$script(chunk.url, immediateMount)
 		}
@@ -149,18 +159,42 @@ export const mountDynamicChunks = () => {
 
 						event.preventDefault()
 
+						if (
+							el.closest('.ct-panel.active') &&
+							el.matches(
+								'.ct-header-account[href*="account-modal"]'
+							)
+						) {
+							return
+						}
+
 						if (chunk.has_modal_loader) {
 							const actuallyLoadChunk = () => {
-								const loadingHtml = `
+								let hasLoader = true
+
+								if (
+									chunk.has_modal_loader &&
+									chunk.has_modal_loader
+										.skip_if_no_template &&
+									!document.querySelector(
+										`#${chunk.has_modal_loader.id}`
+									) &&
+									!loadedChunks[chunk.id]
+								) {
+									hasLoader = false
+								}
+
+								if (hasLoader) {
+									const loadingHtml = `
                                 <div data-behaviour="modal" class="ct-panel ${
 									chunk.has_modal_loader.class
 										? chunk.has_modal_loader.class
 										: ''
 								}" ${
-									chunk.has_modal_loader.id
-										? `id="${chunk.has_modal_loader.id}"`
-										: ''
-								}>
+										chunk.has_modal_loader.id
+											? `id="${chunk.has_modal_loader.id}"`
+											: ''
+									}>
                                     <span data-loader="circles">
                                         <span></span>
                                         <span></span>
@@ -169,28 +203,28 @@ export const mountDynamicChunks = () => {
                                 </div>
                             `
 
-								const div = document.createElement('div')
+									const div = document.createElement('div')
 
-								div.innerHTML = loadingHtml
+									div.innerHTML = loadingHtml
 
-								let divRef = div.firstElementChild
+									let divRef = div.firstElementChild
 
-								document
-									.querySelector('.ct-drawer-canvas')
-									.appendChild(div.firstElementChild)
+									document
+										.querySelector('.ct-drawer-canvas')
+										.appendChild(div.firstElementChild)
 
-								fastOverlayHandleClick(event, {
-									openStrategy: 'fast',
-									container: divRef,
-								})
+									fastOverlayHandleClick(event, {
+										openStrategy: 'fast',
+										container: divRef,
+									})
+								}
 
 								loadChunkWithPayload(chunk, { event }, el)
 							}
 
 							if (document.body.dataset.panel) {
-								let currentPanel = document.querySelector(
-									'.ct-panel.active'
-								)
+								let currentPanel =
+									document.querySelector('.ct-panel.active')
 
 								if (currentPanel) {
 									let maybeButton =

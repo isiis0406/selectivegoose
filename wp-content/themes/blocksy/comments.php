@@ -21,67 +21,7 @@ $commenter = wp_get_current_commenter();
 
 $prefix = blocksy_manager()->screen->get_prefix();
 
-$has_website_field = get_theme_mod($prefix . '_has_comments_website', 'yes');
-
-$website_field_class = '';
-
-if ($has_website_field === 'yes') {
-	$website_field_class = 'has-website-field';
-}
-
-ob_start();
-do_action('blocksy:comments:title:before');
-$title_before = ob_get_clean();
-
-ob_start();
-do_action('blocksy:comments:title:after');
-$title_after = ob_get_clean();
-
-$form_options = [
-	'format' => 'xhtml',
-	'class_form' => 'comment-form ' . $website_field_class,
-	'title_reply' => __('Leave a Reply', 'blocksy'),
-	'cancel_reply_link' => __('Cancel Reply', 'blocksy'),
-
-	// Title reply
-	'title_reply_before' => $title_before . '<h2 id="reply-title" class="comment-reply-title">',
-	'title_reply_after' => '</h2>' . $title_after,
-
-	// Cancel reply
-	'cancel_reply_before' => '<span class="ct-cancel-reply">',
-	'cancel_reply_after'  => '</span>',
-
-	// Logged in as
-	'logged_in_as' => '',
-
-	// Comment notes
-	'comment_notes_before' => '',
-
-	// Textarea
-	'comment_field' =>
-		'<p class="comment-form-field-textarea">
-			<label for="comment">' . __( 'Add Comment', 'blocksy' ) . '</label>
-			<textarea id="comment" name="comment" cols="45" rows="8" required="required">' . '</textarea>
-		</p>',
-
-	// submit button
-	'submit_button' => '<button type="submit" name="%1$s" id="%2$s" class="%3$s" value="%4$s">%4$s</button>',
-];
-
-if (
-	has_action( 'set_comment_cookies', 'wp_set_comment_cookies' )
-	&&
-	get_option( 'show_comments_cookies_opt_in' )
-) {
-	$consent = empty( $commenter['comment_author_email'] ) ? '' : ' checked="checked"';
-
-	$form_options['comment_field'] .= '<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"' . $consent . ' />' .
-		'<label for="wp-comment-cookies-consent">' . __( 'Save my name, email, and website in this browser for the next time I comment.', 'blocksy') . '</label></p>';
-}
-
-if (function_exists('blocksy_ext_cookies_checkbox')) {
-	$form_options['comment_field'] .= blocksy_ext_cookies_checkbox('comment');
-}
+$comments_position = get_theme_mod($prefix . '_comments_position', 'below');
 
 do_action('blocksy:comments:before');
 
@@ -95,7 +35,11 @@ do_action('blocksy:comments:before');
 		<h3 class="ct-comments-title">
 			<?php comments_number( esc_html__( 'No comments yet', 'blocksy' ), __( 'One comment', 'blocksy' ), __( '% Comments', 'blocksy' ) ); ?>
 		</h3>
+	<?php endif; // have_comments() ?>
 
+	<?php if ( $comments_position === 'above' ) comment_form(); ?>
+
+	<?php if ( have_comments() ) : ?>
 		<ol class="ct-comment-list">
 			<?php
 				wp_list_comments(
@@ -140,7 +84,7 @@ do_action('blocksy:comments:before');
 
 	<?php endif; // have_comments() ?>
 
-	<?php comment_form($form_options); ?>
+	<?php if ( $comments_position === 'below' ) comment_form(); ?>
 
 	<?php do_action('blocksy:comments:bottom'); ?>
 

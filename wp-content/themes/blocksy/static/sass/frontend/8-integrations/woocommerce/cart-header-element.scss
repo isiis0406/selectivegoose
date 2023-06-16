@@ -1,21 +1,6 @@
 .ct-header-cart {
 	position: relative;
-}
 
-.ct-cart-item {
-	
-	// cart badge
-	&:not([style*="counter"]) {
-		~ .ct-cart-content {
-			display: none;
-		}
-	}
-}
-
-
-// cart content
-.ct-header-cart {
-	
 	&:hover,
 	&:focus-within {
 		.ct-cart-content {
@@ -25,7 +10,6 @@
 		}
 	}
 }
-
 
 // dropdown cart view
 .ct-cart-content {
@@ -39,13 +23,15 @@
 	border-radius: 2px;
 	background: var(--backgroundColor);
 	box-shadow: 0px 10px 20px 0px rgba(41, 51, 61, 0.1);
-
 	opacity: 0;
 	visibility: hidden;
 	transform: translate3d(0, 10px, 0);
 	transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-
 	--content-spacing: 0;
+
+	&[data-count="0"] {
+		display: none;
+	}
 
 	.woocommerce-mini-cart {
 		max-height: 40vh;
@@ -54,7 +40,7 @@
 		li {
 			grid-column-gap: 17px;
 			padding-bottom: 15px;
-			--listItemSpacing: 15px;
+			margin-bottom: 15px;
 
 			&:not(:last-child) {
 				border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
@@ -85,11 +71,11 @@
 	}
 
 	// placement
-	@include media-breakpoint-down (xs) {
+	@include media-breakpoint-down(xs) {
 		display: none;
 	}
 
-	@include media-breakpoint-up (sm) {
+	@include media-breakpoint-up(sm) {
 		&[data-placement='left'] {
 			right: -20px;
 		}
@@ -129,11 +115,11 @@
 	ul {
 		flex: 1;
 		overflow-y: auto;
-		margin: 0 calc(var(--panel-padding, 40px) * -1);
-		padding: 0 var(--panel-padding, 40px);
+		margin: 0 calc(var(--panel-padding, 35px) * -1);
+		padding: 0 var(--panel-padding, 35px);
 	}
 
-	@include media-breakpoint-up (sm) {
+	@include media-breakpoint-up(sm) {
 		.product-title {
 			font-weight: 700;
 		}
@@ -145,7 +131,7 @@
 	}
 
 	.woocommerce-mini-cart__buttons {
-		@include media-breakpoint-down (sm) {
+		@include media-breakpoint-down(sm) {
 			grid-template-columns: 1fr;
 			grid-row-gap: 15px;
 		}

@@ -3,11 +3,9 @@
 /**
  * Theme Update
  *
- * @package     Astra
- * @author      Astra
- * @copyright   Copyright (c) 2019, Astra
- * @link        https://wpastra.com/
- * @since       Astra 1.0.0
+ * @copyright 2019-present Creative Themes
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package   Blocksy
  */
 
 class Blocksy_Db_Versioning {
@@ -134,6 +132,21 @@ class Blocksy_Db_Versioning {
 			[
 				'version' => '1.8.26',
 				'cb' => [$this, 'v_1_8_26']
+			],
+
+			[
+				'version' => '1.8.38',
+				'cb' => [$this, 'v_1_8_38']
+			],
+
+			[
+				'version' => '1.8.67',
+				'cb' => [$this, 'v_1_8_67']
+			],
+
+			[
+				'version' => '1.8.91',
+				'cb' => [$this, 'v_1_8_91']
 			]
 		];
 	}
@@ -1379,6 +1392,37 @@ class Blocksy_Db_Versioning {
 				]
 			]
 		]);
+	}
+
+	public function v_1_8_38() {
+		if (
+			class_exists('Elementor\Plugin')
+			&&
+			! \Elementor\Plugin::$instance->preview->is_preview_mode()
+			&&
+			! \Elementor\Plugin::$instance->editor->is_edit_mode()
+			&&
+			! wp_doing_ajax()
+		) {
+			\Elementor\Plugin::$instance->files_manager->clear_cache();
+		}
+	}
+
+	public function v_1_8_67() {
+		$this->migrate_options([
+			[
+				'old' => 'blockquote',
+				'new' => 'pullquote'
+			],
+		]);
+	}
+
+	public function v_1_8_91() {
+		$maybe_google_fonts = get_option('blocksy_google_fonts', '__EMPTY__');
+
+		if ($maybe_google_fonts !== '__EMPTY__') {
+			delete_option('blocksy_google_fonts');
+		}
 	}
 
 	private function transform_tags_in_layers($list, $post_type) {

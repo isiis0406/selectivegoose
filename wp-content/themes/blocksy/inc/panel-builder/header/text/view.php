@@ -45,7 +45,7 @@ $text = do_shortcode(
 			$atts,
 			__('Sample text', 'blocksy')
 		),
-		'header:' . $section_id . ':text:header_text'
+		'header:' . $section_id . ':' . $item_id . ':header_text'
 	)
 );
 

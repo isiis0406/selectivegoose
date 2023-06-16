@@ -155,7 +155,7 @@ const DemoToInstall = ({ location, navigate }) => {
 			builder:
 				demoVariations.length === 1 ? demoVariations[0].builder : null,
 
-			child_theme: true,
+			child_theme: false,
 
 			plugins: demoVariations[0].plugins.map((plugin) => ({
 				plugin,

@@ -23,6 +23,10 @@ export const initWooVariation = (variationWrapper) => {
 		'[name*="blocksy_post_meta_options"]'
 	)
 
+	if (!input) {
+		return
+	}
+
 	const options = {
 		gallery_source: {
 			label: __('Variation Gallery Source', 'blocksy'),

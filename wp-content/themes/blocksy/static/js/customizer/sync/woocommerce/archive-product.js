@@ -1,35 +1,5 @@
-import { markImagesAsLoaded } from '../../../frontend/lazy-load-helpers'
-import {
-	getCache,
-	getOptionFor,
-	getFreshHtmlFor,
-	setRatioFor,
-	changeTagName,
-	checkAndReplace,
-	watchOptionsWithPrefix,
-} from '../helpers'
+import { getOptionFor, setRatioFor, watchOptionsWithPrefix } from '../helpers'
 import ctEvents from 'ct-events'
-
-checkAndReplace({
-	id: 'has_shop_sort',
-
-	parent_selector: '.woo-listing-top',
-	selector: '.woocommerce-ordering',
-	fragment_id: 'shop-sort',
-	whenInserted: () => {
-		ctEvents.trigger('ct:custom-select:init')
-	},
-})
-
-checkAndReplace({
-	id: 'has_shop_results_count',
-
-	parent_selector: '.woo-listing-top',
-	selector: '.woocommerce-result-count',
-	fragment_id: 'shop-results-count',
-
-	strategy: 'maybeBefore:.woocommerce-ordering',
-})
 
 export const replaceCards = () => {
 	if (!document.querySelector('[data-products]')) {
@@ -63,7 +33,7 @@ export const replaceCards = () => {
 						'woocommerce_thumbnail_cropping_custom_height'
 				  )()}`
 				: '1/1',
-			product.querySelector('.ct-image-container .ct-ratio')
+			product.querySelector('.ct-image-container')
 		)
 	})
 	;[...document.querySelectorAll('[data-products]')].map((el) => {
@@ -83,8 +53,6 @@ export const replaceCards = () => {
 			el.classList.remove('ct-disable-transitions')
 		})
 	})
-
-	markImagesAsLoaded(document.querySelector('.shop-entries'))
 }
 
 watchOptionsWithPrefix({

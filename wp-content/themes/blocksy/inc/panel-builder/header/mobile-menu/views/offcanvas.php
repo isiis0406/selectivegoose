@@ -33,7 +33,6 @@ if ($mobile_menu_interactive !== 'yes') {
 	$menu_args['child_indicator_type'] = 'skip';
 }
 
-
 add_filter(
 	'walker_nav_menu_start_el',
 	'blocksy_handle_nav_menu_start_el',
@@ -81,8 +80,8 @@ if (strpos($menu_output, 'sub-menu')) {
 
 ?>
 
-<nav 
-	class="<?php echo $class ?>" 
+<nav
+	class="<?php echo $class ?>"
 	<?php echo blocksy_attr_to_html($attr) ?>
 	aria-label="<?php echo __('Off Canvas Menu', 'blocksy')?>">
 	<?php echo $menu_output ?>

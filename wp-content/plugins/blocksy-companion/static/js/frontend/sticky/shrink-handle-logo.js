@@ -7,6 +7,10 @@ import {
 
 let logoShrinkCache = null
 
+export const clearLogoShrinkCache = () => {
+	logoShrinkCache = null
+}
+
 const getLogoShrinkData = ({ logo, row }) => {
 	if (logoShrinkCache) {
 		return logoShrinkCache

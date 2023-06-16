@@ -11,6 +11,7 @@ class Blocksy_Manager {
 	public $post_types = null;
 
 	public $screen = null;
+    public $hooks = null;
 
 	public $dynamic_css = null;
 	public $dynamic_styles_descriptor = null;
@@ -28,7 +29,7 @@ class Blocksy_Manager {
 	}
 
 	public function get_current_template() {
-		if (! $this->current_template) {
+		if (!$this->current_template) {
 			// return apply_filters('template_include', '__DEFAULT__');
 		}
 
@@ -47,8 +48,18 @@ class Blocksy_Manager {
 
 		$this->post_types = new Blocksy_Custom_Post_Types();
 		$this->screen = new Blocksy_Screen_Manager();
+		$this->hooks = new \Blocksy\WpHooksManager();
 
 		$this->dynamic_css = new Blocksy_Dynamic_Css();
+
+		add_action(
+			'init',
+			function () {
+				$this->screen->wipe_caches();
+				$this->post_types->wipe_caches();
+			},
+			PHP_INT_MAX
+		);
 
 		add_filter('block_parser_class', function () {
 			return 'Blocksy_WP_Block_Parser';
@@ -64,31 +75,16 @@ class Blocksy_Manager {
 		add_action(
 			'wp_head',
 			function () {
+				if (defined('IFRAME_REQUEST') && IFRAME_REQUEST) {
+					return;
+				}
+
 				$this->dynamic_css->load_frontend_css([
 					'descriptor' => $this->dynamic_styles_descriptor
 				]);
 			},
 			10
 		);
-
-		add_filter('woocommerce_ajax_get_endpoint', function ($url, $request) {
-			$new_url = add_query_arg(
-				'blocksy-header-id',
-				$this->header_builder->get_current_section_id(),
-				remove_query_arg(
-					'wc-ajax',
-					$url
-				)
-			);
-
-			$new_url = add_query_arg(
-				'wc-ajax',
-				$request,
-				$new_url
-			);
-
-			return $new_url;
-		}, 10, 2);
 	}
 
 	public function enqueue_scripts() {
@@ -137,6 +133,21 @@ class Blocksy_Manager {
 			'search_url' => get_search_link('QUERY_STRING'),
 			'show_more_text' => __('Show more', 'blocksy'),
 			'more_text' => __('More', 'blocksy'),
+			'search_live_results' => __('Search results', 'blocksy'),
+
+			'search_live_no_result' => __('No results', 'blocksy'),
+			'search_live_one_result' => _n(
+				'You got %s result. Please press Tab to select it.',
+				'You got %s results. Please press Tab to select one.',
+				1,
+				'blocksy'
+			),
+			'search_live_many_results' => _n(
+				'You got %s result. Please press Tab to select it.',
+				'You got %s results. Please press Tab to select one.',
+				5,
+				'blocksy'
+			),
 
 			'expand_submenu' => __('Expand dropdown menu', 'blocksy'),
 			'collapse_submenu' => __('Collapse dropdown menu', 'blocksy'),
@@ -152,9 +163,14 @@ class Blocksy_Manager {
 				)
 			],
 
-			'dynamic_styles_selectors' => [
-			]
+			'dynamic_styles_selectors' => []
 		]);
+
+		$maybe_current_language = blocksy_get_current_language('slug');
+
+		if ($maybe_current_language !== '__NOT_KNOWN__') {
+			$data['lang'] = $maybe_current_language;
+		}
 
 		if (is_customize_preview()) {
 			$data['customizer_sync'] = blocksy_customizer_sync_data();
@@ -175,7 +191,7 @@ class Blocksy_Manager {
 		}
 
 		if (is_singular() && comments_open() && get_option('thread_comments')) {
-			wp_enqueue_script( 'comment-reply' );
+			wp_enqueue_script('comment-reply');
 		}
 	}
 
@@ -185,38 +201,28 @@ class Blocksy_Manager {
 			[]
 		);
 
-		if (blocksy_has_lazyload()) {
-			$all_chunks[] = [
-				'id' => 'blocksy_lazy_load',
-				'selector' => '.ct-lazy[class*="ct-image"]',
-				'url' => blocksy_cdn_url(
-					get_template_directory_uri() . '/static/bundle/lazy-load.js'
-				)
-			];
-		}
-
 		global $wp_scripts;
 
 		foreach ($all_chunks as $index => $chunk) {
-			if (! isset($chunk['deps'])) {
+			if (!isset($chunk['deps'])) {
 				continue;
 			}
 
 			$deps_data = [];
 
 			foreach ($chunk['deps'] as $dep_id) {
-				if (isset($wp_scripts->registered[$dep_id])) {
-					if (strpos(
-						$wp_scripts->registered[$dep_id]->src,
-						site_url()
-					) === false) {
-						$deps_data[$dep_id] = site_url();
-					} else {
-						$deps_data[$dep_id] = '';
-					}
-
-					$deps_data[$dep_id] .= $wp_scripts->registered[$dep_id]->src;
+				if (!isset($wp_scripts->registered[$dep_id])) {
+					continue;
 				}
+
+				$src = $wp_scripts->registered[$dep_id]->src;
+				$deps_data[$dep_id] = '';
+
+				if (strpos($src, site_url()) === false) {
+					$deps_data[$dep_id] = site_url();
+				}
+
+				$deps_data[$dep_id] .= $wp_scripts->registered[$dep_id]->src;
 			}
 
 			$all_chunks[$index]['deps_data'] = $deps_data;

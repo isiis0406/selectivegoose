@@ -15,15 +15,14 @@ if (
 	function_exists('blc_get_content_block_that_matches')
 	&&
 	blc_get_content_block_that_matches([
-		'template_type' => 'single'
+		'template_type' => 'single',
+		'template_subtype' => 'canvas'
 	])
 ) {
-	global $blocksy_template_output;
-	$blocksy_template_output = true;
-
 	echo blc_render_content_block(
 		blc_get_content_block_that_matches([
-			'template_type' => 'single'
+			'template_type' => 'single',
+			'template_subtype' => 'canvas'
 		])
 	);
 	have_posts();
@@ -56,23 +55,6 @@ if ($page_structure === 'none' || blocksy_post_uses_vc()) {
 	$data_container_output = 'data-content="' . $page_structure . '"';
 }
 
-ob_start();
-the_content(
-	sprintf(
-		wp_kses(
-			/* translators: %s: Name of current post. Only visible to screen readers */
-			__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'blocksy' ),
-			array(
-				'span' => array(
-					'class' => array(),
-				),
-			)
-		),
-		get_the_title()
-	)
-);
-
-$post_content = ob_get_clean();
 
 ?>
 
@@ -89,7 +71,7 @@ $post_content = ob_get_clean();
 			 * Note to code reviewers: This line doesn't need to be escaped.
 			 * Function blocksy_single_content() used here escapes the value properly.
 			 */
-			echo blocksy_single_content($post_content);
+			echo blocksy_single_content();
 		?>
 
 		<?php get_sidebar(); ?>

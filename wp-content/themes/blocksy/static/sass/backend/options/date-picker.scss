@@ -55,12 +55,12 @@
 	.components-datetime__time-field-day-input, 
 	.components-datetime__time-field-hours-input, 
 	.components-datetime__time-field-minutes-input {
-		--width: 35px;
+		--input-width: 35px;
 		--margin: 0 4px 0 0;
 	}
 
 	.components-datetime__time-field-year-input {
-		--width: 55px;
+		--input-width: 55px;
 	}
 
 	.DayPicker_weekHeader {

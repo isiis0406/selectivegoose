@@ -9,28 +9,21 @@ namespace Automattic\WooCommerce\Admin\API\Reports\Variations;
 
 defined( 'ABSPATH' ) || exit;
 
-use \Automattic\WooCommerce\Admin\API\Reports\Controller as ReportsController;
-use \Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
-use \Automattic\WooCommerce\Admin\API\Reports\ExportableTraits;
+use Automattic\WooCommerce\Admin\API\Reports\Controller as ReportsController;
+use Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
+use Automattic\WooCommerce\Admin\API\Reports\ExportableTraits;
 
 /**
  * REST API Reports products controller class.
  *
  * @internal
- * @extends WC_REST_Reports_Controller
+ * @extends ReportsController
  */
 class Controller extends ReportsController implements ExportableInterface {
 	/**
 	 * Exportable traits.
 	 */
 	use ExportableTraits;
-
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'wc-analytics';
 
 	/**
 	 * Route base.
@@ -397,6 +390,12 @@ class Controller extends ReportsController implements ExportableInterface {
 			'items'             => array(
 				'type' => 'integer',
 			),
+		);
+		$params['force_cache_refresh'] = array(
+			'description'       => __( 'Force retrieval of fresh data instead of from the cache.', 'woocommerce' ),
+			'type'              => 'boolean',
+			'sanitize_callback' => 'wp_validate_boolean',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		return $params;

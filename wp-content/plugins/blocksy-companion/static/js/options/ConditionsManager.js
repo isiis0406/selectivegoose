@@ -54,7 +54,8 @@ const ConditionsManager = ({ value, onChange, filter = 'all' }) => {
 		condition.rule === 'taxonomy_ids' ||
 		condition.rule === 'post_with_taxonomy_ids' ||
 		condition.rule === 'current_language' ||
-		condition.rule === 'user_post_author_id'
+		condition.rule === 'user_post_author_id' ||
+		condition.rule === 'author'
 
 	useEffect(() => {
 		fetch(
@@ -133,7 +134,7 @@ const ConditionsManager = ({ value, onChange, filter = 'all' }) => {
 									  )
 									: allRules.filter(
 											({ key }) =>
-												key.indexOf('user_') === -1
+												key.indexOf('user_') !== 0
 									  ),
 							search: true,
 						}}
@@ -273,6 +274,51 @@ const ConditionsManager = ({ value, onChange, filter = 'all' }) => {
 								search: true,
 							}}
 							value={(condition.payload || {}).user_id || ''}
+							onChange={(user_id) => {
+								onChange(
+									value.map((r, i) => ({
+										...(i === index
+											? {
+													...condition,
+													payload: {
+														...condition.payload,
+														user_id,
+													},
+											  }
+											: r),
+									}))
+								)
+							}}
+						/>
+					)}
+
+					{condition.rule === 'author' && (
+						<Select
+							option={{
+								appendToBody: true,
+								placeholder: __(
+									'Select user',
+									'blocksy-companion'
+								),
+								choices: [
+									{
+										key: 'all_users',
+										value: __(
+											'All authors',
+											'blocksy-companion'
+										),
+									},
+
+									...allUsers.map((user) => ({
+										key: user.id,
+										value: user.name,
+									})),
+								],
+								search: true,
+							}}
+							value={
+								(condition.payload || {}).user_id || 'all_users'
+							}
 							onChange={(user_id) => {
 								onChange(
 									value.map((r, i) => ({

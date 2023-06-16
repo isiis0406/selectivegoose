@@ -28,6 +28,10 @@ add_filter(
 					}
 				}
 
+				if (empty($percentages)) {
+					$percentages[] = 0;
+				}
+
 				$percentage = max($percentages);
 			} else {
 				$regular_price = (float) $product->get_regular_price();
@@ -55,7 +59,7 @@ add_filter(
 			'span',
 			[
 				'class' => 'onsale',
-				'data-shape' => get_theme_mod('sale_badge_shape', 'square')
+				'data-shape' => get_theme_mod('sale_badge_shape', 'type-2')
 			],
 			$text
 		);

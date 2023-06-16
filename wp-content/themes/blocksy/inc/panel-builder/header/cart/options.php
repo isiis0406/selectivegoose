@@ -12,49 +12,54 @@ $options = [
 		'type' => 'tab',
 		'options' => [
 
-			'mini_cart_type' => [
-				'label' => false,
-				'type' => 'ct-image-picker',
-				'value' => 'type-1',
-				'attr' => [
-					'data-type' => 'background',
-					'data-columns' => '3',
-				],
-				'divider' => 'bottom',
-				'setting' => [ 'transport' => 'postMessage' ],
-				'choices' => [
-
-					'type-1' => [
-						'src'   => blocksy_image_picker_file( 'cart-1' ),
-						'title' => __( 'Type 1', 'blocksy' ),
+			apply_filters(
+				'blocksy:header:cart:options:icon',
+				[
+					'mini_cart_type' => [
+						'label' => false,
+						'type' => 'ct-image-picker',
+						'value' => 'type-1',
+						'attr' => [
+							'data-type' => 'background',
+							'data-columns' => '3',
+						],
+						'divider' => 'bottom',
+						'setting' => [ 'transport' => 'postMessage' ],
+						'choices' => [
+		
+							'type-1' => [
+								'src'   => blocksy_image_picker_file( 'cart-1' ),
+								'title' => __( 'Type 1', 'blocksy' ),
+							],
+		
+							'type-2' => [
+								'src'   => blocksy_image_picker_file( 'cart-2' ),
+								'title' => __( 'Type 2', 'blocksy' ),
+							],
+		
+							'type-3' => [
+								'src'   => blocksy_image_picker_file( 'cart-3' ),
+								'title' => __( 'Type 3', 'blocksy' ),
+							],
+		
+							'type-4' => [
+								'src'   => blocksy_image_picker_file( 'cart-4' ),
+								'title' => __( 'Type 4', 'blocksy' ),
+							],
+		
+							'type-5' => [
+								'src'   => blocksy_image_picker_file( 'cart-5' ),
+								'title' => __( 'Type 5', 'blocksy' ),
+							],
+		
+							'type-6' => [
+								'src'   => blocksy_image_picker_file( 'cart-6' ),
+								'title' => __( 'Type 6', 'blocksy' ),
+							],
+						],
 					],
-
-					'type-2' => [
-						'src'   => blocksy_image_picker_file( 'cart-2' ),
-						'title' => __( 'Type 2', 'blocksy' ),
-					],
-
-					'type-3' => [
-						'src'   => blocksy_image_picker_file( 'cart-3' ),
-						'title' => __( 'Type 3', 'blocksy' ),
-					],
-
-					'type-4' => [
-						'src'   => blocksy_image_picker_file( 'cart-4' ),
-						'title' => __( 'Type 4', 'blocksy' ),
-					],
-
-					'type-5' => [
-						'src'   => blocksy_image_picker_file( 'cart-5' ),
-						'title' => __( 'Type 5', 'blocksy' ),
-					],
-
-					'type-6' => [
-						'src'   => blocksy_image_picker_file( 'cart-6' ),
-						'title' => __( 'Type 6', 'blocksy' ),
-					],
-				],
-			],
+				]
+			),
 
 			'cartIconSize' => [
 				'label' => __( 'Icon Size', 'blocksy' ),
@@ -70,17 +75,15 @@ $options = [
 				'label' => __( 'Icon Badge', 'blocksy' ),
 				'type' => 'ct-switch',
 				'value' => 'yes',
+				'divider' => 'top',
 				'setting' => [ 'transport' => 'postMessage' ],
-			],
-
-			blocksy_rand_md5() => [
-				'type' => 'ct-divider',
 			],
 
 			'cart_subtotal_visibility' => [
 				'label' => __( 'Cart Total Visibility', 'blocksy' ),
 				'type' => 'ct-visibility',
 				'design' => 'block',
+				'divider' => 'top',
 				'allow_empty' => true,
 				'setting' => [ 'transport' => 'postMessage' ],
 				'value' => [
@@ -850,46 +853,6 @@ $options = [
 								],
 							],
 
-							// blocksy_rand_md5() => [
-							// 	'type' => 'ct-condition',
-							// 	'condition' => [ 'has_cart_panel_quantity' => 'yes' ],
-							// 	'options' => [
-
-							// 		'minicart_quantity_color' => [
-							// 			'label' => __( 'Quantity Main Color', 'blocksy' ),
-							// 			'type'  => 'ct-color-picker',
-							// 			'design' => 'inline',
-							// 			'sync' => 'live',
-							// 			'divider' => 'top:full',
-							// 			'value' => [
-							// 				'default' => [
-							// 					'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-							// 				],
-
-							// 				'hover' => [
-							// 					'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-							// 				],
-							// 			],
-
-							// 			'pickers' => [
-							// 				[
-							// 					'title' => __( 'Initial', 'blocksy' ),
-							// 					'id' => 'default',
-							// 					'inherit' => 'var(--buttonInitialColor)',
-
-							// 				],
-
-							// 				[
-							// 					'title' => __( 'Hover', 'blocksy' ),
-							// 					'id' => 'hover',
-							// 					'inherit' => 'var(--buttonHoverColor)'
-							// 				],
-							// 			],
-							// 		],
-
-							// 	],
-							// ],
-
 							'cart_panel_background' => [
 								'label' => __( 'Panel Background', 'blocksy' ),
 								'type'  => 'ct-background',
@@ -1063,6 +1026,36 @@ $options = [
 												'inherit' => 'rgba(0, 0, 0, 0.5)'
 											],
 										],
+									],
+
+								],
+							],
+
+							'cart_panel_close_button_icon_size' => [
+								'label' => __( 'Icon Size', 'blocksy' ),
+								'type' => 'ct-number',
+								'design' => 'inline',
+								'value' => 12,
+								'min' => 5,
+								'max' => 50,
+								'divider' => 'top',
+								'setting' => [ 'transport' => 'postMessage' ],
+							],
+
+							blocksy_rand_md5() => [
+								'type' => 'ct-condition',
+								'condition' => [ 'cart_panel_close_button_type' => '!type-1' ],
+								'options' => [
+
+									'cart_panel_close_button_border_radius' => [
+										'label' => __( 'Border Radius', 'blocksy' ),
+										'type' => 'ct-number',
+										'design' => 'inline',
+										'value' => 5,
+										'min' => 0,
+										'max' => 100,
+										'divider' => 'top',
+										'setting' => [ 'transport' => 'postMessage' ],
 									],
 
 								],

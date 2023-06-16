@@ -64,11 +64,12 @@ class Api {
 	 * Get the path to a block's metadata
 	 *
 	 * @param string $block_name The block to get metadata for.
+	 * @param string $path Optional. The path to the metadata file inside the 'build' folder.
 	 *
 	 * @return string|boolean False if metadata file is not found for the block.
 	 */
-	public function get_block_metadata_path( $block_name ) {
-		$path_to_metadata_from_plugin_root = $this->package->get_path( 'build/' . $block_name . '/block.json' );
+	public function get_block_metadata_path( $block_name, $path = '' ) {
+		$path_to_metadata_from_plugin_root = $this->package->get_path( 'build/' . $path . $block_name . '/block.json' );
 		if ( ! file_exists( $path_to_metadata_from_plugin_root ) ) {
 			return false;
 		}
@@ -94,6 +95,8 @@ class Api {
 			);
 
 			if ( file_exists( $asset_path ) ) {
+				// The following require is safe because we are checking if the file exists and it is not a user input.
+				// nosemgrep audit.php.lang.security.file.inclusion-arg.
 				$asset        = require $asset_path;
 				$dependencies = isset( $asset['dependencies'] ) ? array_merge( $asset['dependencies'], $dependencies ) : $dependencies;
 				$version      = ! empty( $asset['version'] ) ? $asset['version'] : $this->get_file_version( $relative_src );
@@ -149,6 +152,8 @@ class Api {
 		/**
 		 * Filters the list of script dependencies.
 		 *
+		 * @since 3.0.0
+		 *
 		 * @param array $dependencies The list of script dependencies.
 		 * @param string $handle The script's handle.
 		 * @return array
@@ -182,20 +187,14 @@ class Api {
 	}
 
 	/**
-	 * Returns the appropriate asset path for loading either legacy builds or
-	 * current builds.
+	 * Returns the appropriate asset path for current builds.
 	 *
 	 * @param   string $filename  Filename for asset path (without extension).
 	 * @param   string $type      File type (.css or .js).
-	 *
 	 * @return  string             The generated path.
 	 */
 	public function get_block_asset_build_path( $filename, $type = 'js' ) {
-		global $wp_version;
-		$suffix = version_compare( $wp_version, '5.3', '>=' )
-			? ''
-			: '-legacy';
-		return "build/$filename$suffix.$type";
+		return "build/$filename.$type";
 	}
 
 	/**

@@ -35,6 +35,40 @@ $options = [
 						]),
 					],
 
+					$prefix . 'comments_label_position' => [
+						'label' => __('Inputs Label Position', 'blocksy'),
+						'type' => 'ct-radio',
+						'value' => 'inside',
+						'view' => 'text',
+						'design' => 'block',
+						'divider' => 'top',
+						'choices' => [
+							'inside' => __('Inside', 'blocksy'),
+							'outside' => __('Outside', 'blocksy'),
+						],
+
+						'sync' => blocksy_sync_whole_page([
+							'prefix' => $prefix,
+						]),
+					],
+
+					$prefix . 'comments_position' => [
+						'label' => __('Comment Form Position', 'blocksy'),
+						'type' => 'ct-radio',
+						'value' => 'below',
+						'view' => 'text',
+						'design' => 'block',
+						'divider' => 'top',
+						'choices' => [
+							'below' => __('Below List', 'blocksy'),
+							'above' => __('Above List', 'blocksy'),
+						],
+
+						'sync' => blocksy_sync_whole_page([
+							'prefix' => $prefix,
+						]),
+					],
+
 					blocksy_rand_md5() => [
 						'type' => 'ct-divider',
 					],

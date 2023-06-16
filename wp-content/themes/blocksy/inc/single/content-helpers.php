@@ -199,21 +199,42 @@ function blocksy_single_content($content = null) {
 			<?php
 
 			if (! is_attachment()) {
+				if (
+					function_exists('blc_get_content_block_that_matches')
+					&&
+					blc_get_content_block_that_matches([
+						'template_type' => 'single',
+						'template_subtype' => 'content'
+					])
+				) {
+					$content = blc_render_content_block(
+						blc_get_content_block_that_matches([
+							'template_type' => 'single',
+							'template_subtype' => 'content'
+						])
+					);
+				}
+
 				if ($content) {
 					echo $content;
 				} else {
 					the_content(
 						sprintf(
 							wp_kses(
-								/* translators: %s: Name of current post. Only visible to screen readers */
-								__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'blocksy' ),
+								/* translators: 1: span open 2: Name of current post. Only visible to screen readers 3: span closing */
+								__(
+									'Continue reading%1$s "%2$s"%3$s',
+									'blocksy'
+								),
 								array(
 									'span' => array(
 										'class' => array(),
 									),
 								)
 							),
-							get_the_title()
+							'<span class="screen-reader-text">',
+							get_the_title(),
+							'</span>'
 						)
 					);
 				}
@@ -245,9 +266,11 @@ function blocksy_single_content($content = null) {
 			if (get_post_type() === 'post') {
 				edit_post_link(
 					sprintf(
-						/* translators: %s: Post title. */
-						__( 'Edit<span class="screen-reader-text"> "%s"</span>', 'blocksy' ),
-						get_the_title()
+						/* translators: 1: span opening 2: Post title 3: span closing. */
+						__( 'Edit%1$s "%2$s"%3$s', 'blocksy' ),
+						'<span class="screen-reader-text">',
+						get_the_title(),
+						'</span>'
 					)
 				);
 			}

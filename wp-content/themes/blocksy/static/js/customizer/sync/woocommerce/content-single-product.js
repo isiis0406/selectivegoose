@@ -87,7 +87,7 @@ wp.customize('product_gallery_ratio', (val) =>
 
 		;[
 			...article.querySelectorAll(
-				'.flexy-items .ct-image-container .ct-ratio, .woocommerce-product-gallery > .ct-image-container .ct-ratio'
+				'.flexy-items .ct-image-container, .woocommerce-product-gallery > .ct-image-container'
 			),
 		].map((el) => {
 			ctEvents.trigger('ct:flexy:update-height')

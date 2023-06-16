@@ -8,7 +8,6 @@ import Extensions from './screens/Extensions'
 import DemoInstall from './screens/DemoInstall'
 import SiteExport from './screens/SiteExport'
 import DemoToInstall from './screens/DemoInstall/DemoToInstall'
-import OptIn from './screens/OptIn'
 
 ctEvents.on('ct:dashboard:routes', (r) => {
 	r.push({
@@ -42,14 +41,6 @@ ctEvents.on('ct:dashboard:navigation-links', (r) => {
 		text: __('Extensions', 'blocksy-companion'),
 		path: '/extensions',
 	})
-})
-
-ctEvents.on('ct:dashboard:home:before', (r) => {
-	if (!ctDashboardLocalizations.plugin_data.is_anonymous) {
-		return
-	}
-
-	r.content = <OptIn />
 })
 
 ctEvents.on('ct:dashboard:heading:after', (r) => {

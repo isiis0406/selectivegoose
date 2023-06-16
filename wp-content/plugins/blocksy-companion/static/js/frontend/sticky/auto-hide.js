@@ -1,100 +1,132 @@
 import { setTransparencyFor } from '../sticky'
+import {
+	maybeSetStickyHeightAnimated,
+	getRowStickyHeight,
+	computeLinearScale,
+	clamp,
+} from './shrink-utils'
 
-let prevScrollY = window.scrollY
+import { shrinkHandleLogo } from './shrink-handle-logo'
+import { shrinkHandleMiddleRow } from './shrink-handle-middle-row'
 
-export const computeAutoHide = ({
-	startPosition,
-	stickyContainer,
-	isSticky,
-	stickyComponents,
-}) => {
-	if (window.scrollY < startPosition) {
-		prevScrollY = window.scrollY
+const getData = ({ stickyContainer }) => {
+	const stickyContainerHeight = [
+		...stickyContainer.querySelectorAll('[data-row]'),
+	].reduce((res, row) => res + getRowStickyHeight(row, false), 0)
+
+	return {
+		stickyContainerHeight,
+		stickyContainerHeightAbsolute:
+			stickyContainerHeight +
+			parseFloat(getComputedStyle(stickyContainer).top),
+	}
+}
+
+let prevOffset = null
+
+export const computeAutoHide = (args) => {
+	let {
+		currentScrollY,
+		stickyContainer,
+		containerInitialHeight,
+		headerInitialHeight,
+		startPosition,
+		isSticky,
+		stickyComponents,
+	} = args
+
+	if (isSticky && currentScrollY - args.prevScrollY === 0) {
+		maybeSetStickyHeightAnimated(() => {
+			return '0px'
+		})
 	}
 
-	if (isSticky && window.scrollY - prevScrollY === 0) {
-		document.body.style.setProperty(
-			'--header-sticky-height-animated',
-			`0px`
-		)
-	}
-
-	if (isSticky && window.scrollY - prevScrollY < -5) {
-		if (stickyContainer.dataset.sticky.indexOf('yes') === -1) {
-			stickyContainer.dataset.sticky = [
-				'yes-start',
-				...stickyComponents,
-			].join(':')
-
-			requestAnimationFrame(() => {
-				stickyContainer.dataset.sticky = stickyContainer.dataset.sticky.replace(
-					'yes-start',
-					'yes-end'
-				)
-
-				setTimeout(() => {
-					stickyContainer.dataset.sticky = stickyContainer.dataset.sticky.replace(
-						'yes-end',
-						'yes'
-					)
-				}, 200)
-			})
-		}
-
-		setTransparencyFor(stickyContainer, 'no')
-		document.body.removeAttribute('style')
-	} else {
-		if (!isSticky) {
-			stickyContainer.dataset.sticky = stickyComponents
-				.filter((c) => c !== 'yes-end')
-				.join(':')
-
-			Array.from(
-				stickyContainer.querySelectorAll('[data-row]')
-			).map((row) => row.removeAttribute('style'))
-			setTransparencyFor(stickyContainer, 'yes')
-
-			document.body.style.setProperty(
-				'--header-sticky-height-animated',
-				`0px`
-			)
-
-			prevScrollY = window.scrollY
-			return
-		}
-
+	if (isSticky) {
 		if (
-			stickyContainer.dataset.sticky.indexOf('yes-hide') === -1 &&
-			stickyContainer.dataset.sticky.indexOf('yes:') > -1 &&
-			window.scrollY - prevScrollY > 5
+			stickyContainer.dataset.sticky.indexOf('yes') === -1 &&
+			currentScrollY > headerInitialHeight * 2 + startPosition
 		) {
-			stickyContainer.dataset.sticky = [
-				'yes-hide-start',
-				...stickyComponents,
-			].join(':')
-
-			document.body.style.setProperty(
-				'--header-sticky-height-animated',
-				`0px`
+			stickyContainer.dataset.sticky = ['yes', ...stickyComponents].join(
+				':'
 			)
 
-			requestAnimationFrame(() => {
-				stickyContainer.dataset.sticky = stickyContainer.dataset.sticky.replace(
-					'yes-hide-start',
-					'yes-hide-end'
-				)
+			shrinkHandleLogo({ stickyContainer, startPosition })
+			shrinkHandleMiddleRow({
+				stickyContainer,
+				containerInitialHeight,
+				startPosition,
+			})
+			setTransparencyFor(stickyContainer, 'no')
+			document.body.removeAttribute('style')
+		}
+	} else {
+		Array.from(stickyContainer.querySelectorAll('[data-row]')).map((row) =>
+			row.removeAttribute('style')
+		)
+		Array.from(
+			stickyContainer.querySelectorAll(
+				'[data-row*="middle"] .site-logo-container'
+			)
+		).map((el) => el.removeAttribute('style'))
 
-				setTimeout(() => {
-					stickyContainer.dataset.sticky = stickyComponents.join(':')
+		stickyContainer.dataset.sticky = [...stickyComponents].join(':')
 
-					Array.from(
-						stickyContainer.querySelectorAll('[data-row]')
-					).map((row) => row.removeAttribute('style'))
-					setTransparencyFor(stickyContainer, 'yes')
-				}, 200)
+		setTransparencyFor(stickyContainer, 'yes')
+
+		maybeSetStickyHeightAnimated(() => {
+			return '0px'
+		})
+
+		prevOffset = null
+	}
+
+	if (prevOffset === null) {
+		prevOffset = 1000
+	}
+
+	var elTopOff = prevOffset + args.prevScrollY - currentScrollY
+
+	let offset = 0
+
+	if (
+		currentScrollY > headerInitialHeight * 2 + startPosition ||
+		stickyContainer.dataset.sticky.indexOf('yes') > -1
+	) {
+		if (currentScrollY <= startPosition) {
+			offset = 0
+		} else if (currentScrollY > args.prevScrollY) {
+			let { stickyContainerHeightAbsolute } = getData({ stickyContainer })
+
+			offset =
+				Math.abs(elTopOff) > stickyContainerHeightAbsolute
+					? -stickyContainerHeightAbsolute
+					: elTopOff
+		} else {
+			offset = elTopOff > 0 ? 0 : elTopOff
+		}
+
+		stickyContainer.style.transform = `translateY(${offset}px)`
+
+		prevOffset = offset
+	} else {
+		stickyContainer.removeAttribute('style')
+	}
+
+	if (stickyContainer.dataset.sticky.indexOf('yes') > -1) {
+		if (currentScrollY <= startPosition) {
+		} else if (currentScrollY > args.prevScrollY) {
+		} else {
+			shrinkHandleLogo({ stickyContainer, startPosition })
+			shrinkHandleMiddleRow({
+				stickyContainer,
+				containerInitialHeight,
+				startPosition,
 			})
 		}
 	}
 
-	prevScrollY = window.scrollY
+	maybeSetStickyHeightAnimated(() => {
+		let { stickyContainerHeight } = getData({ stickyContainer })
+		return `${stickyContainerHeight - Math.abs(offset)}px`
+	})
 }

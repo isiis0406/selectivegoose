@@ -7,43 +7,9 @@
  * @package Blocksy
  */
 
-if (! function_exists('blocksy_has_lazyload')) {
-	function blocksy_has_lazyload() {
-		if (
-			wp_doing_ajax()
-			&&
-			isset($_REQUEST['action'])
-			&&
-			$_REQUEST['action'] = 'brizy_shortcode_content'
-		) {
-			return false;
-		}
-
-		if (class_exists('WP_Smush_Lazy_Load')) {
-			if (WP_Smush_Settings::get_instance()->get('lazy_load')) {
-				return false;
-			}
-		}
-
-		if (
-			class_exists('Jetpack')
-			&&
-			Jetpack::is_module_active('lazy-images')
-		) {
-			return false;
-		}
-
-		if (
-			function_exists('get_rocket_option')
-			&&
-			!! get_rocket_option('lazyload')
-		) {
-			return false;
-		}
-
-		return get_theme_mod('has_lazy_load', 'yes') === 'yes';
-	}
-}
+add_filter('wp_lazy_loading_enabled', function ($enabled) {
+	return get_theme_mod('has_lazy_load', 'yes') === 'yes';
+});
 
 /**
  * Output image container for an attachment.
@@ -59,13 +25,12 @@ if (! function_exists('blocksy_image')) {
 				'other_images' => [],
 				'ratio' => '1/1',
 				'class' => '',
-				'ratio_blocks' => true,
+				'aspect_ratio' => true,
 				'tag_name' => 'div',
 				'html_atts' => [],
 				'img_atts' => [],
 				'inner_content' => '',
-				'lazyload' => blocksy_has_lazyload(),
-				'lazyload_type' => get_theme_mod('lazy_load_type', 'fade'),
+				'lazyload' => true,
 				'size' => 'medium',
 
 				// default | woo
@@ -106,6 +71,8 @@ if (! function_exists('blocksy_image')) {
 			empty( $classes ) ? '' : ' ' . $classes
 		);
 
+		$is_woo_placeholder_image = false;
+
 		if (! $attachment_exists) {
 			if ($args['no_image_type'] === 'woo') {
 				$placeholder_image = get_option('woocommerce_placeholder_image', 0);
@@ -114,36 +81,30 @@ if (! function_exists('blocksy_image')) {
 					if (is_numeric($placeholder_image)) {
 						$args['attachment_id'] = $placeholder_image;
 						$attachment_exists = !!wp_get_attachment_image_src($args['attachment_id']);
+						$is_woo_placeholder_image = true;
 					} else {
-						return blocksy_simple_image($placeholder_image, $args);
+						return apply_filters(
+							'woocommerce_placeholder_img',
+							blocksy_simple_image($placeholder_image, $args),
+							$args['size'],
+							[100, 100]
+						);
 					}
 				}
 			}
 		}
 
-		if ($args['lazyload'] && $attachment_exists) {
-			$args['html_atts']['class'] .= ' ct-lazy';
-
-			if ($args['lazyload_type'] === 'none') {
-				$args['html_atts']['class'] .= ' ct-lazy-static';
-			}
-
-			if ($args['lazyload_type'] === 'circle') {
-				$args['inner_content'] .= '<span data-loader="circles"><span></span><span></span><span></span></span>';
-			}
+		if (isset($args['html_atts']['class'])) {
+			$other_html_atts .= 'class="' . $args['html_atts']['class'] . '" ';
+			unset($args['html_atts']['class']);
 		}
 
-		if ( $args['ratio_blocks'] ) {
-			$args['inner_content'] .= blocksy_generate_ratio(
+		if ($args['aspect_ratio']) {
+			$args['img_atts']['style'] = blocksy_generate_ratio(
 				$args['ratio'],
 				$args['attachment_id'],
 				$args['size']
 			);
-		}
-
-		if ( isset( $args['html_atts']['class'] ) ) {
-			$other_html_atts .= 'class="' . $args['html_atts']['class'] . '" ';
-			unset( $args['html_atts']['class'] );
 		}
 
 		if ($args['attachment_id']) {
@@ -205,13 +166,36 @@ if (! function_exists('blocksy_image')) {
 
 		$other_html_atts = trim($other_html_atts);
 
+		$image_result = blocksy_get_image_element($args);
+
+		if ($is_woo_placeholder_image) {
+			$dimensions = [100, 100];
+
+			if (isset($info)) {
+				$dimensions = [
+					$info['width'],
+					$info['height']
+				];
+			}
+
+			$image_result = apply_filters(
+				'woocommerce_placeholder_img',
+				$image_result,
+				$args['size'],
+				$dimensions
+			);
+		}
+
+		if (empty($image_result)) {
+			return '';
+		}
+
 		return '<' . $args['tag_name'] . ' ' . $other_html_atts . '>' .
-			blocksy_get_image_element($args) .
+			$image_result .
 			$args['inner_content'] .
 			'</' . $args['tag_name'] . '>';
 	}
 }
-
 
 /**
  * Output image element for all the cases.
@@ -242,6 +226,8 @@ if (! function_exists('blocksy_get_image_element')) {
 			}
 		}
 
+		$parser = new Blocksy_Attributes_Parser();
+
 		if ($args['display_video'] && $args['display_video'] !== 'pill') {
 			$maybe_video = get_post_meta(
 				$args['attachment_id'],
@@ -261,14 +247,22 @@ if (! function_exists('blocksy_get_image_element')) {
 
 					$class = array();
 
-					$atts = array();
+					$video_attr = [
+						'poster' => $poster,
+						'controls' => true
+					];
+
+					if ($args['aspect_ratio']) {
+						$video_attr['style'] = blocksy_generate_ratio(
+							$args['ratio'],
+							$args['attachment_id'],
+							$args['size']
+						);
+					}
 
 					$result = blocksy_html_tag(
 						'video',
-						[
-							'poster' => $poster,
-							'controls' => true
-						],
+						$video_attr,
 						blocksy_html_tag(
 							'source',
 							[
@@ -295,12 +289,23 @@ if (! function_exists('blocksy_get_image_element')) {
 						);
 					}
 
+					if ($args['aspect_ratio']) {
+						$embed = $parser->add_attribute_to_images_with_tag(
+							$embed,
+							'style',
+							blocksy_generate_ratio(
+								$args['ratio'],
+								$args['attachment_id'],
+								$args['size']
+							),
+							'iframe'
+						);
+					}
+
 					return html_entity_decode($embed);
 				}
 			}
 		}
-
-		$parser = new Blocksy_Attributes_Parser();
 
 		$image = wp_get_attachment_image(
 			$args['attachment_id'],
@@ -310,26 +315,6 @@ if (! function_exists('blocksy_get_image_element')) {
 		);
 
 		$has_srcset = strpos($image, 'srcset') !== false;
-
-		if ($args['lazyload']) {
-			$output .= '<noscript>' . $image . '</noscript>';
-
-			$image = $parser->rename_attribute_from_images(
-				$image,
-				'src',
-				'data-ct-lazy'
-			);
-
-			if ($has_srcset) {
-				$image = $parser->rename_attribute_from_images(
-					$image,
-					'srcset',
-					'data-ct-lazy-set'
-				);
-			}
-		}
-
-		$image = $parser->add_attribute_to_images($image, 'data-object-fit', '~');
 
 		if (blocksy_has_schema_org_markup()) {
 			$image = $parser->add_attribute_to_images($image, 'itemprop', 'image');
@@ -343,50 +328,62 @@ if (! function_exists('blocksy_get_image_element')) {
 			foreach ($args['other_images'] as $other_image) {
 				$other_image = wp_get_attachment_image(
 					$other_image,
-					$args['size']
+					$args['size'],
+					false,
+					$args['lazyload'] ? [] : ['loading' => false]
 				);
 
-				$other_image = $parser->add_attribute_to_images($other_image, 'class', 'ct-swap');
+				$other_image = $parser->add_attribute_to_images(
+					$other_image,
+					'class',
+					'ct-swap'
+				);
 
-				if ($args['lazyload']) {
-					$other_image = $parser->rename_attribute_from_images(
+				if ($args['aspect_ratio']) {
+					$other_image = $parser->add_attribute_to_images(
 						$other_image,
-						'src',
-						'data-ct-lazy'
+						'style',
+						blocksy_generate_ratio(
+							$args['ratio'],
+							$args['attachment_id'],
+							$args['size']
+						)
 					);
-
-					if ( $has_srcset ) {
-						$other_image = $parser->rename_attribute_from_images(
-							$other_image,
-							'srcset',
-							'data-ct-lazy-set'
-						);
-					}
 				}
 
 				$output = $other_image . $output;
 			}
 		}
 
-		$output = $image . $output;
+		$output = $output . $image;
 
 		return $output;
 	}
 }
 
-/**
- * Generate ratio div based on ratio.
- *
- * @param string $ratio 1/1 | 1/2 | 4/3 | 3/4 ...
- */
+function blocksy_gcd($a, $b) {
+	$a = abs($a); $b = abs($b);
+
+	if ($a < $b) list($b,$a) = Array($a,$b);
+	if ($b == 0) return $a;
+
+	$r = $a % $b;
+
+	while ($r > 0) {
+		$a = $b;
+		$b = $r;
+		$r = $a % $b;
+	}
+
+	return $b;
+}
+
 if (! function_exists('blocksy_generate_ratio')) {
 	function blocksy_generate_ratio($ratio, $attachment_id = null, $size = null) {
-		$result = 0;
-
 		if ('original' === $ratio) {
-			if (! $attachment_id) {
-				$result = 1;
-			} else {
+			$result = '1/1';
+
+			if ($attachment_id) {
 				$all_sizes = blocksy_get_all_wp_image_sizes();
 
 				if (
@@ -412,25 +409,21 @@ if (! function_exists('blocksy_generate_ratio')) {
 					&&
 					intval($info['width']) !== 0
 				) {
-					$result = (int) $info['height'] / (int) $info['width'];
-				} else {
-					$result = 1;
+					$g = blocksy_gcd((int) $info['width'], (int) $info['height']);
+
+					$ratio = ((int) $info['width'] / $g) . '/' . ((int) $info['height'] / $g);
 				}
 			}
 		} else {
-			$computed_ratio = explode(
-				strpos($ratio, '/') !== false ? '/' : ':',
-				$ratio
-			);
-
-			$result = (float) ($computed_ratio[1]) / (float) ($computed_ratio[0]);
+			if (strpos($ratio, ':') !== false) {
+				$info = explode(':', $ratio);
+				$ratio = $info[0] . '/' . $info[1];
+			}
 		}
 
-		$style = 'padding-bottom: ' . round($result * 100, 1) . '%';
-		return '<span class="ct-ratio" style="' . $style . '"></span>';
+		return 'aspect-ratio: ' . $ratio . ';';
 	}
 }
-
 
 if (! function_exists('blocksy_get_all_wp_image_sizes')) {
 	function blocksy_get_all_wp_image_sizes() {
@@ -470,13 +463,12 @@ if (! function_exists('blocksy_simple_image')) {
 			[
 				'ratio' => '1/1',
 				'class' => '',
-				'ratio_blocks' => true,
+				'aspect_ratio' => true,
 				'tag_name' => 'div',
 				'html_atts' => [],
 				'img_atts' => [],
 				'inner_content' => '',
-				'lazyload' => blocksy_has_lazyload(),
-				'lazyload_type' => get_theme_mod('lazy_load_type', 'fade'),
+				'lazyload' => true,
 				'size' => 'medium',
 				'has_image' => true,
 				'suffix' => '',
@@ -490,6 +482,10 @@ if (! function_exists('blocksy_simple_image')) {
 			$original .= '-' . $args['suffix'];
 		}
 
+		if ($args['aspect_ratio']) {
+			$args['img_atts']['style'] = blocksy_generate_ratio($args['ratio']);
+		}
+
 		$image_attr = 'src';
 
 		$other_img_atts = '';
@@ -498,28 +494,8 @@ if (! function_exists('blocksy_simple_image')) {
 			$args['img_atts']['alt'] = __('Default image', 'blocksy');
 		}
 
-		foreach ( $args['img_atts'] as $attr => $value ) {
+		foreach ($args['img_atts'] as $attr => $value) {
 			$other_img_atts .= $attr . '="' . $value . '" ';
-		}
-
-		if ( $args['lazyload'] ) {
-			$original .= ' ct-lazy';
-
-			if ($args['lazyload_type'] === 'none') {
-				$original .= ' ct-lazy-static';
-			}
-
-			if ($args['has_image']) {
-				$args['inner_content'] .= '<noscript>';
-				$args['inner_content'] .= '<img ' . $image_attr . '="' . $image_src . '" data-object-fit="~" ' . $other_img_atts . '>';
-				$args['inner_content'] .= '</noscript>';
-			}
-
-			$image_attr = 'data-ct-lazy';
-
-			if ($args['lazyload_type'] === 'circle') {
-				$args['inner_content'] .= '<span data-loader="circles"><span></span><span></span><span></span></span>';
-			}
 		}
 
 		if (! isset($args['html_atts']['class'])) {
@@ -536,14 +512,21 @@ if (! function_exists('blocksy_simple_image')) {
 
 		$other_html_atts = trim( $other_html_atts );
 
-		if ($args['ratio_blocks']) {
-			$args['inner_content'] .= blocksy_generate_ratio($args['ratio']);
-		}
-
 		$image_content = '';
 
 		if ($args['has_image']) {
-			$image_content = '<img ' . $image_attr . '="' . $image_src . '" data-object-fit="~" ' . $other_img_atts . '>';
+			$image_content = '<img ' . $image_attr . '="' . $image_src . '" ' . $other_img_atts . '>';
+
+			if (
+				wp_lazy_loading_enabled('img', 'blocksy_simple_image')
+				&&
+				false === strpos($image_content, ' loading=')
+			) {
+				$image_content = wp_img_tag_add_loading_attr(
+					$image_content,
+					'blocksy_simple_image'
+				);
+			}
 		}
 
 		return '<' . $args['tag_name'] . ' ' . $other_html_atts . '>' .

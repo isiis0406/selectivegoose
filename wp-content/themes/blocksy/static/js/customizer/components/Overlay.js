@@ -12,8 +12,6 @@ import { Transition } from 'react-spring/renderprops'
 import { __ } from 'ct-i18n'
 import classnames from 'classnames'
 
-// import '@reach/dialog/styles.css'
-
 const defaultIsVisible = (i) => !!i
 
 const Overlay = ({
@@ -23,6 +21,7 @@ const Overlay = ({
 	className,
 	initialFocusRef,
 	onDismiss,
+	onCloseButtonClick,
 }) => {
 	return (
 		<Transition
@@ -51,7 +50,11 @@ const Overlay = ({
 							}}>
 							<button
 								className="close-button"
-								onClick={() => onDismiss()}>
+								onClick={() =>
+									onCloseButtonClick
+										? onCloseButtonClick()
+										: onDismiss()
+								}>
 								×
 							</button>
 

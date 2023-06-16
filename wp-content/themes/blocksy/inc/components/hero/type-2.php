@@ -1,6 +1,8 @@
 <?php
 
 $attachment_id = false;
+$prefix = blocksy_manager()->screen->get_prefix();
+
 
 $page_title_bg_type = blocksy_akg_or_customizer(
 	'page_title_bg_type',
@@ -79,6 +81,11 @@ if ($page_title_bg_type === 'custom_image') {
 	}
 }
 
+$attachment_id = apply_filters(
+	'blocksy:hero:type-2:image:attachment_id',
+	$attachment_id
+);
+
 if (
 	$page_title_bg_type === 'custom_image'
 	||
@@ -127,6 +134,14 @@ if ($hero_structure === 'narrow') {
 
 $attr = apply_filters('blocksy:hero:wrapper-attr', $attr);
 
+if ($prefix === 'courses_single' && function_exists('tutor')) {
+	$elements = str_replace(
+		'tutor-course-details-header tutor-mb-44',
+		'tutor-course-details-header entry-header ' . $container_class,
+		$elements
+	);
+}
+
 ?>
 
 <div <?php echo blocksy_attr_to_html($attr) ?>>
@@ -142,17 +157,24 @@ $attr = apply_filters('blocksy:hero:wrapper-attr', $attr);
 							blocksy_get_page_title_source(),
 							'full'
 						),
-						'ratio_blocks' => false,
-						'lazyload' => false
+						'aspect_ratio' => false,
+						'lazyload' => get_theme_mod(
+							'has_lazy_load_page_title_image',
+							'yes'
+						) === 'yes'
 					])
 				);
 			?>
 		</figure>
 	<?php } ?>
 
-	<header class="entry-header <?php echo $container_class ?>">
+	<?php if ($prefix === 'courses_single' && function_exists('tutor')) { ?>
 		<?php echo $elements ?>
-	</header>
+	<?php } else { ?>
+		<header class="entry-header <?php echo $container_class ?>">
+			<?php echo $elements ?>
+		</header>
+	<?php } ?>
 </div>
 
 

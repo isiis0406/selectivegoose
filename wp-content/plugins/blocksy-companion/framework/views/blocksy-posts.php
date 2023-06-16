@@ -4,14 +4,29 @@ if (! function_exists('blocksy_render_archive_cards')) {
 	return;
 }
 
+$shortcode_class = 'ct-posts-shortcode';
+
+if (! empty($args['class'])) {
+	$shortcode_class .= ' ' . esc_attr($args['class']);
+}
+
 $query_args = [
 	'order' => $args['order'],
 	'ignore_sticky_posts' => true,
 	'post_type' => explode(',', $args['post_type']),
 	'orderby' => $args['orderby'],
 	'posts_per_page' => $args['limit'],
-	'ignore_sticky_posts' => $args['ignore_sticky_posts'] === 'yes'
+	'ignore_sticky_posts' => $args['ignore_sticky_posts'] === 'yes',
+	'post_status' => 'publish'
 ];
+
+if (! empty($args['meta_value'])) {
+	$query_args['meta_value'] = $args['meta_value'];
+}
+
+if (! empty($args['meta_key'])) {
+	$query_args['meta_key'] = $args['meta_key'];
+}
 
 if ($args['has_pagination'] === 'yes') {
 	if (get_query_var('paged')) {
@@ -144,7 +159,7 @@ if ($args['view'] === 'slider') {
 	}
 
 	echo blocksy_flexy(array_merge([
-		'class' => 'ct-posts-shortcode',
+		'class' => $shortcode_class,
 		'images' => $images,
 		'slide_image_args' => function ($index, $args) use ($posts_to_render) {
 			$post = $posts_to_render[$index];
@@ -167,10 +182,12 @@ if ($args['view'] === 'slider') {
 		}
 	}
 
-	echo '<div class="ct-posts-shortcode" data-prefix="' . $prefix . '">';
+	echo '<div class="' . $shortcode_class . '" data-prefix="' . $prefix . '">';
 
 	if (
 		$args['filtering']
+		&&
+		$args['filtering'] === 'yes'
 		&&
 		function_exists('blc_cpt_extra_filtering_output')
 	) {

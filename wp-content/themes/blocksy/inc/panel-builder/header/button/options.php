@@ -92,6 +92,12 @@ $options = [
 							'value' => 'no',
 						],
 
+						'header_button_sponsored' => [
+							'type'  => 'ct-switch',
+							'label' => __( 'Set link to sponsored', 'blocksy' ),
+							'value' => 'no',
+						],
+
 					],
 				],
 
@@ -238,7 +244,25 @@ $options = [
 					'value' => '',
 					'desc' => __( 'Separate multiple classes with spaces.', 'blocksy' ),
 				],
-			] : []
+			] : [],
+
+			[
+				'button_aria_label' => [
+					'label' => __( 'Custom Aria Label', 'blocksy' ),
+					'type' => 'text',
+					'design' => 'block',
+					'divider' => 'top',
+					'value' => '',
+					'desc' => sprintf(
+						// translators: placeholder here means the actual URL.
+						__( 'Add a custom %saria label%s attribute.', 'blocksy' ),
+						sprintf(
+							'<a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" target="_blank">'
+						),
+						'</a>'
+					),
+				],
+			]
 		)
 	],
 

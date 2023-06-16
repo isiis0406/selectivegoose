@@ -12,6 +12,7 @@ $options = [
 			'inner-options' => [
 
 				blocksy_get_options('general/page-title', [
+					'is_cpt' => $post_type->name . '_single',
 					'has_default' => true,
 					'is_single' => true
 				]),

@@ -83,6 +83,22 @@ function blocksy_get_source_for($prefix) {
 }
 
 if (! function_exists('blocksy_prefix_selector')) {
+	function blocksy_prefix_custom_selector($selector, $prefix_custom = '') {
+		if (empty($prefix)) {
+			return $selector;
+		}
+
+		$selector_for_prefix = 'body:not([data-prefix-custom*="' . $prefix . '"]) ';
+
+		if (empty($selector)) {
+			return trim($selector_for_prefix);
+		}
+
+		return $selector_for_prefix . $selector;
+	}
+}
+
+if (! function_exists('blocksy_prefix_selector')) {
 	function blocksy_prefix_selector($selector, $prefix = '') {
 		if (empty($prefix)) {
 			return $selector;

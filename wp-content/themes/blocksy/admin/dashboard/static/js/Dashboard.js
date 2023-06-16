@@ -53,19 +53,20 @@ const SpringRouter = ({ children }) => (
 								duration: 300,
 						  }
 				}}>
-				{(location) => (props) => (
-					<animated.div
-						style={{
-							...props,
-						}}>
-						<Router
-							primary={false}
-							location={location}
-							navigate={navigate}>
-							{children}
-						</Router>
-					</animated.div>
-				)}
+				{(location) => (props) =>
+					(
+						<animated.div
+							style={{
+								...props,
+							}}>
+							<Router
+								primary={false}
+								location={location}
+								navigate={navigate}>
+								{children}
+							</Router>
+						</animated.div>
+					)}
 			</Transition>
 		)}
 	</Location>

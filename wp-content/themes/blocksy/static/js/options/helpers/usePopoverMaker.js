@@ -53,7 +53,15 @@ const usePopoverMaker = ({
 	}
 
 	const refreshOnScroll = (e) => {
+		if (!e.target || !e.target.classList || !e.target.classList.contains) {
+			return
+		}
+
 		let modalRef = contentRefProp || contentRef
+
+		if (e.target.classList.contains('ct-modal-scroll')) {
+			refresh()
+		}
 
 		if (
 			modalRef &&

@@ -1,3 +1,8 @@
+.blocksy-hook-indicator,
+.ct-customizer-shortcut {
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+
 // hooks locations
 .blocksy-hook-indicator {
 	position: relative;
@@ -50,10 +55,10 @@
 
 // indicator spacing
 .blocksy-hook-indicator {
-	margin: 15px var(--hookSideMargin, 0);
+	margin: 15px var(--hook-side-margin, 0);
 
 	&[data-type*="full"] {
-		--hookSideMargin: 15px;
+		--hook-side-margin: 15px;
 	}
 
 	&:not([data-type*="top-margin"]) {
@@ -69,20 +74,15 @@
 	}
 }
 
+.ct-container {
 
-.blocksy-hook-indicator[data-type*="full"] {
-	margin-left: 15px;
-	margin-right: 15px;
+	.blocksy-hook-indicator[data-type*="full"] {
+		--hook-side-margin: 0;
+	}
 }
 
 
 // customizer utilities
-.ct-customizer-preview-cache {
-	height: 0 !important;
-	display: none !important;
-	visibility: hidden !important;
-}
-
 body [data-customize-hide] {
 	display: none !important;
 }
@@ -173,7 +173,7 @@ $drop-size: 22px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		top: calc(50% - #{$drop-size / 2});
+		top: calc(50% - #{calc($drop-size / 2)});
 		right: -5px;
 		width: $drop-size;
 		height: $drop-size;

@@ -10,6 +10,15 @@ registerDynamicChunk('blocksy_account', {
 
 		if (!maybeTemplate) {
 			let maybeAccount = document.querySelector('#account-modal')
+
+			if (!maybeAccount) {
+				location = document.querySelector('[data-id="account"]')
+					? document.querySelector('[data-id="account"]').href
+					: el.href
+
+				return
+			}
+
 			maybeTemplate = maybeAccount.innerHTML
 			maybeAccount.remove()
 		}
@@ -17,9 +26,10 @@ registerDynamicChunk('blocksy_account', {
 		let panel = document.querySelector('.ct-drawer-canvas').lastElementChild
 		panel.id = `account-modal`
 
-		const maybeMatchingContainer = ct_localizations.dynamic_styles_selectors.find(
-			(descriptor) => panel.matches(descriptor.selector)
-		)
+		const maybeMatchingContainer =
+			ct_localizations.dynamic_styles_selectors.find((descriptor) =>
+				panel.matches(descriptor.selector)
+			)
 
 		const actuallyOpen = () => {
 			panel.innerHTML = maybeTemplate
@@ -32,6 +42,10 @@ registerDynamicChunk('blocksy_account', {
 
 			if (window.anr_onloadCallback) {
 				window.anr_onloadCallback()
+			}
+
+			if (window.Dokan_Vendor_Registration) {
+				window.Dokan_Vendor_Registration.init()
 			}
 
 			ctEvents.trigger('ct:overlay:handle-click', {

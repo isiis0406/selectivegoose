@@ -46,7 +46,7 @@ watchOptionsWithPrefix({
 		if (id === `${prefix}_featured_image_ratio`) {
 			setRatioFor(
 				getOptionFor('featured_image_ratio', prefix),
-				image.querySelector('.ct-image-container .ct-ratio')
+				image.querySelector('.ct-image-container')
 			)
 		}
 

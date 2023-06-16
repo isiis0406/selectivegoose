@@ -1,22 +1,7 @@
 <?php
 
-function blc_ext_cookies_consent_cache() {
-	if (! is_customize_preview()) return;
 
-	blocksy_add_customizer_preview_cache(
-		blocksy_html_tag(
-			'div',
-			[ 'data-id' => 'blocksy-cookies-consent-section' ],
-			blocksy_ext_cookies_consent_output(true)
-		)
-	);
-}
-
-function blocksy_ext_cookies_consent_output($forced = false) {
-	if (! $forced) {
-		blc_ext_cookies_consent_cache();
-	}
-
+function blocksy_ext_cookies_consent_output() {
 	/*
 	if (! BlocksyExtensionCookiesConsent::should_display_notification()) {
 		if (! $forced) {
@@ -85,7 +70,7 @@ function blocksy_ext_cookies_checkbox($prefix = '') {
 	?>
 
 	<p class="gdpr-confirm-policy">
-		<input id="gdprconfirm<?php echo $prefix ?>" class="ct-checkbox" name="gdprconfirm" type="checkbox" required /><label for="gdprconfirm<?php echo $prefix ?>"><?php echo $message ?></label>
+		<input id="gdprconfirm<?php echo $prefix ?>" class="ct-checkbox" name="gdprconfirm" type="checkbox" required><label for="gdprconfirm<?php echo $prefix ?>"><?php echo $message ?></label>
 	</p>
 
 	<?php

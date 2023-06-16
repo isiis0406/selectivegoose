@@ -1,24 +1,64 @@
 <?php
 
+add_action('elementor/widget/before_render_content', function($widget) {
+	if (! class_exists('ElementorPro\Modules\Woocommerce\Widgets\My_Account')) {
+		return;
+	}
+
+	if ($widget instanceof ElementorPro\Modules\Woocommerce\Widgets\My_Account) {
+		global $ct_skip_account;
+		$ct_skip_account = true;
+	}
+}, 10, 1);
+
+add_filter('elementor/widget/render_content', function($content, $widget) {
+	if (! class_exists('ElementorPro\Modules\Woocommerce\Widgets\My_Account')) {
+		return $content;
+	}
+
+	if ($widget instanceof ElementorPro\Modules\Woocommerce\Widgets\My_Account) {
+		global $ct_skip_account;
+		$ct_skip_account = false;
+	}
+
+	return $content;
+}, 10, 2);
+
+if (! function_exists('blocksy_woocommerce_has_account_customizations')) {
+	function blocksy_woocommerce_has_account_customizations() {
+		global $ct_skip_account;
+
+		if ($ct_skip_account) {
+			return false;
+		}
+
+		return ! defined('YITH_WCMAP');
+	}
+}
+
 add_filter(
 	'do_shortcode_tag',
 	function ($output, $tag, $attr, $m) {
+		if (! blocksy_woocommerce_has_account_customizations()) {
+			return $output;
+		}
+
 		if ($tag === 'woocommerce_my_account') {
 			$endpoint = WC()->query->get_current_endpoint();
 
-			$unauthorized_class = 'ct-woo-unauthorized';
+			$account_class = 'ct-woo-account';
 
 			if (
+				! is_user_logged_in()
+				||
 				$endpoint === 'lost-password'
-				&&
-				empty($_GET['show-reset-form'])
 			) {
-				$unauthorized_class .= ' ct-request-password-screen';
+				$account_class = 'ct-woo-unauthorized';
 			}
 
 			return str_replace(
 				'class="woocommerce"',
-				'class="woocommerce ' . (is_user_logged_in() ? 'ct-woo-account' : $unauthorized_class) . '"',
+				'class="woocommerce ' . $account_class . '"',
 				$output
 			);
 		}
@@ -30,6 +70,10 @@ add_filter(
 );
 
 add_action('woocommerce_before_account_navigation', function () {
+	if (! blocksy_woocommerce_has_account_customizations()) {
+		return;
+	}
+
 	$username = '';
 
 	if (get_theme_mod('has_account_page_name', 'no') === 'yes') {
@@ -65,15 +109,15 @@ add_action('woocommerce_before_account_navigation', function () {
 			[
 				'tag_name' => 'span',
 
+				'aspect_ratio' => false,
 				'suffix' => 'static',
-				'ratio_blocks' => false,
-
 				'img_atts' => [
 					'width' => $avatar_size / 2,
 					'height' => $avatar_size / 2,
 					'style' => 'height:' . (
 						intval($avatar_size) / 2
 					) . 'px',
+					'alt' => blocksy_get_avatar_alt_for(get_the_author_meta('ID'))
 				],
 			]
 		) . $username;

@@ -32,8 +32,8 @@ export const wooEntryPoints = [
 		...(isTouchDevice()
 			? {}
 			: {
-					trigger: ['hover'],
-			  }),
+				trigger: ['hover'],
+			}),
 	},
 
 	{
@@ -44,8 +44,7 @@ export const wooEntryPoints = [
 
 	{
 		els: () => [
-			...document.querySelectorAll('.ct-ajax-add-to-cart .cart'),
-			...document.querySelectorAll('.ct-floating-bar .cart'),
+			...document.querySelectorAll('.ct-ajax-add-to-cart .cart')
 		],
 		load: () => import('./add-to-cart-single'),
 		trigger: ['submit'],
@@ -99,6 +98,8 @@ const initShortcut = () => {
 
 			el.hasChangeListener = true
 
+			let request = null
+
 			$(el).on('change', (e) => {
 				var item_hash = $(el)
 					.attr('name')
@@ -107,7 +108,12 @@ const initShortcut = () => {
 				var item_quantity = $(el).val()
 				var currentVal = parseFloat(item_quantity)
 
-				$.ajax({
+				if (request) {
+					request.abort()
+					request = null
+				}
+
+				request = $.ajax({
 					type: 'POST',
 					url: ct_localizations.ajax_url,
 					data: {

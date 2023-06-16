@@ -2,6 +2,7 @@
 	grid-row-gap: var(--grid-columns-gap, 30px);
 
 	.product {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
@@ -17,11 +18,12 @@
 	}
 
 	.ct-image-container {
-		--display: flex;
+		display: flex;
 	}
 
-	.woocommerce-loop-product__title,
-	.product-categories {
+	.entry-excerpt,
+	.product-categories,
+	.woocommerce-loop-product__title {
 		padding: 0 20px;
 	}
 
@@ -51,8 +53,10 @@
 
 		.price {
 			display: flex;
+			flex-wrap: wrap;
 			align-items: center;
 			justify-content: center;
+			column-gap: 5px;
 			position: relative;
 			padding: 5px;
 			font-size: 14px;

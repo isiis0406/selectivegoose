@@ -11,12 +11,20 @@ function blocksy_woocommerce_has_flexy_view() {
 		return true;
 	}
 
+	$is_variations_action = (
+		isset($_REQUEST['action'])
+		&&
+		$_REQUEST['action'] === 'woocommerce_load_variations'
+	);
+
 	if (
 		(is_product() || wp_doing_ajax())
 		&&
 		! blocksy_manager()->screen->uses_woo_default_template()
 		&&
 		! is_customize_preview()
+		&&
+		! $is_variations_action
 	) {
 		return false;
 	}
@@ -154,8 +162,30 @@ add_action(
 if (! function_exists('blocksy_woo_single_product_after_main_content')) {
 	function blocksy_woo_single_product_after_main_content() {
 		if (is_product()) {
-			woocommerce_upsell_display();
-			woocommerce_output_related_products();
+
+			if (blocksy_some_device(
+				get_theme_mod(
+					'upsell_products_visibility',
+					[
+						'desktop' => true,
+						'tablet' => false,
+						'mobile' => false,
+					]
+				)
+			) || is_customize_preview()) {
+				woocommerce_upsell_display();
+			}
+
+			if (blocksy_some_device(get_theme_mod(
+				'related_products_visibility',
+				[
+					'desktop' => true,
+					'tablet' => false,
+					'mobile' => false,
+				]
+			)) || is_customize_preview()) {
+				woocommerce_output_related_products();
+			}
 		}
 	}
 }
@@ -166,7 +196,42 @@ function blocksy_woo_single_post_class($classes, $product) {
 	}
 
 	if (blocksy_woocommerce_has_flexy_view()) {
-		if (count($product->get_gallery_image_ids()) > 0) {
+		$has_gallery = count($product->get_gallery_image_ids()) > 0;
+
+		if ($product->get_type() === 'variable') {
+			$maybe_current_variation = blocksy_retrieve_product_default_variation(
+				$product
+			);
+
+			if ($maybe_current_variation) {
+				$variation_values = get_post_meta(
+					$maybe_current_variation->get_id(),
+					'blocksy_post_meta_options'
+				);
+
+				if (empty($variation_values)) {
+					$variation_values = [[]];
+				}
+
+				$variation_values = $variation_values[0];
+
+				$gallery_source = blocksy_akg(
+					'gallery_source',
+					$variation_values,
+					'default'
+				);
+
+				if ($gallery_source !== 'default') {
+					$has_gallery = count(blocksy_akg(
+						'images',
+						$variation_values,
+						[]
+					)) > 0;
+				}
+			}
+		}
+
+		if ($has_gallery) {
 			if (get_theme_mod('gallery_style', 'horizontal') === 'vertical') {
 				$classes[] = 'thumbs-left';
 			} else {

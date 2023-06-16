@@ -17,6 +17,10 @@ add_filter('post_class', function ($classes) {
 class Blocksy_Custom_Post_Types {
 	private $supported_post_types = null;
 
+	public function wipe_caches() {
+		$this->supported_post_types = null;
+	}
+
 	public function get_supported_post_types() {
 		if ($this->supported_post_types === null) {
 			$potential_post_types = array_keys(get_post_types([
@@ -28,6 +32,7 @@ class Blocksy_Custom_Post_Types {
 				'cmplz-processing',
 				'cmplz-dataleak',
 				'iamport_payment',
+				'wpcw_achievements',
 				'zoom-meetings',
 				'pafe-formabandonment',
 				'pafe-form-database',
@@ -58,13 +63,16 @@ class Blocksy_Custom_Post_Types {
 				'reply',
 				'blockslider',
 				'mailpoet_page',
-
+				'ha_nav_content',
 				'course',
 				'lesson',
+				'atbdp_orders',
+				'at_biz_dir',
 
 				// 'courses',
 				'tutor_quiz',
 				'tutor_assignments',
+				'tutor_zoom_meeting',
 
 				// 'tribe_events',
 				'testimonial',
@@ -76,7 +84,6 @@ class Blocksy_Custom_Post_Types {
 				'sfwd-essays',
 				'sfwd-transactions',
 				'sfwd-certificates',
-				'sfwd-quiz',
 				'e-landing-page',
 				'zion_template',
 				'pafe-fonts',
@@ -84,6 +91,7 @@ class Blocksy_Custom_Post_Types {
 				'pdfviewer',
 				'da_image',
 
+				// 'sfwd-quiz',
 				// 'sfwd-topic',
 				// 'sfwd-lessons',
 				// 'sfwd-courses'
@@ -106,6 +114,7 @@ class Blocksy_Custom_Post_Types {
 		$post_type = get_post_type($post);
 
 		$tax_query = $wp_query->tax_query;
+
 
 		if (
 			$tax_query

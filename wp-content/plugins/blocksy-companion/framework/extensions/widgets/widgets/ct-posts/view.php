@@ -12,7 +12,8 @@ $post_type = blocksy_default_akg('post_type_source', $atts, 'post');
 $query_args = [
 	'order' => 'DESC',
 	'ignore_sticky_posts' => true,
-	'post_type' => $post_type
+	'post_type' => $post_type,
+	'post_status' => 'publish'
 ];
 
 if ($post_type !== 'page') {
@@ -156,7 +157,8 @@ echo $before_title . wp_kses_post( $title ) . $after_title;
 					<?php
 					if ( $has_thumbnail ) {
 						$size = 'thumbnail';
-						$ratio = blocksy_default_akg('post_widget_image_ratio', $atts, '1/1');
+						$ratio = blocksy_default_akg('post_widget_image_ratio', $atts, 'original');
+						$thumb_size = blocksy_default_akg('post_widget_thumb_size', $atts, 'default');
 
 						if ( $posts_type === 'large-thumbs' ) {
 							$size = 'medium';
@@ -175,6 +177,10 @@ echo $before_title . wp_kses_post( $title ) . $after_title;
 							$ratio = '4/3';
 						}
 
+						if ($thumb_size !== 'default') {
+							$size = $thumb_size;
+						}
+
 						if (get_post_thumbnail_id()) {
 							echo wp_kses_post(
 								blc_call_fn(
@@ -182,7 +188,7 @@ echo $before_title . wp_kses_post( $title ) . $after_title;
 									[
 										'attachment_id' => get_post_thumbnail_id(),
 										'ratio' => $ratio,
-										'tag_name' => 'div',
+										'tag_name' => 'span',
 										'size' => $size,
 									]
 								)
@@ -191,23 +197,24 @@ echo $before_title . wp_kses_post( $title ) . $after_title;
 					}
 					?>
 
-					<div class="ct-entry-content">
-						<div class="ct-post-title">
+					<span class="ct-entry-content">
+						<span class="ct-post-title">
 							<?php echo wp_kses_post(get_the_title()); ?>
-						</div>
+						</span>
 
 						<?php
 							if (blocksy_default_akg('display_excerpt', $atts, 'no') === 'yes') {
-								echo blocksy_entry_excerpt(
-									blocksy_default_akg('excerpt_lenght', $atts, '10'),
-									'ct-entry-excerpt',
-									get_the_ID()
-								);
+								echo blocksy_entry_excerpt([
+									'length' => blocksy_default_akg('excerpt_lenght', $atts, '10'),
+									'container_tag' => 'span',
+									'class' => 'ct-entry-excerpt',
+									'post_id' => get_the_ID()
+								]);
 							}
 						?>
 
 						<?php if ( $has_meta || $has_comments ) { ?>
-							<div class="ct-entry-meta">
+							<span class="ct-entry-meta">
 								<?php if ( $has_meta ) { ?>
 									<span>
 										<?php echo esc_attr(get_the_time(get_option('date_format', 'M j, Y'))); ?>
@@ -220,9 +227,9 @@ echo $before_title . wp_kses_post( $title ) . $after_title;
 										<?php echo wp_kses_post( get_comments_number_text( '', __( '1 Comment', 'blocksy-companion' ), __( '% Comments', 'blocksy-companion' ) ) ); ?>
 									</span>
 								<?php } ?>
-							</div>
+							</span>
 						<?php } ?>
-					</div>
+					</span>
 				</a>
 			</li>
 		<?php } ?>

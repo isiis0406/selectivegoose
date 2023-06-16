@@ -19,6 +19,11 @@ $config = [
 		],
 
 		[
+			'key' => 'button_aria_label',
+			'multiline' => false
+		],
+
+		[
 			'key' => 'header_button_link',
 			'multiline' => false
 		]

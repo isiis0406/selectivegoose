@@ -5,7 +5,7 @@
 
 // boundless image
 .entry-card .boundless-image {
-	width: initial;
+	width: calc(100% + var(--card-inner-spacing, 30px) * 2);
 	margin-left: calc(var(--card-inner-spacing, 30px) * -1);
 	margin-right: calc(var(--card-inner-spacing, 30px) * -1);
 
@@ -32,41 +32,4 @@
 // featured image border radius
 .entry-card .ct-image-container:not(.boundless-image) {
 	border-radius: var(--borderRadius, 0px);
-}
-
-
-// hover effect
-[data-hover] .ct-image-container img {
-	// will-change: transform;
-	transition: opacity 0.5s ease,
-				transform 0.5s ease;
-}
-
-[data-hover="zoom-in"] {
-	> *:hover .ct-image-container img {
-		// transform: scale3d(1.1, 1.1, 1);
-		transform: scale(1.1);
-	}
-}
-
-[data-hover="zoom-out"] {
-	.ct-image-container img {
-		// transform: scale3d(1.1, 1.1, 1);
-		transform: scale(1.1);
-	}
-
-	> *:hover .ct-image-container img {
-		// transform: scale3d(1, 1, 1);
-		transform: scale(1.0);
-	}
-}
-
-[data-hover="swap"] {
-	.ct-swap {
-		opacity: 0;
-	}
-
-	> *:hover .ct-swap {
-		opacity: 1;
-	}
 }

@@ -475,16 +475,43 @@ if ($cards_gap !== 30) {
 	]);
 }
 
+
 // content alignment
+$horizontal_alignment = get_theme_mod(
+	$prefix. '_content_horizontal_alignment', 
+	'CT_CSS_SKIP_RULE'
+);
+
+$flex_horizontal_alignment = $horizontal_alignment;
+
+$flex_horizontal_alignment = blocksy_map_values([
+	'value' => $horizontal_alignment,
+	'map' => [
+		'left' => 'flex-start',
+		'right' => 'flex-end'
+	]
+]);
+
+blocksy_output_responsive([
+	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
+	'selector' => blocksy_prefix_selector('.entry-card', $prefix),
+	'variableName' => 'text-horizontal-alignment',
+	'value' => $horizontal_alignment,
+	'unit' => '',
+]);
+
 blocksy_output_responsive([
 	'css' => $css,
 	'tablet_css' => $tablet_css,
 	'mobile_css' => $mobile_css,
 	'selector' => blocksy_prefix_selector('.entry-card', $prefix),
 	'variableName' => 'horizontal-alignment',
-	'value' => get_theme_mod($prefix. '_content_horizontal_alignment', 'CT_CSS_SKIP_RULE'),
+	'value' => $flex_horizontal_alignment,
 	'unit' => '',
 ]);
+
 
 if ($card_type === 'cover') {
 	blocksy_output_responsive([
@@ -514,3 +541,21 @@ if ($card_type === 'simple') {
 		)
 	]);
 }
+
+blocksy_output_background_css([
+	'selector' => blocksy_prefix_selector('', $prefix),
+	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
+	'value' => get_theme_mod(
+		$prefix . '_background',
+		blocksy_background_default_value([
+			'backgroundColor' => [
+				'default' => [
+					'color' => Blocksy_Css_Injector::get_skip_rule_keyword()
+				],
+			],
+		])
+	),
+	'responsive' => true,
+]);

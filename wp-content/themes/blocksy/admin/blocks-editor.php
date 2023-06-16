@@ -12,6 +12,22 @@ add_action(
 
 		$options = blocksy_get_options('meta/' . get_post_type($post));
 
+		if (
+			$post
+			&&
+			intval(get_option('page_for_posts')) === intval($post->ID)
+		) {
+			$options = blocksy_get_options('meta/blog');
+		}
+
+		if (
+			$post
+			&&
+			intval(get_option('woocommerce_shop_page_id')) === $post->ID
+		) {
+			$options = blocksy_get_options('meta/blog');
+		}
+
 		if (blocksy_manager()->post_types->is_supported_post_type()) {
 			$options = blocksy_get_options('meta/default', [
 				'post_type' => get_post_type_object(get_post_type($post))
@@ -194,6 +210,8 @@ add_filter(
 		$current_screen = get_current_screen();
 
 		if (
+			! $post
+			||
 			! $current_screen->is_block_editor()
 			||
 			get_current_screen()->base === 'widgets'
@@ -343,7 +361,7 @@ add_filter(
 
 		return [
 			'body' => $css,
-			'headers' => new Requests_Utility_CaseInsensitiveDictionary(),
+			'headers' => [],
 			'response' => [
 				'code' => 200,
 				'message' => 'OK',

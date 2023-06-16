@@ -148,6 +148,7 @@ class Blocksy_Dashboard_Page {
 
 	public function setup_framework_page() {
 		$theme = blocksy_get_wp_parent_theme();
+
 		if (! current_user_can('activate_plugins')) {
 			return;
 		}
@@ -162,7 +163,7 @@ class Blocksy_Dashboard_Page {
 				'blocksy:dashboard:icon-url',
 				get_template_directory_uri() . '/admin/dashboard/static/img/navigation.svg'
 			),
-			'position'         => 2,
+			'position' => 2,
 		];
 
 		$result = apply_filters(

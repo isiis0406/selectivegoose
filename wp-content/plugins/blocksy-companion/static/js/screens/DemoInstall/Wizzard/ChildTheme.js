@@ -5,7 +5,7 @@ import {
 	useState,
 	useContext,
 	createContext,
-	Fragment
+	Fragment,
 } from '@wordpress/element'
 import { __ } from 'ct-i18n'
 import classnames from 'classnames'
@@ -86,7 +86,7 @@ const ChildTheme = ({ demoConfiguration, setDemoConfiguration, style }) => {
 						onChange={() =>
 							setDemoConfiguration({
 								...demoConfiguration,
-								child_theme: !demoConfiguration.child_theme
+								child_theme: !demoConfiguration.child_theme,
 							})
 						}>
 						{!child_theme_exists
@@ -102,7 +102,9 @@ const ChildTheme = ({ demoConfiguration, setDemoConfiguration, style }) => {
 					'blocksy-companion'
 				)}
 
-			<a href="https://developer.wordpress.org/themes/advanced-topics/child-themes/" target="_blank">
+			<a
+				href="https://developer.wordpress.org/themes/advanced-topics/child-themes/"
+				target="_blank">
 				{__('Learn more about child themes', 'blocksy-companion')}
 			</a>
 		</div>

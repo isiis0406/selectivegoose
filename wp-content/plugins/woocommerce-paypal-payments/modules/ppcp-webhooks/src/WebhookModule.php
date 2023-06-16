@@ -9,17 +9,18 @@ declare(strict_types=1);
 
 namespace WooCommerce\PayPalCommerce\Webhooks;
 
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
+use WooCommerce\PayPalCommerce\Onboarding\State;
+use WooCommerce\PayPalCommerce\Vendor\Dhii\Container\ServiceProvider;
+use WooCommerce\PayPalCommerce\Vendor\Dhii\Modular\Module\ModuleInterface;
 use Exception;
-use Interop\Container\ServiceProviderInterface;
-use Psr\Container\ContainerInterface;
+use WooCommerce\PayPalCommerce\Vendor\Interop\Container\ServiceProviderInterface;
+use WooCommerce\PayPalCommerce\Vendor\Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use WooCommerce\PayPalCommerce\WcGateway\Settings\Settings;
 use WooCommerce\PayPalCommerce\Webhooks\Endpoint\ResubscribeEndpoint;
 use WooCommerce\PayPalCommerce\Webhooks\Endpoint\SimulateEndpoint;
 use WooCommerce\PayPalCommerce\Webhooks\Endpoint\SimulationStateEndpoint;
 use WooCommerce\PayPalCommerce\Webhooks\Status\Assets\WebhooksStatusPageAssets;
-use WooCommerce\PayPalCommerce\Webhooks\Status\WebhooksStatusPage;
 
 /**
  * Class WebhookModule
@@ -112,9 +113,8 @@ class WebhookModule implements ModuleInterface {
 		);
 
 		$page_id = $container->get( 'wcgateway.current-ppcp-settings-page-id' );
-		if ( WebhooksStatusPage::ID === $page_id ) {
-			$GLOBALS['hide_save_button'] = true;
-			$asset_loader                = $container->get( 'webhook.status.assets' );
+		if ( Settings::CONNECTION_TAB_ID === $page_id ) {
+			$asset_loader = $container->get( 'webhook.status.assets' );
 			assert( $asset_loader instanceof WebhooksStatusPageAssets );
 			add_action(
 				'init',
@@ -127,8 +127,8 @@ class WebhookModule implements ModuleInterface {
 
 			try {
 				$webhooks = $container->get( 'webhook.status.registered-webhooks' );
-
-				if ( empty( $webhooks ) ) {
+				$state    = $container->get( 'onboarding.state' );
+				if ( empty( $webhooks ) && $state->current_state() >= State::STATE_ONBOARDED ) {
 					$registrar = $container->get( 'webhook.registrar' );
 					assert( $registrar instanceof WebhookRegistrar );
 
@@ -144,6 +144,20 @@ class WebhookModule implements ModuleInterface {
 				$logger->error( 'Failed to load webhooks list: ' . $exception->getMessage() );
 			}
 		}
+
+		add_action(
+			'woocommerce_paypal_payments_gateway_migrate',
+			static function () use ( $container ) {
+				$registrar = $container->get( 'webhook.registrar' );
+				assert( $registrar instanceof WebhookRegistrar );
+				add_action(
+					'init',
+					function () use ( $registrar ) {
+						$registrar->register();
+					}
+				);
+			}
+		);
 	}
 
 	/**

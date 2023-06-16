@@ -3,7 +3,6 @@
 	ul {
 		--listIndent: 0;
 		--listStyleType: none;
-		--content-spacing: 0;
 	}
 
 	li {
@@ -22,11 +21,8 @@
 }
 
 
-@import 'text';
 @import 'search';
 @import 'gallery';
 @import 'calendar';
 @import 'tag-cloud';
 @import 'contact-info';
-@import 'recent-posts';
-@import 'recent-comments';

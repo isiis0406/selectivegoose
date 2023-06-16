@@ -39,6 +39,7 @@ export default function useClearSelectedBlock(sidebarControl, popoverRef) {
 				!popoverRef.current.contains(element) &&
 				!element.closest('[role="dialog"]') &&
 				!element.closest('[role="toolbar"]') &&
+				!element.closest('.components-popover__content') &&
 				!element.closest('.ct-panel-second-level') &&
 				!element.closest('.wp-block-legacy-widget__edit-form')
 			) {

@@ -2,6 +2,7 @@
 
 namespace WPForms\Integrations\UsageTracking;
 
+use WPForms\Admin\Builder\Templates;
 use WPForms\Integrations\IntegrationInterface;
 
 /**
@@ -30,13 +31,11 @@ class UsageTracking implements IntegrationInterface {
 		/**
 		 * Whether the Usage Tracking code is allowed to be loaded.
 		 *
-		 * Description.
-		 *
 		 * @since 1.6.1
 		 *
 		 * @param bool $var Boolean value.
 		 */
-		return (bool) apply_filters( 'wpforms_usagetracking_is_allowed', true );
+		return (bool) apply_filters( 'wpforms_usagetracking_is_allowed', true ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
@@ -51,13 +50,11 @@ class UsageTracking implements IntegrationInterface {
 		/**
 		 * Whether the Usage Tracking is enabled.
 		 *
-		 * Description.
-		 *
 		 * @since 1.6.1
 		 *
 		 * @param bool $var Boolean value taken from the DB.
 		 */
-		return (bool) apply_filters( 'wpforms_integrations_usagetracking_is_enabled', wpforms_setting( self::SETTINGS_SLUG ) );
+		return (bool) apply_filters( 'wpforms_integrations_usagetracking_is_enabled', wpforms_setting( self::SETTINGS_SLUG ) );  // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
@@ -138,12 +135,13 @@ class UsageTracking implements IntegrationInterface {
 
 		global $wpdb;
 
-		$theme_data      = wp_get_theme();
-		$activated_dates = get_option( 'wpforms_activated', [] );
-		$first_form_date = get_option( 'wpforms_forms_first_created' );
-		$forms           = $this->get_all_forms();
-		$forms_total     = count( $forms );
-		$entries_total   = $this->get_entries_total();
+		$theme_data        = wp_get_theme();
+		$activated_dates   = get_option( 'wpforms_activated', [] );
+		$first_form_date   = get_option( 'wpforms_forms_first_created' );
+		$forms             = $this->get_all_forms();
+		$forms_total       = count( $forms );
+		$entries_total     = $this->get_entries_total();
+		$form_fields_count = $this->get_form_fields_count( $forms );
 
 		$data = [
 			// Generic data (environment).
@@ -154,8 +152,10 @@ class UsageTracking implements IntegrationInterface {
 			'server_version'                 => isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '',
 			'is_ssl'                         => is_ssl(),
 			'is_multisite'                   => is_multisite(),
+			'is_network_activated'           => $this->is_active_for_network(),
 			'is_wpcom'                       => defined( 'IS_WPCOM' ) && IS_WPCOM,
 			'is_wpcom_vip'                   => ( defined( 'WPCOM_IS_VIP_ENV' ) && WPCOM_IS_VIP_ENV ) || ( function_exists( 'wpcom_is_vip' ) && wpcom_is_vip() ),
+			'is_wp_cache'                    => defined( 'WP_CACHE' ) && WP_CACHE,
 			'sites_count'                    => $this->get_sites_total(),
 			'active_plugins'                 => $this->get_active_plugins(),
 			'theme_name'                     => $theme_data->name,
@@ -166,12 +166,14 @@ class UsageTracking implements IntegrationInterface {
 			'wpforms_version'                => WPFORMS_VERSION,
 			'wpforms_license_key'            => wpforms_get_license_key(),
 			'wpforms_license_type'           => $this->get_license_type(),
+			'wpforms_license_status'         => $this->get_license_status(),
 			'wpforms_is_pro'                 => wpforms()->is_pro(),
 			'wpforms_entries_avg'            => $this->get_entries_avg( $forms_total, $entries_total ),
 			'wpforms_entries_total'          => $entries_total,
 			'wpforms_entries_last_7days'     => $this->get_entries_total( '7days' ),
 			'wpforms_entries_last_30days'    => $this->get_entries_total( '30days' ),
 			'wpforms_forms_total'            => $forms_total,
+			'wpforms_form_fields_count'      => $form_fields_count,
 			'wpforms_challenge_stats'        => get_option( 'wpforms_challenge', [] ),
 			'wpforms_lite_installed_date'    => $this->get_installed( $activated_dates, 'lite' ),
 			'wpforms_pro_installed_date'     => $this->get_installed( $activated_dates, 'pro' ),
@@ -192,14 +194,27 @@ class UsageTracking implements IntegrationInterface {
 	}
 
 	/**
-	 * Get license type.
+	 * Get the license type.
 	 *
 	 * @since 1.6.1
 	 * @since 1.7.2 Clarified the license type.
+	 * @since 1.7.9 Return only the license type, not the status.
 	 *
 	 * @return string
 	 */
 	private function get_license_type() {
+
+		return wpforms()->is_pro() ? wpforms_get_license_type() : 'lite';
+	}
+
+	/**
+	 * Get the license status.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @return string
+	 */
+	private function get_license_status() {
 
 		if ( ! wpforms()->is_pro() ) {
 			return 'lite';
@@ -222,6 +237,11 @@ class UsageTracking implements IntegrationInterface {
 
 		if ( wpforms_setting( 'is_invalid', false, 'wpforms_license' ) ) {
 			return 'invalid';
+		}
+
+		// The correct type is returned in get_license_type(), so we "collapse" them here to a single value.
+		if ( in_array( $license_type, [ 'basic', 'plus', 'pro', 'elite', 'ultimate', 'agency' ], true ) ) {
+			$license_type = 'correct';
 		}
 
 		return $license_type;
@@ -249,6 +269,12 @@ class UsageTracking implements IntegrationInterface {
 					'authorize_net-test-transaction-key',
 					'authorize_net-live-api-login-id',
 					'authorize_net-live-transaction-key',
+					'square-location-id-sandbox',
+					'square-location-id-production',
+					'geolocation-google-places-api-key',
+					'geolocation-algolia-places-application-id',
+					'geolocation-algolia-places-search-only-api-key',
+					'geolocation-mapbox-search-access-token',
 					'recaptcha-site-key',
 					'recaptcha-secret-key',
 					'recaptcha-fail-msg',
@@ -270,7 +296,8 @@ class UsageTracking implements IntegrationInterface {
 			$data[ $key ] = $value;
 		}
 
-		return $data;
+		// Add favorite templates to the settings array.
+		return array_merge( $data, $this->get_favorite_templates() );
 	}
 
 	/**
@@ -562,6 +589,62 @@ class UsageTracking implements IntegrationInterface {
 	}
 
 	/**
+	 * Forms field occurrences.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @param array $forms List of forms.
+	 *
+	 * @return array List of field occurrences in all forms created.
+	 */
+	private function get_form_fields_count( $forms ) {
+
+		// Bail early, in case there are no forms created yet!
+		if ( empty( $forms ) ) {
+			return [];
+		}
+
+		$fields         = array_map(
+			static function( $form ) {
+
+				return isset( $form->post_content['fields'] ) ? $form->post_content['fields'] : [];
+			},
+			$forms
+		);
+		$fields_flatten = array_merge( [], ...$fields );
+		$field_types    = array_column( $fields_flatten, 'type' );
+
+		return array_count_values( $field_types );
+	}
+
+	/**
+	 * Determines whether the plugin is active for the entire network.
+	 *
+	 * This is a copy of the WP core is_plugin_active_for_network() function.
+	 *
+	 * @since 1.8.2
+	 *
+	 * @return bool
+	 */
+	private function is_active_for_network() {
+
+		// Bail early, in case we are not in multisite.
+		if ( ! is_multisite() ) {
+			return false;
+		}
+
+		// Get all active plugins.
+		$plugins = get_site_option( 'active_sitewide_plugins' );
+
+		// Bail early, in case the plugin is active for the entire network.
+		if ( isset( $plugins[ plugin_basename( WPFORMS_PLUGIN_FILE ) ] ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Average entries count.
 	 *
 	 * @since 1.6.1
@@ -585,14 +668,14 @@ class UsageTracking implements IntegrationInterface {
 	 */
 	private function get_all_forms() {
 
-		$forms = wpforms()->form->get( '' );
+		$forms = wpforms()->get( 'form' )->get( '' );
 
 		if ( ! is_array( $forms ) ) {
 			return [];
 		}
 
 		return array_map(
-			static function ( $form ) {
+			static function( $form ) {
 
 				$form->post_content = wpforms_decode( $form->post_content );
 
@@ -600,5 +683,27 @@ class UsageTracking implements IntegrationInterface {
 			},
 			$forms
 		);
+	}
+
+	/**
+	 * Get the favorite templates.
+	 *
+	 * @since 1.7.7
+	 *
+	 * @return array
+	 */
+	private function get_favorite_templates() {
+
+		$settings  = [];
+		$templates = (array) get_option( Templates::FAVORITE_TEMPLATES_OPTION, [] );
+
+		foreach ( $templates as $user_templates ) {
+			foreach ( $user_templates as $template => $v ) {
+				$name              = 'fav_templates_' . str_replace( '-', '_', $template );
+				$settings[ $name ] = empty( $settings[ $name ] ) ? 1 : ++ $settings[ $name ];
+			}
+		}
+
+		return $settings;
 	}
 }

@@ -13,6 +13,13 @@ use Automattic\WooCommerce\Admin\Features\OnboardingTasks\Tasks\WooCommercePayme
 class AdditionalPayments extends Payments {
 
 	/**
+	 * Used to cache is_complete() method result.
+	 * @var null
+	 */
+	private $is_complete_result = null;
+
+
+	/**
 	 * ID.
 	 *
 	 * @return string
@@ -27,7 +34,10 @@ class AdditionalPayments extends Payments {
 	 * @return string
 	 */
 	public function get_title() {
-		return __( 'Set up additional payment providers', 'woocommerce' );
+		return __(
+			'Set up additional payment options',
+			'woocommerce'
+		);
 	}
 
 	/**
@@ -57,7 +67,11 @@ class AdditionalPayments extends Payments {
 	 * @return bool
 	 */
 	public function is_complete() {
-		return self::has_gateways();
+		if ( $this->is_complete_result === null ) {
+			$this->is_complete_result = self::has_gateways();
+		}
+
+		return $this->is_complete_result;
 	}
 
 	/**
@@ -75,9 +89,6 @@ class AdditionalPayments extends Payments {
 
 		if ( ! $woocommerce_payments->is_requested() || ! $woocommerce_payments->is_supported() || ! $woocommerce_payments->is_connected() ) {
 			// Hide task if WC Pay is not installed via OBW, or is not connected, or the store is located in a country that is not supported by WC Pay.
-			return false;
-		}
-		if ( $this->get_parent_id() === 'extended_two_column' && WooCommercePayments::is_connected() ) {
 			return false;
 		}
 

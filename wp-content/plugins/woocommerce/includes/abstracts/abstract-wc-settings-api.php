@@ -9,6 +9,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use Automattic\WooCommerce\Internal\Utilities\HtmlSanitizer;
+
 /**
  * WC_Settings_API class.
  */
@@ -457,6 +459,20 @@ abstract class WC_Settings_API {
 	}
 
 	/**
+	 * Generates HTML for the 'safe_text' input type (mostly used for gateway-related settings).
+	 *
+	 * @param string $key Field key.
+	 * @param array  $data Field data.
+	 * @return string
+	 *
+	 * @since 7.6.0
+	 */
+	public function generate_safe_text_html( $key, $data ) {
+		$data['type'] = 'text';
+		return $this->generate_text_html( $key, $data );
+	}
+
+	/**
 	 * Generate Price Input HTML.
 	 *
 	 * @param string $key Field key.
@@ -850,6 +866,24 @@ abstract class WC_Settings_API {
 	public function validate_text_field( $key, $value ) {
 		$value = is_null( $value ) ? '' : $value;
 		return wp_kses_post( trim( stripslashes( $value ) ) );
+	}
+
+	/**
+	 * Sanitize 'Safe Text' fields.
+	 *
+	 * These fields are similar to regular text fields, but a much  smaller set of HTML tags are allowed. By default,
+	 * this means `<br>`, `<img>`, `<p>` and `<span>` tags.
+	 *
+	 * Note: this is a sanitization method, rather than a validation method (the name is due to some historic naming
+	 * choices).
+	 *
+	 * @param  string $key   Field key (currently unused).
+	 * @param  string $value Posted Value.
+	 *
+	 * @return string
+	 */
+	public function validate_safe_text_field( string $key, ?string $value ): string {
+		return wc_get_container()->get( HtmlSanitizer::class )->sanitize( (string) $value, HtmlSanitizer::LOW_HTML_BALANCED_TAGS_NO_LINKS );
 	}
 
 	/**

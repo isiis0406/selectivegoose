@@ -1,5 +1,10 @@
 <?php
 
+add_action('wp', function () {
+	remove_action('wp_footer', 'woocommerce_demo_store');
+	add_action('wp_body_open', 'woocommerce_demo_store');
+});
+
 add_filter(
 	'woocommerce_demo_store',
 	function ($notice) {

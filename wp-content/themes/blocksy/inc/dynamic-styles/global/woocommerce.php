@@ -4,6 +4,25 @@ if (! function_exists('is_woocommerce')) {
 	return;
 }
 
+
+blocksy_output_background_css([
+	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
+	'responsive' => true,
+	'selector' => '[data-prefix="woo_categories"]',
+	'value' => get_theme_mod('shop_archive_background',
+		blocksy_background_default_value([
+			'backgroundColor' => [
+				'default' => [
+					'color' => Blocksy_Css_Injector::get_skip_rule_keyword()
+				],
+			],
+		])
+	),
+	'responsive' => true,
+]);
+
 $shop_cards_type = get_theme_mod('shop_cards_type', 'type-1');
 
 if ($shop_cards_type === 'type-1') {
@@ -763,6 +782,34 @@ blocksy_output_font_css([
 	'selector' => '[data-products] .woocommerce-loop-product__title, [data-products] .woocommerce-loop-category__title'
 ]);
 
+blocksy_output_font_css([
+	'font_value' => get_theme_mod(
+		'cardProductExcerptFont',
+		blocksy_typography_default_values([])
+	),
+	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
+	'selector' => '[data-products] .entry-excerpt'
+]);
+
+blocksy_output_colors([
+	'value' => get_theme_mod('cardProductExcerptColor'),
+	'default' => [
+		'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+	],
+	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
+	'responsive' => true,
+	'variables' => [
+		'default' => [
+			'selector' => '[data-products] .entry-excerpt',
+			'variable' => 'color'
+		],
+	],
+]);
+
 // Store notice
 blocksy_output_colors([
 	'value' => get_theme_mod('wooNoticeContent'),
@@ -836,12 +883,12 @@ blocksy_output_colors([
 	'css' => $css,
 	'variables' => [
 		'default' => [
-			'selector' => '.woocommerce-message .button',
+			'selector' => '.woocommerce-message',
 			'variable' => 'buttonTextInitialColor'
 		],
 
 		'hover' => [
-			'selector' => '.woocommerce-message .button',
+			'selector' => '.woocommerce-message',
 			'variable' => 'buttonTextHoverColor'
 		],
 	],
@@ -856,12 +903,12 @@ blocksy_output_colors([
 	'css' => $css,
 	'variables' => [
 		'default' => [
-			'selector' => '.woocommerce-message .button',
+			'selector' => '.woocommerce-message',
 			'variable' => 'buttonInitialColor'
 		],
 
 		'hover' => [
-			'selector' => '.woocommerce-message .button',
+			'selector' => '.woocommerce-message',
 			'variable' => 'buttonHoverColor'
 		],
 	],
@@ -912,12 +959,12 @@ blocksy_output_colors([
 	'css' => $css,
 	'variables' => [
 		'default' => [
-			'selector' => '.woocommerce-info .button',
+			'selector' => '.woocommerce-info',
 			'variable' => 'buttonTextInitialColor'
 		],
 
 		'hover' => [
-			'selector' => '.woocommerce-info .button',
+			'selector' => '.woocommerce-info',
 			'variable' => 'buttonTextHoverColor'
 		],
 	],
@@ -932,12 +979,12 @@ blocksy_output_colors([
 	'css' => $css,
 	'variables' => [
 		'default' => [
-			'selector' => '.woocommerce-info .button',
+			'selector' => '.woocommerce-info',
 			'variable' => 'buttonInitialColor'
 		],
 
 		'hover' => [
-			'selector' => '.woocommerce-info .button',
+			'selector' => '.woocommerce-info',
 			'variable' => 'buttonHoverColor'
 		],
 	],
@@ -987,12 +1034,12 @@ blocksy_output_colors([
 	'css' => $css,
 	'variables' => [
 		'default' => [
-			'selector' => '.woocommerce-error .button',
+			'selector' => '.woocommerce-error',
 			'variable' => 'buttonTextInitialColor'
 		],
 
 		'hover' => [
-			'selector' => '.woocommerce-error .button',
+			'selector' => '.woocommerce-error',
 			'variable' => 'buttonTextHoverColor'
 		],
 	],
@@ -1007,12 +1054,12 @@ blocksy_output_colors([
 	'css' => $css,
 	'variables' => [
 		'default' => [
-			'selector' => '.woocommerce-error .button',
+			'selector' => '.woocommerce-error',
 			'variable' => 'buttonInitialColor'
 		],
 
 		'hover' => [
-			'selector' => '.woocommerce-error .button',
+			'selector' => '.woocommerce-error',
 			'variable' => 'buttonHoverColor'
 		],
 	],

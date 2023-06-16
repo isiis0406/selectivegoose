@@ -18,6 +18,10 @@ if (class_exists('bbPress')) {
 	$prefixes[] = 'bbpress_single';
 }
 
+if (function_exists('is_buddypress')) {
+	$prefixes[] = 'buddypress_single';
+}
+
 $supported_post_types = blocksy_manager()->post_types->get_supported_post_types();
 
 foreach ($supported_post_types as $cpt) {

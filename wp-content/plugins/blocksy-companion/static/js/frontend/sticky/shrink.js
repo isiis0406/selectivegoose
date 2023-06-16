@@ -49,7 +49,7 @@ export const computeShrink = ({
 
 		setTransparencyFor(stickyContainer, 'yes')
 
-		if (startPosition === 0 && window.scrollY === 0) {
+		if (startPosition === 0 && window.scrollY <= 0) {
 			stickyContainer.dataset.sticky = [
 				'fixed',
 				...stickyComponents,

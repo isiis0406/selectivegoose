@@ -2,14 +2,13 @@
 
 // account modal
 #account-modal {
-	--horizontal-alignment: center;
-	--vertical-alignment: center;
-
 	background-color: rgba(18, 21, 25, 0.6);
 }
 
 .ct-account-form {
 	width: 100%;
+	margin: auto;
+	font-size: 14px;
 	color: var(--color);
 	background-color: #fff;
 	--linkInitialColor: var(--color);
@@ -90,11 +89,19 @@
 
 	label {
 		display: block;
-		--fontSize: 14px;
+		font-size: 14px;
 	}
 
 	.ct-button {
 		width: 100%;
+
+		svg {
+			margin-inline-start: 10px;
+		}
+
+		&:not(.ct-loading) svg {
+			display: none;
+		}
 	}
 
 	.col-2 {
@@ -104,7 +111,6 @@
 
 	#reg_passmail,
 	.ct-back-to-login {
-		font-size: 14px;
 		text-align: center;
 	}
 
@@ -114,8 +120,6 @@
 	}
 
 	.login-remember {
-		font-size: 14px;
-
 		span {
 			display: flex;
 		}
@@ -125,13 +129,8 @@
 		}
 	}
 
-	#reg_passmail {
-		opacity: 0.7;
-	}
-
 	// form notifications
 	[class*='ct-form-notification'] {
-		font-size: 14px;
 		margin-bottom: 25px;
 		border-radius: 3px;
 		padding: 10px 15px;
@@ -140,8 +139,13 @@
 		a {
 			color: inherit;
 
-			&:not(:hover) {
-				text-decoration: underline;
+			&.showlogin {
+				font-size: inherit;
+				font-weight: inherit;
+				padding: 0;
+				border: none;
+				min-height: initial;
+				background: transparent;
 			}
 		}
 	}
@@ -149,6 +153,14 @@
 	.ct-form-notification-error {
 		color: rgba(255, 255, 255, 0.95);
 		background: rgba(218, 0, 28, 0.7);
+	}
+
+	[class*='ct-form-notification'],
+	.woocommerce-privacy-policy-text {
+
+		a:not(:hover) {
+			text-decoration: underline;
+		}
 	}
 
 	// shake animation

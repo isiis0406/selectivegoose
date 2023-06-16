@@ -35,7 +35,15 @@ if (function_exists('blocksy_output_responsive_switch')) {
 	]);
 }
 
-if (function_exists('blocksy_some_device') && blocksy_some_device($has_reveal_effect)) {
+if (
+	(
+		function_exists('blocksy_some_device')
+		&&
+		blocksy_some_device($has_reveal_effect)
+	)
+	||
+	is_customize_preview()
+) {
 	blocksy_output_box_shadow([
 		'css' => $css,
 		'tablet_css' => $tablet_css,

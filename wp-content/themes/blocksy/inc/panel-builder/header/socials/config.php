@@ -5,6 +5,7 @@ $config = [
 	'clone' => true,
 
 	'selective_refresh' => [
+		'header_socials',
 		'headerSocialsColor'
 	],
 ];

@@ -1,5 +1,5 @@
-import './events'
 import './public-path.js'
+import './events'
 
 import ctEvents from 'ct-events'
 import $ from 'jquery'
@@ -17,8 +17,6 @@ import { liveSearchEntryPoints } from './frontend/entry-points/live-search'
 import { wooEntryPoints } from './frontend/woocommerce/main'
 
 import { mountElementorIntegration } from './frontend/integration/elementor'
-
-import { markImagesAsLoaded } from './frontend/lazy-load-helpers'
 
 /**
  * iOS hover fix
@@ -67,8 +65,7 @@ export const allFrontendEntryPoints = [
 	},
 
 	{
-		els:
-			'.ct-share-box [data-network]:not([data-network="pinterest"]):not([data-network="email"])',
+		els: '.ct-share-box [data-network]:not([data-network="pinterest"]):not([data-network="email"])',
 		load: () => import('./frontend/social-buttons'),
 		trigger: ['click'],
 		condition: () =>
@@ -90,8 +87,7 @@ export const allFrontendEntryPoints = [
 	},
 
 	{
-		els:
-			'.ct-back-to-top, .ct-shortcuts-container [data-shortcut*="scroll_top"]',
+		els: '.ct-back-to-top, .ct-shortcuts-container [data-shortcut*="scroll_top"]',
 		load: () => import('./frontend/back-to-top-link'),
 		events: ['ct:back-to-top:mount'],
 		trigger: ['scroll'],
@@ -201,6 +197,20 @@ onDocumentLoaded(() => {
 		{ once: true, passive: true }
 	)
 
+	if (window.WP_Grid_Builder) {
+		WP_Grid_Builder.on('init', (wpgb) => {
+			Object.values(window.WP_Grid_Builder.instances).map((instance) => {
+				if (!instance.facets) {
+					return
+				}
+
+				instance.facets.on('render', (layout) =>
+					setTimeout(() => ctEvents.trigger('blocksy:frontend:init'))
+				)
+			})
+		})
+	}
+
 	let inputs = [
 		...document.querySelectorAll(
 			'.comment-form [class*="comment-form-field"]'
@@ -231,7 +241,7 @@ onDocumentLoaded(() => {
 
 	setTimeout(() => {
 		renderEmptiness()
-	})
+	}, 10)
 
 	inputs.map((input) => input.addEventListener('input', renderEmptiness))
 
@@ -249,7 +259,20 @@ onDocumentLoaded(() => {
 })
 
 if ($) {
+	// https://woocommerce.com/document/composite-products/composite-products-js-api-reference/#using-the-api
+	$('.composite_data').on('wc-composite-initializing', (event, composite) => {
+		composite.actions.add_action('component_selection_changed', () => {
+			setTimeout(() => {
+				ctEvents.trigger('blocksy:frontend:init')
+			}, 1000)
+		})
+	})
+
 	$(document.body).on('wc_fragments_refreshed', () => {
+		ctEvents.trigger('blocksy:frontend:init')
+	})
+
+	$('.wc-product-table').on('draw.wcpt', () => {
 		ctEvents.trigger('blocksy:frontend:init')
 	})
 
@@ -257,32 +280,28 @@ if ($) {
 		ctEvents.trigger('blocksy:frontend:init')
 	})
 
-	$(document).on('jet-filter-content-rendered', () => {
-		ctEvents.trigger('blocksy:frontend:init')
-	})
-
-	$(document).on('yith_infs_added_elem', function () {
-		ctEvents.trigger('blocksy:frontend:init')
-	})
-
-	jQuery(document).on('yith-wcan-ajax-filtered', function () {
-		ctEvents.trigger('blocksy:frontend:init')
-	})
-
-	$(document).on('berocket_ajax_filtering_end', () => {
-		setTimeout(() => {
-			ctEvents.trigger('blocksy:frontend:init')
-			ctEvents.trigger('ct:images:lazyload:update')
-		}, 100)
-	})
-
-	$(document).on('preload', () => {
-		ctEvents.trigger('blocksy:frontend:init')
-		ctEvents.trigger('ct:images:lazyload:update')
-	})
-
 	document.addEventListener('wpfAjaxSuccess', (e) => {
 		ctEvents.trigger('blocksy:frontend:init')
+	})
+
+	document.addEventListener('facetwp-loaded', () => {
+		ctEvents.trigger('blocksy:frontend:init')
+	})
+	;[
+		'berocket_ajax_filtering_end',
+		'preload',
+		'jet-filter-content-rendered',
+		'yith_infs_added_elem',
+		'yith-wcan-ajax-filtered',
+		'sf:ajaxfinish',
+		'ready',
+		'ddwcpoRenderVariation',
+	].map((event) => {
+		$(document).on(event, () => {
+			setTimeout(() => {
+				ctEvents.trigger('blocksy:frontend:init')
+			}, 100)
+		})
 	})
 }
 
@@ -315,5 +334,4 @@ ctEvents.on(
 )
 
 export { loadStyle, handleEntryPoints, onDocumentLoaded } from './helpers'
-export { markImagesAsLoaded } from './frontend/lazy-load-helpers'
 export { registerDynamicChunk } from './dynamic-chunks'

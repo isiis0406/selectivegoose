@@ -104,7 +104,7 @@ blocksy_output_font_css([
 		blocksy_typography_default_values([
 			'size' => '12px',
 			'variation' => 'n6',
-			'line-height' => '1.5',
+			'line-height' => '1.3',
 			'text-transform' => 'uppercase',
 		])
 	),
@@ -449,7 +449,7 @@ if ($type === 'type-2') {
 $selectors_map = [
 	// custom_meta is a bit specially handled
 	'author_social_channels' => blocksy_prefix_selector(
-		'.hero-section .author-box-social',
+		'.hero-section .author-box-socials',
 		$prefix
 	),
 	'custom_description' => blocksy_prefix_selector(
@@ -488,7 +488,6 @@ foreach ($hero_elements as $index => $single_hero_element) {
 		}
 	}
 }
-
 
 foreach ($hero_elements as $index => $single_hero_element) {
 	if (! $single_hero_element['enabled']) {
@@ -607,3 +606,150 @@ foreach ($hero_elements as $index => $single_hero_element) {
 	}
 }
 
+if ($prefix === 'courses_single') {
+	blocksy_output_font_css([
+		'font_value' => blocksy_akg_or_customizer(
+			'hero_title_font',
+			$source,
+			blocksy_typography_default_values([
+				'size' => '30px',
+			])
+		),
+		'css' => $css,
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
+		'selector' => blocksy_prefix_selector('.tutor-course-details-title', $prefix)
+	]);
+
+	blocksy_output_colors([
+		'value' => blocksy_akg_or_customizer('hero_title_font_color', $source),
+		'default' => [
+			'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+		],
+		'css' => $css,
+		'variables' => [
+			'default' => [
+				'selector' => blocksy_prefix_selector('.tutor-course-details-title', $prefix),
+				'variable' => 'heading-color'
+			],
+		],
+	]);
+
+	blocksy_output_font_css([
+		'font_value' => blocksy_akg_or_customizer(
+			'hero_categories_font',
+			$source,
+			blocksy_typography_default_values([
+				'size' => '14px',
+				'variation' => 'n5',
+				'line-height' => '1.3',
+				// 'text-transform' => 'uppercase',
+			])
+		),
+		'css' => $css,
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
+		'selector' => blocksy_prefix_selector('.tutor-meta > *', $prefix)
+	]);
+
+	blocksy_output_colors([
+		'value' => blocksy_akg_or_customizer('hero_categories_colors', $source),
+		'default' => [
+			'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+			'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+		],
+		'css' => $css,
+		'variables' => [
+			'default' => [
+				'selector' => blocksy_prefix_selector('.tutor-meta', $prefix),
+				'variable' => 'color'
+			],
+
+			'hover' => [
+				'selector' => blocksy_prefix_selector('.tutor-meta', $prefix),
+				'variable' => 'linkHoverColor'
+			],
+		],
+	]);
+
+	blocksy_output_font_css([
+		'font_value' => blocksy_akg_or_customizer(
+			'hero_actions_font',
+			$source,
+			blocksy_typography_default_values([
+				'size' => '15px',
+				'variation' => 'n4',
+				'line-height' => '1.4',
+				// 'text-transform' => 'uppercase',
+			])
+		),
+		'css' => $css,
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
+		'selector' => blocksy_prefix_selector('.tutor-course-details-actions > a', $prefix)
+	]);
+
+	blocksy_output_colors([
+		'value' => blocksy_akg_or_customizer('hero_actions_colors', $source),
+		'default' => [
+			'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+			'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+		],
+		'css' => $css,
+		'variables' => [
+			'default' => [
+				'selector' => blocksy_prefix_selector('.tutor-course-details-actions > a', $prefix),
+				'variable' => 'color'
+			],
+
+			'hover' => [
+				'selector' => blocksy_prefix_selector('.tutor-course-details-actions > a', $prefix),
+				'variable' => 'linkHoverColor'
+			],
+		],
+	]);
+
+	blocksy_output_font_css([
+		'font_value' => blocksy_akg_or_customizer(
+			'hero_title_rating_font',
+			$source,
+			blocksy_typography_default_values([
+				'size' => '14px',
+				'variation' => 'n4',
+				// 'text-transform' => 'uppercase',
+			])
+		),
+		'css' => $css,
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
+		'selector' => blocksy_prefix_selector('.tutor-ratings', $prefix)
+	]);
+
+	blocksy_output_colors([
+		'value' => blocksy_akg_or_customizer('hero_title_rating_font_color', $source),
+		'default' => [
+			'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+		],
+		'css' => $css,
+		'variables' => [
+			'default' => [
+				'selector' => blocksy_prefix_selector('.tutor-ratings', $prefix),
+				'variable' => 'color'
+			],
+		],
+	]);
+
+	blocksy_output_colors([
+		'value' => blocksy_akg_or_customizer('hero_title_star_rating_color', $source),
+		'default' => [
+			'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+		],
+		'css' => $css,
+		'variables' => [
+			'default' => [
+				'selector' => blocksy_prefix_selector('.tutor-ratings-stars', $prefix),
+				'variable' => 'tutor-ratings-stars-color'
+			],
+		],
+	]);
+}

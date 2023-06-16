@@ -77,6 +77,8 @@ class DemoInstallFinalActions {
 			}
 		}
 
+		$this->maybe_activate_elementor_experimental_container();
+
 		if ($this->has_streaming) {
 			Plugin::instance()->demo->emit_sse_message([
 				'action' => 'complete',
@@ -232,6 +234,50 @@ class DemoInstallFinalActions {
 		}
 
 		return $query->posts;
+	}
+
+	public function maybe_activate_elementor_experimental_container() {
+		if (! defined('ELEMENTOR_VERSION')) {
+			return;
+		}
+
+		$current_demo = Plugin::instance()->demo->get_current_demo();
+
+		if (! $current_demo) {
+			return;
+		}
+
+		if (! isset($current_demo['demo'])) {
+			return;
+		}
+
+		$demo_name = explode(':', $current_demo['demo']);
+
+		if (! isset($demo_name[1])) {
+			$demo_name[1] = '';
+		}
+
+		$demo = $demo_name[0];
+		$builder = $demo_name[1];
+
+		$demo_content = Plugin::instance()->demo->fetch_single_demo([
+			'demo' => $demo,
+			'builder' => $builder
+		]);
+
+		if (! $demo_content) {
+			return;
+		}
+
+		if ($demo_content['builder'] !== 'elementor') {
+			return;
+		}
+
+		if (! isset($demo_content['elementor_experiment_container'])) {
+			return;
+		}
+
+		update_option('elementor_experiment-container', 'active');
 	}
 }
 

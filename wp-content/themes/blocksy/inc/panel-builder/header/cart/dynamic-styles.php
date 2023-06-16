@@ -537,28 +537,6 @@ if ($cart_drawer_type === 'offcanvas' || is_customize_preview()) {
 		'responsive' => true
 	]);
 
-
-	// blocksy_output_colors([
-	// 	'value' => get_theme_mod('minicart_quantity_color'),
-	// 	'default' => [
-	// 		'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
-	// 		'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
-	// 	],
-	// 	'css' => $css,
-	// 	'variables' => [
-	// 		'default' => [
-	// 			'selector' => '#woo-cart-panel .quantity',
-	// 			'variable' => 'quantity-initial-color'
-	// 		],
-
-	// 		'hover' => [
-	// 			'selector' => '#woo-cart-panel .quantity',
-	// 			'variable' => 'quantity-hover-color'
-	// 		],
-	// 	],
-	// ]);
-
-
 	blocksy_output_colors([
 		'value' => blocksy_akg('cart_panel_font_color', $atts),
 		'default' => [
@@ -683,7 +661,7 @@ if ($cart_drawer_type === 'offcanvas' || is_customize_preview()) {
 		],
 	]);
 
-	if (is_customize_preview() || $close_button_type === 'type-2') {
+	if ($close_button_type === 'type-2') {
 		blocksy_output_colors([
 			'value' => blocksy_akg('cart_panel_close_button_border_color', $atts),
 			'default' => [
@@ -708,7 +686,7 @@ if ($cart_drawer_type === 'offcanvas' || is_customize_preview()) {
 		]);
 	}
 
-	if (is_customize_preview() || $close_button_type === 'type-3') {
+	if ($close_button_type === 'type-3') {
 		blocksy_output_colors([
 			'value' => blocksy_akg('cart_panel_close_button_shape_color', $atts),
 			'default' => [
@@ -731,6 +709,27 @@ if ($cart_drawer_type === 'offcanvas' || is_customize_preview()) {
 				]
 			],
 		]);
+	}
+
+	$cart_panel_close_button_icon_size = blocksy_akg( 'cart_panel_close_button_icon_size', $atts, 12 );
+
+	if ($cart_panel_close_button_icon_size !== 12) {
+		$css->put( 
+			'#woo-cart-panel .ct-toggle-close',
+			'--icon-size: ' . $cart_panel_close_button_icon_size . 'px' 
+		);
+	}
+
+
+	if ($close_button_type !== 'type-1') {
+		$cart_panel_close_button_border_radius = blocksy_akg( 'cart_panel_close_button_border_radius', $atts, 5 );
+
+		if ($cart_panel_close_button_border_radius !== 5) {
+			$css->put( 
+				'#woo-cart-panel .ct-toggle-close',
+				'--toggle-button-radius: ' . $cart_panel_close_button_border_radius . 'px' 
+			);
+		}
 	}
 }
 

@@ -9,8 +9,8 @@ namespace Automattic\WooCommerce\Admin\API\Reports\Categories;
 
 defined( 'ABSPATH' ) || exit;
 
-use \Automattic\WooCommerce\Admin\API\Reports\Controller as ReportsController;
-use \Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
+use Automattic\WooCommerce\Admin\API\Reports\Controller as ReportsController;
+use Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
 
 /**
  * REST API Reports categories controller class.
@@ -19,13 +19,6 @@ use \Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
  * @extends \Automattic\WooCommerce\Admin\API\Reports\Controller
  */
 class Controller extends ReportsController implements ExportableInterface {
-
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'wc-analytics';
 
 	/**
 	 * Route base.
@@ -41,18 +34,19 @@ class Controller extends ReportsController implements ExportableInterface {
 	 * @return array
 	 */
 	protected function prepare_reports_query( $request ) {
-		$args                      = array();
-		$args['before']            = $request['before'];
-		$args['after']             = $request['after'];
-		$args['interval']          = $request['interval'];
-		$args['page']              = $request['page'];
-		$args['per_page']          = $request['per_page'];
-		$args['orderby']           = $request['orderby'];
-		$args['order']             = $request['order'];
-		$args['extended_info']     = $request['extended_info'];
-		$args['category_includes'] = (array) $request['categories'];
-		$args['status_is']         = (array) $request['status_is'];
-		$args['status_is_not']     = (array) $request['status_is_not'];
+		$args                        = array();
+		$args['before']              = $request['before'];
+		$args['after']               = $request['after'];
+		$args['interval']            = $request['interval'];
+		$args['page']                = $request['page'];
+		$args['per_page']            = $request['per_page'];
+		$args['orderby']             = $request['orderby'];
+		$args['order']               = $request['order'];
+		$args['extended_info']       = $request['extended_info'];
+		$args['category_includes']   = (array) $request['categories'];
+		$args['status_is']           = (array) $request['status_is'];
+		$args['status_is_not']       = (array) $request['status_is_not'];
+		$args['force_cache_refresh'] = $request['force_cache_refresh'];
 
 		return $args;
 	}
@@ -314,6 +308,12 @@ class Controller extends ReportsController implements ExportableInterface {
 			'type'              => 'boolean',
 			'default'           => false,
 			'sanitize_callback' => 'wc_string_to_bool',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+		$params['force_cache_refresh'] = array(
+			'description'       => __( 'Force retrieval of fresh data instead of from the cache.', 'woocommerce' ),
+			'type'              => 'boolean',
+			'sanitize_callback' => 'wp_validate_boolean',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 

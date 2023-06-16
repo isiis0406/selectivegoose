@@ -10,10 +10,9 @@
 	min-height: 65px;
 	clear: both;
 	border-radius: 5px;
+	margin-bottom: 2rem;
 	background: var(--background-color);
 
-	// --listItemSpacing: 0;
-	--listItemSpacing: 0.2em;
 	--listStyleType: none;
 	--linkInitialColor: var(--color);
 
@@ -28,30 +27,25 @@
 		padding-inline-start: 55px;
 	}
 
-	@include media-breakpoint-down (md) {
-		margin-bottom: 30px;
-	}
-
-	@include media-breakpoint-up (lg) {
-		margin-bottom: 45px;
-	}
-
 	li {
 		width: 100%;
+		margin-bottom: 0.3em;
 	}
 
-	.button {
+	.button,
+	.showlogin,
+	.restore-item {
 		order: 2;
 		--buttonFontSize: 14px;
 		--buttonMinHeight: 45px;
 		--button-padding: 5px 20px;
 
 		@include media-breakpoint-down (xs) {
-			margin-top: 15px;
+			margin-top: 10px !important;
 		}
 
 		@include media-breakpoint-up (sm) {
-			margin-inline-start: auto;
+			margin-inline-start: auto !important;
 		}
 	}
 
@@ -82,27 +76,16 @@
 	}
 }
 
-.woocommerce-NoticeGroup > ul {
+
+.woocommerce ul.woocommerce-error {
 	flex-direction: column;
+	justify-content: center;
+	margin-bottom: 2rem;
 
-	@include media-breakpoint-up (sm) {
-		align-items: flex-start;
+	li {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.3em;
 	}
 }
-
-.woocommerce-notices-wrapper > ul > li {
-	display: flex;
-	align-items: center;
-
-	@include media-breakpoint-down (xs) {
-		align-items: flex-start;
-		flex-direction: column;
-	}
-}
-
-// .woocommerce-error {
-// 	.button {
-// 		--buttonInitialColor: #b92c3e;
-// 		--buttonHoverColor: #9c2131;
-// 	}
-// }

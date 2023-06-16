@@ -63,48 +63,56 @@ add_action('after_setup_theme', function () {
 			'name' => __( 'Palette Color 1', 'blocksy' ),
 			'slug' => 'palette-color-1',
 			'color' => 'var(--paletteColor1, ' . $paletteColors['color1'] . ')',
+			// 'color' => $paletteColors['color1']
 		],
 
 		[
 			'name' => __( 'Palette Color 2', 'blocksy' ),
 			'slug' => 'palette-color-2',
 			'color' => 'var(--paletteColor2, ' . $paletteColors['color2'] . ')',
+			// 'color' => $paletteColors['color2']
 		],
 
 		[
 			'name' => __( 'Palette Color 3', 'blocksy' ),
 			'slug' => 'palette-color-3',
 			'color' => 'var(--paletteColor3, '. $paletteColors['color3'] . ')',
+			// 'color' => $paletteColors['color3']
 		],
 
 		[
 			'name' => __( 'Palette Color 4', 'blocksy' ),
 			'slug' => 'palette-color-4',
 			'color' => 'var(--paletteColor4, ' . $paletteColors['color4'] . ')',
+			// 'color' => $paletteColors['color4']
 		],
 
 		[
 			'name' => __( 'Palette Color 5', 'blocksy' ),
 			'slug' => 'palette-color-5',
 			'color' => 'var(--paletteColor5, ' . $paletteColors['color5'] . ')',
+			// 'color' => $paletteColors['color5']
 		],
 
 		[
 			'name' => __( 'Palette Color 6', 'blocksy' ),
 			'slug' => 'palette-color-6',
 			'color' => 'var(--paletteColor6, ' . $paletteColors['color6'] . ')',
+			// 'color' => $paletteColors['color6']
 		],
 
 		[
 			'name' => __( 'Palette Color 7', 'blocksy' ),
 			'slug' => 'palette-color-7',
 			'color' => 'var(--paletteColor7, ' . $paletteColors['color7'] . ')',
+			// 'color' => $paletteColors['color7']
 		],
 
 		[
 			'name' => __( 'Palette Color 8', 'blocksy' ),
 			'slug' => 'palette-color-8',
 			'color' => 'var(--paletteColor8, ' . $paletteColors['color8'] . ')',
+			// 'color' => $paletteColors['color8']
 		]
 	]));
 
@@ -562,11 +570,16 @@ add_action(
 );
 
 require get_template_directory() . '/inc/classes/print.php';
+require get_template_directory() . '/inc/classes/archive-title-renderer.php';
 require get_template_directory() . '/inc/helpers.php';
+require get_template_directory() . '/inc/helpers/html.php';
+require get_template_directory() . '/inc/classes/hooks-manager.php';
+require get_template_directory() . '/inc/classes/blocksy-walker-page.php';
 require get_template_directory() . '/inc/classes/translations-manager.php';
 require get_template_directory() . '/inc/classes/screen-manager.php';
 require get_template_directory() . '/inc/classes/blocksy-blocks-parser.php';
 require get_template_directory() . '/inc/classes/theme-db-versioning.php';
+require get_template_directory() . '/inc/components/search.php';
 require get_template_directory() . '/inc/components/global-attrs.php';
 require get_template_directory() . '/inc/components/breadcrumbs.php';
 require get_template_directory() . '/inc/components/vertical-spacing.php';
@@ -604,6 +617,9 @@ require get_template_directory() . '/inc/components/posts-listing.php';
 require get_template_directory() . '/inc/components/images.php';
 require get_template_directory() . '/inc/components/gallery.php';
 
+require get_template_directory() . '/inc/integrations/dfi.php';
+require get_template_directory() . '/inc/integrations/yith.php';
+require get_template_directory() . '/inc/integrations/avatars.php';
 require get_template_directory() . '/inc/integrations/cdn.php';
 require get_template_directory() . '/inc/integrations/stackable.php';
 require get_template_directory() . '/inc/integrations/simply-static.php';
@@ -654,7 +670,6 @@ require get_template_directory() . '/inc/manager.php';
 if (!is_admin()) {
 	add_filter('script_loader_tag', function ($tag, $handle) {
 		$scripts = apply_filters('blocksy-async-scripts-handles', [
-			'ct-lazy-load-scripts'
 		]);
 
 		if (in_array($handle, $scripts)) {

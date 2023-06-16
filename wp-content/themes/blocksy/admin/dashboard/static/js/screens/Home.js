@@ -189,16 +189,11 @@ const Home = () => {
 
 						<ul className="ct-downloads">
 							<li>
-								<svg
-									width="20"
-									height="20"
-									viewBox="0 0 20 20">
+								<svg width="20" height="20" viewBox="0 0 20 20">
 									<path d="M3.1,0c-0.4,0-0.8,0.2-1,0.6L0.2,3.9C0.1,4.1,0,4.2,0,4.4v13.3C0,19,1,20,2.2,20h15.6c1.2,0,2.2-1,2.2-2.2V4.4c0-0.2-0.1-0.4-0.2-0.6l-1.9-3.3c-0.2-0.3-0.6-0.6-1-0.6H3.1z M3.7,2.2h12.6l1.3,2.2H2.4L3.7,2.2z M2.2,6.7h15.6v11.1H2.2V6.7zM8.9,8.3v3.3H5.6l4.4,4.4l4.4-4.4h-3.3V8.3H8.9z"></path>
 								</svg>
 
-								<h3>
-									{__('Blocksy Companion', 'blocksy')}
-								</h3>
+								<h3>{__('Blocksy Companion', 'blocksy')}</h3>
 
 								<p>
 									{__(
@@ -217,15 +212,12 @@ const Home = () => {
 										$.ajax(ajaxurl, {
 											type: 'POST',
 											data: {
-												action:
-													'blocksy_notice_button_click',
+												action: 'blocksy_notice_button_click',
 											},
 										}).then(({ success, data }) => {
 											if (success) {
 												setCustomStatus(data.status)
-												if (
-													data.status === 'active'
-												) {
+												if (data.status === 'active') {
 													location.assign(
 														data.pluginUrl
 													)
@@ -257,17 +249,12 @@ const Home = () => {
 								</a>
 							</li>
 
-							<li>								
-								<svg
-									width="20"
-									height="20"
-									viewBox="0 0 20 20">
+							<li>
+								<svg width="20" height="20" viewBox="0 0 20 20">
 									<path d="M3.1,0c-0.4,0-0.8,0.2-1,0.6L0.2,3.9C0.1,4.1,0,4.2,0,4.4v13.3C0,19,1,20,2.2,20h15.6c1.2,0,2.2-1,2.2-2.2V4.4c0-0.2-0.1-0.4-0.2-0.6l-1.9-3.3c-0.2-0.3-0.6-0.6-1-0.6H3.1z M3.7,2.2h12.6l1.3,2.2H2.4L3.7,2.2z M2.2,6.7h15.6v11.1H2.2V6.7zM8.9,8.3v3.3H5.6l4.4,4.4l4.4-4.4h-3.3V8.3H8.9z"></path>
 								</svg>
 
-								<h3>
-									{__('Blocksy Child Theme', 'blocksy')}
-								</h3>
+								<h3>{__('Blocksy Child Theme', 'blocksy')}</h3>
 
 								<p>
 									{__(
@@ -275,7 +262,6 @@ const Home = () => {
 										'blocksy'
 									)}
 								</p>
-
 
 								<a
 									className="ct-button"

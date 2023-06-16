@@ -51,16 +51,23 @@ if (function_exists('is_buddypress')) {
 }
 
 if (function_exists('tutor_course_enrolled_lead_info')) {
+
 	$options[blocksy_rand_md5()] = [
 		'type' => 'ct-group-title',
-		'kind' => 'divider',
+		'title' => __( 'Tutor LMS', 'blocksy' ),
 		'priority' => 2.5,
 	];
 
-	$options['post_type_single_tutorlms'] = [
-		'title' => __('TutorLMS', 'blocksy'),
+	$options['post_type_archive_tutorlms'] = [
+		'title' => __('Course Archive', 'blocksy'),
 		'container' => ['priority' => 2.5],
-		'options' => blocksy_get_options('integrations/tutorlms', []),
+		'options' => blocksy_get_options('integrations/tutorlms-archive', []),
+	];
+
+	$options['post_type_single_tutorlms'] = [
+		'title' => __('Course Single', 'blocksy'),
+		'container' => ['priority' => 2.5],
+		'options' => blocksy_get_options('integrations/tutorlms-single', []),
 	];
 }
 
@@ -109,6 +116,8 @@ foreach ($custom_post_types as $post_type) {
 		$post_type === 'sfwd-topic'
 		||
 		$post_type === 'sfwd-lessons'
+		||
+		$post_type === 'sfwd-quiz'
 	) {
 		if (! isset($options['learndash_posts_archives'])) {
 			$options[blocksy_rand_md5()] = [
@@ -138,7 +147,11 @@ foreach ($custom_post_types as $post_type) {
 		continue;
 	}
 
-	if ($post_type === 'courses') {
+	if (
+		$post_type === 'courses'
+		&&
+		function_exists('tutor_course_enrolled_lead_info')
+	) {
 		continue;
 	}
 

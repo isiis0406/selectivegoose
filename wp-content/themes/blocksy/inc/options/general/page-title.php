@@ -15,6 +15,10 @@ if (! isset($enabled_label)) {
 	$enabled_label = __('Page Title', 'blocksy');
 }
 
+if (! isset($design_options)) {
+	$design_options = [];
+}
+
 if (! isset($enabled_default)) {
 	$enabled_default = 'yes';
 }
@@ -23,8 +27,16 @@ if (! isset($is_cpt)) {
 	$is_cpt = false;
 }
 
+if (! isset($has_hero_elements)) {
+	$has_hero_elements = true;
+}
+
 if (! isset($is_bbpress)) {
 	$is_bbpress = false;
+}
+
+if (! isset($is_tutorlms)) {
+	$is_tutorlms = false;
 }
 
 if (! isset($is_woo)) {
@@ -65,6 +77,12 @@ if (! isset($prefix)) {
 	$prefix = $prefix . '_';
 }
 
+$computed_cpt = $is_cpt || $prefix === 'product_' ? trim( $prefix, '_') : false;
+
+if ($is_cpt && ! $prefix) {
+	$computed_cpt = $is_cpt;
+}
+
 $archives_have_hero = apply_filters(
 	'blocksy:options:page-title:archives-have-hero',
 	false
@@ -102,20 +120,22 @@ $default_hero_elements[] = array_merge([
 	] : []
 ));
 
-$default_hero_elements[] = [
-	'id' => 'custom_description',
-	'enabled' => $prefix !== 'product_',
-	'description_visibility' => [
-		'desktop' => true,
-		'tablet' => true,
-		'mobile' => false,
-	]
-];
+if (! $is_tutorlms) {
+	$default_hero_elements[] = [
+		'id' => 'custom_description',
+		'enabled' => $prefix !== 'product_',
+		'description_visibility' => [
+			'desktop' => true,
+			'tablet' => true,
+			'mobile' => false,
+		]
+	];
+}
 
 if (
 	(
 		$is_single || $is_author
-	) && !$is_bbpress
+	) && !$is_bbpress && !$is_tutorlms
 ) {
 	$default_hero_elements[] = [
 		'id' => 'custom_meta',
@@ -171,6 +191,7 @@ $when_enabled_general_settings = [
 			'design' => 'block',
 			'sync' => blocksy_sync_whole_page([
 				'prefix' => $prefix,
+				'prefix_custom' => 'hero'
 			]),
 			'choices' => [
 				'type-1' => [
@@ -194,12 +215,12 @@ $when_enabled_general_settings = [
 	[
 		$prefix . 'hero_elements' => apply_filters('blocksy:options:page-title:hero-elements', [
 			'label' => __('Elements', 'blocksy'),
-			'type' => 'ct-layers',
+			'type' => $has_hero_elements ? 'ct-layers' : 'hidden',
 			'design' => 'block',
 			'value' => $default_hero_elements,
 			'sync' => [
 				[
-					'selector' => '.hero-section',
+					'selector' => blocksy_prefix_custom_selector('.hero-section', 'hero'),
 					'container_inclusive' => true,
 					'prefix' => $prefix,
 					'render' => function ($args) {
@@ -209,37 +230,43 @@ $when_enabled_general_settings = [
 								'type-1'
 							)
 						]);
-					}
+					},
+					'prefix_custom' => 'hero'
 				],
 
 				[
 					'prefix' => $prefix,
 					'id' => $prefix . 'hero_elements_heading_tag',
 					'loader_selector' => '.page-title',
+					'prefix_custom' => 'hero'
 				],
 
 				[
 					'prefix' => $prefix,
 					'id' => $prefix . 'hero_elements_meta_first',
-					'loader_selector' => '.entry-meta:1'
+					'loader_selector' => '.entry-meta:1',
+					'prefix_custom' => 'hero'
 				],
 
 				[
 					'prefix' => $prefix,
 					'id' => $prefix . 'hero_elements_meta_second',
-					'loader_selector' => '.entry-meta:2'
+					'loader_selector' => '.entry-meta:2',
+					'prefix_custom' => 'hero'
 				],
 
 				[
 					'prefix' => $prefix,
 					'id' => $prefix . 'hero_elements_spacing',
 					'loader_selector' => 'skip',
+					'prefix_custom' => 'hero'
 				],
 
 				[
 					'prefix' => $prefix,
 					'id' => $prefix . 'hero_elements_author_avatar',
 					'loader_selector' => '.ct-author-name',
+					'prefix_custom' => 'hero'
 				]
 			],
 
@@ -262,6 +289,28 @@ $when_enabled_general_settings = [
 									'min' => 0,
 									'max' => 100,
 									'responsive' => true,
+									'sync' => [
+										'id' => $prefix . 'hero_elements_spacing',
+									],
+								],
+
+								'breadcrumbs_visibility' => [
+									'label' => __( 'Visibility', 'blocksy' ),
+									'type' => 'ct-visibility',
+									'design' => 'block',
+
+									'value' => [
+										'desktop' => true,
+										'tablet' => true,
+										'mobile' => true,
+									],
+
+									'choices' => blocksy_ordered_keys([
+										'desktop' => __( 'Desktop', 'blocksy' ),
+										'tablet' => __( 'Tablet', 'blocksy' ),
+										'mobile' => __( 'Mobile', 'blocksy' ),
+									]),
+
 									'sync' => [
 										'id' => $prefix . 'hero_elements_spacing',
 									],
@@ -511,9 +560,7 @@ $when_enabled_general_settings = [
 									],
 									'is_page' => $is_page,
 									'is_cpt' => $is_cpt,
-									'computed_cpt' => $is_cpt || $prefix === 'product_' ? trim(
-										$prefix, '_'
-									) : false,
+									'computed_cpt' => $computed_cpt
 								])
 							] : []
 						],
@@ -560,7 +607,13 @@ $when_enabled_general_settings = [
 									],
 								],
 							]
-						]
+						],
+
+						'link_target' => [
+							'type'  => 'ct-switch',
+							'label' => __( 'Open links in new tab', 'blocksy' ),
+							'value' => 'no',
+						],
 					],
 				],
 			]
@@ -785,7 +838,7 @@ $when_enabled_general_settings = [
 ];
 
 $when_enabled_design_settings = [
-	[
+	$design_options ? $design_options : [
 		blocksy_rand_md5() => [
 			'type' => 'ct-condition',
 			'condition' => [
@@ -853,7 +906,7 @@ $when_enabled_design_settings = [
 			'type' => 'ct-condition',
 			'condition' => [
 				'all' => [
-					$prefix . 'hero_elements:array-ids:custom_meta:enabled' => 'true',
+					$prefix . 'hero_elements:array-ids-true:custom_meta:enabled' => 'true',
 					'any' => [
 						$prefix . 'hero_elements:array-ids:custom_meta:single_meta_elements/author' => 'true',
 						$prefix . 'hero_elements:array-ids:custom_meta:single_meta_elements/comments' => 'true',
@@ -1193,6 +1246,7 @@ $options_when_not_default = [
 		'wrapperAttr' => ['data-label' => 'heading-label'],
 		'sync' => blocksy_sync_whole_page([
 			'prefix' => $prefix,
+			'prefix_custom' => 'hero'
 		]),
 		'inner-options' => $when_enabled_settings
 	]

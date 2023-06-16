@@ -196,6 +196,17 @@ if (
 		]);
 	}
 
+	blocksy_output_font_css([
+		'font_value' => get_theme_mod(
+			$prefix . '_single_author_box_name_font',
+			blocksy_typography_default_values([])
+		),
+		'css' => $css,
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
+		'selector' => blocksy_prefix_selector('.author-box .author-box-name', $prefix),
+	]);
+
 	blocksy_output_colors([
 		'value' => get_theme_mod($prefix . '_single_author_box_name_color'),
 		'default' => [
@@ -215,6 +226,17 @@ if (
 		'responsive' => true
 	]);
 
+	blocksy_output_font_css([
+		'font_value' => get_theme_mod(
+			$prefix . '_single_author_box_font',
+			blocksy_typography_default_values([])
+		),
+		'css' => $css,
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
+		'selector' => blocksy_prefix_selector('.author-box .author-box-bio', $prefix),
+	]);
+
 	blocksy_output_colors([
 		'value' => get_theme_mod($prefix . '_single_author_box_font_color', []),
 		'default' => [
@@ -228,17 +250,17 @@ if (
 
 		'variables' => [
 			'default' => [
-				'selector' => blocksy_prefix_selector('.author-box section', $prefix),
+				'selector' => blocksy_prefix_selector('.author-box .author-box-bio', $prefix),
 				'variable' => 'color'
 			],
 
 			'initial' => [
-				'selector' => blocksy_prefix_selector('.author-box section', $prefix),
+				'selector' => blocksy_prefix_selector('.author-box .author-box-bio', $prefix),
 				'variable' => 'linkInitialColor'
 			],
 
 			'hover' => [
-				'selector' => blocksy_prefix_selector('.author-box section', $prefix),
+				'selector' => blocksy_prefix_selector('.author-box .author-box-bio', $prefix),
 				'variable' => 'linkHoverColor'
 			],
 		],
@@ -258,12 +280,12 @@ if (
 
 		'variables' => [
 			'default' => [
-				'selector' => blocksy_prefix_selector('.author-box .author-box-social', $prefix),
+				'selector' => blocksy_prefix_selector('.author-box .author-box-socials', $prefix),
 				'variable' => 'icon-color'
 			],
 
 			'hover' => [
-				'selector' => blocksy_prefix_selector('.author-box .author-box-social', $prefix),
+				'selector' => blocksy_prefix_selector('.author-box .author-box-socials', $prefix),
 				'variable' => 'icon-hover-color'
 			]
 		],
@@ -283,12 +305,12 @@ if (
 
 		'variables' => [
 			'default' => [
-				'selector' => blocksy_prefix_selector('.author-box .author-box-social', $prefix),
+				'selector' => blocksy_prefix_selector('.author-box .author-box-socials', $prefix),
 				'variable' => 'background-color'
 			],
 
 			'hover' => [
-				'selector' => blocksy_prefix_selector('.author-box .author-box-social', $prefix),
+				'selector' => blocksy_prefix_selector('.author-box .author-box-socials', $prefix),
 				'variable' => 'background-hover-color'
 			]
 		],

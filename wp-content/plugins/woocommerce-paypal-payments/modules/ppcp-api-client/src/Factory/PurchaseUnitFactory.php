@@ -107,7 +107,12 @@ class PurchaseUnitFactory {
 	 */
 	public function from_wc_order( \WC_Order $order ): PurchaseUnit {
 		$amount   = $this->amount_factory->from_wc_order( $order );
-		$items    = $this->item_factory->from_wc_order( $order );
+		$items    = array_filter(
+			$this->item_factory->from_wc_order( $order ),
+			function ( Item $item ): bool {
+				return $item->unit_amount()->value() > 0;
+			}
+		);
 		$shipping = $this->shipping_factory->from_wc_order( $order );
 		if (
 			! $this->shipping_needed( ... array_values( $items ) ) ||
@@ -147,18 +152,28 @@ class PurchaseUnitFactory {
 	/**
 	 * Creates a PurchaseUnit based off a WooCommerce cart.
 	 *
-	 * @param \WC_Cart $cart The cart.
+	 * @param \WC_Cart|null $cart The cart.
+	 * @param bool          $with_shipping_options Include WC shipping methods.
 	 *
 	 * @return PurchaseUnit
 	 */
-	public function from_wc_cart( \WC_Cart $cart ): PurchaseUnit {
+	public function from_wc_cart( ?\WC_Cart $cart = null, bool $with_shipping_options = false ): PurchaseUnit {
+		if ( ! $cart ) {
+			$cart = WC()->cart ?? new \WC_Cart();
+		}
+
 		$amount = $this->amount_factory->from_wc_cart( $cart );
-		$items  = $this->item_factory->from_wc_cart( $cart );
+		$items  = array_filter(
+			$this->item_factory->from_wc_cart( $cart ),
+			function ( Item $item ): bool {
+				return $item->unit_amount()->value() > 0;
+			}
+		);
 
 		$shipping = null;
 		$customer = \WC()->customer;
 		if ( $this->shipping_needed( ... array_values( $items ) ) && is_a( $customer, \WC_Customer::class ) ) {
-			$shipping = $this->shipping_factory->from_wc_customer( \WC()->customer );
+			$shipping = $this->shipping_factory->from_wc_customer( \WC()->customer, $with_shipping_options );
 			if (
 				2 !== strlen( $shipping->address()->country_code() ) ||
 				( ! $shipping->address()->postal_code() && ! $this->country_without_postal_code( $shipping->address()->country_code() ) )

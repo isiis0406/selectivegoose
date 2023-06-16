@@ -89,3 +89,38 @@ blocksy_output_colors([
 	],
 ]);
 
+
+$prefix = 'blc-product-review_archive';
+
+blocksy_output_colors([
+	'value' => get_theme_mod(
+		$prefix . '_star_rating_color',
+		[]
+	),
+	'default' => [
+		'default' => [
+			'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT')
+		],
+		'inactive' => [
+			'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT')
+		],
+	],
+	'css' => $css,
+	'variables' => [
+		'default' => [
+			'selector' => blocksy_prefix_selector(
+				'.star-rating',
+				$prefix
+			),
+			'variable' => 'star-rating-initial-color'
+		],
+
+		'inactive' => [
+			'selector' => blocksy_prefix_selector(
+				'.star-rating',
+				$prefix
+			),
+			'variable' => 'star-rating-inactive-color'
+		],
+	],
+]);

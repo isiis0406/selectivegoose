@@ -1,5 +1,440 @@
-1.8.32: 2022-05-11
+1.8.92: 2023-06-14
+- Improvement: Compatibility with WooCommerce 7.8.0
 
+1.8.91: 2023-06-12
+- Improvement: Dont redirect after theme activation to the dashboard
+- Improvement: More solid Google Fonts loading in the Gutenberg editor
+- Improvement: Better handle WooCommerce star rating for RTL languages
+- Fix: Quantity limit WooCommerce error message button alignment issue
+
+1.8.90: 2023-06-03
+- Improvement: Better integration with Elementor frontend JS events
+- Improvement: Breadcrumbs CSS issue with Yoast selected as a provider
+
+1.8.89: 2023-06-01
+- Fix: Quantity input not displayed correctly inside WooCommerce Product Table plugin
+- Fix: WooCommerce archive "Swap Images" product card effect doesn't work
+- Fix: Social header element label visibility issue
+
+1.8.88: 2023-05-25
+- Improvement: Author page does not respect "posts per page" rule
+- Improvement: Better prefix parsing for archive titles in page title
+- Improvement: WooCommerce notices small CSS improvement
+- Improvement: Reveal effect for blog cards does not respect "reduced motion" OS setting
+- Improvement: Typography selector small CSS improvement
+- Improvement: CSS improvement for products archive grid
+- Improvement: Sidebar sticky last widgets option better handle output
+
+1.8.87: 2023-05-18
+- Improvement: Flexy easier computation of direction on arrows click
+- Improvement: Smarter handle for WP Grid Builder events
+- Improvement: CSS improvement related to `hidden` attribute
+- Fix: "Redirect to the cart page after addition" doesn't work on single products page when AJAX add to cart is enabled
+
+1.8.86: 2023-05-11
+- Improvement: Integration with WP Grid Builder
+- Improvement: Customizer `iframe` height issue in Safari
+- Improvement: Better matching of similar values in dynamic CSS output
+
+1.8.85: 2023-05-04
+- Improvement: Breadcrubms device based visibility option
+- Improvement: Better Gutenberg styles output when switching responsive breakpoints
+- Improvement: Global button padding settings affect search block widget
+- Improvement: Search block remove extra border when style is set to "Button Inside"
+- Improvement: Header & footer HTML element - add filter to disable `autop`
+- Improvement: Share box type 1 border option output
+- Improvement: Gutenberg "button" block font-weight modifier doesn't work
+- Fix: Breadcrumbs separator elements color doesn't apply correctly
+- Fix: Courses custom post type does not respect Customizer "posts per page" settings
+
+1.8.84: 2023-04-20
+- Improvement: Single product gallery don't target lightbox if video is clicked
+- Improvement: Remove redundant line from comments section when it is placed right after the author box
+- Improvement: Better in place update of galleries in variable products
+- Improvement: Entry content items spacing
+- Improvement: Filter for changing the `$home_url` in search form
+- Improvement: WooCommerce select2 minor CSS improvements
+- Improvement: Archive cards `entry-excerpt` items spacing
+- Improvement: CSS conflict with WooCommerce new checkbox component
+- Improvement: Breadcrumbs accessibility improvements
+- Fix: Star rating issue when cards placed inside columns block
+- Fix: Author box social icons are not aligned correctly
+- Fix: Search form scrolls the website to top
+
+1.8.83: 2023-04-13
+- Improvement: Shortcode support in related posts module title option
+- Improvement: Better logic for required fields in the comment form
+- Improvement: Better sync logic for spacing values
+- Improvement: Better handle `entry-content` elements spacing
+- Fix: Horizontal line (separator block) default style width issue
+- Fix: Issue with and WooCommerce select2 form and Dokan plugin
+
+1.8.82: 2023-04-06
+- Improvement: Small fixes in CSS injector class for PHP 8.2.4
+- Improvement: Show variable & grouped products price in live search results
+- Improvement: Gradient picker minor UI improvements
+- Improvement: Menu option to enable/disable the desktop responsive menu "More" functionality
+
+1.8.81: 2023-03-30
+- Improvement: Search modal doesn't redirect properly when used with Polylang
+- Improvement: WordPress 6.2 sticky blocks position don't take into consideration the sticky header
+- Improvement: Ivory Search plugin overrides our "live results" feature
+- Improvement: Header row full width calculations break when site frame is enabled
+- Fix: Entry content spacing "None" breaks gallery spacing
+
+1.8.80: 2023-03-27
+- Improvement: Better handling of width calculation in responsive desktop menu login
+- Improvement: Strengthen out dynamic CSS generation for single posts
+- Improvement: Correct behaviour of post_thumbnail_html filter in archive cards
+- Improvement: Compatibility with WordPress 6.2
+- Improvement: Smarter generation of WooCommerce minicart content in header
+- Improvement: Off Canvas Menu "Style" doesn't sync/refresh properly in customizer
+- Improvement: Cart/Checkout buttons from mini cart do not update their links properly with TranslatePress plugin
+
+1.8.79: 2023-03-16
+- Improvement: Add class option for logo element
+- Improvement: WooCommerce my account page buttons spacing
+- Improvement: Add sponsored attribute option to header button
+- Fix: Cart table `th` alignment issue in Safari 15
+- Fix: Header ghost button element height issue
+
+1.8.78: 2023-03-09
+- Improvement: WooCommerce custom quantity input minor CSS improvements
+- Improvement: Better integration with Delicious Recipes plugin
+- Improvement: Better extract meta-box options for blog page
+- Improvement: Add `blocksy:hero:type-2:image:attachment_id` filter
+- Fix: Cart table multiply symbol spacing
+
+1.8.77: 2023-03-02
+- Improvement: Integration between Woocommerce Product Table and quantity inputs
+- Improvement: Social networks smarter email links insertion
+- Improvement: Smarter container selector for infinite scroll
+- Improvement: Header menu small accessibility improvement
+- Fix: Small CSS conflict with Elementor cart page module
+
+1.8.76: 2023-02-23
+- Improvement: Hide Card Inner Spacing option for Simple archive card types
+- Improvement: Hide Vertical Alignment option for Simple and Boxed archive card types
+- Improvement: Ensure broken style tags dont affect Blocksy styles in Gutenberg
+- Improvement: Proper check for related and upsells products
+- Improvement: Dont create post meta fields unnecessarily for empty posts
+- Fix: Don't show hidden products in search live results
+
+1.8.75: 2023-02-15
+- Improvement: Correctly close handler for overlays
+
+1.8.74: 2023-02-15
+- Improvement: WooCommere 7.4 template updates
+- Improvement: Better compatibility with The Plus Mega Menu plugin
+- Improvement: Option to change the "Post Navigation" module thumbnail size
+
+1.8.73: 2023-02-09
+- Improvement: Automatically prepend `mailto` link in email social elements
+- Improvement: Better output the value of menu dropdown sticky offset option
+- Improvement: Archive cards read more button inherit alignment from "Content Alignment" option
+- Improvement: More consistent integration with bbPress
+- Fix: Default WooCommerce placeholder images do not show up in live results
+
+1.8.72: 2023-02-02
+- Improvement: Smarter infinite scroll selector picking when product categories are displayed on the shop page
+- Improvement: Do not repeat schema.org markup on mobile view for logo element
+- Improvement: WooCommerce price filter widget small CSS improvements
+- Improvement: WooCommerce "My Account" module better handle the theme classes in order to not conflict with Elementor
+- Improvement: Safari 16.3+ issue with image ratio when infinite scroll pagination loads next posts
+- Fix: WooCommerce categories excerpt lenght value
+- Fix: Password hint indicator position issue in reset password form
+
+1.8.71: 2023-01-26
+- Improvement: Issue with related posts query
+
+1.8.70: 2023-01-26
+- Improvement: Correctly cleanup html on widget area option unmount
+- Improvement: Page title type 2 image height issue in Safari 16.3+
+- Improvement: Disable card image hover effect for touch devices
+- Improvement: Sticky logo alignment issue
+- Improvement: Don't show comments form cookies consent field if user is logged in
+- Improvement: Correctly handle tinymce absence in wp-editor option
+- Improvement: Integrate related posts module with Polylang plugin
+- Fix: Header render empty row option issue on mobile devices
+
+1.8.69: 2023-01-20
+- Improvement: Refine infinite scroll logic
+
+1.8.68: 2023-01-20
+- Improvement: Ensure PHP 8.1 outputs no warnings
+- Improvement: Correctly reference posts container that have a wrapper
+- Improvement: Logo alignment issue on mobile devices when the image has a very small height
+- Fix: Search header element display correctly the sale price
+
+1.8.67: 2023-01-19
+- Improvement: Single add to cart button custom width is not respected if AJAX option is enabled
+- Improvement: Single product "Add to Cart" button with option issue when value is set to pixels
+- Improvement: Remove related posts module divider when it is right after author box
+- Improvement: Fix WooCommerce hook position in archive when card type 2 is set
+- Improvement: Integrate live search results REST API call with Polylang Pro
+- Improvement: Show sales price in live search results
+- Fix: Nested advanced menu elements do not inherit the correct color for their label
+
+1.8.66: 2023-01-11
+- Improvement: Ensure current screen prefix is never null
+- Improvement: Integrate antispambot() function into e-mail address fields
+- Improvement: Border and shadow options inherit state issue
+- Improvement: Better integration with WooCommerce Customize My Account Page plugin
+- Fix: Table inside additional information tab width issue when layout set to boxed
+- Fix: Background option responsive issue when setting different image or color per device
+- Fix: Minor PHP syntax improvement for better compatibility with old PHP versions
+- Fix: Password protected products form is full width
+- Fix: Header button ghost view gap issue
+
+1.8.65: 2022-12-29
+- Improvement: General fixes and improvements
+
+1.8.64: 2022-12-28
+- Improvement: Header menu item - better handle the stretch menu option
+- Improvement: Proper computation of price taxes in search live results
+- Improvement: Correctly count articles for author pages
+- Improvement: Support for LearnDash quiz CPT
+- Fix: Minor syntax error for old php versions
+- Fix: Translation (POT) files are not generated correctly
+
+1.8.63: 2022-12-22
+- Improvement: Better compatibility with WooCommerce Composite Products
+- Improvement: Add check for missing haystack
+- Improvement: Button header element without a label has some redundant spacing
+- Improvement: Shortcode support in header button link option
+
+1.8.62: 2022-12-15
+- Improvement: Additional actions for page title with two post meta elements
+- Improvement: Don't output `data-header` and `data-footer` attributes if header or footer is disabled
+- Improvement: Add filter to disable comments.css file on single pages
+- Fix: WooCommerce 7.2 and "Sold individually" products have a broken quantity input design
+- Fix: Global colors won't change dynamically when changing a color palette
+
+1.8.61: 2022-12-09
+- Fix: Minor layout issue with overflow-x on mobile
+
+1.8.60: 2022-12-08
+- Improvement: Better handle the theme color palettes inside block editor
+- Improvement: Scoped selector for infinite loading pagination
+- Improvement: Correctly compute sidebar position for BuddyPress pages
+- Improvement: Better integration with "WooCommerce Buy for me" plugin
+
+1.8.59.1: 2022-12-07
+- Improvement: Escape fields value in search form
+
+1.8.59: 2022-11-24
+- Improvement: Menu accessibility improvements
+- Improvement: theme.json file minor styling improvements
+- Improvement: Insert WooCommerce variation images only once
+- Improvement: Better integration with Simple Block Gallery plugin
+- Fix: Respect post number option on search results page
+- Fix: Menu aria-expanded attribute toggle issue
+
+1.8.58: 2022-11-17
+- Improvement: Don't output HTML tags in aria-label attribute
+- Improvement: Correctly sync customiser options on posts with metabox overrides
+- Fix: WooCommerce archive video thumbnail ratio issue
+- Fix: Table block default border color issue
+- Fix: Manually embedded iframe affected by block-width CSS if sidebar is present
+
+1.8.57: 2022-11-10
+- Improvement: Introduce filter for modifying static assets urls for CDN
+- Improvement: Outline button type not inheriting the correct color
+- Improvement: Left/right alignment blocks improvement
+- Improvement: Don't show iOS focus highlighter on trigger buttons
+- Improvement: Option to disable live results in header search module
+- Fix: Legacy nav widget menu inherits page site body background options in preview
+
+1.8.56: 2022-11-04
+- Improvement: Integrate quantity input buttons with WooCommerce Pre Order
+- Improvement: Gutenberg container and inner container width improvements
+- Fix: WooCommerce "Highlight Required Fields" customizer option issue
+- Fix: Some customiser options do not work for BuddyPress pages
+- Fix: Boxed view posts/pages make the Gutenberg editor extremely narrow
+- Fix: Links underline decoration issue
+
+1.8.55: 2022-11-03
+- Improvement: Gradient tool does not work correctly with WP 6.1
+- Improvement: Don't steal focus when clicking a link inside overlay
+- Improvement: Added `theme.json` file in to the theme folder
+- Improvement: WordPress 6.1 compatibility
+- Improvement: Optimise search overlay REST API URL query string parameters
+- Improvement: Update WooCommerce template versions
+- Improvement: Better integration with new Elementor 3.8 container element
+- Fix: Related posts module columns number option
+
+1.8.53: 2022-10-20
+- Improvement: Better integration with Read Meter plugin
+- Improvement:  Show type and source of the font in typography option
+- Improvement: More reliable focus lock for all overlays and popups
+- Improvement: Correct whole page refresh in customizer partial sync
+- Improvement: Better integration with CheckoutWC plugin
+- Fix: Top positioned trending posts module z-index issue with footer reveal effect
+- Fix: Show password icon jumps when the password strength meter is shown
+- Fix: Custom WooCommerce sorting lists items do not appear in "Default product sorting" option
+
+1.8.52: 2022-10-13
+- Improvement: Page background option for archives
+- Improvement: More reliable integration with Woocommerce Custom Product Addons
+- Improvement: Smarter calculations of excerpt with special characters
+- Improvement: Correctly check for method presence in header cart item
+- Improvement: Improve excerpt display in shop archives with categories
+- Improvement: Display a GDPR related notice when trying to select a Google Font
+
+1.8.51: 2022-10-07
+- Improvement: YITH Advanced Woo Filters not working correctly on iOS
+- Improvement: Better handling of Custom unit in font size option
+- Improvement: Better compatibility with WooCommerce Custom Product Addons
+- Improvement: Live search results module - show correct product price including taxes
+- Improvement: WooCommerce cart item with variations display issue
+- Improvement: Add ID to footer element
+- Improvement: Better handling of multi byte characters in excerpt generation
+- Fix: Header bottom border stays on screen if sticky is auto-hide
+- Fix: Author box typography options do not appear if "social icons" option is disabled
+
+1.8.50: 2022-09-23
+- Improvement: Correct condition matching for Page title meta colors
+
+1.8.49: 2022-09-22
+- Improvement: More reliable check for WooCommerce presence
+- Improvement: Better integration between search forms and Polylang
+- Improvement: Integration with WooCommerce Mix & Match plugin
+- Improvement: Smarter check for dynamic chunks URLs
+- Improvement: Very long sub-menus cause ghost white space at the bottom of short pages
+
+1.8.48: 2022-09-22
+- Improvement: More reliable check for WooCommerce presence
+- Improvement: Better integration between search forms and Polylang
+- Improvement: Integration with WooCommerce Mix & Match plugin
+- Improvement: Smarter check for dynamic chunks URLs
+- Improvement: Very long sub-menus cause ghost white space at the bottom of short pages
+
+1.8.47: 2022-09-15
+- New: Add support for "clamp" and "calc" inside font size typography option
+- Improvement: Better handling of Post Meta font controls conditions
+- Improvement: Integration with archive pages of GeoDirectory plugin
+- Improvement: Support picture tag in gallery of variable products
+- Improvement: Better handling of thumbnails style with custom galleries in variations
+- Improvement: Smarter logic for calculation menu width in responsive menu
+- Improvement: Integration with WooCommerce Subscriptions plugin on cart page
+- Improvement: More robust logic of cart fragments updates
+- Improvement: Strengthen custom icons implementations for header elements
+- Improvement: Better integration YITH WooCommerce Advanced Reviews plugin
+- Fix: TutorLMS filters and pagination issue
+- Fix: "Filter by attributes" WooCommerce widget shows hidden items
+- Fix: Mega menu label is cut off inside the footer area
+
+1.8.46: 2022-08-18
+- New: Comment form labels new position (outside inputs) option
+- Improvement: Divider block small CSS improvement
+- Improvement: Better handling of alt tag in avatars when using a custom uploaded image
+- Improvement: Content spacing option small CSS improvement
+- Improvement: WooCommerce single product gallery CSS improvements
+- Improvement: Support for font weight property for Google variable fonts in typography option
+- Fix: Standard quantity selector doesn't work on phones on cart page
+
+1.8.45: 2022-08-04
+- Improvement: Improve `entry-content` headings spacing
+- Fix: WooCommerce quantity input type 1 RTL fix
+
+1.8.44: 2022-07-27
+- Improvement: Better style WooCommerce account error notifications
+- Improvement: Better customizer sync selector for single posts/pages elements
+
+1.8.43: 2022-07-26
+- Improvement: Correctly handle custom WooCommerce placeholder images
+- Improvement: Header cart item better handle customizer changes
+- Improvement: Remove extra spacing between icons in header social element
+- Fix: Customizer color values where not inherited in editor mode in some special cases
+
+1.8.42: 2022-07-14
+- New: Font customisation controls for the single post author box
+- Improvement: Correctly recalculate popover position in scrollable modals
+- Improvement: Style new WooCommerce filter blocks
+- Fix: Enhanced Grid blog structure and large title font size causes overflow for cards
+- Fix: Footer's columns divider behaves better on RTL languages
+
+1.8.41: 2022-07-08
+- Improvement: Correctly minify CSS files in the final build
+
+1.8.40: 2022-07-07
+- Improvement: Added blocksy:footer:logo:url filter for changing the footer logo URL
+- Improvement: Cart drawer type 2 scrollbar out of bounds
+- Improvement: Show woo categories descriptions in archive cards
+- Improvement: Header/footer builder items are not removable sometimes
+- Fix: bbPress taxonomy archives pagination doesn't work with Blocksy
+- Fix: Author archive "date joined" doesn't respect localisation
+
+1.8.39: 2022-06-28
+- New: Scoped post navigation by taxonomy
+- Improvement: Support detection of late registered custom post types
+- Improvement: Treat CPT type as special only when TutorLMS is active
+- Improvement: Output drawer canvas styles even it no items are inside it
+- Improvement: Color picker modal doesn't close if you click on `ct-color-picker-container`
+- Improvement: Better sync for WooCommerce product gallery in Customizer
+- Fix: Default header row shadow option takes effect on header transparent state
+- Fix: Post meta user avatar CSS display issue
+- Fix: Correctly override header row styles in transparent state
+- Fix: Menu hover Type 2 misaligned on RTL
+- Fix: Site title + logo are squished together in RTL mode
+- Fix: Fractional image ratio doesn't work
+- Fix: Header search show price option sync issue
+
+1.8.38: 2022-06-21
+- Improvement: Make breadcrumbs blog item to have the same name as the page
+- Improvement: Ensure Webpack output is compatible with caching plugins
+- Improvement: More stable Elementor integration with Blocksy color palette
+- Fix: Author avatar image size
+
+1.8.37: 2022-06-20
+- New: Option to move comment form above or below comments list
+- New: Option to deactivate image lazy load from WooCommerce archive and single product page
+- New: WooCommerce cards short description option
+- Improvement: Header row background values overwritten in some specific circumstances
+- Improvement: Better handling of messages outside the WooCommerce pages
+- Improvement: Search live results accessibility improvements
+- Improvement: Show price in live search results for product items
+- Improvement: Update the image ratio option to use native `aspect-ratio` property
+- Improvement: Do not output blank tags if entry meta label is empty
+- Improvement: Better integration with Default Featured Image plugin
+- Improvement: Better logic for picking taxonomies in breadcrumbs
+- Improvement: Search overlay placeholder translatable string
+- Improvement: Header sticky offset jump in Safari browser
+- Improvement: Better integration with Tutor LMS 2.0
+- Improvement: Header elements sync state in off-canvas drawer
+- Fix: WooCommerce gallery thumbnails do not display the image title on hover
+- Fix: Customizer page force reload while switching to a different header
+- Fix: Variable products gallery not initialized in some cases
+- Fix: Don't affect styles within iframe tag from third party plugins
+- Fix: Skype link in social channels doesn't work correctly
+
+1.8.36: 2022-06-03
+- Improvement: Use native browser lazy load functionality in Blocksy images
+- Improvement: Don't close offcanvas when clicking on generic anchor links from it
+- Improvement: Don't load additional variation data when default product gallery is used
+- Improvement: Make custom meta labels from page title translateable
+- Improvement: Stabler mouse enter handler in menus
+- Improvement: Sticky state logo shrink sync issue
+- Fix: Custom post type and custom options not propagated inside post settings
+
+1.8.35: 2022-05-25
+- Improvement: WordPress 6.0 minor improvements
+
+1.8.34: 2022-05-20
+- Improvement: Correctly load deps data for dynamic JS chunks
+
+1.8.33: 2022-05-20
+- Improvement: Better computation of URLs for dynamic JS chunks
+- Improvement: Better interoperability of Blocksy Customizer with Email designer plugins
+- Improvement: Store notice overlaps header
+- Improvement: Cart page items are not removed with AJAX on mobile devices
+- Improvement: Remove unneeded breadcrumbs action
+- Improvement: Author social links target option
+- Improvement: Better integration with FacetWP plugin
+- Fix: Archive card read more button alignment
+
+1.8.32: 2022-05-11
+- Improvement: General fixes and improvements
 
 1.8.31: 2022-05-11
 - Improvement: Smart loading of wp-components script to avoid CSP issues

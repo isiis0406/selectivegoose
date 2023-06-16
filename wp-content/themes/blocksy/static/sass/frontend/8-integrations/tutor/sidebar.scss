@@ -1,19 +1,19 @@
 // right sidebar
 [data-tutor-sidebar='right'] .tutor-single-course-sidebar {
 	@media (min-width: 992px) {
-		padding-left: 10%;
+		padding-left: 40px;
 	}
 }
 
 // left sidebar
 [data-tutor-sidebar='left'] {
-	.tutor-row {
+	.tutor-course-details-page > .tutor-row {
 		flex-direction: row-reverse;
 	}
 
 	.tutor-single-course-sidebar {
 		@media (min-width: 992px) {
-			padding-right: 10%;
+			padding-right: 40px;
 		}
 	}
 }

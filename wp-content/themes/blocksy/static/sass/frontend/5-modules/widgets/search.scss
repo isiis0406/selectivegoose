@@ -63,8 +63,16 @@ form.search-form {
 }
 
 // customizer helper
-.search-form:not([data-live-results='thumbs']) {
-	.ct-image-container {
-		--display: none;
+.search-form {
+	&:not([data-live-results*='thumbs']) {
+		.ct-image-container {
+			display: none;
+		}
+	}
+
+	&:not([data-live-results*='product_price']) {
+		.price {
+			display: none;
+		}	
 	}
 }

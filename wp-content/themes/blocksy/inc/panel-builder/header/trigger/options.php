@@ -281,6 +281,7 @@ $options = [
 			blocksy_rand_md5() => [
 				'type' => 'ct-labeled-group',
 				'label' => __( 'Icon Color', 'blocksy' ),
+				'responsive' => true,
 				'choices' => [
 					[
 						'id' => 'triggerIconColor',
@@ -310,7 +311,8 @@ $options = [
 					'triggerIconColor' => [
 						'label' => __( 'Icon Color', 'blocksy' ),
 						'type'  => 'ct-color-picker',
-						'design' => 'inline',
+						'design' => 'block:right',
+						'responsive' => true,
 						'setting' => [ 'transport' => 'postMessage' ],
 						'value' => [
 							'default' => [
@@ -340,7 +342,8 @@ $options = [
 					'transparentTriggerIconColor' => [
 						'label' => __( 'Icon Color', 'blocksy' ),
 						'type'  => 'ct-color-picker',
-						'design' => 'inline',
+						'design' => 'block:right',
+						'responsive' => true,
 						'setting' => [ 'transport' => 'postMessage' ],
 						'value' => [
 							'default' => [
@@ -368,7 +371,8 @@ $options = [
 					'stickyTriggerIconColor' => [
 						'label' => __( 'Icon Color', 'blocksy' ),
 						'type'  => 'ct-color-picker',
-						'design' => 'inline',
+						'design' => 'block:right',
+						'responsive' => true,
 						'setting' => [ 'transport' => 'postMessage' ],
 						'value' => [
 							'default' => [
@@ -408,6 +412,7 @@ $options = [
 					]
 				],
 				'divider' => 'top',
+				'responsive' => true,
 				'choices' => [
 					[
 						'id' => 'triggerSecondColor',
@@ -449,7 +454,8 @@ $options = [
 							]
 						],
 						'type'  => 'ct-color-picker',
-						'design' => 'inline',
+						'design' => 'block:right',
+						'responsive' => true,
 						'setting' => [ 'transport' => 'postMessage' ],
 						'value' => [
 							'default' => [
@@ -488,7 +494,8 @@ $options = [
 							]
 						],
 						'type'  => 'ct-color-picker',
-						'design' => 'inline',
+						'design' => 'block:right',
+						'responsive' => true,
 						'setting' => [ 'transport' => 'postMessage' ],
 						'value' => [
 							'default' => [
@@ -525,7 +532,8 @@ $options = [
 							]
 						],
 						'type'  => 'ct-color-picker',
-						'design' => 'inline',
+						'design' => 'block:right',
+						'responsive' => true,
 						'setting' => [ 'transport' => 'postMessage' ],
 						'value' => [
 							'default' => [
@@ -554,8 +562,24 @@ $options = [
 			],
 
 			blocksy_rand_md5() => [
-				'type' => 'ct-divider',
+				'type' => 'ct-condition',
+				'condition' => [ 'trigger_design' => '!simple' ],
+				'options' => [
+
+					'trigger_border_radius' => [
+						'label' => __( 'Border Radius', 'blocksy' ),
+						'type' => 'ct-number',
+						'design' => 'inline',
+						'value' => 3,
+						'min' => 0,
+						'max' => 100,
+						'divider' => 'top',
+						'setting' => [ 'transport' => 'postMessage' ],
+					],
+
+				],
 			],
+
 
 			'triggerMargin' => [
 				'label' => __( 'Margin', 'blocksy' ),
@@ -565,6 +589,7 @@ $options = [
 					'linked' => true,
 				]),
 				'responsive' => true,
+				'divider' => 'top'
 			],
 
 		],

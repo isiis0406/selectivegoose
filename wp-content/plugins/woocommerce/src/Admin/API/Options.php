@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Options Controller.
  *
- * @deprecated since 3.1.0
+ * @deprecated since 6.2.0
  *
  * @extends WC_REST_Data_Controller
  */
@@ -167,7 +167,6 @@ class Options extends \WC_REST_Data_Controller {
 			'woocommerce_task_list_dismissed_tasks',
 			'woocommerce_setting_payments_recommendations_hidden',
 			'woocommerce_navigation_favorites_tooltip_hidden',
-			'woocommerce_marketing_overview_welcome_hidden',
 			'woocommerce_admin_transient_notices_queue',
 			'woocommerce_task_list_welcome_modal_dismissed',
 			'woocommerce_welcome_from_calypso_modal_dismissed',
@@ -179,7 +178,19 @@ class Options extends \WC_REST_Data_Controller {
 			'woocommerce_admin_install_timestamp',
 			'woocommerce_task_list_tracked_completed_tasks',
 			'woocommerce_show_marketplace_suggestions',
+			'woocommerce_task_list_reminder_bar_hidden',
 			'wc_connect_options',
+			'woocommerce_admin_created_default_shipping_zones',
+			'woocommerce_admin_reviewed_default_shipping_zones',
+			'woocommerce_admin_reviewed_store_location_settings',
+			'woocommerce_ces_product_feedback_shown',
+			'woocommerce_marketing_overview_multichannel_banner_dismissed',
+			'woocommerce_dimension_unit',
+			'woocommerce_weight_unit',
+			'woocommerce_ces_product_mvp_ces_action',
+			'woocommerce_product_tour_modal_hidden',
+			'woocommerce_revenue_report_date_tour_shown',
+			'woocommerce_date_type',
 		);
 
 		$theme_permissions = array(

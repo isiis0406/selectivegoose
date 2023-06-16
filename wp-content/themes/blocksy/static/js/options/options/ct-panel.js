@@ -104,19 +104,21 @@ export const PanelMetaWrapper = ({ id, option, getActualOption, value }) => {
 		}
 	}, [])
 
+	const isEnabled = value === 'yes' || value === true
+
 	return getActualOption({
 		open: () => panelsHelpers.open(id),
 
 		wrapperAttr: {
 			className: `${
 				option.switch
-					? value === 'yes'
+					? isEnabled
 						? 'ct-click-allowed'
 						: ''
 					: 'ct-click-allowed'
 			} ct-panel`,
 			onClick: ({ target }) => {
-				if (option.switch && value !== 'yes') {
+				if (option.switch && !isEnabled) {
 					return
 				}
 
@@ -312,6 +314,9 @@ const Panel = ({
 						value={value}
 						onChange={onChange}
 						onClick={(e) => e.stopPropagation()}
+						option={{
+							behavior: option.switchBehavior || 'words',
+						}}
 					/>
 				)}
 

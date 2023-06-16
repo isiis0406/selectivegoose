@@ -5,7 +5,14 @@ import { computeShrink } from './sticky/shrink'
 import { computeAutoHide } from './sticky/auto-hide'
 import { computeFadeSlide } from './sticky/fade-slide'
 
-import { getRowStickyHeight } from './sticky/shrink-utils'
+import {
+	getRowStickyHeight,
+	getRowInitialMinHeight,
+	maybeSetStickyHeightAnimated,
+} from './sticky/shrink-utils'
+
+import { clearShrinkCache } from './sticky/shrink-handle-middle-row'
+import { clearLogoShrinkCache } from './sticky/shrink-handle-logo'
 
 export const setTransparencyFor = (deviceContainer, value = 'yes') => {
 	Array.from(
@@ -26,20 +33,43 @@ var getParents = function (elem) {
 }
 
 let cachedStartPosition = null
-let cachedContainerInitialHeight = null
+let cachedContainerInitialHeight = {}
+let cachedHeaderInitialHeight = null
 let cachedStickyContainerHeight = null
+let forcedHeightSetForStickyContainer = false
 
-if (window.wp && wp.customize) {
+const clearCache = () => {
+	clearShrinkCache()
+	clearLogoShrinkCache()
+
+	cachedStartPosition = null
+	cachedHeaderInitialHeight = null
+	cachedStickyContainerHeight = null
+	prevScrollY = null
+	forcedHeightSetForStickyContainer = false
+}
+
+ctEvents.on('blocksy:sticky:compute', () => {
+	setTimeout(() => {
+		clearCache()
+		compute()
+	}, 100)
+})
+
+if (window.wp && wp.customize && wp.customize.selectiveRefresh) {
+	let shouldSkipNext = false
 	wp.customize.selectiveRefresh.bind(
 		'partial-content-rendered',
 		(placement) => {
+			if (shouldSkipNext) {
+				return
+			}
+			shouldSkipNext = true
 			setTimeout(() => {
-				cachedStartPosition = null
-				cachedContainerInitialHeight = null
-				cachedStickyContainerHeight = null
-				prevScrollY = null
-
+				clearCache()
+				forcedHeightSetForStickyContainer = true
 				compute()
+				shouldSkipNext = false
 			}, 500)
 		}
 	)
@@ -50,7 +80,7 @@ const getStartPositionFor = (stickyContainer) => {
 		stickyContainer.dataset.sticky.indexOf('shrink') === -1 &&
 		stickyContainer.dataset.sticky.indexOf('auto-hide') === -1
 	) {
-		return stickyContainer.parentNode.getBoundingClientRect().height + 200
+		// return stickyContainer.parentNode.getBoundingClientRect().height + 200
 	}
 
 	const headerRect = stickyContainer.closest('header').getBoundingClientRect()
@@ -74,12 +104,23 @@ const getStartPositionFor = (stickyContainer) => {
 		}
 	}
 
+	if (
+		stickyContainer.dataset.sticky.indexOf('shrink') === -1 &&
+		stickyContainer.dataset.sticky.indexOf('auto-hide') === -1
+	) {
+		stickyOffset += 200
+	}
+
 	const row = stickyContainer.parentNode
 
 	const bodyComp = getComputedStyle(document.body)
 	let maybeDynamicOffset = parseFloat(
 		bodyComp.getPropertyValue('--header-sticky-offset') || 0
 	)
+
+	maybeDynamicOffset =
+		maybeDynamicOffset +
+		(parseFloat(bodyComp.getPropertyValue('--frame-size')) || 0)
 
 	if (
 		row.parentNode.children.length === 1 ||
@@ -122,8 +163,6 @@ const compute = () => {
 		return
 	}
 
-	prevScrollY = scrollY
-
 	const stickyContainer = document.querySelector(
 		`[data-device="${getCurrentScreen()}"] [data-sticky]`
 	)
@@ -132,33 +171,78 @@ const compute = () => {
 		return
 	}
 
+	const currentScreenWithTablet = getCurrentScreen({ withTablet: true })
+
+	let containerInitialHeight =
+		cachedContainerInitialHeight[currentScreenWithTablet]
+
+	const shouldSetHeight =
+		!containerInitialHeight || forcedHeightSetForStickyContainer
+
+	if (!containerInitialHeight || forcedHeightSetForStickyContainer) {
+		cachedContainerInitialHeight[currentScreenWithTablet] = [
+			...stickyContainer.querySelectorAll('[data-row]'),
+		].reduce((res, row) => {
+			return res + getRowInitialMinHeight(row)
+		}, 0)
+
+		containerInitialHeight =
+			cachedContainerInitialHeight[currentScreenWithTablet]
+	}
+
+	if (shouldSetHeight) {
+		forcedHeightSetForStickyContainer = false
+		stickyContainer.parentNode.style.height = `${containerInitialHeight}px`
+	}
+
 	let startPosition = cachedStartPosition
 
 	if (startPosition === null) {
-		startPosition = getStartPositionFor(stickyContainer)
+		startPosition = getStartPositionFor(stickyContainer, {})
 		cachedStartPosition = startPosition
+	}
+
+	let headerInitialHeight = cachedHeaderInitialHeight
+
+	if (headerInitialHeight === null) {
+		const headerRect = stickyContainer
+			.closest('[data-device]')
+			.getBoundingClientRect()
+
+		headerInitialHeight = headerRect.height
+		cachedHeaderInitialHeight = headerInitialHeight
 	}
 
 	let stickyContainerHeight = cachedStickyContainerHeight
 
-	if (!stickyContainerHeight) {
-		stickyContainerHeight = parseInt(
-			stickyContainer.getBoundingClientRect().height
-		)
-		cachedStickyContainerHeight = parseInt(stickyContainerHeight)
-
-		document.body.style.setProperty(
-			'--header-sticky-height-animated',
-			`${[...stickyContainer.querySelectorAll('[data-row]')].reduce(
-				(res, row) => res + getRowStickyHeight(row),
-				0
-			)}px`
-		)
-	}
-
 	const stickyComponents = stickyContainer.dataset.sticky
 		.split(':')
 		.filter((c) => c !== 'yes' && c !== 'no' && c !== 'fixed')
+
+	if (!stickyContainerHeight) {
+		stickyContainerHeight = [
+			...stickyContainer.querySelectorAll('[data-row]'),
+		].reduce((res, row) => res + getRowStickyHeight(row), 0)
+		cachedStickyContainerHeight = parseInt(stickyContainerHeight)
+
+		maybeSetStickyHeightAnimated(() => {
+			return stickyComponents.indexOf('auto-hide') === -1
+				? // case when content is forcing the initial height to be bigger
+				  stickyContainerHeight >
+				  [...stickyContainer.querySelectorAll('[data-row]')].reduce(
+						(res, row) => res + getRowInitialMinHeight(row),
+						0
+				  )
+					? `${stickyContainerHeight}px`
+					: `${[
+							...stickyContainer.querySelectorAll('[data-row]'),
+					  ].reduce(
+							(res, row) => res + getRowStickyHeight(row),
+							0
+					  )}px`
+				: '0px'
+		})
+	}
 
 	let isSticky =
 		(startPosition > 0 && Math.abs(window.scrollY - startPosition) < 5) ||
@@ -184,17 +268,7 @@ const compute = () => {
 		}
 	}, 300)
 
-	let containerInitialHeight = cachedContainerInitialHeight
-
-	if (!containerInitialHeight) {
-		cachedContainerInitialHeight = Array.from(
-			stickyContainer.querySelectorAll('[data-row]')
-		).reduce((sum, el) => sum + el.getBoundingClientRect().height, 0)
-
-		containerInitialHeight = cachedContainerInitialHeight
-
-		stickyContainer.parentNode.style.height = `${containerInitialHeight}px`
-	}
+	let currentScrollY = scrollY
 
 	if (stickyComponents.indexOf('shrink') > -1) {
 		computeShrink({
@@ -214,6 +288,14 @@ const compute = () => {
 			isSticky,
 			startPosition,
 			stickyComponents,
+
+			containerInitialHeight,
+			stickyContainerHeight,
+
+			headerInitialHeight,
+
+			currentScrollY,
+			prevScrollY,
 		})
 	}
 
@@ -228,6 +310,8 @@ const compute = () => {
 			stickyComponents,
 		})
 	}
+
+	prevScrollY = currentScrollY
 }
 
 export const mountStickyHeader = () => {
@@ -235,9 +319,18 @@ export const mountStickyHeader = () => {
 		return
 	}
 
+	var prevWidth = window.width
+
 	window.addEventListener(
 		'resize',
 		(event) => {
+			if (window.width === prevWidth) {
+				return
+			}
+
+			prevWidth = window.width
+
+			clearCache()
 			compute(event)
 			ctEvents.trigger('ct:header:update')
 		},
@@ -245,6 +338,7 @@ export const mountStickyHeader = () => {
 	)
 
 	window.addEventListener('orientationchange', (event) => {
+		clearCache()
 		compute(event)
 		ctEvents.trigger('ct:header:update')
 	})

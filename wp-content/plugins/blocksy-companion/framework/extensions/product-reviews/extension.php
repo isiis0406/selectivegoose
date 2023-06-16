@@ -97,9 +97,48 @@ class BlocksyExtensionProductReviews {
 					]);
 
 					if (! empty($product_entity_price)) {
+						$parsed_price = preg_replace(
+							"/[^0-9.,]/",
+							"",
+							$product_entity_price
+						);
+
+						$parsed_currency = preg_replace(
+							"/[0-9.,]/",
+							"",
+							$product_entity_price
+						);
+
 						$offers_contents .= blocksy_html_tag('meta', [
 							'itemprop' => 'price',
-							'content' => $product_entity_price
+							'content' => $parsed_price
+						]);
+
+						$currencies = [
+							'$' => 'USD',
+							'€' => 'EUR',
+							'₡' => 'CRC',
+							'£' => 'GBP',
+							'₪' => 'ILS',
+							'₹' => 'INR',
+							'¥' => 'JPY',
+							'₩' => 'KRW',
+							'₦' => 'NGN',
+							'₱' => 'PHP',
+							'zł' => 'PLN',
+							'₲' => 'PYG',
+							'฿' => 'THB',
+							'₴' => 'UAH',
+							'₫' => 'VND'
+						];
+
+						if ($parsed_currency && isset($currencies[$parsed_currency])) {
+							$parsed_currency = $currencies[$parsed_currency];
+						}
+
+						$offers_contents .= blocksy_html_tag('meta', [
+							'itemprop' => 'priceCurrency',
+							'content' => $parsed_currency
 						]);
 					}
 
@@ -157,19 +196,13 @@ class BlocksyExtensionProductReviews {
 				wp_enqueue_script(
 					'blocksy-product-reviews-customizer-sync',
 					BLOCKSY_URL . 'framework/extensions/product-reviews/static/bundle/sync.js',
-					[ 'ct-scripts', 'customize-preview' ],
+					[ 'ct-scripts', 'customize-preview', 'blocksy-companion-sync-scripts' ],
 					$data['Version'],
 					true
 				);
 			}
 		);
 
-		add_action('blocksy:global-dynamic-css:enqueue', function ($args) {
-			blocksy_theme_get_dynamic_styles(array_merge([
-				'path' => dirname( __FILE__ ) . '/global.php',
-				'chunk' => 'global'
-			], $args));
-		}, 10, 3);
 
 		add_action('init', [$this, 'declare_cpt']);
 
@@ -205,6 +238,58 @@ class BlocksyExtensionProductReviews {
 
 			return $layers;
 		}, 10, 2);
+
+		add_filter(
+			'blocksy:options:posts-listing:design:before_card_background',
+			function ($opts, $prefix) {
+				if ($prefix !== 'blc-product-review_archive') {
+					return $opts;
+				}
+
+				$opts[blocksy_rand_md5()] = [
+					'type' => 'ct-condition',
+					'condition' => [
+						$prefix . '_archive_order:array-ids:overall_score:enabled' => '!no'
+					],
+					'options' => [
+						$prefix . '_star_rating_color' => [
+							'label' => __( 'Star Rating Color', 'blocksy-companion' ),
+							'type'  => 'ct-color-picker',
+							'design' => 'inline',
+							'divider' => 'top:full',
+							'setting' => [ 'transport' => 'postMessage' ],
+
+							'value' => [
+								'default' => [
+									'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+								],
+
+								'inactive' => [
+									'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+								],
+							],
+
+							'pickers' => [
+								[
+									'title' => __( 'Active', 'blocksy-companion' ),
+									'id' => 'default',
+									'inherit' => '#FDA256'
+								],
+
+								[
+									'title' => __( 'Inactive', 'blocksy-companion' ),
+									'id' => 'inactive',
+									'inherit' => '#F9DFCC'
+								],
+							],
+						]
+					]
+				];
+
+				return $opts;
+			},
+			10, 2
+		);
 
 		add_filter('blocksy:posts-listing:archive-order:default', function ($default, $prefix) {
 			if ($prefix !== 'blc-product-review_archive') {
@@ -420,6 +505,27 @@ class BlocksyExtensionProductReviews {
 
 			return $options;
 		}, 10, 2);
+
+		add_action(
+			'blocksy:global-dynamic-css:enqueue',
+			'BlocksyExtensionProductReviews::add_global_styles',
+			10, 3
+		);
+	}
+
+	static public function add_global_styles($args) {
+		blocksy_theme_get_dynamic_styles(array_merge([
+			'path' => dirname(__FILE__) . '/global.php',
+			'chunk' => 'global',
+		], $args));
+	}
+
+	static public function onDeactivation() {
+		remove_action(
+			'blocksy:global-dynamic-css:enqueue',
+			'BlocksyExtensionProductReviews::add_global_styles',
+			10, 3
+		);
 	}
 
 	public function init_metabox() {
@@ -607,4 +713,5 @@ class BlocksyExtensionProductReviews {
 	public function set_settings($value) {
 		update_option('blocksy_ext_product_reviews_settings', $value);
 	}
+
 }

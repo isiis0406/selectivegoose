@@ -23,6 +23,8 @@ blocksy_output_colors([
 		'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
 	],
 	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
 	'variables' => [
 		'default' => [
 			'selector' => blocksy_assemble_selector($root_selector),
@@ -34,6 +36,7 @@ blocksy_output_colors([
 			'variable' => 'icon-hover-color'
 		],
 	],
+	'responsive' => true
 ]);
 
 blocksy_output_colors([
@@ -43,6 +46,8 @@ blocksy_output_colors([
 		'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
 	],
 	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
 	'variables' => [
 		'default' => [
 			'selector' => blocksy_assemble_selector($root_selector),
@@ -54,6 +59,7 @@ blocksy_output_colors([
 			'variable' => 'secondColorHover'
 		],
 	],
+	'responsive' => true
 ]);
 
 // Margin
@@ -69,6 +75,18 @@ blocksy_output_spacing([
 		])
 	)
 ]);
+
+$trigger_design = blocksy_akg( 'trigger_design', $atts, 'simple' );
+
+if ($trigger_design !== 'simple') {
+	$trigger_border_radius = blocksy_akg( 'trigger_border_radius', $atts, 3 );
+
+	$css->put( 
+		blocksy_assemble_selector($root_selector),
+		'--toggle-button-radius: ' . $trigger_border_radius . 'px' 
+	);
+}
+
 
 $has_label = (
 	is_customize_preview()
@@ -173,7 +191,8 @@ if (isset($has_transparent_header) && $has_transparent_header) {
 			'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
 		],
 		'css' => $css,
-
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
 		'variables' => [
 			'default' => [
 				'selector' => blocksy_assemble_selector(blocksy_mutate_selector([
@@ -193,6 +212,7 @@ if (isset($has_transparent_header) && $has_transparent_header) {
 				'variable' => 'icon-hover-color'
 			],
 		],
+		'responsive' => true
 	]);
 
 	blocksy_output_colors([
@@ -202,7 +222,8 @@ if (isset($has_transparent_header) && $has_transparent_header) {
 			'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
 		],
 		'css' => $css,
-
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
 		'variables' => [
 			'default' => [
 				'selector' => blocksy_assemble_selector(blocksy_mutate_selector([
@@ -222,6 +243,7 @@ if (isset($has_transparent_header) && $has_transparent_header) {
 				'variable' => 'secondColorHover'
 			],
 		],
+		'responsive' => true
 	]);
 }
 
@@ -270,7 +292,8 @@ if (isset($has_sticky_header) && $has_sticky_header) {
 			'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
 		],
 		'css' => $css,
-
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
 		'variables' => [
 			'default' => [
 				'selector' => blocksy_assemble_selector(blocksy_mutate_selector([
@@ -290,6 +313,7 @@ if (isset($has_sticky_header) && $has_sticky_header) {
 				'variable' => 'icon-hover-color'
 			],
 		],
+		'responsive' => true
 	]);
 
 	blocksy_output_colors([
@@ -299,7 +323,8 @@ if (isset($has_sticky_header) && $has_sticky_header) {
 			'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
 		],
 		'css' => $css,
-
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
 		'variables' => [
 			'default' => [
 				'selector' => blocksy_assemble_selector(blocksy_mutate_selector([
@@ -319,5 +344,6 @@ if (isset($has_sticky_header) && $has_sticky_header) {
 				'variable' => 'secondColorHover'
 			],
 		],
+		'responsive' => true
 	]);
 }

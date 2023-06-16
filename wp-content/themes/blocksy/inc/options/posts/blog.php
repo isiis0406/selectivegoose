@@ -82,7 +82,7 @@ if (
 }
 
 $options = [
-	'blog_section_options' => [
+	'blog_posts_section_options' => [
 		'type' => 'ct-options',
 		'inner-options' => $inner_options
 	],

@@ -9,12 +9,14 @@ declare(strict_types=1);
 
 namespace WooCommerce\PayPalCommerce\ApiClient\Endpoint;
 
+use stdClass;
 use WooCommerce\PayPalCommerce\ApiClient\Authentication\Bearer;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\ApplicationContext;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\AuthorizationStatus;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\CaptureStatus;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\Order;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\OrderStatus;
+use WooCommerce\PayPalCommerce\ApiClient\Entity\PatchCollection;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\Payer;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\PaymentMethod;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\PaymentToken;
@@ -28,6 +30,8 @@ use WooCommerce\PayPalCommerce\ApiClient\Repository\ApplicationContextRepository
 use WooCommerce\PayPalCommerce\ApiClient\Repository\PayPalRequestIdRepository;
 use Psr\Log\LoggerInterface;
 use WooCommerce\PayPalCommerce\Subscription\Helper\SubscriptionHelper;
+use WooCommerce\PayPalCommerce\WcGateway\FraudNet\FraudNet;
+use WP_Error;
 
 /**
  * Class OrderEndpoint
@@ -93,18 +97,25 @@ class OrderEndpoint {
 	private $application_context_repository;
 
 	/**
+	 * True if FraudNet support is enabled in settings, otherwise false.
+	 *
+	 * @var bool
+	 */
+	protected $is_fraudnet_enabled;
+
+	/**
+	 * The FraudNet entity.
+	 *
+	 * @var FraudNet
+	 */
+	protected $fraudnet;
+
+	/**
 	 * The BN Code.
 	 *
 	 * @var string
 	 */
 	private $bn_code;
-
-	/**
-	 * The paypal request id repository.
-	 *
-	 * @var PayPalRequestIdRepository
-	 */
-	private $paypal_request_id_repository;
 
 	/**
 	 * OrderEndpoint constructor.
@@ -116,8 +127,9 @@ class OrderEndpoint {
 	 * @param string                       $intent The intent.
 	 * @param LoggerInterface              $logger The logger.
 	 * @param ApplicationContextRepository $application_context_repository The application context repository.
-	 * @param PayPalRequestIdRepository    $paypal_request_id_repository The paypal request id repository.
 	 * @param SubscriptionHelper           $subscription_helper The subscription helper.
+	 * @param bool                         $is_fraudnet_enabled true if FraudNet support is enabled in settings, otherwise false.
+	 * @param FraudNet                     $fraudnet The FraudNet entity.
 	 * @param string                       $bn_code The BN Code.
 	 */
 	public function __construct(
@@ -128,8 +140,9 @@ class OrderEndpoint {
 		string $intent,
 		LoggerInterface $logger,
 		ApplicationContextRepository $application_context_repository,
-		PayPalRequestIdRepository $paypal_request_id_repository,
 		SubscriptionHelper $subscription_helper,
+		bool $is_fraudnet_enabled,
+		FraudNet $fraudnet,
 		string $bn_code = ''
 	) {
 
@@ -141,8 +154,9 @@ class OrderEndpoint {
 		$this->logger                         = $logger;
 		$this->application_context_repository = $application_context_repository;
 		$this->bn_code                        = $bn_code;
-		$this->paypal_request_id_repository   = $paypal_request_id_repository;
+		$this->is_fraudnet_enabled            = $is_fraudnet_enabled;
 		$this->subscription_helper            = $subscription_helper;
+		$this->fraudnet                       = $fraudnet;
 	}
 
 	/**
@@ -163,70 +177,45 @@ class OrderEndpoint {
 	 * Creates an order.
 	 *
 	 * @param PurchaseUnit[]     $items The purchase unit items for the order.
+	 * @param string             $shipping_preference One of ApplicationContext::SHIPPING_PREFERENCE_ values.
 	 * @param Payer|null         $payer The payer off the order.
 	 * @param PaymentToken|null  $payment_token The payment token.
 	 * @param PaymentMethod|null $payment_method The payment method.
 	 * @param string             $paypal_request_id The paypal request id.
-	 * @param bool               $shipping_address_is_fixed Whether the shipping address is changeable or not.
+	 * @param string             $user_action The user action.
 	 *
 	 * @return Order
 	 * @throws RuntimeException If the request fails.
 	 */
 	public function create(
 		array $items,
+		string $shipping_preference,
 		Payer $payer = null,
 		PaymentToken $payment_token = null,
 		PaymentMethod $payment_method = null,
 		string $paypal_request_id = '',
-		bool $shipping_address_is_fixed = false
+		string $user_action = ApplicationContext::USER_ACTION_CONTINUE
 	): Order {
-
-		$contains_physical_goods = false;
-		$items                   = array_filter(
-			$items,
-			static function ( $item ) use ( &$contains_physical_goods ): bool {
-				$is_purchase_unit = is_a( $item, PurchaseUnit::class );
-				/**
-				 * A purchase unit.
-				 *
-				 * @var PurchaseUnit $item
-				 */
-				if ( $is_purchase_unit && $item->contains_physical_goods() ) {
-					$contains_physical_goods = true;
-				}
-
-				return $is_purchase_unit;
-			}
-		);
-
-		$shipping_preference = ApplicationContext::SHIPPING_PREFERENCE_NO_SHIPPING;
-		if ( $contains_physical_goods ) {
-			if ( $shipping_address_is_fixed ) {
-				// Checkout + no address given? Probably something weird happened, like no form validation?
-				// Also note that $items currently always seems to be an array with one item.
-				if ( $this->has_items_without_shipping( $items ) ) {
-					$shipping_preference = ApplicationContext::SHIPPING_PREFERENCE_NO_SHIPPING;
-				} else {
-					$shipping_preference = ApplicationContext::SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS;
-				}
-			} else {
-				$shipping_preference = ApplicationContext::SHIPPING_PREFERENCE_GET_FROM_FILE;
-			}
-		}
-
 		$bearer = $this->bearer->bearer();
 		$data   = array(
 			'intent'              => ( $this->subscription_helper->cart_contains_subscription() || $this->subscription_helper->current_product_is_subscription() ) ? 'AUTHORIZE' : $this->intent,
 			'purchase_units'      => array_map(
-				static function ( PurchaseUnit $item ): array {
-					return $item->to_array();
+				static function ( PurchaseUnit $item ) use ( $shipping_preference ): array {
+					$data = $item->to_array();
+
+					if ( $shipping_preference !== ApplicationContext::SHIPPING_PREFERENCE_GET_FROM_FILE ) {
+						// Shipping options are not allowed to be sent when not getting the address from PayPal.
+						unset( $data['shipping']['options'] );
+					}
+
+					return $data;
 				},
 				$items
 			),
 			'application_context' => $this->application_context_repository
-				->current_context( $shipping_preference )->to_array(),
+				->current_context( $shipping_preference, $user_action )->to_array(),
 		);
-		if ( $payer && ! empty( $payer->email_address() ) && ! empty( $payer->name() ) ) {
+		if ( $payer && ! empty( $payer->email_address() ) ) {
 			$data['payer'] = $payer->to_array();
 		}
 		if ( $payment_token ) {
@@ -251,11 +240,18 @@ class OrderEndpoint {
 			'body'    => wp_json_encode( $data ),
 		);
 
-		$paypal_request_id                    = $paypal_request_id ? $paypal_request_id : uniqid( 'ppcp-', true );
-		$args['headers']['PayPal-Request-Id'] = $paypal_request_id;
 		if ( $this->bn_code ) {
 			$args['headers']['PayPal-Partner-Attribution-Id'] = $this->bn_code;
 		}
+
+		if ( $this->is_fraudnet_enabled ) {
+			$args['headers']['PayPal-Client-Metadata-Id'] = $this->fraudnet->session_id();
+		}
+
+		if ( isset( $data['payment_source'] ) ) {
+			$args['headers']['PayPal-Request-Id'] = uniqid( 'ppcp-', true );
+		}
+
 		$response = $this->request( $url, $args );
 		if ( is_wp_error( $response ) ) {
 			$error = new RuntimeException(
@@ -292,7 +288,6 @@ class OrderEndpoint {
 			throw $error;
 		}
 		$order = $this->order_factory->from_paypal_response( $json );
-		$this->paypal_request_id_repository->set_for_order( $order, $paypal_request_id );
 		return $order;
 	}
 
@@ -313,10 +308,9 @@ class OrderEndpoint {
 		$args   = array(
 			'method'  => 'POST',
 			'headers' => array(
-				'Authorization'     => 'Bearer ' . $bearer->token(),
-				'Content-Type'      => 'application/json',
-				'Prefer'            => 'return=representation',
-				'PayPal-Request-Id' => $this->paypal_request_id_repository->get_for_order( $order ),
+				'Authorization' => 'Bearer ' . $bearer->token(),
+				'Content-Type'  => 'application/json',
+				'Prefer'        => 'return=representation',
 			),
 		);
 		if ( $this->bn_code ) {
@@ -388,10 +382,9 @@ class OrderEndpoint {
 		$args   = array(
 			'method'  => 'POST',
 			'headers' => array(
-				'Authorization'     => 'Bearer ' . $bearer->token(),
-				'Content-Type'      => 'application/json',
-				'Prefer'            => 'return=representation',
-				'PayPal-Request-Id' => $this->paypal_request_id_repository->get_for_order( $order ),
+				'Authorization' => 'Bearer ' . $bearer->token(),
+				'Content-Type'  => 'application/json',
+				'Prefer'        => 'return=representation',
 			),
 		);
 		if ( $this->bn_code ) {
@@ -462,9 +455,8 @@ class OrderEndpoint {
 		$url    = trailingslashit( $this->host ) . 'v2/checkout/orders/' . $id;
 		$args   = array(
 			'headers' => array(
-				'Authorization'     => 'Bearer ' . $bearer->token(),
-				'Content-Type'      => 'application/json',
-				'PayPal-Request-Id' => $this->paypal_request_id_repository->get_for_order_id( $id ),
+				'Authorization' => 'Bearer ' . $bearer->token(),
+				'Content-Type'  => 'application/json',
 			),
 		);
 		if ( $this->bn_code ) {
@@ -475,14 +467,8 @@ class OrderEndpoint {
 			$error = new RuntimeException(
 				__( 'Could not retrieve order.', 'woocommerce-paypal-payments' )
 			);
-			$this->logger->log(
-				'warning',
-				$error->getMessage(),
-				array(
-					'args'     => $args,
-					'response' => $response,
-				)
-			);
+			$this->logger->warning( $error->getMessage() );
+
 			throw $error;
 		}
 		$json        = json_decode( $response['body'] );
@@ -517,8 +503,8 @@ class OrderEndpoint {
 			);
 			throw $error;
 		}
-		$order = $this->order_factory->from_paypal_response( $json );
-		return $order;
+
+		return $this->order_factory->from_paypal_response( $json );
 	}
 
 	/**
@@ -536,25 +522,36 @@ class OrderEndpoint {
 			return $order_to_update;
 		}
 
+		$this->patch( $order_to_update->id(), $patches );
+
+		$new_order = $this->order( $order_to_update->id() );
+		return $new_order;
+	}
+
+	/**
+	 * Patches an order.
+	 *
+	 * @param string          $order_id The PayPal order ID.
+	 * @param PatchCollection $patches The patches.
+	 *
+	 * @throws RuntimeException If the request fails.
+	 */
+	public function patch( string $order_id, PatchCollection $patches ): void {
 		$patches_array = $patches->to_array();
-		if ( ! isset( $patches_array[0]['value']['shipping'] ) ) {
-			$shipping = isset( $order_to_update->purchase_units()[0] ) && null !== $order_to_update->purchase_units()[0]->shipping() ? $order_to_update->purchase_units()[0]->shipping() : null;
-			if ( $shipping ) {
-				$patches_array[0]['value']['shipping'] = $shipping->to_array();
-			}
-		}
+
+		/**
+		 * The filter can be used to modify the order patching request body data (the final prices, items).
+		 */
+		$patches_array = apply_filters( 'ppcp_patch_order_request_body_data', $patches_array );
 
 		$bearer = $this->bearer->bearer();
-		$url    = trailingslashit( $this->host ) . 'v2/checkout/orders/' . $order_to_update->id();
+		$url    = trailingslashit( $this->host ) . 'v2/checkout/orders/' . $order_id;
 		$args   = array(
 			'method'  => 'PATCH',
 			'headers' => array(
-				'Authorization'     => 'Bearer ' . $bearer->token(),
-				'Content-Type'      => 'application/json',
-				'Prefer'            => 'return=representation',
-				'PayPal-Request-Id' => $this->paypal_request_id_repository->get_for_order(
-					$order_to_update
-				),
+				'Authorization' => 'Bearer ' . $bearer->token(),
+				'Content-Type'  => 'application/json',
+				'Prefer'        => 'return=representation',
 			),
 			'body'    => wp_json_encode( $patches_array ),
 		);
@@ -564,11 +561,8 @@ class OrderEndpoint {
 		$response = $this->request( $url, $args );
 
 		if ( is_wp_error( $response ) ) {
-			$error = new RuntimeException(
-				__( 'Could not retrieve order.', 'woocommerce-paypal-payments' )
-			);
-			$this->logger->log(
-				'warning',
+			$error = new RuntimeException( 'Could not patch order.' );
+			$this->logger->warning(
 				$error->getMessage(),
 				array(
 					'args'     => $args,
@@ -584,8 +578,7 @@ class OrderEndpoint {
 				$json,
 				$status_code
 			);
-			$this->logger->log(
-				'warning',
+			$this->logger->warning(
 				$error->getMessage(),
 				array(
 					'args'     => $args,
@@ -594,24 +587,50 @@ class OrderEndpoint {
 			);
 			throw $error;
 		}
-
-		$new_order = $this->order( $order_to_update->id() );
-		return $new_order;
 	}
 
 	/**
-	 * Checks if there is at least one item without shipping.
+	 * Confirms payment source.
 	 *
-	 * @param PurchaseUnit[] $items The items.
-	 * @return bool Whether items contains shipping or not.
+	 * @param string $id The PayPal order ID.
+	 * @param array  $payment_source The payment source.
+	 * @return stdClass
+	 * @throws PayPalApiException If the request fails.
+	 * @throws RuntimeException If something unexpected happens.
 	 */
-	private function has_items_without_shipping( array $items ): bool {
-		foreach ( $items as $item ) {
-			if ( ! $item->shipping() ) {
-				return true;
-			}
+	public function confirm_payment_source( string $id, array $payment_source ): stdClass {
+		$bearer = $this->bearer->bearer();
+		$url    = trailingslashit( $this->host ) . 'v2/checkout/orders/' . $id . '/confirm-payment-source';
+
+		$data = array(
+			'payment_source'         => $payment_source,
+			'processing_instruction' => 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL',
+			'application_context'    => array(
+				'locale' => 'es-MX',
+			),
+		);
+
+		$args = array(
+			'method'  => 'POST',
+			'headers' => array(
+				'Authorization' => 'Bearer ' . $bearer->token(),
+				'Content-Type'  => 'application/json',
+				'Prefer'        => 'return=representation',
+			),
+			'body'    => wp_json_encode( $data ),
+		);
+
+		$response = $this->request( $url, $args );
+		if ( $response instanceof WP_Error ) {
+			throw new RuntimeException( $response->get_error_message() );
 		}
 
-		return false;
+		$json        = json_decode( $response['body'] );
+		$status_code = (int) wp_remote_retrieve_response_code( $response );
+		if ( 200 !== $status_code ) {
+			throw new PayPalApiException( $json, $status_code );
+		}
+
+		return $json;
 	}
 }

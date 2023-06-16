@@ -13,11 +13,23 @@ $source_options = [
 ];
 
 if (function_exists('rank_math_the_breadcrumbs')) {
-	$source_options['rankmath'] = __('RankMath', 'blocksy');
+	ob_start();
+	rank_math_the_breadcrumbs();
+	$content = ob_get_clean();
+
+	if (! empty($content)) {
+		$source_options['rankmath'] = __('RankMath', 'blocksy');
+	}
 }
 
 if (function_exists('yoast_breadcrumb')) {
-	$source_options['yoast'] = __('Yoast', 'blocksy');
+	ob_start();
+	yoast_breadcrumb('<div>', '</div>');
+	$content = ob_get_clean();
+
+	if (! empty($content)) {
+		$source_options['yoast'] = __('Yoast', 'blocksy');
+	}
 }
 
 if (function_exists('seopress_display_breadcrumbs')) {

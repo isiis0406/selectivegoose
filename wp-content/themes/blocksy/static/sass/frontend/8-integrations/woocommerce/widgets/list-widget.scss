@@ -4,7 +4,7 @@
 		grid-template-columns: 25% 1fr;
 		grid-column-gap: 20px;
 		align-items: center;
-		--listItemSpacing: 20px;
+		margin-bottom: 20px;
 	}
 
 	.ct-image-container {
@@ -20,8 +20,6 @@
 		font-size: 15px;
 		font-weight: 500;
 		padding-inline-end: 15px;
-		
-		// @include lhCrop(1.65);
 	}
 
 	.star-rating {

@@ -16,7 +16,7 @@ ctEvents.on(
 			newsletter_subscribe_content: [
 				{
 					selector: '.ct-newsletter-subscribe-block',
-					variable: 'color',
+					variable: 'text-color',
 					type: 'color:default',
 				},
 

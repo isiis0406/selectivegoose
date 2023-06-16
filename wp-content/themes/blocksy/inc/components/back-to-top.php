@@ -1,10 +1,11 @@
 <?php
 
 if (! function_exists('blocksy_output_back_to_top_link')) {
-function blocksy_output_back_to_top_link($for_preview = false) {
+function blocksy_output_back_to_top_link() {
 	$type = get_theme_mod('top_button_type', 'type-1');
 	$shape = get_theme_mod('top_button_shape', 'square');
 	$alignment = get_theme_mod('top_button_alignment', 'right');
+	$icon_source = get_theme_mod('top_button_icon_source', 'default');
 
 	$svgs = [
 		'type-1' => '<svg class="ct-icon" width="15" height="15" viewBox="0 0 20 20"><path d="M10,0L9.4,0.6L0.8,9.1l1.2,1.2l7.1-7.1V20h1.7V3.3l7.1,7.1l1.2-1.2l-8.5-8.5L10,0z"/></svg>',
@@ -28,6 +29,21 @@ function blocksy_output_back_to_top_link($for_preview = false) {
 		'mobile' => false,
 	]));
 
+	$icon = $svgs[$type];
+
+	if (function_exists('blc_get_icon')) {
+		if ($icon_source === 'custom') {
+			$icon = blc_get_icon([
+				'icon_descriptor' => get_theme_mod(
+					'top_button_icon',
+					['icon' => 'blc blc-arrow-up-circle']
+				),
+				'icon_class' => 'ct-icon',
+				'icon_container' => false
+			]);
+		}
+	}
+
 	?>
 
 	<a href="#main-container" class="<?php echo esc_attr($class) ?>"
@@ -40,28 +56,8 @@ function blocksy_output_back_to_top_link($for_preview = false) {
 			 * Note to code reviewers: This line doesn't need to be escaped.
 			 * It can't be escaped with wp_kses_post() because it contains an SVG and is perfectly safe.
 			 */
-			echo $svgs[$type]
+			echo $icon
 		?>
-
-		<?php
-
-			if ($for_preview) {
-				foreach ($svgs as $key => $value) {
-					/**
-					 * Note to code reviewers: This line doesn't need to be escaped.
-					 * Function blocksy_html_tag() used here escapes the value properly.
-					 * It's mainly not escaped with wp_kses_post() because it contains an SVG.
-					 */
-					echo blocksy_html_tag(
-						'div',
-						['data-top' => $key],
-						$value
-					);
-				}
-			}
-
-		?>
-
 	</a>
 
 	<?php

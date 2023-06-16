@@ -8,6 +8,10 @@ if (! isset($has_v_spacing)) {
 	$has_v_spacing = true;
 }
 
+if (! isset($has_content_style)) {
+	$has_content_style = true;
+}
+
 if (! isset($default_structure)) {
 	$default_structure = 'type-3';
 }
@@ -22,39 +26,53 @@ if (! isset($prefix)) {
 	$prefix = $prefix . '_';
 }
 
+$structure_choices = [
+	'type-3' => [
+		'src' => blocksy_image_picker_url('narrow.svg'),
+		'title' => __('Narrow Width', 'blocksy'),
+	],
+
+	'type-4' => [
+		'src' => blocksy_image_picker_url('normal.svg'),
+		'title' => __('Normal Width', 'blocksy'),
+	],
+
+	'type-2' => [
+		'src' => blocksy_image_picker_url('left-single-sidebar.svg'),
+		'title' => __('Left Sidebar', 'blocksy'),
+	],
+
+	'type-1' => [
+		'src' => blocksy_image_picker_url('right-single-sidebar.svg'),
+		'title' => __('Right Sidebar', 'blocksy'),
+	]
+];
+
+if (! isset($skipped_structure)) {
+	$skipped_structure = [];
+}
+
+foreach ($skipped_structure as $structure) {
+	unset($structure_choices[$structure]);
+}
+
 $options = [
 	[
 		$prefix . 'structure' => [
 			'label' => $structure_label,
 			'type' => 'ct-image-picker',
 			'value' => $default_structure,
-			'choices' => [
-				'type-3' => [
-					'src' => blocksy_image_picker_url('narrow.svg'),
-					'title' => __('Narrow Width', 'blocksy'),
-				],
-
-				'type-4' => [
-					'src' => blocksy_image_picker_url('normal.svg'),
-					'title' => __('Normal Width', 'blocksy'),
-				],
-
-				'type-2' => [
-					'src' => blocksy_image_picker_url('left-single-sidebar.svg'),
-					'title' => __('Left Sidebar', 'blocksy'),
-				],
-
-				'type-1' => [
-					'src' => blocksy_image_picker_url('right-single-sidebar.svg'),
-					'title' => __('Right Sidebar', 'blocksy'),
-				],
-			],
+			'choices' => $structure_choices,
 			'sync' => blocksy_sync_whole_page([
 				'prefix' => $prefix,
+				'prefix_custom' => 'single-structure',
 				'loader_selector' => '[class*="ct-container"]'
 			]),
 		],
 
+	],
+
+	$has_content_style ? [
 		$prefix . 'content_style' => [
 			'label' => __('Content Area Style', 'blocksy'),
 			'type' => 'ct-radio',
@@ -69,7 +87,7 @@ $options = [
 			],
 			'sync' => 'live'
 		],
-	],
+	] : [],
 
 	$has_v_spacing ? [
 		$prefix . 'content_area_spacing' => [

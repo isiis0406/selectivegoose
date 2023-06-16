@@ -4,6 +4,20 @@ namespace Blocksy;
 
 class ThemeIntegration {
 	public function __construct() {
+		add_action('wp_enqueue_scripts', function () {
+			if (! function_exists('get_plugin_data')){
+				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			}
+
+			$data = get_plugin_data(BLOCKSY__FILE__);
+
+			if (is_admin()) return;
+
+			wp_register_script(
+				'blocksy-zxcvbn',
+				includes_url('/js/zxcvbn.min.js')
+			);
+		});
 
 		add_filter('blocksy:frontend:dynamic-js-chunks', function ($chunks) {
 			$render = new \Blocksy_Header_Builder_Render();
@@ -13,6 +27,78 @@ class ThemeIntegration {
 				||
 				is_customize_preview()
 			) {
+				$deps = [];
+				$global_data = [];
+
+				if (class_exists('woocommerce')) {
+					$deps = [
+						'blocksy-zxcvbn',
+						'wp-hooks',
+						'wp-i18n',
+						'password-strength-meter',
+					];
+
+					$global_data = [
+						[
+							'var' => 'wc_password_strength_meter_params',
+							'data' => [
+								'min_password_strength' => apply_filters(
+									'woocommerce_min_password_strength',
+									3
+								),
+								'stop_checkout' => apply_filters(
+									'woocommerce_enforce_password_strength_meter_on_checkout',
+									false
+								),
+								'i18n_password_error'=> esc_attr__(
+									'Please enter a stronger password.',
+									'woocommerce'
+								),
+								'i18n_password_hint' => addslashes(wp_get_password_hint()),
+							]
+						],
+
+						[
+							'var' => 'pwsL10n',
+							'data' => [
+								'unknown'  => _x( 'Password strength unknown', 'password strength' ),
+								'short'    => _x( 'Very weak', 'password strength' ),
+								'bad'      => _x( 'Weak', 'password strength' ),
+								'good'     => _x( 'Medium', 'password strength' ),
+								'strong'   => _x( 'Strong', 'password strength' ),
+								'mismatch' => _x( 'Mismatch', 'password mismatch' ),
+							]
+						]
+					];
+				}
+
+				if (function_exists('dokan')) {
+					$deps[] = 'dokan-form-validate';
+					$deps[] = 'dokan-vendor-registration';
+
+					$global_data[] = [
+						'var' => 'DokanValidateMsg',
+						'data' => apply_filters('DokanValidateMsg_args', [
+							'required'        => __( 'This field is required', 'dokan-lite' ),
+							'remote'          => __( 'Please fix this field.', 'dokan-lite' ),
+							'email'           => __( 'Please enter a valid email address.', 'dokan-lite' ),
+							'url'             => __( 'Please enter a valid URL.', 'dokan-lite' ),
+							'date'            => __( 'Please enter a valid date.', 'dokan-lite' ),
+							'dateISO'         => __( 'Please enter a valid date (ISO).', 'dokan-lite' ),
+							'number'          => __( 'Please enter a valid number.', 'dokan-lite' ),
+							'digits'          => __( 'Please enter only digits.', 'dokan-lite' ),
+							'creditcard'      => __( 'Please enter a valid credit card number.', 'dokan-lite' ),
+							'equalTo'         => __( 'Please enter the same value again.', 'dokan-lite' ),
+							'maxlength_msg'   => __( 'Please enter no more than {0} characters.', 'dokan-lite' ),
+							'minlength_msg'   => __( 'Please enter at least {0} characters.', 'dokan-lite' ),
+							'rangelength_msg' => __( 'Please enter a value between {0} and {1} characters long.', 'dokan-lite' ),
+							'range_msg'       => __( 'Please enter a value between {0} and {1}.', 'dokan-lite' ),
+							'max_msg'         => __( 'Please enter a value less than or equal to {0}.', 'dokan-lite' ),
+							'min_msg'         => __( 'Please enter a value greater than or equal to {0}.', 'dokan-lite' ),
+						])
+					];
+				}
+
 				$chunks[] = [
 					'id' => 'blocksy_account',
 					'selector' => implode(', ', [
@@ -26,8 +112,12 @@ class ThemeIntegration {
 						],
 						BLOCKSY_URL . 'static/bundle/account.js'
 					),
+					'deps' => $deps,
+					'global_data' => $global_data,
+
 					'trigger' => 'click',
 					'has_modal_loader' => [
+						'skip_if_no_template' => true,
 						'id' => 'account-modal'
 					]
 				];
@@ -71,6 +161,8 @@ class ThemeIntegration {
 					// post_date | comment_count
 					'orderby' => 'post_date',
 					'order' => 'DESC',
+					'meta_value' => '',
+					'meta_key' => '',
 
 					// yes | no
 					'has_pagination' => 'yes',
@@ -90,7 +182,9 @@ class ThemeIntegration {
 					'filtering' => false,
 
 					// 404 | skip
-					'no_results' => '404'
+					'no_results' => '404',
+
+					'class' => ''
 				]
 			);
 
@@ -122,6 +216,10 @@ class ThemeIntegration {
 		});
 
 		add_shortcode('blocksy_breadcrumbs', function ($args, $content) {
+			if (! class_exists('Blocksy_Breadcrumbs_Builder')) {
+				return '';
+			}
+
 			$breadcrumbs_builder = new \Blocksy_Breadcrumbs_Builder();
 			return $breadcrumbs_builder->render([
 				'class' => 'ct-breadcrumbs-shortcode'
@@ -160,19 +258,14 @@ class ThemeIntegration {
 				$local_terms = array_map(function ($tax) {
 					return [
 						'id' => $tax->term_id,
-						'name' => $tax->name
+						'name' => $tax->name,
+						'group' => get_taxonomy($tax->taxonomy)->label
 					];
 				}, get_terms(['taxonomy' => $taxonomy, 'lang' => '']));
 
 				if (empty($local_terms)) {
 					continue;
 				}
-
-				$terms[] = [
-					'id' => $taxonomy,
-					'name' => $taxonomy,
-					'group' => get_taxonomy($taxonomy)->label
-				];
 
 				$terms = array_merge($terms, $local_terms);
 			}
@@ -268,24 +361,6 @@ class ThemeIntegration {
 			]);
 		});
 
-		add_filter(
-			'blocksy_add_menu_page',
-			function ($res, $options) {
-				add_menu_page(
-					$options['title'],
-					$options['menu-title'],
-					$options['permision'],
-					$options['top-level-handle'],
-					$options['callback'],
-					$options['icon-url'],
-					2
-				);
-
-				return true;
-			},
-			10, 2
-		);
-
 		add_action('rest_api_init', function () {
 			return;
 
@@ -349,11 +424,15 @@ class ThemeIntegration {
 				$default_height = 100;
 				$default_width = 100;
 
-				$dimensions = $this->svg_dimensions(get_attached_file($attachment_id));
+				$maybe_file = get_attached_file($attachment_id);
 
-				if ($dimensions) {
-					$default_height = $dimensions['height'];
-					$default_width = $dimensions['width'];
+				if ($maybe_file) {
+					$dimensions = $this->svg_dimensions($maybe_file);
+
+					if ($dimensions) {
+						$default_height = $dimensions['height'];
+						$default_width = $dimensions['width'];
+					}
 				}
 
 				$image[2] = $default_height;
@@ -393,6 +472,8 @@ class ThemeIntegration {
 					}
 
 					if (
+						function_exists('blc_fs')
+						&&
 						blc_fs()->can_use_premium_code()
 						&&
 						BLOCKSY_PATH . '/framework/premium/changelog.txt'
@@ -434,6 +515,10 @@ class ThemeIntegration {
 		add_action(
 			'customize_preview_init',
 			function () {
+				if (! function_exists('get_plugin_data')){
+					require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+				}
+
 				$data = get_plugin_data(BLOCKSY__FILE__);
 
 				wp_enqueue_script(
@@ -447,33 +532,88 @@ class ThemeIntegration {
 		);
 	}
 
-	protected function svg_dimensions($svg) {
-		$svg = @simplexml_load_file($svg);
+	public function svg_dimensions($svg) {
+		$svg = file_get_contents($svg);
+
+		$attributes = new \stdClass();
+
+		if ($svg && function_exists('simplexml_load_string')) {
+			$svg = @simplexml_load_string($svg);
+
+			if ($svg) {
+				$attributes = $svg->attributes();
+			}
+		}
+
+		if (
+			! isset($attributes->width)
+			&&
+			$svg
+			&&
+			function_exists('xml_parser_create')
+		) {
+			$xml = xml_parser_create('UTF-8');
+
+			$svgData = new \stdClass();
+
+			xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, false);
+			xml_set_element_handler(
+				$xml,
+				function ($parser, $name, $attrs) use (&$svgData) {
+					if ($name === 'SVG') {
+						if (isset($attrs['WIDTH'])) {
+							$attrs['width'] = $attrs['WIDTH'];
+						}
+
+						if (isset($attrs['HEIGHT'])) {
+							$attrs['height'] = $attrs['HEIGHT'];
+						}
+
+						if (isset($attrs['VIEWBOX'])) {
+							$attrs['viewBox'] = $attrs['VIEWBOX'];
+						}
+
+						foreach ($attrs as $key => $value) {
+							$svgData->{$key} = $value;
+						}
+					}
+				},
+				'tag_close'
+			);
+
+			if (xml_parse($xml, $svg, true)) {
+				$attributes = $svgData;
+			}
+
+			xml_parser_free($xml);
+		}
+
+
 		$width = 0;
 		$height = 0;
 
-		if ($svg) {
-			$attributes = $svg->attributes();
+		if (empty($attributes)) {
+			return false;
+		}
 
-			if (
-				isset($attributes->width, $attributes->height)
-				&&
-				is_numeric($attributes->width)
-				&&
-				is_numeric($attributes->height)
-			) {
-				$width = floatval($attributes->width);
-				$height = floatval($attributes->height);
-			} elseif (isset($attributes->viewBox)) {
-				$sizes = explode(' ', $attributes->viewBox);
+		if (
+			isset($attributes->width, $attributes->height)
+			&&
+			is_numeric($attributes->width)
+			&&
+			is_numeric($attributes->height)
+		) {
+			$width = floatval($attributes->width);
+			$height = floatval($attributes->height);
+		} elseif (isset($attributes->viewBox)) {
+			$sizes = explode(' ', $attributes->viewBox);
 
-				if (isset($sizes[2], $sizes[3])) {
-					$width = floatval($sizes[2]);
-					$height = floatval($sizes[3]);
-				}
-			} else {
-				return false;
+			if (isset($sizes[2], $sizes[3])) {
+				$width = floatval($sizes[2]);
+				$height = floatval($sizes[3]);
 			}
+		} else {
+			return false;
 		}
 
 		return [

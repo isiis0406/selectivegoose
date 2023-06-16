@@ -84,6 +84,7 @@ const Select = ({
 
 	return (
 		<Downshift
+			key={maybeSelectedItem?.key || 'downshift'}
 			onInputValueChange={(value) => {
 				onInputValueChange(value)
 			}}
@@ -208,7 +209,7 @@ const Select = ({
 				return (
 					<div
 						className={classnames(
-							'ct-select-input 1',
+							'ct-select-input',
 							inputClassName
 						)}>
 						{selectInputStart && selectInputStart()}

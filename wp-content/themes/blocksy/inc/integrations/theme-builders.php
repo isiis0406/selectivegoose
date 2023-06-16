@@ -59,8 +59,12 @@ if (! function_exists('blocksy_output_header')) {
 			}
 		}
 
-		$blocksy_has_default_header = true;
-		echo Blocksy_Manager::instance()->header_builder->render();
+		$header_result = Blocksy_Manager::instance()->header_builder->render();
+
+		if (! empty($header_result)) {
+			$blocksy_has_default_header = true;
+			echo $header_result;
+		}
 	}
 }
 

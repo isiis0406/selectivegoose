@@ -78,7 +78,9 @@ if (! function_exists('blocksy_main_menu_fallback')) {
 						[
 							'class' => 'ct-toggle-dropdown-desktop-ghost',
 							'aria-label' => __('Expand dropdown menu', 'blocksy'),
-							'aria-expanded' => 'false'
+							'aria-haspopup' => 'true',
+							'aria-expanded' => 'false',
+							'role' => 'menuitem'
 						],
 						''
 					);
@@ -89,6 +91,7 @@ if (! function_exists('blocksy_main_menu_fallback')) {
 					[
 						'class' => 'ct-toggle-dropdown-mobile',
 						'aria-label' => __('Expand dropdown menu', 'blocksy'),
+						'aria-haspopup' => 'true',
 						'aria-expanded' => 'false'
 					],
 					blocksy_menu_get_child_svgs()['mobile-toggle-' . $child_indicator_type]
@@ -237,7 +240,9 @@ if (! function_exists('blocksy_handle_nav_menu_start_el')) {
 					[
 						'class' => $toggle_ghost_class,
 						'aria-label' => __('Expand dropdown menu', 'blocksy'),
-						'aria-expanded' => 'false'
+						'aria-haspopup' => 'true',
+						'aria-expanded' => 'false',
+						'role' => 'menuitem'
 					],
 					$toggle_ghost_content
 				);
@@ -314,6 +319,22 @@ add_filter(
 	10, 5
 );
 
+add_filter('wp_nav_menu_items', function ($item_output, $args) {
+	if (
+		! isset($args->blocksy_advanced_item)
+		||
+		! $args->blocksy_advanced_item
+	) {
+		return $item_output;
+	}
+
+	return preg_replace(
+		'/(<li\b[^><]*)>/i',
+		'$1 role="none">',
+		$item_output
+	);
+}, 10, 2);
+
 add_filter(
 	'nav_menu_css_class',
 	function ($classes, $item, $args, $depth) {
@@ -348,6 +369,36 @@ add_filter(
 	50, 4
 );
 
+add_filter('wp_nav_menu', function ($nav_menu, $args) {
+	if (
+		! isset($args->blocksy_advanced_item)
+		||
+		! $args->blocksy_advanced_item
+	) {
+		return $nav_menu;
+	}
+
+	$nav_menu = str_replace(
+		'class="sub-menu"',
+		'class="sub-menu" role="menu"',
+		$nav_menu
+	);
+
+	$nav_menu = str_replace(
+		'class="menu"',
+		'class="menu" role="menubar"',
+		$nav_menu
+	);
+
+	$nav_menu = preg_replace(
+		'/(<ul\b[^><]*) class="">/i',
+		'$1 role="menubar">',
+		$nav_menu
+	);
+
+	return $nav_menu;
+}, 10, 2);
+
 add_filter(
 	'nav_menu_link_attributes',
 	function ($attr, $item, $args, $depth) {
@@ -377,14 +428,30 @@ add_filter(
 
 		$attr['class'] = trim($attr['class']);
 
+		$attr['role'] = 'menuitem';
+
 		if (isset($args->skip_ghost)) {
-			$attr['aria-expanded'] = 'false';
+			$item_classes = '';
+
+			if ($item && isset($item->classes) && is_array($item->classes)) {
+				$item_classes = implode(' ', $item->classes);
+			}
+
+			if (
+				strpos($item_classes, 'has-children') !== false
+				||
+				strpos($item_classes, 'has_children') !== false
+			) {
+				$attr['aria-haspopup'] = 'true';
+				$attr['aria-expanded'] = 'false';
+			}
 		}
 
 		return $attr;
 	},
 	5, 4
 );
+
 add_filter(
 	'page_menu_link_attributes',
 	function ($attr, $item, $depth, $args) {
@@ -407,6 +474,7 @@ add_filter(
 		$attr['class'] = trim($attr['class']);
 
 		if (isset($args['skip_ghost'])) {
+			$attr['aria-haspopup'] = 'true';
 			$attr['aria-expanded'] = 'false';
 		}
 

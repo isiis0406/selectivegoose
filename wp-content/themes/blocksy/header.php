@@ -22,6 +22,12 @@
 	<?php do_action('blocksy:head:end') ?>
 </head>
 
+<?php
+	ob_start();
+	blocksy_output_header();
+	$global_header = ob_get_clean();
+?>
+
 <body <?php body_class(); ?> <?php echo blocksy_body_attr() ?>>
 
 <a class="skip-link show-on-focus" href="<?php echo apply_filters('blocksy:head:skip-to-content:href', '#main') ?>">
@@ -29,10 +35,6 @@
 </a>
 
 <?php
-	ob_start();
-	blocksy_output_header();
-	$global_header = ob_get_clean();
-
 	if (function_exists('wp_body_open')) {
 		wp_body_open();
 	}

@@ -81,10 +81,18 @@ echo $before_widget;
 echo '<div class="ct-widget-inner"' . $data_alignment . '' . $data_container . '>';
 
 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-echo $before_title . wp_kses_post($title) . $after_title;
+if (! empty(trim($title))) {
+	echo $before_title . wp_kses_post($title) . $after_title;
+}
 
 
 ?>
+
+	<?php if (! empty($message)) { ?>
+		<p class="ct-newsletter-subscribe-description">
+			<?php echo wp_kses_post($message) ?>
+		</p>
+	<?php } ?>
 
 	<form
 		action="<?php echo esc_attr($form_url) ?>"
@@ -94,30 +102,24 @@ echo $before_title . wp_kses_post($title) . $after_title;
 		data-provider="<?php echo $provider_data['provider'] ?>"
 		<?php echo $skip_submit_output ?>>
 
-	<?php if (! empty($message)) { ?>
-		<div class="ct-newsletter-subscribe-description">
-			<?php echo wp_kses_post($message) ?>
-		</div>
-	<?php } ?>
+		<?php if ($has_name) { ?>
+			<input type="text" name="FNAME" placeholder="<?php esc_attr_e($name_label, 'blocksy-companion'); ?>" title="<?php echo __('Name', 'blocksy') ?>">
+		<?php } ?>
 
-	<?php if ($has_name) { ?>
-		<input type="text" name="FNAME" placeholder="<?php esc_attr_e($name_label, 'blocksy-companion'); ?>" title="<?php echo __('Name', 'blocksy') ?>" />
-	<?php } ?>
+		<input type="email" name="EMAIL" placeholder="<?php esc_attr_e($email_label, 'blocksy-companion'); ?> *" title="<?php echo __('Email', 'blocksy') ?>" required>
 
-	<input type="email" name="EMAIL" placeholder="<?php esc_attr_e($email_label, 'blocksy-companion'); ?> *" title="<?php echo __('Email', 'blocksy') ?>" required />
+		<?php
+			if (function_exists('blocksy_ext_cookies_checkbox')) {
+				echo blocksy_ext_cookies_checkbox('newsletter-subscribe');
+			}
+		?>
 
-	<button class="button">
-		<?php echo esc_html($button_text) ?>
-	</button>
+		<button class="button">
+			<?php echo esc_html($button_text) ?>
+		</button>
 
-	<div class="ct-newsletter-subscribe-message"></div>
-
-	<?php
-		if (function_exists('blocksy_ext_cookies_checkbox')) {
-			echo blocksy_ext_cookies_checkbox('newsletter-subscribe');
-		}
-	?>
-</form>
+		<div class="ct-newsletter-subscribe-message"></div>
+	</form>
 
 </div>
 

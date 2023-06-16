@@ -1,8 +1,5 @@
 import ctEvents from 'ct-events'
-import {
-	getCache,
-	handleResponsiveSwitch,
-} from '../../../../static/js/customizer/sync/helpers'
+import { handleResponsiveSwitch } from '../../../../static/js/customizer/sync/helpers'
 import { updateAndSaveEl } from '../../../../static/js/customizer/sync'
 import {
 	responsiveClassesFor,
@@ -37,16 +34,6 @@ ctEvents.on(
 				responsive: true,
 				important: true,
 			},
-
-			socialsLabelVisibility: handleResponsiveSwitch({
-				selector: assembleSelector(
-					mutateSelector({
-						selector: getRootSelectorFor({ itemId }),
-						operation: 'suffix',
-						to_add: '.ct-label',
-					})
-				),
-			}),
 
 			...typographyOption({
 				id: 'socials_label_font',
@@ -408,23 +395,10 @@ ctEvents.on(
 			)
 		}
 
-		if (optionId === 'header_socials') {
+		if (optionId === 'socialsLabelVisibility') {
 			updateAndSaveEl(selector, (el) => {
-				const newHtml = getCache().querySelector(
-					`.ct-customizer-preview-cache [data-id="socials-general-cache"]`
-				).innerHTML
-
-				const cache = document.createElement('div')
-				cache.innerHTML = newHtml
-
-				el.querySelector('.ct-social-box').innerHTML = ''
-
-				optionValue.map(({ id, enabled }) => {
-					if (!enabled) return
-
-					el.querySelector('.ct-social-box').appendChild(
-						cache.querySelector(`[data-network=${id}]`)
-					)
+				;[...el.querySelectorAll('.ct-label')].map((label) => {
+					responsiveClassesFor(optionValue, label)
 				})
 			})
 		}
@@ -433,33 +407,6 @@ ctEvents.on(
 			updateAndSaveEl(selector, (el) =>
 				responsiveClassesFor({ ...optionValue, desktop: true }, el)
 			)
-		}
-
-		if (
-			optionId === 'header_socials' ||
-			optionId === 'socialsLabelVisibility'
-		) {
-			const socialsLabelVisibility = values.socialsLabelVisibility || {
-				desktop: false,
-				tablet: false,
-				mobile: false,
-			}
-
-			updateAndSaveEl(selector, (el) => {
-				if (
-					socialsLabelVisibility.desktop ||
-					socialsLabelVisibility.tablet ||
-					socialsLabelVisibility.mobile
-				) {
-					;[...el.querySelectorAll('span.ct-label')].map((el) =>
-						el.removeAttribute('hidden')
-					)
-				} else {
-					;[...el.querySelectorAll('span.ct-label')].map((el) =>
-						el.setAttribute('hidden', '')
-					)
-				}
-			})
 		}
 	}
 )

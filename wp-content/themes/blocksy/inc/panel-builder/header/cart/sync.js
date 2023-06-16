@@ -9,6 +9,8 @@ import {
 } from '../../../../static/js/customizer/sync/helpers'
 import { typographyOption } from '../../../../static/js/customizer/sync/variables/typography'
 
+import $ from 'jquery'
+
 ctEvents.on(
 	'ct:header:sync:collect-variable-descriptors',
 	(variableDescriptors) => {
@@ -484,6 +486,18 @@ ctEvents.on(
 				},
 			],
 
+			cart_panel_close_button_icon_size: {
+				selector: '#woo-cart-panel .ct-toggle-close',
+				variable: 'icon-size',
+				unit: 'px',
+			},
+
+			cart_panel_close_button_border_radius: {
+				selector: '#woo-cart-panel .ct-toggle-close',
+				variable: 'toggle-button-radius',
+				unit: 'px',
+			},
+
 			headerCartMargin: {
 				selector: assembleSelector(getRootSelectorFor({ itemId })),
 				type: 'spacing',
@@ -546,9 +560,11 @@ ctEvents.on('ct:header:sync:item:cart', ({ optionId, optionValue, values }) => {
 
 	if (optionId === 'has_cart_badge') {
 		updateAndSaveEl(selector, (el) => {
-			el.firstElementChild.removeAttribute('data-skip-badge')
+			const targetCounter = el.getElementsByClassName('ct-dynamic-count-cart')[0]
+			targetCounter.dataset.count = targetCounter.innerText
+
 			if (optionValue === 'yes') return
-			el.firstElementChild.dataset.skipBadge = ''
+			targetCounter.dataset.count = 0
 		})
 	}
 

@@ -14,7 +14,7 @@ use WooCommerce\PayPalCommerce\ApiClient\Helper\DccApplies;
 use WooCommerce\PayPalCommerce\Button\Helper\MessagesApply;
 use WooCommerce\PayPalCommerce\Onboarding\State;
 use WooCommerce\PayPalCommerce\WcGateway\Gateway\CreditCardGateway;
-use Psr\Container\ContainerInterface;
+use WooCommerce\PayPalCommerce\Vendor\Psr\Container\ContainerInterface;
 use WooCommerce\PayPalCommerce\WcGateway\Helper\DCCProductStatus;
 use WooCommerce\PayPalCommerce\WcGateway\Gateway\PayPalGateway;
 use WooCommerce\PayPalCommerce\WcGateway\Helper\SettingsStatus;
@@ -32,6 +32,13 @@ class SettingsRenderer {
 	 * @var SettingsStatus
 	 */
 	protected $settings_status;
+
+	/**
+	 * The api shop country.
+	 *
+	 * @var string
+	 */
+	protected $api_shop_country;
 
 	/**
 	 * The settings.
@@ -93,6 +100,7 @@ class SettingsRenderer {
 	 * @param DCCProductStatus   $dcc_product_status The product status.
 	 * @param SettingsStatus     $settings_status The Settings status helper.
 	 * @param string             $page_id ID of the current PPCP gateway settings page, or empty if it is not such page.
+	 * @param string             $api_shop_country The api shop country.
 	 */
 	public function __construct(
 		ContainerInterface $settings,
@@ -102,7 +110,8 @@ class SettingsRenderer {
 		MessagesApply $messages_apply,
 		DCCProductStatus $dcc_product_status,
 		SettingsStatus $settings_status,
-		string $page_id
+		string $page_id,
+		string $api_shop_country
 	) {
 
 		$this->settings           = $settings;
@@ -113,6 +122,7 @@ class SettingsRenderer {
 		$this->dcc_product_status = $dcc_product_status;
 		$this->settings_status    = $settings_status;
 		$this->page_id            = $page_id;
+		$this->api_shop_country   = $api_shop_country;
 	}
 
 	/**
@@ -123,26 +133,6 @@ class SettingsRenderer {
 	public function messages() : array {
 
 		$messages = array();
-
-		if ( $this->can_display_vaulting_admin_message() ) {
-
-			$vaulting_title           = __( 'PayPal vaulting', 'woocommerce-paypal-payments' );
-			$pay_later_messages_title = __( 'Pay Later Messaging', 'woocommerce-paypal-payments' );
-
-			$enabled  = $this->paypal_vaulting_is_enabled() ? $vaulting_title : $pay_later_messages_title;
-			$disabled = $this->settings_status->pay_later_messaging_is_enabled() ? $vaulting_title : $pay_later_messages_title;
-
-			$pay_later_messages_or_vaulting_text = sprintf(
-				// translators: %1$s and %2$s is translated PayPal vaulting and Pay Later Messaging strings.
-				__(
-					'You have %1$s enabled, that\'s why %2$s options are unavailable now. You cannot use both features at the same time.',
-					'woocommerce-paypal-payments'
-				),
-				$enabled,
-				$disabled
-			);
-			$messages[] = new Message( $pay_later_messages_or_vaulting_text, 'warning' );
-		}
 
         //phpcs:disable WordPress.Security.NonceVerification.Recommended
         //phpcs:disable WordPress.Security.NonceVerification.Missing
@@ -174,9 +164,9 @@ class SettingsRenderer {
 	}
 
 	/**
-	 * Check if current screen is PayPal checkout settings screen.
+	 * Check if current screen is Standard Payments settings screen.
 	 *
-	 * @return bool Whether is PayPal checkout screen or not.
+	 * @return bool Whether is Standard Payments screen or not.
 	 */
 	private function is_paypal_checkout_screen(): bool {
 		return PayPalGateway::ID === $this->page_id;
@@ -368,7 +358,7 @@ $data_rows_html
 	/**
 	 * Renders the settings.
 	 */
-	public function render() {
+	public function render(): void {
 
 		$is_dcc = CreditCardGateway::ID === $this->page_id;
 		//phpcs:enable WordPress.Security.NonceVerification.Recommended
@@ -401,14 +391,14 @@ $data_rows_html
 				continue;
 			}
 			if (
-				in_array( 'dcc', $config['requirements'], true )
-				&& ! $this->dcc_product_status->dcc_is_active()
+				in_array( 'messages', $config['requirements'], true )
+				&& ! $this->messages_apply->for_country()
 			) {
 				continue;
 			}
 			if (
-				in_array( 'messages', $config['requirements'], true )
-				&& ! $this->messages_apply->for_country()
+				in_array( 'pui_ready', $config['requirements'], true )
+				&& $this->api_shop_country !== 'DE'
 			) {
 				continue;
 			}
@@ -452,6 +442,10 @@ $data_rows_html
 
 				<?php if ( $description ) : ?>
 				<p class="<?php echo 'ppcp-heading' === $config['type'] ? '' : 'description'; ?>"><?php echo wp_kses_post( $description ); ?></p>
+				<?php endif; ?>
+
+				<?php if ( isset( $config['description_with_tip'] ) && $config['description_with_tip'] ) : ?>
+					<p class="<?php echo 'description'; ?>"><?php echo wp_kses_post( $config['description_with_tip'] ); ?></p>
 				<?php endif; ?>
 			</td>
 		</tr>
@@ -520,7 +514,7 @@ $data_rows_html
 	/**
 	 * Renders the DCC onboarding info.
 	 */
-	private function render_dcc_onboarding_info() {
+	private function render_dcc_onboarding_info(): void {
 		?>
 <tr>
 	<th><?php esc_html_e( 'Onboarding', 'woocommerce-paypal-payments' ); ?></th>
@@ -528,7 +522,7 @@ $data_rows_html
 	<p>
 		<?php
 			esc_html_e(
-				'You need to complete your onboarding, before you can use the PayPal Card Processing option.',
+				'You need to complete your onboarding, before you can use the Advanced Card Processing option.',
 				'woocommerce-paypal-payments'
 			);
 		?>
@@ -584,7 +578,7 @@ $data_rows_html
 		}
 
 		return $this->is_paypal_checkout_screen()
-			&& ( $this->paypal_vaulting_is_enabled() || $this->settings_status->pay_later_messaging_is_enabled() );
+			&& ( $this->paypal_vaulting_is_enabled() || $this->settings_status->is_pay_later_messaging_enabled() );
 	}
 }
 

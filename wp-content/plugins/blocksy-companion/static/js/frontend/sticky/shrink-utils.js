@@ -4,9 +4,67 @@ export const computeLinearScale = (domain, range, value) =>
 	range[0] +
 	((range[1] - range[0]) / (domain[1] - domain[0])) * (value - domain[0])
 
-const getRowInitialMinHeight = (el) => {
+export const getRowInitialMinHeight = (el) => {
 	const elComp = getComputedStyle(el)
-	return parseFloat(elComp.getPropertyValue('--height'))
+	let containerStyles = getComputedStyle(el.firstElementChild)
+
+	let borderHeight =
+		parseFloat(elComp.borderTopWidth) +
+		parseFloat(elComp.borderBottomWidth) +
+		parseFloat(containerStyles.borderTopWidth) +
+		parseFloat(containerStyles.borderBottomWidth)
+
+	let rowHeight = parseFloat(elComp.getPropertyValue('--height'))
+
+	if (el.querySelector('[data-items] > [data-id="logo"]')) {
+		const logoComp = getComputedStyle(
+			el.querySelector('[data-items] > [data-id="logo"]')
+		)
+
+		let logoHeight = parseFloat(logoComp.height)
+
+		let marginHeight =
+			parseFloat(logoComp.marginTop) + parseFloat(logoComp.marginBottom)
+
+		logoHeight = logoHeight + marginHeight
+
+		if (el.querySelector('.site-logo-container')) {
+			const logoImgComp = getComputedStyle(
+				el.querySelector('.site-logo-container')
+			)
+
+			let maybeShrink = parseFloat(
+				logoImgComp.getPropertyValue('--logo-shrink-height') || 0
+			)
+
+			if (maybeShrink > 0) {
+				logoHeight =
+					logoHeight -
+					maybeShrink +
+					parseFloat(
+						logoImgComp.getPropertyValue('--logo-max-height') || 50
+					)
+			}
+		}
+
+		if (logoHeight > rowHeight) {
+			rowHeight = logoHeight
+		}
+	}
+
+	if (el.querySelector('[data-items] > [data-id*="widget-area"]')) {
+		const widgetAreaComp = getComputedStyle(
+			el.querySelector('[data-items] > [data-id*="widget-area"]')
+		)
+
+		let widgetAreaHeight = parseFloat(widgetAreaComp.height)
+
+		if (widgetAreaHeight > rowHeight) {
+			rowHeight = widgetAreaHeight
+		}
+	}
+
+	return rowHeight + borderHeight
 }
 
 export const getRowInitialHeight = (el) => {
@@ -14,16 +72,51 @@ export const getRowInitialHeight = (el) => {
 		return el.blcInitialHeight
 	}
 
-	let initialHeight = el.firstElementChild.firstElementChild.getBoundingClientRect()
-		.height
+	let elToCheck = el.firstElementChild
+
+	if (el.firstElementChild.firstElementChild) {
+		elToCheck = el.firstElementChild.firstElementChild
+	}
+
+	let initialHeight = elToCheck.getBoundingClientRect().height
 
 	el.blcInitialHeight = initialHeight
 
 	return initialHeight
 }
 
-export const getRowStickyHeight = (el) => {
+export const getRowStickyHeight = (el, hasBorder = true) => {
+	if (el.blcStickyHeight) {
+		return el.blcStickyHeight
+	}
+
+	let rowStickyHeight = getRowInitialHeight(el)
+
 	let styles = getComputedStyle(el)
+	let containerStyles = getComputedStyle(el.firstElementChild)
+
+	if (el.closest('[data-sticky*="yes"]')) {
+		let borderHeight =
+			parseFloat(styles.borderTopWidth) +
+			parseFloat(styles.borderBottomWidth) +
+			parseFloat(containerStyles.borderTopWidth) +
+			parseFloat(containerStyles.borderBottomWidth)
+
+		if (!hasBorder) {
+			borderHeight = 0
+		}
+
+		let stickyHeight = el.getBoundingClientRect().height - borderHeight
+
+		if (
+			stickyHeight !== rowStickyHeight ||
+			// case when content is forcing the initial height to be bigger
+			rowStickyHeight > getRowInitialMinHeight(el)
+		) {
+			el.blcStickyHeight = el.getBoundingClientRect().height
+			return stickyHeight
+		}
+	}
 
 	let maybeShrink = 100
 
@@ -31,7 +124,6 @@ export const getRowStickyHeight = (el) => {
 		maybeShrink = styles.getPropertyValue('--sticky-shrink')
 	}
 
-	let rowStickyHeight = getRowInitialHeight(el)
 	let finalInitialHeight = 0
 
 	// if (el.querySelector('.site-logo-container')) {
@@ -68,4 +160,14 @@ export const getRowStickyHeight = (el) => {
 	}
 
 	return rowStickyHeight
+}
+
+export const maybeSetStickyHeightAnimated = (cb = () => 0) => {
+	const maybeFloatingCart = document.querySelector('.ct-floating-bar')
+
+	if (!maybeFloatingCart) {
+		return
+	}
+
+	maybeFloatingCart.style.setProperty('--header-sticky-height-animated', cb())
 }

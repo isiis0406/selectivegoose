@@ -9,7 +9,7 @@ namespace Automattic\WooCommerce\Admin\API\Reports\Products\Stats;
 
 defined( 'ABSPATH' ) || exit;
 
-use \Automattic\WooCommerce\Admin\API\Reports\ParameterException;
+use Automattic\WooCommerce\Admin\API\Reports\ParameterException;
 
 /**
  * REST API Reports products stats controller class.
@@ -424,6 +424,12 @@ class Controller extends \WC_REST_Reports_Controller {
 			'items'             => array(
 				'type' => 'string',
 			),
+		);
+		$params['force_cache_refresh'] = array(
+			'description'       => __( 'Force retrieval of fresh data instead of from the cache.', 'woocommerce' ),
+			'type'              => 'boolean',
+			'sanitize_callback' => 'wp_validate_boolean',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		return $params;

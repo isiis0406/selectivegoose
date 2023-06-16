@@ -742,16 +742,6 @@ export const handleMenuOptions = ({
 				(el.dataset.dropdown = `${dropdown_animation}:${dropdown_items_type}`)
 		)
 	}
-
-	if (optionId === 'stretch_menu') {
-		updateAndSaveEl(selector, (el) => {
-			el.removeAttribute('data-stretch')
-
-			if (optionValue === 'yes') {
-				el.dataset.stretch = ''
-			}
-		})
-	}
 }
 
 ctEvents.on('ct:header:sync:item:menu', (changeDescriptor) => {

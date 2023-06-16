@@ -100,7 +100,7 @@ watchOptionsWithPrefix({
 		if (id === `${prefix}_related_featured_image_ratio`) {
 			Array.from(
 				document.querySelectorAll(
-					'.ct-related-posts .ct-image-container .ct-ratio'
+					'.ct-related-posts .ct-image-container'
 				)
 			).map((el) => {
 				setRatioFor(

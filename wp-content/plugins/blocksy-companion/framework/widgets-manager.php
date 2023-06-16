@@ -99,12 +99,22 @@ class BlocksyWidgetFactory extends WP_Widget {
 	public function widget($args, $instance) {
 		$file_path = $this->get_path() . '/view.php';
 
-		if ( ! file_exists( $file_path ) ) {
+		if (! file_exists($file_path)) {
 			echo '<p>Default widget view. Please create a <i>view.php</i> file.</p>';
 			return;
 		}
 
+		$widget_title = '';
+
+		if (isset($instance['title'])) {
+			$widget_title = $instance['title'];
+		}
+
 		$instance = blocksy_akg('ct_options', $instance, []);
+
+		if (isset($instance['title']) && ! empty($widget_title)) {
+			$instance['title'] = apply_filters('widget_title', $widget_title);
+		}
 
 		if (! $instance) {
 			$instance = [];
@@ -124,7 +134,7 @@ class BlocksyWidgetFactory extends WP_Widget {
 	public function read_options() {
 		$options = null;
 
-		if ( file_exists( $this->get_path() . '/options.php' ) ) {
+		if (file_exists($this->get_path() . '/options.php')) {
 			$options = blocksy_akg(
 				'options',
 				blc_call_fn(
@@ -135,7 +145,7 @@ class BlocksyWidgetFactory extends WP_Widget {
 			);
 		}
 
-		if ( $options ) {
+		if ($options) {
 			$this->options = $options;
 		} else {
 			$this->options = [
@@ -167,21 +177,31 @@ class BlocksyWidgetFactory extends WP_Widget {
 
 		$new_instance[$this->prefix]['ct_options'] = $to_save;
 
+		if (isset($to_save['title'])) {
+			$new_instance[$this->prefix]['title'] = $to_save['title'];
+		}
+
 		return $new_instance[$this->prefix];
 	}
 
 	public function form($values) {
 		$this->read_options();
 
+		$atts = blocksy_akg('ct_options', $values);
+
+		if (isset($values['title']) && isset($atts['title'])) {
+			$atts['title'] = $values['title'];
+		}
+
 		echo blc_call_fn(
 			['fn' => 'blocksy_output_options_panel'],
 			[
 				'options' => $this->options,
-				'values' => blocksy_akg('ct_options', $values),
+				'values' => $atts,
 				'id_prefix' => 'ct-widget-options-' . $this->get_field_id(
 					$this->prefix
 				),
-				'name_prefix' => $this->get_field_name( $this->prefix ),
+				'name_prefix' => $this->get_field_name($this->prefix),
 				'attr' => [
 					'data-disable-reverse-button' => ''
 				]
@@ -191,18 +211,24 @@ class BlocksyWidgetFactory extends WP_Widget {
 		return $values;
 	}
 
-	private function blocksy_id_to_title( $id ) {
-		if ( function_exists( 'mb_strtoupper' ) && function_exists( 'mb_substr' ) && function_exists( 'mb_strlen' ) ) {
-			$id = mb_strtoupper( mb_substr( $id, 0, 1, 'UTF-8' ), 'UTF-8' ) . mb_substr(
+	private function blocksy_id_to_title($id) {
+		if (
+			function_exists('mb_strtoupper')
+			&&
+			function_exists('mb_substr')
+			&&
+			function_exists('mb_strlen')
+		) {
+			$id = mb_strtoupper(mb_substr($id, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr(
 				$id,
 				1,
-				mb_strlen( $id, 'UTF-8' ),
+				mb_strlen($id, 'UTF-8'),
 				'UTF-8'
 			);
 		} else {
-			$id = strtoupper( substr( $id, 0, 1 ) ) . substr( $id, 1, strlen( $id ) );
+			$id = strtoupper(substr($id, 0, 1)) . substr($id, 1, strlen($id));
 		}
 
-		return str_replace( array( '_', '-' ), ' ', $id );
+		return str_replace(array('_', '-'), ' ', $id);
 	}
 }

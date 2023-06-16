@@ -2,14 +2,28 @@
 
 if (! function_exists('blocksy_values_are_similar')) {
 	function blocksy_values_are_similar($actual, $expected) {
-		if (!is_array($expected) || !is_array($actual)) return $actual === $expected;
+		if (! is_array($expected) || ! is_array($actual)) {
+			return $actual === $expected;
+		}
 
 		foreach ($expected as $key => $value) {
-			if (! blocksy_values_are_similar($actual[$key], $expected[$key])) return false;
+			if (! isset($actual[$key]) && ! $value) {
+				$actual[$key] = $value;
+			}
+
+			if (! blocksy_values_are_similar($actual[$key], $expected[$key])) {
+				return false;
+			}
 		}
 
 		foreach ($actual as $key => $value) {
-			if (! blocksy_values_are_similar($actual[$key], $expected[$key])) return false;
+			if (! isset($expected[$key]) && ! $value) {
+				$expected[$key] = $value;
+			}
+
+			if (! blocksy_values_are_similar($actual[$key], $expected[$key])) {
+				return false;
+			}
 		}
 
 		return true;
@@ -145,7 +159,7 @@ if (! function_exists('blocksy_get_svg_pattern')) {
 }
 
 if (! function_exists('blocksy_output_background_css'))  {
-	function blocksy_output_background_css ($args = []) {
+	function blocksy_output_background_css($args = []) {
 		$args = wp_parse_args(
 			$args,
 			[
@@ -399,7 +413,11 @@ if (! function_exists('blocksy_output_single_background_css')) {
 		) {
 			$image_url = blocksy_maybe_append_important($image_url, $args['important']);
 
-			if ($overlayColor['default'] !== 'CT_CSS_SKIP_RULE') {
+			if (
+				$overlayColor['default'] !== 'CT_CSS_SKIP_RULE'
+				&&
+				$args['value']['background_type'] === 'image'
+			) {
 				$image_url = 'linear-gradient(' . $overlayColor['default'] . ', ' . $overlayColor['default'] . '), ' . $image_url;
 			}
 

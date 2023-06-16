@@ -28,18 +28,26 @@ ctEvents.on(
 				important: true,
 			},
 
+			trigger_border_radius: {
+				selector: assembleSelector(getRootSelectorFor({ itemId })),
+				variable: 'toggle-button-radius',
+				unit: 'px',
+			},
+
 			// default state
 			triggerIconColor: [
 				{
 					selector: assembleSelector(getRootSelectorFor({ itemId })),
 					variable: 'icon-color',
 					type: 'color:default',
+					responsive: true,
 				},
 
 				{
 					selector: assembleSelector(getRootSelectorFor({ itemId })),
 					variable: 'icon-hover-color',
 					type: 'color:hover',
+					responsive: true,
 				},
 			],
 
@@ -48,12 +56,14 @@ ctEvents.on(
 					selector: assembleSelector(getRootSelectorFor({ itemId })),
 					variable: 'secondColor',
 					type: 'color:default',
+					responsive: true,
 				},
 
 				{
 					selector: assembleSelector(getRootSelectorFor({ itemId })),
 					variable: 'secondColorHover',
 					type: 'color:hover',
+					responsive: true,
 				},
 			],
 
@@ -126,6 +136,7 @@ ctEvents.on(
 
 					variable: 'icon-color',
 					type: 'color:default',
+					responsive: true,
 				},
 
 				{
@@ -139,6 +150,7 @@ ctEvents.on(
 
 					variable: 'icon-hover-color',
 					type: 'color:hover',
+					responsive: true,
 				},
 			],
 
@@ -154,6 +166,7 @@ ctEvents.on(
 
 					variable: 'secondColor',
 					type: 'color:default',
+					responsive: true,
 				},
 
 				{
@@ -167,6 +180,7 @@ ctEvents.on(
 
 					variable: 'secondColorHover',
 					type: 'color:hover',
+					responsive: true,
 				},
 			],
 
@@ -210,6 +224,7 @@ ctEvents.on(
 					),
 					variable: 'icon-color',
 					type: 'color:default',
+					responsive: true,
 				},
 
 				{
@@ -222,6 +237,7 @@ ctEvents.on(
 					),
 					variable: 'icon-hover-color',
 					type: 'color:hover',
+					responsive: true,
 				},
 			],
 
@@ -236,6 +252,7 @@ ctEvents.on(
 					),
 					variable: 'secondColor',
 					type: 'color:default',
+					responsive: true,
 				},
 
 				{
@@ -248,6 +265,7 @@ ctEvents.on(
 					),
 					variable: 'secondColorHover',
 					type: 'color:hover',
+					responsive: true,
 				},
 			],
 		})

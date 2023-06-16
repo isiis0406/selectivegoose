@@ -3,14 +3,12 @@
 	> div {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-		border: var(--border);
-		overflow: hidden;
+		border-top: var(--border);
+		border-inline-start: var(--border);
 	}
 
 	a {
-		margin-right: -1px;
-		margin-bottom: -1px;
-		border-right: var(--border);
+		border-inline-end: var(--border);
 		border-bottom: var(--border);
 	}
 

@@ -171,6 +171,9 @@ class WPForms_Builder {
 		// Load builder panels.
 		$this->load_panels();
 
+		// Modify meta viewport tag if desktop view is forced.
+		add_filter( 'admin_viewport_meta', [ $this, 'viewport_meta' ] );
+
 		add_action( 'admin_head', [ $this, 'admin_head' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueues' ], PHP_INT_MAX );
 		add_action( 'admin_print_footer_scripts', [ $this, 'footer_scripts' ] );
@@ -226,7 +229,6 @@ class WPForms_Builder {
 				'imgareaselect',
 				'wp-mediaelement',
 				'mediaelement',
-				'media-views',
 				'buttons',
 				'admin-bar',
 			]
@@ -351,28 +353,28 @@ class WPForms_Builder {
 		 */
 		wp_enqueue_style(
 			'wpforms-font-awesome',
-			WPFORMS_PLUGIN_URL . 'assets/css/font-awesome.min.css',
+			WPFORMS_PLUGIN_URL . 'assets/lib/font-awesome/font-awesome.min.css',
 			null,
 			'4.7.0'
 		);
 
 		wp_enqueue_style(
 			'tooltipster',
-			WPFORMS_PLUGIN_URL . 'assets/css/tooltipster.css',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.tooltipster/jquery.tooltipster.min.css',
 			null,
 			'4.2.6'
 		);
 
 		wp_enqueue_style(
 			'jquery-confirm',
-			WPFORMS_PLUGIN_URL . 'assets/css/jquery-confirm.min.css',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.confirm/jquery-confirm.min.css',
 			null,
-			'3.3.2'
+			'3.3.4'
 		);
 
 		wp_enqueue_style(
 			'minicolors',
-			WPFORMS_PLUGIN_URL . 'assets/css/jquery.minicolors.css',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.minicolors/jquery.minicolors.min.css',
 			null,
 			'2.2.6'
 		);
@@ -390,58 +392,58 @@ class WPForms_Builder {
 
 		wp_enqueue_script(
 			'tooltipster',
-			WPFORMS_PLUGIN_URL . 'assets/js/jquery.tooltipster.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.tooltipster/jquery.tooltipster.min.js',
 			[ 'jquery' ],
 			'4.2.6'
 		);
 
 		wp_enqueue_script(
 			'jquery-confirm',
-			WPFORMS_PLUGIN_URL . 'assets/js/jquery.jquery-confirm.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.confirm/jquery-confirm.min.js',
 			[ 'jquery' ],
-			'3.3.2'
+			'3.3.4'
 		);
 
 		wp_enqueue_script(
 			'insert-at-caret',
-			WPFORMS_PLUGIN_URL . 'assets/js/jquery.insert-at-caret.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.insert-at-caret.min.js',
 			[ 'jquery' ],
 			'1.1.4'
 		);
 
 		wp_enqueue_script(
 			'minicolors',
-			WPFORMS_PLUGIN_URL . 'assets/js/jquery.minicolors.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.minicolors/jquery.minicolors.min.js',
 			[ 'jquery' ],
 			'2.2.6'
 		);
 
 		wp_enqueue_script(
 			'conditionals',
-			WPFORMS_PLUGIN_URL . 'assets/js/jquery.conditionals.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.conditionals.min.js',
 			[ 'jquery' ],
-			'1.0.0'
+			'1.0.1'
 		);
 
 		wp_enqueue_script(
 			'choicesjs',
-			WPFORMS_PLUGIN_URL . 'assets/js/choices.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/choices.min.js',
 			[],
 			'9.0.1'
 		);
 
 		wp_enqueue_script(
 			'listjs',
-			WPFORMS_PLUGIN_URL . 'assets/js/list.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/list.min.js',
 			[ 'jquery' ],
 			'2.3.0'
 		);
 
 		wp_enqueue_script(
 			'dom-purify',
-			WPFORMS_PLUGIN_URL . 'assets/js/purify.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/purify.min.js',
 			[],
-			'2.3.6'
+			'3.0.1'
 		);
 
 		if ( wp_is_mobile() ) {
@@ -456,9 +458,32 @@ class WPForms_Builder {
 		);
 
 		wp_enqueue_script(
+			'wpforms-generic-utils',
+			WPFORMS_PLUGIN_URL . "assets/js/utils{$min}.js",
+			[ 'jquery' ],
+			WPFORMS_VERSION
+		);
+
+		wp_enqueue_script(
+			'wpforms-builder-choicesjs',
+			WPFORMS_PLUGIN_URL . "assets/js/admin/builder/wpforms-choicesjs{$min}.js",
+			[ 'jquery', 'choicesjs' ],
+			WPFORMS_VERSION
+		);
+
+		wp_enqueue_script(
 			'wpforms-builder',
 			WPFORMS_PLUGIN_URL . "assets/js/admin-builder{$min}.js",
-			[ 'wpforms-utils', 'wpforms-admin-builder-templates', 'jquery-ui-sortable', 'jquery-ui-draggable', 'tooltipster', 'jquery-confirm' ],
+			[
+				'wpforms-utils',
+				'wpforms-admin-builder-templates',
+				'jquery-ui-sortable',
+				'jquery-ui-draggable',
+				'tooltipster',
+				'jquery-confirm',
+				'choicesjs',
+				'wpforms-builder-choicesjs',
+			],
 			WPFORMS_VERSION
 		);
 
@@ -474,12 +499,6 @@ class WPForms_Builder {
 			'wpforms-builder',
 			'wpforms_builder',
 			$this->get_localized_strings()
-		);
-
-		wp_localize_script(
-			'wpforms-builder',
-			'wpforms_addons',
-			$this->get_localized_addons()
 		);
 
 		/**
@@ -518,13 +537,24 @@ class WPForms_Builder {
 			'date_select_day'                => 'DD',
 			'date_select_month'              => 'MM',
 			'debug'                          => wpforms_debug(),
-			'dynamic_choice_limit'           => sprintf( /* translators: %1$s - data source name (e.g. Categories, Posts), %2$s - data source type (e.g. post type, taxonomy), %3$s - display limit, %4$s - total number of items. */
-				esc_html__( 'The %1$s %2$s contains over %3$s items (%4$s). This may make the field difficult for your visitors to use and/or cause the form to be slow.', 'wpforms-lite' ),
-				'{source}',
-				'{type}',
-				'{limit}',
-				'{total}'
-			),
+			'dynamic_choices'                => [
+				'limit_message' => sprintf( /* translators: %1$s - data source name (e.g. Categories, Posts), %2$s - data source type (e.g. post type, taxonomy), %3$s - display limit, %4$s - total number of items. */
+					esc_html__( 'The %1$s %2$s contains over %3$s items (%4$s). This may make the field difficult for your visitors to use and/or cause the form to be slow.', 'wpforms-lite' ),
+					'{source}',
+					'{type}',
+					'{limit}',
+					'{total}'
+				),
+				'empty_message' => sprintf( /* translators: %1$s - data source name (e.g. Categories, Posts), %2$s - data source type (e.g. posts, terms). */
+					esc_html__( 'This field will not be displayed in your form since there are no %2$s belonging to %1$s.', 'wpforms-lite' ),
+					'{source}',
+					'{type}'
+				),
+				'entities'      => [
+					'post_type' => esc_html__( 'posts', 'wpforms-lite' ),
+					'taxonomy'  => esc_html__( 'terms', 'wpforms-lite' ),
+				],
+			],
 			'cancel'                         => esc_html__( 'Cancel', 'wpforms-lite' ),
 			'ok'                             => esc_html__( 'OK', 'wpforms-lite' ),
 			'close'                          => esc_html__( 'Close', 'wpforms-lite' ),
@@ -570,6 +600,7 @@ class WPForms_Builder {
 			'template_modal_display'         => ! empty( $this->template['modal_display'] ) ? $this->template['modal_display'] : '',
 			'template_select'                => esc_html__( 'Use Template', 'wpforms-lite' ),
 			'template_confirm'               => esc_html__( 'Changing templates on an existing form will DELETE existing form fields. Are you sure you want apply the new template?', 'wpforms-lite' ),
+			'use_simple_contact_form'        => esc_html__( 'Use Simple Contact Form Template', 'wpforms-lite' ),
 			'embed'                          => esc_html__( 'Embed', 'wpforms-lite' ),
 			'exit'                           => esc_html__( 'Exit', 'wpforms-lite' ),
 			'exit_url'                       => wpforms_current_user_can( 'view_forms' ) ? admin_url( 'admin.php?page=wpforms-overview' ) : admin_url(),
@@ -626,16 +657,15 @@ class WPForms_Builder {
 			'error_save_form'                => esc_html__( 'Something went wrong while saving the form. Please reload the page and try again.', 'wpforms-lite' ),
 			'error_contact_support'          => esc_html__( 'Please contact the plugin support team if this behavior persists.', 'wpforms-lite' ),
 			'ms_win_css_url'                 => WPFORMS_PLUGIN_URL . 'assets/css/builder/builder-ms-win.css',
-			'template_addon_prompt'          => esc_html__( 'The %template% template requires the %addons%. Would you like to install and activate it?', 'wpforms-lite' ),
-			'template_addons_prompt'         => esc_html__( 'The %template% template requires the %addons%. Would you like to install and activate all the required addons?', 'wpforms-lite' ),
-			'template_addons_error'          => esc_html__( 'Could not install OR activate all the required addons. Please download from wpforms.com and install them manually. Would you like to use the template anyway?', 'wpforms-lite' ),
-			'use_template'                   => esc_html__( 'Yes, use template', 'wpforms-lite' ),
 			'error_select_template'          => esc_html__( 'Something went wrong while applying the template.', 'wpforms-lite' ),
 			'blank_form'                     => esc_html__( 'Blank Form', 'wpforms-lite' ),
 			'something_went_wrong'           => esc_html__( 'Something went wrong', 'wpforms-lite' ),
 			'field_cannot_be_reordered'      => esc_html__( 'This field cannot be moved.', 'wpforms-lite' ),
 			'empty_label'                    => esc_html__( 'Empty Label', 'wpforms-lite' ),
+			'no_pages_found'                 => esc_html__( 'No results found', 'wpforms-lite' ),
 		];
+
+		$strings = $this->add_localized_currencies( $strings );
 
 		$strings['disable_entries'] = sprintf(
 			wp_kses( /* translators: %s - Link to the WPForms.com doc article. */
@@ -648,7 +678,76 @@ class WPForms_Builder {
 					],
 				]
 			),
-			'https://wpforms.com/docs/how-to-properly-test-your-wordpress-forms-before-launching-checklist/'
+			esc_url(
+				wpforms_utm_link(
+					'https://wpforms.com/docs/how-to-properly-test-your-wordpress-forms-before-launching-checklist/',
+					'Builder Notifications',
+					'Testing A Form Documentation'
+				)
+			)
+		);
+
+		$strings['akismet_not_installed'] = sprintf(
+			wp_kses( /* translators: %1$s - Link to the plugin search page, %2$s - Link to the WPForms.com doc article. */
+				__( 'This feature cannot be used at this time because the Akismet plugin <a href="%1$s" target="_blank" rel="noopener noreferrer">has not been installed</a>. For information on how to use this feature please <a href="%2$s" target="_blank" rel="noopener noreferrer">refer to our documentation</a>.', 'wpforms-lite' ),
+				[
+					'a' => [
+						'href'   => [],
+						'rel'    => [],
+						'target' => [],
+					],
+				]
+			),
+			esc_url( admin_url( 'plugin-install.php' ) ),
+			esc_url(
+				wpforms_utm_link(
+					'https://wpforms.com/docs/setting-up-akismet-anti-spam-protection/',
+					'Builder Settings',
+					'Akismet Documentation'
+				)
+			)
+		);
+
+		$strings['akismet_not_activated'] = sprintf(
+			wp_kses( /* translators: %1$s - Link to the plugins page, %2$s - Link to the WPForms.com doc article. */
+				__( 'This feature cannot be used at this time because the Akismet plugin <a href="%1$s" target="_blank" rel="noopener noreferrer">has not been activated</a>. For information on how to use this feature please <a href="%2$s" target="_blank" rel="noopener noreferrer">refer to our documentation</a>.', 'wpforms-lite' ),
+				[
+					'a' => [
+						'href'   => [],
+						'rel'    => [],
+						'target' => [],
+					],
+				]
+			),
+			esc_url( admin_url( 'plugins.php' ) ),
+			esc_url(
+				wpforms_utm_link(
+					'https://wpforms.com/docs/setting-up-akismet-anti-spam-protection/',
+					'Builder Settings',
+					'Akismet Documentation'
+				)
+			)
+		);
+
+		$strings['akismet_no_api_key'] = sprintf(
+			wp_kses( /* translators: %1$s - Link to the Akismet settings page, %2$s - Link to the WPForms.com doc article. */
+				__( 'This feature cannot be used at this time because the Akismet plugin <a href="%1$s" target="_blank" rel="noopener noreferrer">has not been properly configured</a>. For information on how to use this feature please <a href="%2$s" target="_blank" rel="noopener noreferrer">refer to our documentation</a>.', 'wpforms-lite' ),
+				[
+					'a' => [
+						'href'   => [],
+						'rel'    => [],
+						'target' => [],
+					],
+				]
+			),
+			esc_url( admin_url( 'options-general.php?page=akismet-key-config&view=start' ) ),
+			esc_url(
+				wpforms_utm_link(
+					'https://wpforms.com/docs/setting-up-akismet-anti-spam-protection/',
+					'Builder Settings',
+					'Akismet Documentation'
+				)
+			)
 		);
 
 		$strings = apply_filters( 'wpforms_builder_strings', $strings, $this->form );
@@ -663,28 +762,6 @@ class WPForms_Builder {
 		// phpcs:enable
 
 		return $strings;
-	}
-
-	/**
-	 * Get localized addons.
-	 *
-	 * @since 1.6.8
-	 *
-	 * @return array
-	 */
-	private function get_localized_addons() {
-
-		return wpforms_chain( wpforms()->get( 'addons' )->get_available() )
-			->map(
-				function( $addon ) {
-					return [
-						'title'  => $addon['title'],
-						'action' => $addon['action'],
-						'url'    => $addon['url'],
-					];
-				}
-			)
-			->value();
 	}
 
 	/**
@@ -803,6 +880,16 @@ class WPForms_Builder {
 		}
 
 		/**
+		 * Allow to modify builder container classes.
+		 *
+		 * @since 1.7.9
+		 *
+		 * @param array $classes   List of classes.
+		 * @param array $form_data Form data and settings.
+		 */
+		$builder_classes = (array) apply_filters( 'wpforms_builder_output_classes', $builder_classes, $this->form_data );
+
+		/**
 		 * Allow developers to add content before the top toolbar in the Form Builder.
 		 *
 		 * @since 1.7.4
@@ -814,37 +901,16 @@ class WPForms_Builder {
 
 		<div id="wpforms-builder" class="<?php echo wpforms_sanitize_classes( $builder_classes, true ); ?>">
 
-			<div id="wpforms-builder-ie-notice" class="wpforms-fullscreen-notice">
-				<img src="<?php echo esc_url( WPFORMS_PLUGIN_URL . 'assets/images/builder/ie-logo.svg' ); ?>" alt="Internet Explorer &reg;">
-				<h3><?php esc_html_e( 'You are using an outdated browser!', 'wpforms-lite' ); ?></h3>
-				<p>
-				<?php
-				printf(
-					wp_kses( /* translators: %1$s - Link to the update Internet Explorer page, %2$s - link to the browse happy page. */
-						__( 'The Internet Explorer browser no more supported.<br>Our form builder is optimized for modern browsers.<br>Please <a href="%1$s" target="_blank" rel="nofollow noopener">install Microsoft Edge</a> or learn<br>how to <a href="%2$s" target="_blank" rel="nofollow noopener">browse happy</a>.', 'wpforms-lite' ),
-						[
-							'a'  => [
-								'href'   => [],
-								'target' => [],
-								'rel'    => [],
-							],
-							'br' => [],
-						]
-					),
-					'https://www.microsoft.com/en-us/edge',
-					'https://browsehappy.com/'
-				);
-				?>
-				</p>
-				<button type="button" class="wpforms-fullscreen-notice-go-back"><?php esc_html_e( 'Go back', 'wpforms-lite' ); ?></button>
-			</div>
+			<?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo wpforms_render( 'builder/fullscreen/ie-notice' );
 
-			<div id="wpforms-builder-mobile-notice" class="wpforms-fullscreen-notice">
-				<img src="<?php echo esc_url( WPFORMS_PLUGIN_URL . 'assets/images/sullie-builder-mobile.png' ); ?>" alt="<?php esc_attr_e( 'Sullie the WPForms mascot', 'wpforms-lite' ); ?>">
-				<h3><?php esc_html_e( 'Oh, hi there!', 'wpforms-lite' ); ?></h3>
-				<p><?php esc_html_e( 'Our form builder is optimized for desktop computers and tablets. Please manage your forms on a different device, or if you\'re on a tablet, try rotating it.', 'wpforms-lite' ); ?></p>
-				<button type="button" class="wpforms-fullscreen-notice-go-back"><?php esc_html_e( 'Go back', 'wpforms-lite' ); ?></button>
-			</div>
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( empty( $_GET['force_desktop_view'] ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo wpforms_render( 'builder/fullscreen/mobile-notice' );
+			}
+			?>
 
 			<div id="wpforms-builder-overlay">
 				<div class="wpforms-builder-overlay-content">
@@ -982,12 +1048,57 @@ class WPForms_Builder {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo wpforms_render(
-			'builder/abort-message',
+			'builder/fullscreen/abort-message',
 			[
 				'message' => $this->abort_message,
 			],
 			true
 		);
+	}
+
+	/**
+	 * Change default admin meta viewport tag upon request to force scrollable
+	 * desktop view on small screens.
+	 *
+	 * @since 1.7.8
+	 *
+	 * @param string $value Default meta viewport tag value.
+	 *
+	 * @return string
+	 */
+	public function viewport_meta( $value ) {
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! empty( $_GET['force_desktop_view'] ) ) {
+			return 'width=1024, initial-scale=1';
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get localized currency strings for the builder.
+	 *
+	 * @since 1.8.2
+	 *
+	 * @param array $strings Array of localized strings.
+	 *
+	 * @return array
+	 */
+	private function add_localized_currencies( array $strings ) {
+
+		$currency   = wpforms_get_currency();
+		$currencies = wpforms_get_currencies();
+
+		$strings['currency']            = sanitize_text_field( $currency );
+		$strings['currency_name']       = isset( $currencies[ $currency ]['name'] ) ? sanitize_text_field( $currencies[ $currency ]['name'] ) : '';
+		$strings['currency_decimals']   = wpforms_get_currency_decimals( $currencies[ $currency ] );
+		$strings['currency_decimal']    = isset( $currencies[ $currency ]['decimal_separator'] ) ? sanitize_text_field( $currencies[ $currency ]['decimal_separator'] ) : '.';
+		$strings['currency_thousands']  = isset( $currencies[ $currency ]['thousands_separator'] ) ? sanitize_text_field( $currencies[ $currency ]['thousands_separator'] ) : ',';
+		$strings['currency_symbol']     = isset( $currencies[ $currency ]['symbol'] ) ? sanitize_text_field( $currencies[ $currency ]['symbol'] ) : '$';
+		$strings['currency_symbol_pos'] = isset( $currencies[ $currency ]['symbol_pos'] ) ? sanitize_text_field( $currencies[ $currency ]['symbol_pos'] ) : 'left';
+
+		return $strings;
 	}
 }
 

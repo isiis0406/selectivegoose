@@ -48,6 +48,16 @@ class Blocksy_Dynamic_Css {
 				$tablet_css = $tablet_css->build_css_structure();
 				$mobile_css = $mobile_css->build_css_structure();
 
+				if (is_singular()) {
+					$single_styles_descriptor = $this->maybe_get_single_post_styles_descriptor();
+
+					if ($single_styles_descriptor) {
+						$desktop_css .= $single_styles_descriptor['styles']['desktop'];
+						$tablet_css .= $single_styles_descriptor['styles']['tablet'];
+						$mobile_css .= $single_styles_descriptor['styles']['mobile'];
+					}
+				}
+
 				$final_css = '';
 
 				if (! empty($desktop_css)) {
@@ -95,7 +105,7 @@ class Blocksy_Dynamic_Css {
 		$descriptor = $args['descriptor'];
 
 		$no_script_url = get_template_directory_uri() . '/static/bundle/no-scripts.min.css';
-		echo "<noscript><link rel='stylesheet' href='" . $no_script_url . "' type='text/css' /></noscript>\n";
+		echo "<noscript><link rel='stylesheet' href='" . $no_script_url . "' type='text/css'></noscript>\n";
 
 		$final_css = '';
 
@@ -165,22 +175,24 @@ class Blocksy_Dynamic_Css {
 		if (is_singular()) {
 			$single_styles_descriptor = $this->maybe_get_single_post_styles_descriptor();
 
-			$styles['desktop'] .= $single_styles_descriptor['styles']['desktop'];
-			$styles['tablet'] .= $single_styles_descriptor['styles']['tablet'];
-			$styles['mobile'] .= $single_styles_descriptor['styles']['mobile'];
+			if ($single_styles_descriptor) {
+				$styles['desktop'] .= $single_styles_descriptor['styles']['desktop'];
+				$styles['tablet'] .= $single_styles_descriptor['styles']['tablet'];
+				$styles['mobile'] .= $single_styles_descriptor['styles']['mobile'];
 
-			if (isset($single_styles_descriptor['google_fonts'])) {
-				foreach ($single_styles_descriptor['google_fonts'] as $single_gf => $v) {
-					foreach ($v as $variation) {
-						if (! isset($google_fonts[$single_gf])) {
-							$google_fonts[$single_gf] = [$variation];
-						} else {
-							$google_fonts[$single_gf][] = $variation;
+				if (isset($single_styles_descriptor['google_fonts'])) {
+					foreach ($single_styles_descriptor['google_fonts'] as $single_gf => $v) {
+						foreach ($v as $variation) {
+							if (! isset($google_fonts[$single_gf])) {
+								$google_fonts[$single_gf] = [$variation];
+							} else {
+								$google_fonts[$single_gf][] = $variation;
+							}
+
+							$google_fonts[$single_gf] = array_unique(
+								$google_fonts[$single_gf]
+							);
 						}
-
-						$google_fonts[$single_gf] = array_unique(
-							$google_fonts[$single_gf]
-						);
 					}
 				}
 			}
@@ -208,7 +220,6 @@ class Blocksy_Dynamic_Css {
 			$current_saved_version = intval($styles_descriptor['version']);
 		}
 
-
 		if (
 			! $styles_descriptor
 			||
@@ -219,13 +230,17 @@ class Blocksy_Dynamic_Css {
 				'atts' => $post_atts
 			]);
 
-			$post_atts['styles_descriptor'] = $styles_descriptor;
+			if ($styles_descriptor) {
+				$post_atts['styles_descriptor'] = $styles_descriptor;
+			}
 
-			update_post_meta(
-				$post_id,
-				'blocksy_post_meta_options',
-				$post_atts
-			);
+			if (! empty($post_atts)) {
+				update_post_meta(
+					$post_id,
+					'blocksy_post_meta_options',
+					$post_atts
+				);
+			}
 		}
 
 		return $styles_descriptor;
@@ -281,7 +296,19 @@ class Blocksy_Dynamic_Css {
 		$descriptor['google_fonts'] = $m->get_matching_google_fonts();
 		$descriptor['version'] = $this->get_css_version();
 
-		return $descriptor;
+		foreach ($descriptor['styles'] as $key => $style) {
+			if (empty($style)) {
+				continue;
+			}
+
+			return $descriptor;
+		}
+
+		if (! empty($descriptor['google_fonts'])) {
+			return $descriptor;
+		}
+
+		return null;
 	}
 
 	public function maybe_get_global_styles_descriptor() {

@@ -141,6 +141,13 @@ class Products extends AbstractRoute {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
+		$params['slug'] = array(
+			'description'       => __( 'Limit result set to products with specific slug(s). Use commas to separate.', 'woocommerce' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'sanitize_text_field',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
 		$params['after'] = array(
 			'description'       => __( 'Limit response to resources created after a given ISO8601 compliant date.', 'woocommerce' ),
 			'type'              => 'string',
@@ -275,11 +282,33 @@ class Products extends AbstractRoute {
 		$params['category_operator'] = array(
 			'description'       => __( 'Operator to compare product category terms.', 'woocommerce' ),
 			'type'              => 'string',
-			'enum'              => [ 'in', 'not in', 'and' ],
+			'enum'              => [ 'in', 'not_in', 'and' ],
 			'default'           => 'in',
 			'sanitize_callback' => 'sanitize_key',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
+
+		// If the $_REQUEST contains a taxonomy query, add it to the params and sanitize it.
+		foreach ( $_REQUEST as $param => $value ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( str_starts_with( $param, '_unstable_tax_' ) && ! str_ends_with( $param, '_operator' ) ) {
+				$params[ $param ] = array(
+					'description'       => __( 'Limit result set to products assigned a specific category ID.', 'woocommerce' ),
+					'type'              => 'string',
+					'sanitize_callback' => 'wp_parse_id_list',
+					'validate_callback' => 'rest_validate_request_arg',
+				);
+			}
+			if ( str_starts_with( $param, '_unstable_tax_' ) && str_ends_with( $param, '_operator' ) ) {
+				$params[ $param ] = array(
+					'description'       => __( 'Operator to compare product category terms.', 'woocommerce' ),
+					'type'              => 'string',
+					'enum'              => [ 'in', 'not_in', 'and' ],
+					'default'           => 'in',
+					'sanitize_callback' => 'sanitize_key',
+					'validate_callback' => 'rest_validate_request_arg',
+				);
+			}
+		}
 
 		$params['tag'] = array(
 			'description'       => __( 'Limit result set to products assigned a specific tag ID.', 'woocommerce' ),
@@ -291,7 +320,7 @@ class Products extends AbstractRoute {
 		$params['tag_operator'] = array(
 			'description'       => __( 'Operator to compare product tags.', 'woocommerce' ),
 			'type'              => 'string',
-			'enum'              => [ 'in', 'not in', 'and' ],
+			'enum'              => [ 'in', 'not_in', 'and' ],
 			'default'           => 'in',
 			'sanitize_callback' => 'sanitize_key',
 			'validate_callback' => 'rest_validate_request_arg',
@@ -360,7 +389,7 @@ class Products extends AbstractRoute {
 					'operator'  => array(
 						'description' => __( 'Operator to compare product attribute terms.', 'woocommerce' ),
 						'type'        => 'string',
-						'enum'        => [ 'in', 'not in', 'and' ],
+						'enum'        => [ 'in', 'not_in', 'and' ],
 					),
 				),
 			),

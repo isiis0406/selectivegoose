@@ -7,12 +7,6 @@ require_once dirname(__FILE__) . '/includes/BlocksyMailerliteManager.php';
 
 class BlocksyExtensionNewsletterSubscribe {
 	public function __construct() {
-		add_action('blocksy:global-dynamic-css:enqueue', function ($args) {
-			blocksy_theme_get_dynamic_styles(array_merge([
-				'path' => dirname(__FILE__) . '/global.php',
-				'chunk' => 'global'
-			], $args));
-		}, 10, 3);
 
 		add_filter('blocksy-options-scripts-dependencies', function ($d) {
 			$d[] = 'blocksy-ext-newsletter-subscribe-admin-scripts';
@@ -194,6 +188,27 @@ class BlocksyExtensionNewsletterSubscribe {
 
 			return blc_ext_newsletter_subscribe_output_form($args);
 		});
+
+		add_action(
+			'blocksy:global-dynamic-css:enqueue',
+			'BlocksyExtensionNewsletterSubscribe::add_global_styles',
+			10, 3
+		);
+	}
+
+	static public function add_global_styles($args) {
+		blocksy_theme_get_dynamic_styles(array_merge([
+			'path' => dirname(__FILE__) . '/global.php',
+			'chunk' => 'global',
+		], $args));
+	}
+
+	static public function onDeactivation() {
+		remove_action(
+			'blocksy:global-dynamic-css:enqueue',
+			'BlocksyExtensionNewsletterSubscribe::add_global_styles',
+			10, 3
+		);
 	}
 
 	public function newsletter_subscribe_process_mailerlite_subscribe() {

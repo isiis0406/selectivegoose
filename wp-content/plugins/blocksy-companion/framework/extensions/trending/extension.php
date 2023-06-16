@@ -3,6 +3,8 @@
 require_once dirname(__FILE__) . '/helpers.php';
 
 class BlocksyExtensionTrending {
+	private $result = null;
+
 	public function __construct() {
 		add_action('wp_enqueue_scripts', function () {
 			if (! function_exists('get_plugin_data')) {
@@ -59,17 +61,19 @@ class BlocksyExtensionTrending {
 		add_action('wp', function () {
 			$location = 'blocksy:template:after';
 
-			if (blc_fs()->can_use_premium_code()) {
+			if (function_exists('blc_fs') && blc_fs()->can_use_premium_code()) {
 				$location = get_theme_mod(
 					'trending_block_location',
 					'blocksy:content:bottom'
 				);
 			}
 
+			$this->result = blc_get_trending_posts_value();
+
 			add_action(
 				$location,
 				function () {
-					if (blc_fs()->can_use_premium_code()) {
+					if (function_exists('blc_fs') && blc_fs()->can_use_premium_code()) {
 						$conditions = get_theme_mod(
 							'trending_block_conditions',
 							[
@@ -87,7 +91,7 @@ class BlocksyExtensionTrending {
 						}
 					}
 
-					echo blc_get_trending_block();
+					echo blc_get_trending_block($this->result);
 				},
 				50
 			);
@@ -113,11 +117,25 @@ class BlocksyExtensionTrending {
 			}
 		);
 
-		add_action('blocksy:global-dynamic-css:enqueue', function ($args) {
-			blocksy_theme_get_dynamic_styles(array_merge([
-				'path' => dirname( __FILE__ ) . '/global.php',
-				'chunk' => 'global'
-			], $args));
-		}, 10, 3);
+		add_action(
+			'blocksy:global-dynamic-css:enqueue',
+			'BlocksyExtensionTrending::add_global_styles',
+			10, 3
+		);
+	}
+
+	static public function add_global_styles($args) {
+		blocksy_theme_get_dynamic_styles(array_merge([
+			'path' => dirname(__FILE__) . '/global.php',
+			'chunk' => 'global',
+		], $args));
+	}
+
+	static public function onDeactivation() {
+		remove_action(
+			'blocksy:global-dynamic-css:enqueue',
+			'BlocksyExtensionTrending::add_global_styles',
+			10, 3
+		);
 	}
 }

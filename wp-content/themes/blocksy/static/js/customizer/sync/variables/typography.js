@@ -76,11 +76,8 @@ const loadGoogleFonts = (font_family, variation) => {
 
 	WebFontLoader.load({
 		google: {
-			families: [
-				`${font_family}:${parseInt(variation[1], 10) * 100}${
-					variation[0] === 'i' ? 'i' : ''
-				}&display=swap`,
-			],
+			api: 'https://fonts.googleapis.com/css2',
+			families: [font_family],
 		},
 		classes: false,
 		text: 'abcdefghijklmnopqrstuvwxyz',
@@ -256,9 +253,15 @@ export const getTypographyVariablesFor = () => ({
 	}),
 
 	...typographyOption({
-		id: 'blockquote',
+		id: 'quote',
 		selector:
-			'.wp-block-quote.is-style-large p, .wp-block-pullquote p, .ct-quote-widget blockquote',
+			'.wp-block-quote',
+	}),
+
+	...typographyOption({
+		id: 'pullquote',
+		selector:
+			'.wp-block-pullquote, .ct-quote-widget blockquote',
 	}),
 
 	...typographyOption({
@@ -301,6 +304,11 @@ export const getTypographyVariablesFor = () => ({
 		id: 'cardProductTitleFont',
 		selector:
 			'[data-products] .woocommerce-loop-product__title, [data-products] .woocommerce-loop-category__title',
+	}),
+
+	...typographyOption({
+		id: 'cardProductExcerptFont',
+		selector: '[data-products] .entry-excerpt',
 	}),
 
 	...typographyOption({

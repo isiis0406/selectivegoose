@@ -415,6 +415,10 @@ export const handleRowOptions = ({
 	selector,
 	changeDescriptor: { optionId, optionValue, values },
 }) => {
+	if (optionId === 'headerRowHeight') {
+		ctEvents.trigger('blocksy:sticky:compute')
+	}
+
 	if (optionId === 'headerRowWidth') {
 		updateAndSaveEl(
 			selector,

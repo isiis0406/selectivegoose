@@ -1,5 +1,3 @@
-import { markImagesAsLoaded } from 'blocksy-frontend'
-
 const store = {}
 
 const cachedFetch = (url) =>
@@ -115,7 +113,5 @@ export const loadPage = (args = {}) => {
 				}, 650)
 			})
 		}, 50)
-
-		markImagesAsLoaded(args.el)
 	})
 }

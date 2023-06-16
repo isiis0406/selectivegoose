@@ -2,10 +2,7 @@
 
 	ul {
 		display: flex;
-		margin: calc(var(--items-spacing, 15px) / -1)
-				calc(var(--items-spacing, 15px) / -2)
-				0
-				calc(var(--items-spacing, 15px) / -2);
+		gap: var(--items-spacing, 15px);
 	}
 
 	li {
@@ -13,10 +10,6 @@
 		grid-template-columns: auto 1fr;
 		grid-column-gap: 15px;
 		align-items: center;
-		margin: var(--items-spacing, 15px)
-				calc(var(--items-spacing, 15px) / 2)
-				0
-				calc(var(--items-spacing, 15px) / 2);
 
 		&:hover a {
 			color: var(--linkHoverColor);
@@ -51,6 +44,11 @@
 // widget
 .ct-contact-info-widget {
 	--items-spacing: 20px;
+
+	ul {
+		text-align: start;
+		align-items: var(--horizontal-alignment);
+	}
 
 	.contact-info {
 		font-size: 15px;

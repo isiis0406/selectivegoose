@@ -257,85 +257,15 @@ class Blocksy_Fonts_Manager {
 	}
 
 	public function retrieve_all_google_fonts() {
-		$saved_data = get_option('blocksy_google_fonts', false);
-		$ttl = 7 * DAY_IN_SECONDS;
-
-		/*
-		$saved_data_for_log = $saved_data;
-
-		if (
-			$saved_data
-			&&
-			isset($saved_data['fonts'])
-		) {
-			$log_fonts = json_decode($saved_data['fonts'], true);
-
-			if (isset($log_fonts['items'])) {
-				$log_fonts['items'] = count($log_fonts['items']);
-			}
-
-			$saved_data_for_log['fonts'] = $log_fonts;
-		}
-
-		error_log(
-			'Blocksy decoded cached blocksy_google_fonts: ' . print_r(
-				$saved_data_for_log,
-				true
-			)
+		$data = file_get_contents(
+			get_template_directory() . '/static/fonts/google-fonts.json'
 		);
-		 */
 
-		if (
-			false === $saved_data
-			||
-			(($saved_data['last_update'] + $ttl) < time())
-			||
-			! is_array($saved_data)
-			||
-			! isset($saved_data['fonts'])
-			||
-			empty($saved_data['fonts'])
-			||
-			! json_decode($saved_data['fonts'], true)
-			||
-			empty(json_decode($saved_data['fonts'], true)['items'])
-		) {
-			add_filter('https_ssl_verify', '__return_false');
-
-			$response = wp_remote_get(
-				'https://demo.creativethemes.com/?route=google_fonts'
-			);
-
-			$body = wp_remote_retrieve_body($response);
-
-			if (
-				200 === wp_remote_retrieve_response_code($response)
-				&&
-				! is_wp_error($body) && ! empty($body)
-			) {
-				update_option('blocksy_google_fonts', [
-					'last_update' => time(),
-					'fonts' => $body
-				], false);
-
-				return json_decode($body, true);
-			} else {
-				if (empty($saved_data['fonts'])) {
-					$saved_data['fonts'] = json_encode(['items' => []]);
-				}
-
-				update_option(
-					'blocksy_google_fonts',
-					array(
-						'last_update' => time() - $ttl + MINUTE_IN_SECONDS,
-						'fonts' => $saved_data['fonts']
-					),
-					false
-				);
-			}
+		if (! $data) {
+			return [];
 		}
 
-		return json_decode($saved_data['fonts'], true);
+		return json_decode($data, true);
 	}
 
 	public function get_googgle_fonts($as_keys = false) {

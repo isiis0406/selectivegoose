@@ -44,6 +44,42 @@ class OrderController {
 	 * @param \WC_Order $order The order object to update.
 	 */
 	public function update_order_from_cart( \WC_Order $order ) {
+		/**
+		 * This filter ensures that local pickup locations are still used for order taxes by forcing the address used to
+		 * calculate tax for an order to match the current address of the customer.
+		 *
+		 * -    The method `$customer->get_taxable_address()` runs the filter `woocommerce_customer_taxable_address`.
+		 * -    While we have a session, our `ShippingController::filter_taxable_address` function uses this hook to set
+		 *      the customer address to the pickup location address if local pickup is the chosen method.
+		 *
+		 * Without this code in place, `$customer->get_taxable_address()` is not used when order taxes are calculated,
+		 * resulting in the wrong taxes being applied with local pickup.
+		 *
+		 * The alternative would be to instead use `woocommerce_order_get_tax_location` to return the pickup location
+		 * address directly, however since we have the customer filter in place we don't need to duplicate effort.
+		 *
+		 * @see \WC_Abstract_Order::get_tax_location()
+		 */
+		add_filter(
+			'woocommerce_order_get_tax_location',
+			function( $location ) {
+
+				if ( ! is_null( wc()->customer ) ) {
+
+					$taxable_address = wc()->customer->get_taxable_address();
+
+					$location = array(
+						'country'  => $taxable_address[0],
+						'state'    => $taxable_address[1],
+						'postcode' => $taxable_address[2],
+						'city'     => $taxable_address[3],
+					);
+				}
+
+				return $location;
+			}
+		);
+
 		// Ensure cart is current.
 		wc()->cart->calculate_shipping();
 		wc()->cart->calculate_totals();

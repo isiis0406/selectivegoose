@@ -12,13 +12,14 @@ if (! function_exists('blocksy_schema_org_definitions')) {
 			$args,
 			[
 				'array' => false,
-				'to_merge' => []
+				'to_merge' => [],
+				'condition' => true
 			]
 		);
 
 		$value = [];
 
-		if (!blocksy_has_schema_org_markup()) {
+		if (! blocksy_has_schema_org_markup() || ! $args['condition']) {
 			if ($args['array']) {
 				return $value;
 			}

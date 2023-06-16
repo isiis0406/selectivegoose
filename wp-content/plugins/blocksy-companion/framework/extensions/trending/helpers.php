@@ -82,32 +82,30 @@ if (! function_exists('blc_get_trending_posts_value')) {
 			'post_status' => 'publish'
 		];
 
+
 		if ($source === 'categories') {
 			$query_args['date_query'] = $date_query;
 			$cat_option_id = 'trending_block_category';
-			$taxonomy = 'category';
 
 			if ($post_type !== 'post') {
 				$cat_option_id = 'trending_block_' . $post_type . '_taxonomy';
-				$taxonomies = get_object_taxonomies($post_type);
-
-				if (count($taxonomies) > 0) {
-					$taxonomy = $taxonomies[0];
-				}
 			}
 
 			$cat_id = get_theme_mod($cat_option_id, 'all_categories');
-
 			$cat_id = (empty($cat_id) || 'all_categories' === $cat_id) ? '' : $cat_id;
 
 			if (! empty($cat_id)) {
-				$query_args['tax_query'] = [
-					[
-						'taxonomy' => $taxonomy,
-						'field' => 'term_id',
-						'terms' => [$cat_id]
-					]
-				];
+				$terms = get_terms(['include' => $cat_id]);
+
+				if (! empty($terms)) {
+					$query_args['tax_query'] = [
+						[
+							'taxonomy' => $terms[0]->taxonomy,
+							'field' => 'term_id',
+							'terms' => [$cat_id]
+						]
+					];
+				}
 			}
 		}
 
@@ -179,8 +177,11 @@ if (! function_exists('blc_get_trending_posts_value')) {
 }
 
 if (! function_exists('blc_get_trending_block')) {
-function blc_get_trending_block($forced = false) {
-	$result = blc_get_trending_posts_value();
+function blc_get_trending_block($result = null) {
+	if (! $result) {
+		$result = blc_get_trending_posts_value();
+	}
+
 
 	if (empty($result['posts'])) {
 		return '';

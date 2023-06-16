@@ -4,7 +4,6 @@ table.shop_table {
 	--table-font-size: 15px;
 
 	tr {
-		// --table-border-width: 1px 0 0 0;
 		--table-border-width: 0 0 1px 0;
 		--table-border-style: dashed;
 
@@ -21,6 +20,7 @@ table.shop_table {
 
 	th {
 		vertical-align: top;
+		text-align: initial;
 	}
 
 	thead {
@@ -73,7 +73,7 @@ table.shop_table {
 				display: block;
 				text-align: right;
 
-				&:before {
+				&[data-title]:before {
 					content: attr(data-title) ": ";
 					display: table;
 					float: left;
@@ -163,7 +163,7 @@ table.shop_table {
 	
 
 	// product remove button
-	[class*="product-remove"] {
+	tr > [class*="product-remove"] {
 		width: 20px;
 		text-align: end;
 	}
@@ -175,6 +175,10 @@ table.shop_table {
 			fill: #d83428;
 		}
 	}
+}
+
+.ct-product-multiply-symbol {
+	margin: 0 12px;
 }
 
 // Woocommerce Germanized

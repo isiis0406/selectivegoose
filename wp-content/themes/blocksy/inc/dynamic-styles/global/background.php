@@ -17,5 +17,6 @@ blocksy_output_background_css([
 		])
 	),
 	'responsive' => true,
+	'forced_background_image' => true
 ]);
 

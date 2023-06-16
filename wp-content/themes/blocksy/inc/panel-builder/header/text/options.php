@@ -13,7 +13,11 @@ $options = [
 					'desc' => __( 'You can add here some arbitrary HTML code.', 'blocksy' ),
 					'divider' => 'bottom:full',
 					'disableRevertButton' => true,
-					'setting' => [ 'transport' => 'postMessage' ]
+					'setting' => [ 'transport' => 'postMessage' ],
+					'tinymce' => apply_filters(
+						'blocksy:' . $panel_type . ':text:tinymce:settings',
+						[]
+					),
 				],
 
 				'has_header_text_full_width' => [

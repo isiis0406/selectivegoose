@@ -62,6 +62,22 @@ $options = [
 					],
 
 					[
+						'id' => 'header_placements_item:button:offcanvas',
+						'fallback_refresh' => false,
+						'container_inclusive' => false,
+						'selector' => '#offcanvas',
+						'loader_selector' => '[data-id="button"]',
+						'settings' => ['header_placements'],
+						'render_callback' => function () {
+							$elements = new Blocksy_Header_Builder_Elements();
+
+							echo $elements->render_offcanvas([
+								'has_container' => false
+							]);
+						}
+					],
+
+					[
 						'id' => 'header_placements_item:socials',
 						'fallback_refresh' => false,
 						'container_inclusive' => true,
@@ -74,6 +90,22 @@ $options = [
 					],
 
 					[
+						'id' => 'header_placements_item:socials:offcanvas',
+						'fallback_refresh' => false,
+						'container_inclusive' => false,
+						'selector' => '#offcanvas',
+						'loader_selector' => '[data-id="socials"]',
+						'settings' => ['header_placements'],
+						'render_callback' => function () {
+							$elements = new Blocksy_Header_Builder_Elements();
+
+							echo $elements->render_offcanvas([
+								'has_container' => false
+							]);
+						}
+					],
+
+					[
 						'id' => 'header_placements_item:cart',
 						'fallback_refresh' => false,
 						'container_inclusive' => true,
@@ -82,6 +114,22 @@ $options = [
 						'render_callback' => function () {
 							$header = new Blocksy_Header_Builder_Render();
 							echo $header->render_single_item('cart');
+						}
+					],
+
+					[
+						'id' => 'header_placements_item:cart:offcanvas',
+						'fallback_refresh' => false,
+						'container_inclusive' => false,
+						'selector' => '#offcanvas',
+						'loader_selector' => '[data-id="cart"]',
+						'settings' => ['header_placements'],
+						'render_callback' => function () {
+							$elements = new Blocksy_Header_Builder_Elements();
+
+							echo $elements->render_offcanvas([
+								'has_container' => false
+							]);
 						}
 					],
 
@@ -100,6 +148,18 @@ $options = [
 					[
 						'id' => 'header_placements_item:mobile-menu',
 						'fallback_refresh' => false,
+						'container_inclusive' => true,
+						'selector' => '#main-container > header',
+						'loader_selector' => '[data-id="mobile-menu"]',
+						'settings' => ['header_placements'],
+						'render_callback' => function () {
+							echo blocksy_manager()->header_builder->render();
+						}
+					],
+
+					[
+						'id' => 'header_placements_item:mobile-menu:offcanvas',
+						'fallback_refresh' => false,
 						'container_inclusive' => false,
 						'selector' => '#offcanvas',
 						'loader_selector' => '[data-id="mobile-menu"]',
@@ -114,29 +174,14 @@ $options = [
 					],
 
 					[
-						'id' => 'header_placements_item:logo:desktop',
+						'id' => 'header_placements_item:logo',
 						'fallback_refresh' => false,
-						'container_inclusive' => true,
-						'selector' => '[data-device="desktop"] [data-id="logo"]',
+						'container_inclusive' => false,
+						'selector' => '#main-container > header',
+						'loader_selector' => '[data-id="logo"]',
 						'settings' => ['header_placements'],
 						'render_callback' => function () {
-							$b = new Blocksy_Header_Builder_Render();
-							echo $b->render_single_item('logo');
-						}
-					],
-
-					[
-						'id' => 'header_placements_item_mobile:logo:mobile',
-						'fallback_refresh' => false,
-						'container_inclusive' => true,
-						'selector' => '[data-device="mobile"] [data-id="logo"]',
-						'settings' => ['header_placements'],
-						'render_callback' => function () {
-							$b = new Blocksy_Header_Builder_Render();
-
-							echo $b->render_single_item('logo', [
-								'device' => 'mobile'
-							]);
+							echo blocksy_manager()->header_builder->render();
 						}
 					],
 
@@ -149,6 +194,18 @@ $options = [
 						'render_callback' => function () {
 							$b = new Blocksy_Header_Builder_Render();
 							echo $b->render_single_item('offcanvas-logo');
+						}
+					],
+
+					[
+						'id' => 'header_placements_item:search',
+						'fallback_refresh' => false,
+						'container_inclusive' => true,
+						'selector' => '#main-container > header',
+						'loader_selector' => '[data-id="search"]',
+						'settings' => ['header_placements'],
+						'render_callback' => function () {
+							echo blocksy_manager()->header_builder->render();
 						}
 					],
 				]),

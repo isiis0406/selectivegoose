@@ -14,7 +14,7 @@ const getMetaSpacingVariables = ({ prefix }) =>
 	[
 		{
 			key: 'author_social_channels',
-			selector: `[data-prefix="${prefix}"] .hero-section .author-box-social`,
+			selector: `[data-prefix="${prefix}"] .hero-section .author-box-socials`,
 		},
 
 		{
@@ -301,9 +301,85 @@ const getVariablesForPrefix = (prefix) => ({
 			},
 		]
 	},
+
+	...typographyOption({
+		id: 'courses_single_hero_title_font',
+		selector: `[data-prefix="${prefix}"] .tutor-course-details-title`,
+	}),
+
+	courses_single_hero_title_font_color: {
+		selector: `[data-prefix="${prefix}"] .tutor-course-details-title`,
+		variable: 'heading-color',
+		type: 'color',
+	},
+
+	...typographyOption({
+		id: 'courses_single_hero_categories_font',
+		selector: `[data-prefix="${prefix}"] .tutor-meta > *`,
+	}),
+
+	courses_single_hero_categories_colors: [
+		{
+			selector: `[data-prefix="${prefix}"] .tutor-meta`,
+			variable: 'color',
+			type: 'color:default',
+		},
+
+		{
+			selector: `[data-prefix="${prefix}"] .tutor-meta`,
+			variable: 'linkHoverColor',
+			type: 'color:hover',
+		},
+	],
+
+	...typographyOption({
+		id: 'courses_single_hero_actions_font',
+		selector: `[data-prefix="${prefix}"] .tutor-course-details-actions > a`,
+	}),
+
+	courses_single_hero_actions_colors: [
+		{
+			selector: `[data-prefix="${prefix}"] .tutor-course-details-actions > a`,
+			variable: 'color',
+			type: 'color:default',
+		},
+
+		{
+			selector: `[data-prefix="${prefix}"] .tutor-course-details-actions > a`,
+			variable: 'linkHoverColor',
+			type: 'color:hover',
+		},
+	],
+
+	...typographyOption({
+		id: 'courses_single_hero_title_rating_font',
+		selector: `[data-prefix="${prefix}"] .tutor-ratings`,
+	}),
+
+	courses_single_hero_title_rating_font_color: {
+		selector: `[data-prefix="${prefix}"] .tutor-ratings`,
+		variable: 'color',
+		type: 'color',
+	},
+
+	hero_title_rating_font_color: {
+		selector: `[data-prefix="${prefix}"] .tutor-ratings`,
+		variable: 'color',
+		type: 'color',
+	},
 })
 
-export const getHeroVariables = () => getVariablesForPrefix(getPrefixFor())
+export const getHeroVariables = () => {
+	if (document.body.dataset.prefix !== getPrefixFor()) {
+		return {}
+	}
+
+	if ((document.body.dataset.prefixCustom || '').indexOf('hero') > -1) {
+		return {}
+	}
+
+	return getVariablesForPrefix(getPrefixFor())
+}
 
 watchOptionsWithPrefix({
 	getPrefix: () => getPrefixFor(),
@@ -356,14 +432,25 @@ watchOptionsWithPrefix({
 				}
 
 				if (singleLayer.id === 'custom_description') {
-					let description = heroElementsContainer.querySelector(
-						'.page-description'
-					)
+					let description =
+						heroElementsContainer.querySelector('.page-description')
 
 					if (singleLayer.enabled && description) {
 						responsiveClassesFor(
 							singleLayer.description_visibility,
 							description
+						)
+					}
+				}
+
+				if (singleLayer.id === 'breadcrumbs') {
+					let breadcrumbs =
+						heroElementsContainer.querySelector('.ct-breadcrumbs')
+
+					if (singleLayer.enabled && breadcrumbs) {
+						responsiveClassesFor(
+							singleLayer.breadcrumbs_visibility,
+							breadcrumbs
 						)
 					}
 				}
@@ -375,9 +462,10 @@ watchOptionsWithPrefix({
 					) {
 						const metaElements = singleLayer.meta_elements
 
-						let el = heroElementsContainer.querySelectorAll(
-							'.entry-meta'
-						)
+						let el =
+							heroElementsContainer.querySelectorAll(
+								'.entry-meta'
+							)
 
 						if (
 							heroElements.filter(
@@ -440,9 +528,8 @@ watchOptionsWithPrefix({
 					document.querySelector('.hero-section figure') &&
 					parallaxOutput.length > 0
 				) {
-					document.querySelector(
-						'.hero-section'
-					).dataset.parallax = parallaxOutput.join(':')
+					document.querySelector('.hero-section').dataset.parallax =
+						parallaxOutput.join(':')
 				}
 			}
 

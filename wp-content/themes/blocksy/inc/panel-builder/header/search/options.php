@@ -38,6 +38,11 @@ $options = [
 		'type' => 'tab',
 		'options' => [
 
+			apply_filters(
+				'blocksy:header:search:options:icon',
+				[]
+			),
+
 			'searchHeaderIconSize' => [
 				'label' => __( 'Icon Size', 'blocksy' ),
 				'type' => 'ct-slider',
@@ -48,14 +53,11 @@ $options = [
 				'setting' => [ 'transport' => 'postMessage' ],
 			],
 
-			blocksy_rand_md5() => [
-				'type' => 'ct-divider',
-			],
-
 			'search_label_visibility' => [
 				'label' => __( 'Label Visibility', 'blocksy' ),
 				'type' => 'ct-visibility',
 				'design' => 'block',
+				'divider' => 'top',
 				'allow_empty' => true,
 				'setting' => [ 'transport' => 'postMessage' ],
 				'value' => [
@@ -416,13 +418,42 @@ $options = [
 				'sync' => 'live'
 			],
 
-			'searchHeaderImages' => [
-				'label' => __( 'Live Results Images', 'blocksy' ),
+			'enable_live_results' => [
+				'label' => __( 'Live Results', 'blocksy' ),
 				'type' => 'ct-switch',
 				'value' => 'yes',
-				'divider' => 'top',
-				'setting' => [ 'transport' => 'postMessage' ],
 			],
+
+			blocksy_rand_md5() => [
+				'type' => 'ct-condition',
+				'condition' => [ 'enable_live_results' => 'yes' ],
+				'options' => [
+
+					'searchHeaderImages' => [
+						'label' => __( 'Live Results Images', 'blocksy' ),
+						'type' => 'ct-switch',
+						'value' => 'yes',
+						'divider' => 'top',
+						'setting' => [ 'transport' => 'postMessage' ],
+					],
+
+					blocksy_rand_md5() => [
+						'type' => 'ct-condition',
+						'condition' => [ 'search_through/product' => true ],
+						'options' => [
+							'searchHeaderProductPrice' => [
+								'label' => __( 'Live Results Product Price', 'blocksy' ),
+								'type' => 'ct-switch',
+								'value' => 'no',
+								'divider' => 'top',
+								'setting' => [ 'transport' => 'postMessage' ],
+							],
+						]
+					],
+
+				],
+			],
+
 
 			blocksy_rand_md5() => [
 				'type' => 'ct-title',
@@ -721,6 +752,36 @@ $options = [
 								'inherit' => 'rgba(0, 0, 0, 0.5)'
 							],
 						],
+					],
+
+				],
+			],
+
+			'search_close_button_icon_size' => [
+				'label' => __( 'Icon Size', 'blocksy' ),
+				'type' => 'ct-number',
+				'design' => 'inline',
+				'value' => 12,
+				'min' => 5,
+				'max' => 50,
+				'divider' => 'top',
+				'setting' => [ 'transport' => 'postMessage' ],
+			],
+
+			blocksy_rand_md5() => [
+				'type' => 'ct-condition',
+				'condition' => [ 'search_close_button_type' => '!type-1' ],
+				'options' => [
+
+					'search_close_button_border_radius' => [
+						'label' => __( 'Border Radius', 'blocksy' ),
+						'type' => 'ct-number',
+						'design' => 'inline',
+						'value' => 5,
+						'min' => 0,
+						'max' => 100,
+						'divider' => 'top',
+						'setting' => [ 'transport' => 'postMessage' ],
 					],
 
 				],

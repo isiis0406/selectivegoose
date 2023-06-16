@@ -1,9 +1,16 @@
+.wc-block-checkbox-list li:not([hidden]),
+.woocommerce-widget-layered-nav-list li:not([hidden]) a {
+	display: flex;
+	align-items: center;
+
+	input[type="checkbox"] {
+		--top: 0;
+	}
+}
+
 .woocommerce-widget-layered-nav-list li {
 	
 	a {
-		display: flex;
-		align-items: center;
-
 		&:before {
 			display: inline-flex;
 			align-items: center;
@@ -16,7 +23,7 @@
 			height: 16px;
 			margin-inline-end: 10px;
 			border-radius: 3px;
-			border-width: var(--form-field-border-width);
+			border-width: var(--form-field-border-width, 1px);
 			border-style: solid;
 			border-color: var(--form-selection-control-initial-color);
 		}

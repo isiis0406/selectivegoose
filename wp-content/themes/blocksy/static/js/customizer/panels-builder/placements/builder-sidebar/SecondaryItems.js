@@ -20,9 +20,8 @@ const SecondaryItems = ({
 	inlinedItemsFromBuilder,
 	displayList = true,
 }) => {
-	const { panelsState, panelsActions, currentView, isDragging } = useContext(
-		DragDropContext
-	)
+	const { panelsState, panelsActions, currentView, isDragging } =
+		useContext(DragDropContext)
 
 	const inlinedItemsFromAllViewsBuilder = [
 		...builderValue.desktop.reduce(
@@ -48,11 +47,12 @@ const SecondaryItems = ({
 		),
 	]
 
-	const secondaryItems = ct_customizer_localizations.header_builder_data.secondary_items.header.filter(
-		({ config }) =>
-			// config.devices.indexOf(currentView) > -1 &&
-			config.enabled
-	)
+	const secondaryItems =
+		ct_customizer_localizations.header_builder_data.secondary_items.header.filter(
+			({ config }) =>
+				// config.devices.indexOf(currentView) > -1 &&
+				config.enabled
+		)
 
 	const allItems = ct_customizer_localizations.header_builder_data.header
 
@@ -138,6 +138,7 @@ const SecondaryItems = ({
 
 					const itemsOnlyWithTrigger = [
 						'mobile-menu',
+						'mobile-menu-secondary',
 						'offcanvas-logo',
 					]
 
@@ -165,9 +166,10 @@ const SecondaryItems = ({
 										<Panel
 											id={id}
 											getValues={() => {
-												let itemValue = builderValue.items.find(
-													({ id }) => id === item
-												)
+												let itemValue =
+													builderValue.items.find(
+														({ id }) => id === item
+													)
 
 												if (
 													itemValue &&
@@ -202,13 +204,13 @@ const SecondaryItems = ({
 												optionId,
 												optionValue
 											) => {
-												const currentValue = builderValue.items.find(
-													({ id }) => id === item
-												)
+												const currentValue =
+													builderValue.items.find(
+														({ id }) => id === item
+													)
 
 												builderValueDispatch({
-													type:
-														'ITEM_VALUE_ON_CHANGE',
+													type: 'ITEM_VALUE_ON_CHANGE',
 													payload: {
 														id: item,
 														optionId,
@@ -235,8 +237,10 @@ const SecondaryItems = ({
 										<div
 											data-id={item}
 											className={cls({
-												'ct-item-in-builder': itemInBuilder,
-												'ct-builder-item': !itemInBuilder,
+												'ct-item-in-builder':
+													itemInBuilder,
+												'ct-builder-item':
+													!itemInBuilder,
 											})}
 											onClick={(e) => {
 												if (isDragging) {

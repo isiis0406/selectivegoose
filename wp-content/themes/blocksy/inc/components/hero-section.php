@@ -38,7 +38,7 @@ if (! function_exists('blocksy_get_page_title_source')) {
 			return $result;
 		}
 
-		if (strpos($prefix, 'single') !== false || (
+		if ($prefix && strpos($prefix, 'single') !== false || (
 			function_exists('is_shop') && is_shop()
 		) && ! is_search()) {
 			$post_options = blocksy_get_post_options();
@@ -112,13 +112,13 @@ if (! function_exists('blocksy_first_level_deep_link')) {
 			return 'woocommerce_single';
 		}
 
-		if (strpos($prefix, '_archive') !== false) {
+		if ($prefix && strpos($prefix, '_archive') !== false) {
 			return 'post_type_archive_' . str_replace(
 				'_archive', '', $prefix
 			);
 		}
 
-		if (strpos($prefix, '_single') !== false) {
+		if ($prefix && strpos($prefix, '_single') !== false) {
 			return 'post_type_single_' . str_replace(
 				'_single', '', $prefix
 			);
@@ -221,7 +221,7 @@ if (! function_exists('blocksy_output_hero_section')) {
 
 		ob_start();
 
-		do_action('blocksy:hero:before');
+		do_action('blocksy:hero:before', $type);
 
 		$attr = [
 			'class' => 'hero-section',
@@ -245,11 +245,11 @@ if (! function_exists('blocksy_output_hero_section')) {
 				'type' => $type,
 				'elements' => $elements,
 				'attr' => $attr,
-				'post_id' => $post_id
+				'post_id' => $post_id,
 			]
 		);
 
-		do_action('blocksy:hero:after');
+		do_action('blocksy:hero:after', $type);
 
 		return ob_get_clean();
 	}

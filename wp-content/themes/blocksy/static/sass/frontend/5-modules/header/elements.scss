@@ -51,7 +51,8 @@
 .ct-header-trigger,
 .ct-header-wishlist {
 
-	&:hover .ct-icon {
+	// &:hover .ct-icon {
+	&:hover svg {
 		fill: var(--icon-hover-color, var(--paletteColor2));
 	}
 }

@@ -91,11 +91,15 @@ class OpenGraphMetaData {
 			$title = get_the_archive_title();
 		}
 
+		$title = wp_strip_all_tags($title);
+
 		// Description
 		if (is_category() || is_tag() || is_tax()) {
 			$description = wp_strip_all_tags(term_description());
 		} else if (is_singular()) {
-			$description = wp_strip_all_tags(blocksy_entry_excerpt(40));
+			$description = wp_strip_all_tags(blocksy_entry_excerpt([
+				'length' => 40
+			]));
 		}
 
 		// Image

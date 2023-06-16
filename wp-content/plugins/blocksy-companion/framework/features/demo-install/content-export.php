@@ -54,14 +54,14 @@ class DemoInstallContentExport {
 		global $wpdb, $post;
 
 		$defaults = array(
-			'content'    => 'all',
-			'author'     => false,
-			'category'   => false,
+			'content' => 'all',
+			'author' => false,
+			'category' => false,
 			'start_date' => false,
-			'end_date'   => false,
-			'status'     => false,
+			'end_date' => false,
+			'status' => false,
 		);
-		$args     = wp_parse_args( $args, $defaults );
+		$args = $defaults;
 
 		/**
 		 * Fires at the beginning of an export, before any headers are sent.
@@ -183,6 +183,7 @@ class DemoInstallContentExport {
 		 * @return string
 		 */
 		function wxr_cdata( $str ) {
+			$str = strval($str);
 			if ( ! seems_utf8( $str ) ) {
 				$str = utf8_encode( $str );
 			}

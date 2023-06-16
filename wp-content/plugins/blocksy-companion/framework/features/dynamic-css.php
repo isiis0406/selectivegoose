@@ -3,6 +3,8 @@
 namespace Blocksy;
 
 class DynamicCss {
+	private $wp_filesystem = null;
+
 	public function __construct() {
 		add_filter(
 			'blocksy:dynamic-css:has_files_cache',
@@ -94,6 +96,10 @@ class DynamicCss {
 			return;
 		}
 
+		if (defined('IFRAME_REQUEST') && IFRAME_REQUEST) {
+			return;
+		}
+
 		if (
 			! function_exists('blocksy_has_css_in_files')
 			||
@@ -148,7 +154,11 @@ class DynamicCss {
 			$file = $theme_paths['css_path'] . '/' . $chunk['filename'];
 			$url = $theme_paths['css_url'] . '/' . $chunk['filename'];
 
-			if (function_exists('blocksy_get_dynamic_css_file_content')) {
+			if (
+				function_exists('blocksy_get_dynamic_css_file_content')
+				&&
+				$this->wp_filesystem
+			) {
 				$this->wp_filesystem->put_contents(
 					$file,
 					blocksy_get_dynamic_css_file_content(['context' => $chunk['context']])
@@ -176,6 +186,8 @@ class DynamicCss {
 			'css'   => 'blocksy/css'
 		);
 
+		$theme_paths = [];
+
 		foreach($folders_in_uploads as $folder => $path) {
 			// Server path.
 			$theme_paths[
@@ -190,7 +202,7 @@ class DynamicCss {
 
 		// Custom css file.
 
-		if (! $this->has_direct_access()) {
+		if (! $this->has_direct_access($theme_paths['css_path'])) {
 			return false;
 		}
 
@@ -214,7 +226,7 @@ class DynamicCss {
 		return $theme_paths;
 	}
 
-	public function has_direct_access( $context = null ) {
+	public function has_direct_access($context = null) {
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		WP_Filesystem();
 
@@ -223,7 +235,11 @@ class DynamicCss {
 
 		if ($wp_filesystem) {
 			if ($wp_filesystem->method !== 'direct') {
-				if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+				if (
+					is_wp_error($wp_filesystem->errors)
+					&&
+					$wp_filesystem->errors->get_error_code()
+				) {
 					return true;
 				} else {
 					return $wp_filesystem->method === 'direct';
@@ -233,16 +249,20 @@ class DynamicCss {
 			}
 		}
 
-		if ( get_filesystem_method( [], $context ) === 'direct' ) {
+		if (get_filesystem_method([], $context) === 'direct') {
 			ob_start();
 
-			{
-				$creds = request_filesystem_credentials( admin_url(), '', false, $context, null );
-			}
+			$creds = request_filesystem_credentials(
+				admin_url(),
+				'',
+				false,
+				$context,
+				null
+			);
 
 			ob_end_clean();
 
-			if ( WP_Filesystem( $creds ) ) {
+			if (WP_Filesystem($creds)) {
 				return true;
 			}
 		}

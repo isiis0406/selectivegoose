@@ -410,7 +410,7 @@ class WC_Countries {
 	public function shipping_to_prefix( $country_code = '' ) {
 		$country_code = $country_code ? $country_code : WC()->customer->get_shipping_country();
 		$countries    = array( 'AE', 'CZ', 'DO', 'GB', 'NL', 'PH', 'US', 'USAF' );
-		$return       = in_array( $country_code, $countries, true ) ? __( 'to the', 'woocommerce' ) : __( 'to', 'woocommerce' );
+		$return       = in_array( $country_code, $countries, true ) ? _x( 'to the', 'shipping country prefix', 'woocommerce' ) : _x( 'to', 'shipping country prefix', 'woocommerce' );
 
 		return apply_filters( 'woocommerce_countries_shipping_to_prefix', $return, $country_code );
 	}
@@ -882,6 +882,11 @@ class WC_Countries {
 							'hidden'   => true,
 						),
 					),
+					'BG' => array(
+						'state' => array(
+							'required' => false,
+						),
+					),
 					'BH' => array(
 						'postcode' => array(
 							'required' => false,
@@ -910,6 +915,15 @@ class WC_Countries {
 						'postcode' => array(
 							'required' => false,
 							'hidden'   => true,
+						),
+					),
+					'BZ' => array(
+						'postcode' => array(
+							'required' => false,
+							'hidden'   => true,
+						),
+						'state' 	=> array(
+							'required' => false,
 						),
 					),
 					'CA' => array(
@@ -996,7 +1010,7 @@ class WC_Countries {
 							'label' => __( 'Province', 'woocommerce' ),
 						),
 					),
-          'EC' => array(
+					'EC' => array(
 						'state'    => array(
 							'label' => __( 'Province', 'woocommerce' ),
 						),
@@ -1006,6 +1020,12 @@ class WC_Countries {
 							'priority' => 65,
 						),
 						'state'    => array(
+							'required' => false,
+							'hidden'   => true,
+						),
+					),
+					'ET' => array(
+						'state' => array(
 							'required' => false,
 							'hidden'   => true,
 						),
@@ -1028,6 +1048,12 @@ class WC_Countries {
 							'hidden'   => true,
 						),
 					),
+					'GG' => array(
+ 						'state' => array(
+ 							'required' => false,
+ 							'label' => __( 'Parish', 'woocommerce' ),
+ 						),
+ 					),
 					'GH' => array(
 						'postcode' => array(
 							'required' => false,
@@ -1100,7 +1126,8 @@ class WC_Countries {
 							'priority' => 72,
 						),
 						'state'      => array(
-							'label' => __( 'County', 'woocommerce' ),
+							'label'    => __( 'County', 'woocommerce' ),
+							'required' => false,
 						),
 					),
 					'ID' => array(
@@ -1143,10 +1170,24 @@ class WC_Countries {
 					),
 					'IN' => array(
 						'postcode' => array(
-							'label' => __( 'PIN', 'woocommerce' ),
+							'label' => __( 'PIN Code', 'woocommerce' ),
 						),
 						'state'    => array(
 							'label' => __( 'State', 'woocommerce' ),
+						),
+					),
+					'IR' => array(
+						'state'     => array(
+							'priority' => 50,
+						),
+						'city'      => array(
+							'priority' => 60,
+						),
+						'address_1' => array(
+							'priority' => 70,
+						),
+						'address_2' => array(
+							'priority' => 80,
 						),
 					),
 					'IT' => array(
@@ -1218,6 +1259,12 @@ class WC_Countries {
 						),
 					),
 					'LB' => array(
+						'state' => array(
+							'required' => false,
+							'hidden'   => true,
+						),
+					),
+					'MF' => array(
 						'state' => array(
 							'required' => false,
 							'hidden'   => true,
@@ -1350,6 +1397,12 @@ class WC_Countries {
 						'state'    => array(
 							'label'    => __( 'District', 'woocommerce' ),
 							'required' => false,
+						),
+					),
+					'RW' => array(
+						'state' => array(
+							'required' => false,
+							'hidden'   => true,
 						),
 					),
 					'SG' => array(
@@ -1498,7 +1551,7 @@ class WC_Countries {
 						),
 						'address_2' => array(
 							'required' => false,
-							'hidden'   => true,
+							'hidden'   => false,
 						),
 					),
 					'WS' => array(
@@ -1532,7 +1585,7 @@ class WC_Countries {
 			// Default Locale Can be filtered to override fields in get_address_fields(). Countries with no specific locale will use default.
 			$this->locale['default'] = apply_filters( 'woocommerce_get_country_locale_default', $this->get_default_address_fields() );
 
-			// Filter default AND shop base locales to allow overides via a single function. These will be used when changing countries on the checkout.
+			// Filter default AND shop base locales to allow overrides via a single function. These will be used when changing countries on the checkout.
 			if ( ! isset( $this->locale[ $this->get_base_country() ] ) ) {
 				$this->locale[ $this->get_base_country() ] = $this->locale['default'];
 			}

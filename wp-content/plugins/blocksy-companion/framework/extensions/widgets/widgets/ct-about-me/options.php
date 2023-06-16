@@ -190,11 +190,12 @@ $options = [
 			],
 		],
 
-		'settings' => blc_call_fn(
-			[
+		'settings' => apply_filters(
+			'blocksy:header:socials:options:icon', 
+			blc_call_fn([
 				'fn' => 'blocksy_get_social_networks_list',
 				'default' => []
-			]
+			])
 		)
 	],
 

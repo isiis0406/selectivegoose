@@ -5,7 +5,7 @@ Email: info@creativethemes.com
 Tags: blog, e-commerce, wide-blocks, block-styles, grid-layout, one-column, two-columns, three-columns, four-columns, right-sidebar, left-sidebar, translation-ready, custom-colors, custom-logo, custom-menu, featured-images, footer-widgets, full-width-template, theme-options, threaded-comments
 Requires at least: 5.2
 Requires PHP: 5.7
-Tested up to: 5.2
+Tested up to: 6.2
 Stable tag: trunk
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -158,10 +158,6 @@ Source: https://github.com/tmcw-up-for-adoption/simple-linear-scale
 use-force-update, Copyright (c) 2018 Charles Stover
 Licenses: MIT License
 Source: https://github.com/CharlesStover/use-force-update
-
-vanilla-lazyload, Copyright (c) 2015 Andrea Verlicchi
-Licenses: MIT License
-Source: https://github.com/verlok/lazyload
 
 mobius1-selectr, Copyright 2016 Karl Saunders
 Licenses: MIT License

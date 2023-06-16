@@ -58,7 +58,7 @@ if (
 			blocksy_background_default_value([
 				'backgroundColor' => [
 					'default' => [
-						'color' => '#f8f9fb'
+						'color' => 'var(--paletteColor7)'
 					],
 				],
 			])
@@ -148,7 +148,7 @@ if (blocksy_some_device($has_boxed, 'boxed')) {
 			blocksy_background_default_value([
 				'backgroundColor' => [
 					'default' => [
-						'color' => '#ffffff'
+						'color' => 'var(--paletteColor8)'
 					],
 				],
 			])

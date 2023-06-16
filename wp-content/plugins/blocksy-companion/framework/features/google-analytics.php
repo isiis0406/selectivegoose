@@ -65,17 +65,6 @@ class GoogleAnalytics {
 
 	public function generate_google_analytics_opts($options) {
 		$options[] = [
-			'analytics_id' => [
-				'label' => __( 'Google Analytics v3', 'blocksy-companion' ),
-				'type' => 'text',
-				'design' => 'block',
-				'divider' => 'bottom',
-				'value' => '',
-				'desc' => __( 'Link your Google Analytics 3 tracking ID.', 'blocksy-companion' ),
-				'disableRevertButton' => true,
-				'setting' => [ 'transport' => 'postMessage' ],
-			],
-
 			'analytics_v4_id' => [
 				'label' => __( 'Google Analytics v4', 'blocksy-companion' ),
 				'type' => 'text',
@@ -87,7 +76,25 @@ class GoogleAnalytics {
 						'Link your Google Analytics 4 tracking ID. More info and instructions can be found %shere%s.',
 						'blocksy-companion'
 					),
-					'<a href="https://support.google.com/analytics/answer/9744165?hl=en">',
+					'<a href="https://support.google.com/analytics/answer/9744165?hl=en" target="_blank">',
+					'</a>'
+				),
+				'disableRevertButton' => true,
+				'setting' => [ 'transport' => 'postMessage' ],
+			],
+
+			'analytics_id' => [
+				'label' => __( 'Google Analytics v3 (Legacy)', 'blocksy-companion' ),
+				'type' => 'text',
+				'design' => 'block',
+				'divider' => 'bottom',
+				'value' => '',
+				'desc' => sprintf(
+					__(
+						'Please note: this option will be deprecated soon and we strongly reccommend switching to GA4, more info  can be fount %shere%s.',
+						'blocksy-companion'
+					),
+					'<a href="https://support.google.com/analytics/answer/11583528?hl=en" target="_blank">',
 					'</a>'
 				),
 				'disableRevertButton' => true,

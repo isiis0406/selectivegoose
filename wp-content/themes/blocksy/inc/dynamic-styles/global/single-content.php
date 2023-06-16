@@ -3,7 +3,7 @@
 $selector = '[class*="ct-container"] > article[class*="post"]';
 
 if ($prefix === 'courses_single' && function_exists('tutor')) {
-	$selector = '.tutor-col-8';
+	$selector = '.tutor-col-xl-8';
 }
 
 if (strpos($prefix, 'block') !== false) {

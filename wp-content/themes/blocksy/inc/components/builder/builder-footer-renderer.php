@@ -41,6 +41,7 @@ class Blocksy_Footer_Builder_Render extends Blocksy_Builder_Render {
 			'footer',
 			array_merge(
 				[
+					'id' => 'footer',
 					'class' => 'ct-footer',
 					'data-id' => $this->get_short_section_id()
 				],

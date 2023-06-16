@@ -3,6 +3,10 @@
 class Blocksy_Screen_Manager {
 	private $prefixes = [];
 
+	public function wipe_caches() {
+		$this->prefixes = [];
+	}
+
 	public function uses_woo_default_template() {
 		global $blocksy_is_quick_view;
 
@@ -32,6 +36,10 @@ class Blocksy_Screen_Manager {
 		}
 
 		$current_template = blocksy_manager()->get_current_template();
+
+		if (! $current_template) {
+			return false;
+		}
 
 		$result = strpos(
 			$current_template,
@@ -97,6 +105,10 @@ class Blocksy_Screen_Manager {
 				) && strpos($actual_prefix, '_archive') === false
 			)
 		) {
+			if (! $args['default_prefix']) {
+				return '';
+			}
+
 			return $args['default_prefix'];
 		}
 
@@ -179,9 +191,6 @@ class Blocksy_Screen_Manager {
 			'default_prefix' => null
 		]);
 
-		if (isset($_GET['blocksy_prefix'])) {
-			return $_GET['blocksy_prefix'];
-		}
 
 		if (function_exists('is_lifterlms') && is_lifterlms()) {
 			return 'lms';
@@ -198,7 +207,11 @@ class Blocksy_Screen_Manager {
 			||
 			get_query_var('post_type') === 'forum'
 			||
-			bbp_is_single_user_profile()
+			bbp_is_topic_tag()
+			||
+			bbp_is_topic_tag_edit()
+			||
+			is_bbpress()
 		)) {
 			$actual_prefix = 'bbpress_single';
 		}
@@ -258,6 +271,8 @@ class Blocksy_Screen_Manager {
 					is_tax()
 					&&
 					function_exists( 'taxonomy_is_product_attribute')
+					&&
+					$tax_obj
 					&&
 					taxonomy_is_product_attribute($tax_obj->taxonomy)
 				)
@@ -334,7 +349,69 @@ class Blocksy_Screen_Manager {
 			$actual_prefix = 'author';
 		}
 
+		if (isset($_GET['blocksy_prefix'])) {
+			$actual_prefix = $_GET['blocksy_prefix'];
+		}
+
 		return $this->process_allowed_prefixes($actual_prefix, $args);
 	}
 }
 
+/**
+ * Treat non-posts home page as a simple page.
+ */
+if (! function_exists('blocksy_is_page')) {
+	function blocksy_is_page($args = []) {
+		$args = wp_parse_args(
+			$args,
+			[
+				'shop_is_page' => true,
+				'blog_is_page' => true
+			]
+		);
+
+		static $static_result = null;
+
+		if ($static_result !== null) {
+		}
+
+		$result = (
+			(
+				$args['blog_is_page']
+				&&
+				is_home()
+				&&
+				! is_front_page()
+			) || is_page() || (
+				$args['shop_is_page'] && function_exists('is_shop') && is_shop()
+			) || is_attachment()
+		);
+
+		if ($result) {
+			$post_id = strval(get_the_ID());
+
+			if (is_home() && !is_front_page()) {
+				$post_id = get_option('page_for_posts');
+			}
+
+			if (function_exists('is_shop') && is_shop()) {
+				$post_id = get_option('woocommerce_shop_page_id');
+			}
+
+			if (get_post_type($post_id) !== 'page') {
+				$post_id = get_queried_object_id();
+			}
+
+			$static_result = $post_id;
+
+			if ($post_id === '0') {
+				return true;
+			}
+
+			return $post_id;
+		}
+
+		$static_result = false;
+		return false;
+	}
+}

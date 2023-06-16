@@ -244,7 +244,11 @@ if (isset($has_sticky_header) && $has_sticky_header) {
 		$sticky_logo_shrink['tablet'] = intval($sticky_logo_shrink['tablet']) / 100;
 		$sticky_logo_shrink['mobile'] = intval($sticky_logo_shrink['mobile']) / 100;
 
-		if ($has_sticky_header['effect'] !== 'shrink') {
+		if (
+			$has_sticky_header['effect'] !== 'shrink'
+			&&
+			$has_sticky_header['effect'] !== 'auto-hide'
+		) {
 			$shrinkedHeight = [
 				'desktop' => intval($logo_max_height['desktop'] * $sticky_logo_shrink['desktop']) . 'px',
 				'tablet' => intval($logo_max_height['tablet'] * $sticky_logo_shrink['tablet']) . 'px',

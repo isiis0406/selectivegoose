@@ -20,7 +20,7 @@ class BlocksyMailchimpManager extends BlocksyNewsletterManager {
 		$region = explode('-', $api_key);
 
 		$response = wp_remote_get(
-			'https://' . $region[1] . '.api.mailchimp.com/3.0/lists',
+			'https://' . $region[1] . '.api.mailchimp.com/3.0/lists?count=1000',
 			[
 				'headers' => [
 					'Authorization' => 'Basic ' . base64_encode(

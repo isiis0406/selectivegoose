@@ -2,8 +2,8 @@ const gulp = require('gulp')
 const buildProcess = require('ct-build-process')
 const removeCode = require('gulp-remove-code')
 const shell = require('gulp-shell')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-	.BundleAnalyzerPlugin
+const BundleAnalyzerPlugin =
+	require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const data = require('./package.json')
 
@@ -52,9 +52,10 @@ var options = {
 				library: 'ctFrontend',
 				libraryTarget: 'global',
 
-				jsonpFunction: 'blocksyJsonP',
+				chunkLoadingGlobal: 'blocksyJsonP',
 				path: './static/bundle/',
 				chunkFilename: '[id].[chunkhash].js',
+				publicPath: '',
 			},
 
 			/*
@@ -75,24 +76,6 @@ var options = {
 		},
 
 		{
-			entry: './static/js/frontend/lazy-load.js',
-			output: {
-				filename: 'lazy-load.js',
-				jsonpFunction: 'blocksyLazyLoadJsonP',
-				path: './static/bundle/',
-				chunkFilename: '[id].[chunkhash].js',
-			},
-			externals: {
-				'blocksy-frontend': 'window.ctFrontend',
-				_: 'window._',
-				jquery: 'jQuery',
-				'ct-i18n': 'window.wp.i18n',
-				'ct-events': 'ctEvents',
-				underscore: 'window._',
-			},
-		},
-
-		{
 			entry: './static/js/events.js',
 			output: {
 				filename: 'events.js',
@@ -109,7 +92,7 @@ var options = {
 				filename: 'options.js',
 				path: './static/bundle/',
 				chunkFilename: '[id].[chunkhash].js',
-				jsonpFunction: 'blocksyJsonP',
+				chunkLoadingGlobal: 'blocksyJsonP',
 				library: 'blocksyOptions',
 			},
 
@@ -128,7 +111,7 @@ var options = {
 			output: {
 				filename: 'sync.min.js',
 				path: './static/bundle/',
-				jsonpFunction: 'blocksyJsonP',
+				chunkLoadingGlobal: 'blocksyJsonP',
 				library: 'blocksyCustomizerSync',
 			},
 			externals: {
@@ -146,7 +129,7 @@ var options = {
 			output: {
 				filename: 'editor.js',
 				path: './static/bundle/',
-				jsonpFunction: 'blocksyEditorJsonP',
+				chunkLoadingGlobal: 'blocksyEditorJsonP',
 			},
 			externals: {
 				_: 'window._',
@@ -163,7 +146,7 @@ var options = {
 			output: {
 				filename: 'customizer-controls.js',
 				path: './static/bundle/',
-				jsonpFunction: 'blocksyJsonP',
+				chunkLoadingGlobal: 'blocksyJsonP',
 				chunkFilename: '[id].[chunkhash].js',
 				library: 'blocksyOptions',
 			},
@@ -181,7 +164,7 @@ var options = {
 			entry: './admin/dashboard/static/js/main.js',
 			output: {
 				path: './admin/dashboard/static/bundle',
-				jsonpFunction: 'blocksyJsonP',
+				chunkLoadingGlobal: 'blocksyJsonP',
 			},
 			externals: {
 				jquery: 'jQuery',
@@ -198,232 +181,231 @@ var options = {
 			input: 'static/sass/frontend/main.scss',
 			output: 'static/bundle',
 			filename: 'main.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/5-modules/page-title/main.scss',
 			output: 'static/bundle',
 			filename: 'page-title.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/4-components/back-to-top.scss',
 			output: 'static/bundle',
 			filename: 'back-to-top.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
-			input:
-				'static/sass/frontend/5-modules/widgets/non-critical-search-styles.scss',
+			input: 'static/sass/frontend/5-modules/widgets/non-critical-search-styles.scss',
 			output: 'static/bundle',
 			filename: 'non-critical-search-styles.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/admin-frontend.scss',
 			output: 'static/bundle',
 			filename: 'admin-frontend.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/3-actions/no-scripts.scss',
 			output: 'static/bundle',
 			filename: 'no-scripts.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/forminator/main.scss',
 			output: 'static/bundle',
 			filename: 'forminator.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/jet-woo-builder.scss',
 			output: 'static/bundle',
 			filename: 'jet-woo-builder.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/tribe-events.scss',
 			output: 'static/bundle',
 			filename: 'tribe-events.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/getwid.scss',
 			output: 'static/bundle',
 			filename: 'getwid.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/brizy.scss',
 			output: 'static/bundle',
 			filename: 'brizy.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/beaver.scss',
 			output: 'static/bundle',
 			filename: 'beaver.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/divi.scss',
 			output: 'static/bundle',
 			filename: 'divi.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/vc.scss',
 			output: 'static/bundle',
 			filename: 'vc.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/cf-7.scss',
 			output: 'static/bundle',
 			filename: 'cf-7.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/stackable.scss',
 			output: 'static/bundle',
 			filename: 'stackable.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/qubely.scss',
 			output: 'static/bundle',
 			filename: 'qubely.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/bbpress.scss',
 			output: 'static/bundle',
 			filename: 'bbpress.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/buddypress.scss',
 			output: 'static/bundle',
 			filename: 'buddypress.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/wpforms.scss',
 			output: 'static/bundle',
 			filename: 'wpforms.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/dokan.scss',
 			output: 'static/bundle',
 			filename: 'dokan.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/non-critical-styles.scss',
 			output: 'static/bundle',
 			filename: 'non-critical-styles.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/elementor.scss',
 			output: 'static/bundle',
 			filename: 'elementor-frontend.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/tutor/main.scss',
 			output: 'static/bundle',
 			filename: 'tutor.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/woocommerce/main.scss',
 			output: 'static/bundle',
 			filename: 'woocommerce.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/8-integrations/page-scroll-to-id.scss',
 			output: 'static/bundle',
 			filename: 'page-scroll-to-id.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/6-layout/sidebar/main.scss',
 			output: 'static/bundle',
 			filename: 'sidebar.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/5-modules/share-box/main.scss',
 			output: 'static/bundle',
 			filename: 'share-box.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/4-components/flexy.scss',
 			output: 'static/bundle',
 			filename: 'flexy.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/5-modules/comments.scss',
 			output: 'static/bundle',
 			filename: 'comments.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/4-components/author-box.scss',
 			output: 'static/bundle',
 			filename: 'author-box.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/frontend/4-components/posts-nav.scss',
 			output: 'static/bundle',
 			filename: 'posts-nav.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/backend/editor/main.scss',
 			output: 'static/bundle',
 			filename: 'editor.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
@@ -436,28 +418,28 @@ var options = {
 			input: 'static/sass/backend/customizer/main.scss',
 			output: 'static/bundle',
 			filename: 'customizer-controls.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/backend/admin/elementor.scss',
 			output: 'static/bundle',
 			filename: 'elementor.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/backend/admin.scss',
 			output: 'static/bundle',
 			filename: 'options.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'admin/dashboard/static/sass/main.scss',
 			output: 'admin/dashboard/static/bundle',
 			filename: 'main.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		// rtl
@@ -465,35 +447,35 @@ var options = {
 			input: 'static/sass/frontend/main-rtl.scss',
 			output: 'static/bundle',
 			filename: 'main-rtl.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/backend/editor/main-rtl.scss',
 			output: 'static/bundle',
 			filename: 'editor-rtl.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/backend/customizer/main-rtl.scss',
 			output: 'static/bundle',
 			filename: 'customizer-controls-rtl.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'static/sass/backend/admin-rtl.scss',
 			output: 'static/bundle',
 			filename: 'options-rtl.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 
 		{
 			input: 'admin/dashboard/static/sass/main-rtl.scss',
 			output: 'admin/dashboard/static/bundle',
 			filename: 'main-rtl.min',
-			header: buildProcess.headerFor(false, data),
+			// header: buildProcess.headerFor(false, data),
 		},
 	],
 
@@ -504,7 +486,7 @@ var options = {
 		'admin/dashboard/static/sass/**/*.scss',
 	],
 
-	webpackDevtool: 'none',
+	webpackDevtool: 'source-map',
 	webpackExternals: {
 		jquery: 'jQuery',
 		'ct-i18n': 'window.wp.i18n',
@@ -574,7 +556,9 @@ buildProcess.registerTasks(gulp, options)
 gulp.task(
 	'gettext-generate-js',
 	shell.task(
-		['cross-env NODE_ENV_GETTEXT=true NODE_ENV=production yarn gulp build'],
+		[
+			'cross-env NODE_ENV_GETTEXT=true NODE_ENV=production yarn gulp build --silent',
+		],
 		{
 			ignoreErrors: true,
 			verbose: true,

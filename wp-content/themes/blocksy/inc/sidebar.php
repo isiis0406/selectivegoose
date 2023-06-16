@@ -7,6 +7,31 @@
  * @package   Blocksy
  */
 
+add_filter('widget_nav_menu_args', function ($nav_menu_args) {
+	$nav_menu_args['menu_class'] = 'widget-menu';
+	return $nav_menu_args;
+}, 10, 1);
+
+add_action(
+	'dynamic_sidebar_before',
+	function () {
+		ob_start();
+	}
+);
+
+add_action(
+	'dynamic_sidebar_after',
+	function () {
+		$text = str_replace(
+			'textwidget',
+			'textwidget entry-content',
+			ob_get_clean()
+		);
+
+		echo $text;
+	}
+);
+
 if (! function_exists('blocksy_get_sidebar_to_render')) {
 	function blocksy_get_sidebar_to_render() {
 		if (class_exists('BlocksySidebarsManager')) {
@@ -34,6 +59,7 @@ if (! function_exists('blocksy_sidebar_position_attr')) {
 		$args = wp_parse_args(
 			$args,
 			[
+				'attr_id' => 'data-sidebar',
 				'array' => false
 			]
 		);
@@ -41,7 +67,7 @@ if (! function_exists('blocksy_sidebar_position_attr')) {
 		if ($args['array']) {
 			if (blocksy_sidebar_position() !== 'none') {
 				return [
-					'data-sidebar' => blocksy_sidebar_position()
+					$args['attr_id'] => blocksy_sidebar_position()
 				];
 			} else {
 				return [];
@@ -50,7 +76,7 @@ if (! function_exists('blocksy_sidebar_position_attr')) {
 
 		return (
 			blocksy_sidebar_position() === 'none'
-		) ? '' : 'data-sidebar="' . blocksy_sidebar_position() . '"';
+		) ? '' : $args['attr_id'] . '="' . blocksy_sidebar_position() . '"';
 	}
 }
 
@@ -70,13 +96,38 @@ if (! function_exists('blocksy_get_single_page_structure')) {
 
 		$result = 'none';
 
-		if (! is_singular() && $prefix !== 'bbpress_single') {
+		if (
+			! is_singular()
+			&&
+			$prefix !== 'bbpress_single'
+			&&
+			$prefix !== 'buddypress_single'
+			&&
+			(
+				$prefix !== 'courses_archive'
+				&&
+				function_exists('tutor')
+				||
+				! function_exists('tutor')
+			)
+		) {
 			$result = 'none';
 		} else {
-			$result = get_theme_mod(
-				$prefix . '_structure',
-				($prefix === 'single_blog_post') ? 'type-3' : 'type-4'
-			);
+			$default_structure = ($prefix === 'single_blog_post') ? 'type-3' : 'type-4';
+
+			if ($prefix === 'courses_single' && function_exists('tutor')) {
+				$default_structure = 'type-1';
+			}
+
+			$result = get_theme_mod($prefix . '_structure', $default_structure);
+
+			if ($prefix === 'courses_single' && function_exists('tutor')) {
+				$current_template = blocksy_manager()->get_current_template();
+
+				if ($current_template !== tutor_get_template('single-course')) {
+					$result = 'type-4';
+				}
+			}
 		}
 
 		return apply_filters('blocksy:global:page_structure', $result);
@@ -120,9 +171,13 @@ if (! function_exists('blocksy_sidebar_position_unfiltered')) {
 			return 'none';
 		}
 
-		$is_dokan_store = class_exists('WeDevs_Dokan') && dokan_is_store_page();
+		$is_dokan_store = class_exists('WeDevs_Dokan') && function_exists('dokan_is_store_page') && dokan_is_store_page();
 
 		if ($is_dokan_store) {
+			return 'none';
+		}
+
+		if (! $prefix) {
 			return 'none';
 		}
 
@@ -144,14 +199,22 @@ if (! function_exists('blocksy_sidebar_position_unfiltered')) {
 			$prefix === 'woo_categories'
 		) {
 			if (
-				get_theme_mod($prefix . '_has_sidebar', 'no') === 'no'
+				$prefix !== 'courses_archive'
+				&&
+				function_exists('tutor')
 				||
-				$blog_post_structure === 'gutenberg'
+				! function_exists('tutor')
 			) {
-				return 'none';
-			}
+				if (
+					get_theme_mod($prefix . '_has_sidebar', 'no') === 'no'
+					||
+					$blog_post_structure === 'gutenberg'
+				) {
+					return 'none';
+				}
 
-			return get_theme_mod($prefix . '_sidebar_position', 'right');
+				return get_theme_mod($prefix . '_sidebar_position', 'right');
+			}
 		}
 
 		if (
@@ -162,6 +225,14 @@ if (! function_exists('blocksy_sidebar_position_unfiltered')) {
 			$prefix !== 'product'
 			&&
 			strpos($prefix, '_single') === false
+			&&
+			(
+				$prefix !== 'courses_archive'
+				&&
+				function_exists('tutor')
+				||
+				! function_exists('tutor')
+			)
 		) {
 			return 'right';
 		}

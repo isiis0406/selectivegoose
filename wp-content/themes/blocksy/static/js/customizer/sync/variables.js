@@ -112,9 +112,9 @@ const getAllVariables = () => {
 				},
 			],
 
-			// Page Hero
 			...getSingleContentVariablesFor(),
 
+			// Page Hero
 			...getHeroVariables(),
 
 			...getPostListingVariables(),
@@ -220,11 +220,19 @@ const getAllVariables = () => {
 					variable: 'content-spacing',
 					extractValue: (value) =>
 						({
-							none: '0',
+							none: '0px',
 							compact: '0.8em',
 							comfortable: '1.5em',
 							spacious: '2em',
 						}[value]),
+				},
+
+				{
+					selector: ':root',
+					variable: 'has-content-spacing',
+					extractValue: (value) => {
+						return value === 'none' ? '0' : '1'
+					},
 				},
 			],
 

@@ -9,8 +9,8 @@ namespace Automattic\WooCommerce\Admin\API\Reports\Orders;
 
 defined( 'ABSPATH' ) || exit;
 
-use \Automattic\WooCommerce\Admin\API\Reports\Controller as ReportsController;
-use \Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
+use Automattic\WooCommerce\Admin\API\Reports\Controller as ReportsController;
+use Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
 
 /**
  * REST API Reports orders controller class.
@@ -19,13 +19,6 @@ use \Automattic\WooCommerce\Admin\API\Reports\ExportableInterface;
  * @extends \Automattic\WooCommerce\Admin\API\Reports\Controller
  */
 class Controller extends ReportsController implements ExportableInterface {
-
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'wc-analytics';
 
 	/**
 	 * Route base.
@@ -41,31 +34,32 @@ class Controller extends ReportsController implements ExportableInterface {
 	 * @return array
 	 */
 	protected function prepare_reports_query( $request ) {
-		$args                       = array();
-		$args['before']             = $request['before'];
-		$args['after']              = $request['after'];
-		$args['page']               = $request['page'];
-		$args['per_page']           = $request['per_page'];
-		$args['orderby']            = $request['orderby'];
-		$args['order']              = $request['order'];
-		$args['product_includes']   = (array) $request['product_includes'];
-		$args['product_excludes']   = (array) $request['product_excludes'];
-		$args['variation_includes'] = (array) $request['variation_includes'];
-		$args['variation_excludes'] = (array) $request['variation_excludes'];
-		$args['coupon_includes']    = (array) $request['coupon_includes'];
-		$args['coupon_excludes']    = (array) $request['coupon_excludes'];
-		$args['tax_rate_includes']  = (array) $request['tax_rate_includes'];
-		$args['tax_rate_excludes']  = (array) $request['tax_rate_excludes'];
-		$args['status_is']          = (array) $request['status_is'];
-		$args['status_is_not']      = (array) $request['status_is_not'];
-		$args['customer_type']      = $request['customer_type'];
-		$args['extended_info']      = $request['extended_info'];
-		$args['refunds']            = $request['refunds'];
-		$args['match']              = $request['match'];
-		$args['order_includes']     = $request['order_includes'];
-		$args['order_excludes']     = $request['order_excludes'];
-		$args['attribute_is']       = (array) $request['attribute_is'];
-		$args['attribute_is_not']   = (array) $request['attribute_is_not'];
+		$args                        = array();
+		$args['before']              = $request['before'];
+		$args['after']               = $request['after'];
+		$args['page']                = $request['page'];
+		$args['per_page']            = $request['per_page'];
+		$args['orderby']             = $request['orderby'];
+		$args['order']               = $request['order'];
+		$args['product_includes']    = (array) $request['product_includes'];
+		$args['product_excludes']    = (array) $request['product_excludes'];
+		$args['variation_includes']  = (array) $request['variation_includes'];
+		$args['variation_excludes']  = (array) $request['variation_excludes'];
+		$args['coupon_includes']     = (array) $request['coupon_includes'];
+		$args['coupon_excludes']     = (array) $request['coupon_excludes'];
+		$args['tax_rate_includes']   = (array) $request['tax_rate_includes'];
+		$args['tax_rate_excludes']   = (array) $request['tax_rate_excludes'];
+		$args['status_is']           = (array) $request['status_is'];
+		$args['status_is_not']       = (array) $request['status_is_not'];
+		$args['customer_type']       = $request['customer_type'];
+		$args['extended_info']       = $request['extended_info'];
+		$args['refunds']             = $request['refunds'];
+		$args['match']               = $request['match'];
+		$args['order_includes']      = $request['order_includes'];
+		$args['order_excludes']      = $request['order_excludes'];
+		$args['attribute_is']        = (array) $request['attribute_is'];
+		$args['attribute_is_not']    = (array) $request['attribute_is_not'];
+		$args['force_cache_refresh'] = $request['force_cache_refresh'];
 
 		return $args;
 	}
@@ -477,6 +471,12 @@ class Controller extends ReportsController implements ExportableInterface {
 				'type' => 'array',
 			),
 			'default'           => array(),
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+		$params['force_cache_refresh'] = array(
+			'description'       => __( 'Force retrieval of fresh data instead of from the cache.', 'woocommerce' ),
+			'type'              => 'boolean',
+			'sanitize_callback' => 'wp_validate_boolean',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 

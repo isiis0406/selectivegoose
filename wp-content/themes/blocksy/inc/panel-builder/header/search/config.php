@@ -6,6 +6,9 @@ $config = [
 
 	'translation_keys' => [
 		['key' => 'header_search_placeholder'],
+	],
+	'selective_refresh' => [
+		'icon'
 	]
 ];
 

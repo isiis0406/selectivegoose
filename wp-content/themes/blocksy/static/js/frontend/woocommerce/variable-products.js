@@ -1,6 +1,5 @@
 import $ from 'jquery'
 import ctEvents from 'ct-events'
-import { markImagesAsLoaded } from '../lazy-load-helpers'
 
 let originalImageUpdate = null
 
@@ -43,6 +42,10 @@ const makeUrlFor = ({ variation, productId, isQuickView }) => {
 }
 
 const replaceFirstImage = ({ container, image }) => {
+	if (!image) {
+		return
+	}
+
 	const containersToReplace = []
 
 	const selectorsToTry = [
@@ -75,32 +78,30 @@ const replaceFirstImage = ({ container, image }) => {
 		;[...imgContainer.querySelectorAll('.zoomImg')].map((img) => {
 			img.remove()
 		})
-		;[...imgContainer.querySelectorAll('img')].map((img) => {
+		;[...imgContainer.querySelectorAll('img, source')].map((img) => {
 			if (img.matches('.zoomImg')) {
 				return
 			}
 
 			if (img.getAttribute('width')) {
-				img.width = image.width
+				img.width =
+					image.width ||
+					(img.closest('.flexy-pills')
+						? image.gallery_thumbnail_src_w
+						: image.src_w)
 			}
 
 			if (img.getAttribute('height')) {
-				img.height = image.height
+				img.height =
+					image.height ||
+					(img.closest('.flexy-pills')
+						? image.gallery_thumbnail_src_h
+						: image.src_h)
 			}
 
-			img.src = image.src
-
-			if (img.dataset.ctLazy) {
-				img.dataset.ctLazy = image.src
-			}
-
-			if (img.dataset.ctLazySet && img.dataset.ctLazySet !== 'false') {
-				img.dataset.ctLazySet = image.srcset
-			}
-
-			if (img.sizes) {
-				img.sizes = image.sizes
-			}
+			img.src = img.closest('.flexy-pills')
+				? image.gallery_thumbnail_src
+				: image.src
 
 			if (image.srcset && img.srcset && image.srcset !== 'false') {
 				img.srcset = image.srcset
@@ -168,7 +169,10 @@ const performInPlaceUpdate = ({
 		return
 	}
 
-	if (parseFloat(nextImage.id) === parseFloat(currentImage.id)) {
+	if (
+		currentImage &&
+		parseFloat(nextImage.id) === parseFloat(currentImage.id)
+	) {
 		return
 	}
 
@@ -179,18 +183,15 @@ const performInPlaceUpdate = ({
 			container.querySelector(
 				`.flexy-items [srcset*="${nextImage.src}"]`
 			) ||
-			container.querySelector(
-				`.flexy-items [data-ct-lazy-set*="${nextImage.src}"]`
-			)
+			container.querySelector(`.flexy-items [src*="${nextImage.src}"]`)
 
 		if (maybePillImage) {
 			let pillIndex = [
 				...container.querySelector(`.flexy-items`).children,
 			].indexOf(maybePillImage.closest('div'))
 
-			const pill = container.querySelector(`.flexy-pills > *`).children[
-				pillIndex
-			]
+			const pill =
+				container.querySelector(`.flexy-pills > *`).children[pillIndex]
 
 			if (pill) {
 				if (
@@ -301,7 +302,19 @@ export const mount = (el) => {
 				: false
 		}
 
+		let defaultCanDoInPlaceUpdate = '__DEFAULT__'
+
 		if (
+			variation &&
+			!variation.variation_id &&
+			currentElement.querySelector('.wcpa_form_outer')
+		) {
+			defaultCanDoInPlaceUpdate = true
+			nextVariationObj = variation
+		}
+
+		if (
+			defaultCanDoInPlaceUpdate === '__DEFAULT__' &&
 			!variation.variation_id &&
 			!currentVariation.dataset.currentVariation
 		) {
@@ -309,27 +322,34 @@ export const mount = (el) => {
 		}
 
 		if (
+			defaultCanDoInPlaceUpdate === '__DEFAULT__' &&
 			parseInt(variation.variation_id) ===
-			parseInt(currentVariation.dataset.currentVariation)
+				parseInt(currentVariation.dataset.currentVariation)
 		) {
 			return
 		}
 
-		if (variation.variation_id) {
-			currentVariation.dataset.currentVariation = variation.variation_id
+		if (
+			variation.variation_id ||
+			defaultCanDoInPlaceUpdate === '__DEFAULT__'
+		) {
+			currentVariation.dataset.currentVariation =
+				variation.variation_id || '0'
 		} else {
 			currentVariation.removeAttribute('data-current-variation')
 		}
 
 		const canDoInPlaceUpdate =
-			allVariations &&
-			[nextVariationObj, currentVariationObj].every((variation) => {
-				if (!variation) {
-					return true
-				}
+			defaultCanDoInPlaceUpdate === '__DEFAULT__'
+				? allVariations &&
+				  [nextVariationObj, currentVariationObj].every((variation) => {
+						if (!variation) {
+							return true
+						}
 
-				return variation.blocksy_gallery_source === 'default'
-			})
+						return variation.blocksy_gallery_source === 'default'
+				  })
+				: defaultCanDoInPlaceUpdate
 
 		if (canDoInPlaceUpdate) {
 			performInPlaceUpdate({
@@ -340,26 +360,46 @@ export const mount = (el) => {
 			return
 		}
 
-		const acceptHtml = (html) => {
+		const acceptHtml = (html, style) => {
 			const div = document.createElement('div')
 			div.innerHTML = html
 			;[...div.firstElementChild.children].map((el, index) => {
-				if (!el.matches('.flexy-container, .ct-image-container')) {
+				if (
+					!el.matches(
+						'.flexy-container, .ct-image-container, .ct-before-gallery'
+					)
+				) {
 					el.remove()
 				}
 			})
+			let didInsert = false
 			;[...currentVariation.children].map((el, index) => {
 				if (el.matches('.flexy-container, .ct-image-container')) {
+					if (!didInsert) {
+						didInsert = true
+						el.insertAdjacentHTML(
+							'beforebegin',
+							div.firstElementChild.innerHTML
+						)
+					}
+				}
+
+				if (
+					el.matches(
+						'.flexy-container, .ct-image-container, .ct-before-gallery'
+					)
+				) {
 					el.remove()
 				}
 			})
 
-			currentVariation.insertAdjacentHTML(
-				'afterbegin',
-				div.firstElementChild.innerHTML
-			)
+			currentVariation
+				.closest('.product')
+				.classList.remove('thumbs-left', 'thumbs-bottom')
 
-			markImagesAsLoaded(currentVariation)
+			if (currentVariation.querySelector('.flexy-container')) {
+				currentVariation.closest('.product').classList.add(style)
+			}
 
 			currentVariation.hasLazyLoadClickHoverListener = false
 
@@ -370,7 +410,10 @@ export const mount = (el) => {
 		}
 
 		if (variation.blocksy_gallery_html) {
-			acceptHtml(variation.blocksy_gallery_html)
+			acceptHtml(
+				variation.blocksy_gallery_html,
+				variation.blocksy_gallery_style
+			)
 			return
 		}
 
@@ -411,7 +454,7 @@ export const mount = (el) => {
 					return
 				}
 
-				acceptHtml(data.html)
+				acceptHtml(data.html, data.blocksy_gallery_style)
 			})
 	}
 }

@@ -9,8 +9,7 @@
 
 
 // Widget title
-$title = blocksy_default_akg( 'title', $atts, __( 'About me', 'blc' ) );
-
+$title = blocksy_default_akg('title', $atts, __('About me', 'blocksy-companion'));
 $about_source = blocksy_default_akg('about_source', $atts, 'from_wp');
 $about_type = blocksy_default_akg('about_type', $atts, 'simple');
 $alignment = blocksy_default_akg('about_alignment', $atts, 'center');
@@ -37,7 +36,7 @@ $image_output = blc_call_fn(['fn' => 'blocksy_image'], [
 	]
 ]);
 
-$about_name = blocksy_default_akg('about_name', $atts, __('John Doe', 'blc'));
+$about_name = blocksy_default_akg('about_name', $atts, __('John Doe', 'blocksy-companion'));
 $about_text = do_shortcode(blocksy_default_akg('about_text', $atts, ''));
 
 if ($about_source === 'from_wp') {
@@ -81,7 +80,9 @@ $fill = blocksy_default_akg('about_social_icons_fill', $atts, 'outline');
 echo $before_widget;
 
 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-echo $before_title . wp_kses_post( $title ) . $after_title;
+if (! empty(trim($title))) {
+	echo $before_title . wp_kses_post($title) . $after_title;
+}
 ?>
 
 
@@ -96,7 +97,7 @@ echo $before_title . wp_kses_post( $title ) . $after_title;
 
 		<?php if ($about_source === 'from_wp') { ?>
 			<a href="<?php echo get_author_posts_url($user_id) ?>" class="ct-about-me-link">
-				<?php echo __('View Profile', 'blc') ?>
+				<?php echo __('View Profile', 'blocksy-companion') ?>
 			</a>
 		<?php } ?>
 	</p>

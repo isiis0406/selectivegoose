@@ -351,7 +351,7 @@ if (! function_exists('blocksy_spacing_prepare_for_device')) {
 			$value['bottom'],
 			$value['left']
 		] as $val) {
-			if ($val !== 'auto' && preg_match('/\\d/', $val) > 0) {
+			if ($val !== 'auto' && trim($val) !== '') {
 				$is_value_compact = false;
 				break;
 			}

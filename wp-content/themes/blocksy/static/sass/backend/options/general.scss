@@ -48,6 +48,15 @@ $accent-color: #0e8ecc;
 			}
 		}
 	}
+
+	&[data-design='block:right'] {
+		display: flex;
+		flex-direction: column;
+
+		> section {
+			align-self: flex-end;
+		}
+	}
 }
 
 

@@ -17,6 +17,14 @@
 		margin-top: 8px;
 	}
 
+	.entry-excerpt {
+		margin-top: 15px;
+
+		> *:last-child {
+			margin-bottom: 0;
+		}
+	}
+
 
 	// hide added to cart button
 	.add_to_cart_button {

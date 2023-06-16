@@ -26,7 +26,7 @@ blc_call_fn(['fn' => 'blocksy_output_colors'], [
 	'variables' => [
 		'default' => [
 			'selector' => '.ct-newsletter-subscribe-block',
-			'variable' => 'color'
+			'variable' => 'text-color'
 		],
 
 		'hover' => [

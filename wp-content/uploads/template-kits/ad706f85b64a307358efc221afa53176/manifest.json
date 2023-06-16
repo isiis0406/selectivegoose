@@ -1,0 +1,817 @@
+{
+    "manifest_version": "1.0.21",
+    "title": "Vintina \u2013 Lingerie & Underwear Store Elementor Template Kit",
+    "page_builder": "elementor",
+    "kit_version": "1.0.0",
+    "templates": [
+        {
+            "name": "Global Kit Styles",
+            "screenshot": "screenshots\/global-kit-styles.jpg",
+            "source": "templates\/global.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com",
+            "type": "section",
+            "category": "page",
+            "metadata": {
+                "template_type": "global-styles",
+                "include_in_zip": "1",
+                "elementor_pro_required": null,
+                "additional_template_information": [
+                    "These are the global theme styles configured through the Elementor Theme Styles area."
+                ]
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Home",
+            "screenshot": "screenshots\/home.jpg",
+            "source": "templates\/home.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/home\/",
+            "type": "section",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-home",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "About",
+            "screenshot": "screenshots\/about.jpg",
+            "source": "templates\/about.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/about\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Shop",
+            "screenshot": "screenshots\/shop.jpg",
+            "source": "templates\/shop.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/shop\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Jkit-Tab Description",
+            "screenshot": "screenshots\/jkit-tab-description.jpg",
+            "source": "templates\/jkit-tab-description.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/jkit-tab-description\/",
+            "type": "section",
+            "category": "section",
+            "metadata": {
+                "template_type": "section-other",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Jkit-Tab Additional Information",
+            "screenshot": "screenshots\/jkit-tab-additional-information.jpg",
+            "source": "templates\/jkit-tab-additional-information.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/jkit-tab-additional-information\/",
+            "type": "section",
+            "category": "section",
+            "metadata": {
+                "template_type": "section-other",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Product Detail",
+            "screenshot": "screenshots\/product-detail.jpg",
+            "source": "templates\/product-detail.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/product-detail\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "FAQ",
+            "screenshot": "screenshots\/faq.jpg",
+            "source": "templates\/faq.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/faq\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "404 Page",
+            "screenshot": "screenshots\/404-page.jpg",
+            "source": "templates\/404-page.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/404-page\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Blog",
+            "screenshot": "screenshots\/blog.jpg",
+            "source": "templates\/blog.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/blog\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Single Post",
+            "screenshot": "screenshots\/single-post.jpg",
+            "source": "templates\/single-post.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/single-post\/",
+            "type": "section",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-post",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "MetForm Contact",
+            "screenshot": "screenshots\/metform-contact.jpg",
+            "source": "templates\/metform-contact.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/metform-contact\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Contact",
+            "screenshot": "screenshots\/contact.jpg",
+            "source": "templates\/contact.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/contact\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Off Canvas",
+            "screenshot": "screenshots\/off-canvas.jpg",
+            "source": "templates\/off-canvas.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/off-canvas\/",
+            "type": "section",
+            "category": "section",
+            "metadata": {
+                "template_type": "section-other",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Header",
+            "screenshot": "screenshots\/header.jpg",
+            "source": "templates\/header.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/header\/",
+            "type": "section",
+            "category": "section",
+            "metadata": {
+                "template_type": "section-header",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        },
+        {
+            "name": "Footer",
+            "screenshot": "screenshots\/footer.jpg",
+            "source": "templates\/footer.json",
+            "preview_url": "https:\/\/templatekit.jegtheme.com\/vintina\/template-kit\/footer\/",
+            "type": "section",
+            "category": "section",
+            "metadata": {
+                "template_type": "section-footer",
+                "include_in_zip": "1",
+                "elementor_pro_required": null
+            },
+            "elementor_pro_required": false
+        }
+    ],
+    "required_plugins": [
+        {
+            "name": "Jeg Elementor Kit",
+            "version": "2.4.1",
+            "file": "jeg-elementor-kit\/jeg-elementor-kit.php",
+            "author": "Jegstudio"
+        },
+        {
+            "name": "MetForm",
+            "version": "1.5.4",
+            "file": "metform\/metform.php",
+            "author": "Wpmet"
+        },
+        {
+            "name": "WooCommerce",
+            "version": "5.7.2",
+            "file": "woocommerce\/woocommerce.php",
+            "author": "Automattic"
+        },
+        {
+            "name": "Elementor",
+            "version": "3.5.3",
+            "file": "elementor\/elementor.php",
+            "author": "Elementor.com"
+        }
+    ],
+    "images": [
+        {
+            "filename": "beautiful-seductive-woman-in-sexy-lingerie-posing-at-bed-e1649406983690.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/03\/beautiful-seductive-woman-in-sexy-lingerie-posing-at-bed-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 218380,
+            "dimensions": [
+                1920,
+                1282
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-U9JS7E8"
+        },
+        {
+            "filename": "middle-aged-woman-in-lingerie-posing-on-the-terrac-2021-08-29-16-39-21-utc.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/middle-aged-woman-in-lingerie-posing-on-the-terrac-2021-08-29-16-39-21-utc-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 242383,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/middle-aged-woman-in-lingerie-posing-on-the-terrac-W76DPTT"
+        },
+        {
+            "filename": "slim-female-body-in-sexy-lingerie-side-view-e1649407020507.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/03\/slim-female-body-in-sexy-lingerie-side-view-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 206389,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-86W7W44"
+        },
+        {
+            "filename": "young-female-model-with-dark-hair-and-lace-underwe-2021-08-27-23-56-46-utc-e1649407051610.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/young-female-model-with-dark-hair-and-lace-underwe-2021-08-27-23-56-46-utc-800x908.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 409808,
+            "dimensions": [
+                1692,
+                1920
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/young-female-model-with-dark-hair-and-lace-underwe-E2QUBQB"
+        },
+        {
+            "filename": "pretty-girl-wearing-red-lingerie-lying-on-bed-e1649407079918.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/pretty-girl-wearing-red-lingerie-lying-on-bed-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/about.json",
+                    "name": "About"
+                }
+            ],
+            "filesize": 266949,
+            "dimensions": [
+                1920,
+                1281
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-BKHHMZD"
+        },
+        {
+            "filename": "Asset-6.png",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/Asset-6.png",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 23977,
+            "dimensions": [
+                501,
+                502
+            ],
+            "image_source": "self_created",
+            "person_or_place": "no",
+            "image_urls": ""
+        },
+        {
+            "filename": "Signature-2.png",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/Signature-2-800x204.png",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/about.json",
+                    "name": "About"
+                }
+            ],
+            "filesize": 23340,
+            "dimensions": [
+                1183,
+                301
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/romance-signature-beauty-signature-font-79S3VXF"
+        },
+        {
+            "filename": "partial-view-of-seductive-female-model-wearing-sexy-beige-lingerie-and-posing-in-bed-e1649407114860.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/partial-view-of-seductive-female-model-wearing-sexy-beige-lingerie-and-posing-in-bed-e1649060223261-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                }
+            ],
+            "filesize": 256061,
+            "dimensions": [
+                1920,
+                1282
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-DAA2SAR"
+        },
+        {
+            "filename": "slim-female-body-in-sexy-lingerie-side-view-e1649407162281.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/slim-female-body-in-sexy-lingerie-side-view-e1649059896960-800x449.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/shop.json",
+                    "name": "Shop"
+                }
+            ],
+            "filesize": 134215,
+            "dimensions": [
+                1920,
+                1078
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-YC9VM7W"
+        },
+        {
+            "filename": "portrait-of-a-sexy-redhead-girl-on-the-floor-posing-in-the-white-room-e1649407190388.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/portrait-of-a-sexy-redhead-girl-on-the-floor-posing-in-the-white-room-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/home.json",
+                    "name": "Home"
+                },
+                {
+                    "source": "templates\/about.json",
+                    "name": "About"
+                },
+                {
+                    "source": "templates\/faq.json",
+                    "name": "FAQ"
+                }
+            ],
+            "filesize": 223700,
+            "dimensions": [
+                1920,
+                1282
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-L66E636"
+        },
+        {
+            "filename": "caucasian-woman-posing-in-lingerie-lying-on-the-bed-e1649407219229.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/caucasian-woman-posing-in-lingerie-lying-on-the-bed-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/about.json",
+                    "name": "About"
+                },
+                {
+                    "source": "templates\/product-detail.json",
+                    "name": "Product Detail"
+                }
+            ],
+            "filesize": 252629,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-R45MV86"
+        },
+        {
+            "filename": "hot-lady-in-luxury-lingerie-perfect-sexy-body-e1649407248514.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/hot-lady-in-luxury-lingerie-perfect-sexy-body-800x1200.jpg",
+            "templates": [
+                {
+                    "source": "templates\/about.json",
+                    "name": "About"
+                }
+            ],
+            "filesize": 264168,
+            "dimensions": [
+                1280,
+                1920
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-M96RP7F"
+        },
+        {
+            "filename": "high-angle-view-of-pretty-girl-posing-in-red-lingerie-and-looking-at-camera-e1649407279343.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/high-angle-view-of-pretty-girl-posing-in-red-lingerie-and-looking-at-camera-800x1199.jpg",
+            "templates": [
+                {
+                    "source": "templates\/about.json",
+                    "name": "About"
+                }
+            ],
+            "filesize": 370930,
+            "dimensions": [
+                1282,
+                1920
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-X8YA26T"
+        },
+        {
+            "filename": "hot-and-graceful-young-woman-posing-in-a-bright-studio-on-a-make-up-chair-looking-sexy-e1649407309555.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/hot-and-graceful-young-woman-posing-in-a-bright-studio-on-a-make-up-chair-looking-sexy-800x1200.jpg",
+            "templates": [
+                {
+                    "source": "templates\/about.json",
+                    "name": "About"
+                }
+            ],
+            "filesize": 304317,
+            "dimensions": [
+                1280,
+                1920
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-2JY69D9"
+        },
+        {
+            "filename": "caucasian-girl-in-lingerie-lying-on-the-floor-e1649407338656.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/caucasian-girl-in-lingerie-lying-on-the-floor-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/shop.json",
+                    "name": "Shop"
+                }
+            ],
+            "filesize": 184820,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-ANWK47Q"
+        },
+        {
+            "filename": "beautiful-blonde-girl-in-seductive-red-lingerie-posing-on-bed-e1649407369307.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/beautiful-blonde-girl-in-seductive-red-lingerie-posing-on-bed-800x1199.jpg",
+            "templates": [
+                {
+                    "source": "templates\/shop.json",
+                    "name": "Shop"
+                }
+            ],
+            "filesize": 184359,
+            "dimensions": [
+                1282,
+                1920
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-YGKUMQC"
+        },
+        {
+            "filename": "sensual-beauty-beautiful-young-woman-in-lingerie-2021-09-01-06-38-07-utc.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/sensual-beauty-beautiful-young-woman-in-lingerie-2021-09-01-06-38-07-utc-800x887.jpg",
+            "templates": [
+                {
+                    "source": "templates\/product-detail.json",
+                    "name": "Product Detail"
+                }
+            ],
+            "filesize": 67507,
+            "dimensions": [
+                1080,
+                1197
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/sensual-beauty-beautiful-young-woman-in-lingerie-s-N5M37UZ"
+        },
+        {
+            "filename": "pure-beauty-2021-09-01-07-29-46-utc.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/pure-beauty-2021-09-01-07-29-46-utc-800x887.jpg",
+            "templates": [
+                {
+                    "source": "templates\/product-detail.json",
+                    "name": "Product Detail"
+                }
+            ],
+            "filesize": 64906,
+            "dimensions": [
+                1080,
+                1197
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/pure-beauty-BZ6F53L"
+        },
+        {
+            "filename": "flirty-beauty-attractive-young-woman-in-lingerie-2021-09-01-06-38-06-utc.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/flirty-beauty-attractive-young-woman-in-lingerie-2021-09-01-06-38-06-utc-800x887.jpg",
+            "templates": [
+                {
+                    "source": "templates\/product-detail.json",
+                    "name": "Product Detail"
+                }
+            ],
+            "filesize": 54692,
+            "dimensions": [
+                1080,
+                1197
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/flirty-beauty-attractive-young-woman-in-lingerie-s-YK9MY97"
+        },
+        {
+            "filename": "sexy-woman-in-lingerie-posing-in-leather-sunbed-2021-09-01-01-36-03-utc-e1649407405199.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/sexy-woman-in-lingerie-posing-in-leather-sunbed-2021-09-01-01-36-03-utc-800x532.jpg",
+            "templates": [
+                {
+                    "source": "templates\/faq.json",
+                    "name": "FAQ"
+                }
+            ],
+            "filesize": 158748,
+            "dimensions": [
+                1920,
+                1278
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/sexy-woman-in-lingerie-posing-in-leather-sunbed-5FQMCJV"
+        },
+        {
+            "filename": "silhouette-of-attractive-young-woman-in-lingerie-standing-near-window-e1649407433264.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/silhouette-of-attractive-young-woman-in-lingerie-standing-near-window-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/404-page.json",
+                    "name": "404 Page"
+                }
+            ],
+            "filesize": 152500,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-PC7TELP"
+        },
+        {
+            "filename": "young-beautiful-lady-in-lingerie-and-white-shirt-t-2021-08-26-18-52-54-utc-e1649407467248.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/young-beautiful-lady-in-lingerie-and-white-shirt-t-2021-08-26-18-52-54-utc-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/blog.json",
+                    "name": "Blog"
+                }
+            ],
+            "filesize": 138270,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/young-beautiful-lady-in-lingerie-and-white-shirt-t-LG6RXE7"
+        },
+        {
+            "filename": "sexy-woman-in-black-lingerie-lying-on-sofa-2021-09-01-01-36-02-utc-e1649407495297.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/sexy-woman-in-black-lingerie-lying-on-sofa-2021-09-01-01-36-02-utc-800x532.jpg",
+            "templates": [
+                {
+                    "source": "templates\/single-post.json",
+                    "name": "Single Post"
+                }
+            ],
+            "filesize": 192566,
+            "dimensions": [
+                1920,
+                1278
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/sexy-woman-in-black-lingerie-lying-on-sofa-ZZBVRZC"
+        },
+        {
+            "filename": "woman-sits-on-an-unmade-bed-and-chooses-underwear-various-bras-in-front-of-female--e1649407571817.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/woman-sits-on-an-unmade-bed-and-chooses-underwear-various-bras-in-front-of-female--800x600.jpg",
+            "templates": [
+                {
+                    "source": "templates\/single-post.json",
+                    "name": "Single Post"
+                }
+            ],
+            "filesize": 270441,
+            "dimensions": [
+                1920,
+                1440
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-WAHTNCQ"
+        },
+        {
+            "filename": "fashion-designer-lingerie-amelie-contour-bra-and-thong-by-heidi-klum-lingerie-2-e1649407600600.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/fashion-designer-lingerie-amelie-contour-bra-and-thong-by-heidi-klum-lingerie-2-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/single-post.json",
+                    "name": "Single Post"
+                }
+            ],
+            "filesize": 446734,
+            "dimensions": [
+                1920,
+                1282
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/image-MFQ6R3R"
+        },
+        {
+            "filename": "casual-lingerie-on-white-bedsheets-flat-lay-with-everyday-underwear--e1649407630373.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/casual-lingerie-on-white-bedsheets-flat-lay-with-everyday-underwear--800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/single-post.json",
+                    "name": "Single Post"
+                }
+            ],
+            "filesize": 275662,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/image-TSJHTM9"
+        },
+        {
+            "filename": "luscious-and-graceful-woman-posing-wearing-linger-2021-08-27-23-56-55-utc-e1649407659220.jpg",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/luscious-and-graceful-woman-posing-wearing-linger-2021-08-27-23-56-55-utc-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/contact.json",
+                    "name": "Contact"
+                }
+            ],
+            "filesize": 243700,
+            "dimensions": [
+                1920,
+                1280
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/luscious-and-graceful-woman-posing-wearing-lingeri-QJP49ZA"
+        },
+        {
+            "filename": "Logo@2x.png",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/Logo@2x-800x310.png",
+            "templates": [
+                {
+                    "source": "templates\/off-canvas.json",
+                    "name": "Off Canvas"
+                },
+                {
+                    "source": "templates\/header.json",
+                    "name": "Header"
+                },
+                {
+                    "source": "templates\/footer.json",
+                    "name": "Footer"
+                }
+            ],
+            "filesize": 23781,
+            "dimensions": [
+                1549,
+                601
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/kingfoil-modern-stylish-Y9U4WHC"
+        },
+        {
+            "filename": "Logo-White@2x.png",
+            "thumbnail_url": "https:\/\/templatekit.jegtheme.com\/vintina\/wp-content\/uploads\/sites\/258\/2022\/04\/Logo-White@2x-800x310.png",
+            "templates": [
+                {
+                    "source": "templates\/header.json",
+                    "name": "Header"
+                }
+            ],
+            "filesize": 21989,
+            "dimensions": [
+                1549,
+                601
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/kingfoil-modern-stylish-Y9U4WHC"
+        }
+    ]
+}

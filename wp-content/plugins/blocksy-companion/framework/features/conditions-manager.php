@@ -17,6 +17,11 @@ class ConditionsManager {
 			return false;
 		}
 
+		// Check if it looks like a normal rules array. If it doesn't -- bail out.
+		if (! isset($rules[0]) || ! isset($rules[0]['rule'])) {
+			return false;
+		}
+
 		$all_includes = array_filter($rules, function ($el) {
 			return $el['type'] === 'include';
 		});
@@ -106,11 +111,35 @@ class ConditionsManager {
 			return is_front_page();
 		}
 
+		if ($rule['rule'] === 'privacy_policy_page') {
+			$is_blocksy_page = blocksy_is_page();
+
+			if (is_singular() || $is_blocksy_page) {
+				$post_id = get_the_ID();
+
+				if ($is_blocksy_page) {
+					$post_id = $is_blocksy_page;
+				}
+
+				return intval($post_id) === intval(
+					get_option('wp_page_for_privacy_policy')
+				);
+			}
+		}
+
 		if ($rule['rule'] === 'date') {
 			return is_date();
 		}
 
 		if ($rule['rule'] === 'author') {
+			if (
+				isset($rule['payload'])
+				&&
+				isset($rule['payload']['user_id'])
+			) {
+				return is_author($rule['payload']['user_id']);
+			}
+
 			return is_author();
 		}
 
@@ -233,35 +262,37 @@ class ConditionsManager {
 			||
 			$rule['rule'] === 'custom_post_type_ids'
 		) {
-			$is_blocksy_page = blocksy_is_page();
+			if (function_exists('blocksy_is_page')) {
+				$is_blocksy_page = blocksy_is_page();
 
-			if (is_singular() || $is_blocksy_page) {
-				$post_id = get_the_ID();
+				if (is_singular() || $is_blocksy_page) {
+					$post_id = get_the_ID();
 
-				if ($is_blocksy_page) {
-					$post_id = $is_blocksy_page;
-				}
-
-				global $post;
-
-				if (intval($post_id) === 0 && isset($post->post_name)) {
-					$maybe_post = get_page_by_path($post->post_name);
-
-					if ($maybe_post) {
-						$post_id = $maybe_post->ID;
+					if ($is_blocksy_page) {
+						$post_id = $is_blocksy_page;
 					}
-				}
 
-				if (
-					isset($rule['payload'])
-					&&
-					isset($rule['payload']['post_id'])
-					&&
-					$post_id
-					&&
-					intval($post_id) === intval($rule['payload']['post_id'])
-				) {
-					return true;
+					global $post;
+
+					if (intval($post_id) === 0 && isset($post->post_name)) {
+						$maybe_post = get_page_by_path($post->post_name);
+
+						if ($maybe_post) {
+							$post_id = $maybe_post->ID;
+						}
+					}
+
+					if (
+						isset($rule['payload'])
+						&&
+						isset($rule['payload']['post_id'])
+						&&
+						$post_id
+						&&
+						intval($post_id) === intval($rule['payload']['post_id'])
+					) {
+						return true;
+					}
 				}
 			}
 		}
@@ -305,8 +336,11 @@ class ConditionsManager {
 		if ($rule['rule'] === 'post_with_taxonomy_ids') {
 			$is_blocksy_page = blocksy_is_page();
 			global $blocksy_is_quick_view;
+			global $wp_query;
 
-			if (is_singular() || $is_blocksy_page || true) {
+			global $post;
+
+			if (is_singular() || $is_blocksy_page || $wp_query->in_the_loop) {
 				$post_id = get_the_ID();
 
 				if ($is_blocksy_page) {
@@ -323,6 +357,15 @@ class ConditionsManager {
 					isset($rule['payload']['taxonomy_id'])
 					&&
 					$post_id
+					&&
+					get_term($rule['payload']['taxonomy_id'])
+					&&
+					in_array(
+						get_term($rule['payload']['taxonomy_id'])->taxonomy,
+						get_object_taxonomies([
+							'post_type' => get_post_type($post_id)
+						])
+					)
 				) {
 					return has_term(
 						$rule['payload']['taxonomy_id'],
@@ -685,6 +728,11 @@ class ConditionsManager {
 						'title' => __('Front Page', 'blocksy-companion')
 					],
 
+					[
+						'id' => 'privacy_policy_page',
+						'title' => __('Privacy Policy Page', 'blocksy-companion')
+					],
+
 					/*
 					[
 						'id' => 'date',
@@ -694,7 +742,7 @@ class ConditionsManager {
 
 					[
 						'id' => 'author',
-						'title' => __('Author', 'blocksy-companion')
+						'title' => __('Author Archives', 'blocksy-companion')
 					],
 				],
 			];
@@ -806,6 +854,11 @@ class ConditionsManager {
 	}
 
 	public function humanize_conditions($conditions) {
+		// Check if it looks like a normal rules array. If it doesn't -- bail out.
+		if (! isset($conditions[0]) || ! isset($conditions[0]['rule'])) {
+			return [];
+		}
+
 		$result = [];
 
 		foreach ($conditions as $condition) {
@@ -847,9 +900,11 @@ class ConditionsManager {
 					$condition['payload']['taxonomy_id']
 				);
 
-				$to_append .= ' (<a href="' . get_edit_term_link(
-					$condition['payload']['taxonomy_id']
-				) . '" target="_blank">' . $tax->name . '</a>)';
+				if ($tax) {
+					$to_append .= ' (<a href="' . get_edit_term_link(
+						$condition['payload']['taxonomy_id']
+					) . '" target="_blank">' . $tax->name . '</a>)';
+				}
 			}
 
 			if ($condition['rule'] === 'current_language') {

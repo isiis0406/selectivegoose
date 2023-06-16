@@ -9,12 +9,13 @@ $options = [
 			'copyright_text' => [
 				'label' => __( 'Copyright Text', 'blocksy' ),
 				'type' => 'wp-editor',
-				'value' => __( 'Copyright &copy; {current_year} - WordPress Theme by {theme_author}', 'blocksy' ),
-
+				'value' => apply_filters(
+					'blocksy:footer:copyright:default-value',
+					__('Copyright &copy; {current_year} - WordPress Theme by {theme_author}', 'blocksy')
+				),
 				'desc' => __( 'You can insert some arbitrary HTML code tags: {current_year}, {site_title} and {theme_author}', 'blocksy' ),
 				'disableRevertButton' => true,
 				'setting' => [ 'transport' => 'postMessage' ],
-
 				'mediaButtons' => false,
 				'tinymce' => [
 					'toolbar1' => 'bold,italic,link,undo,redo',

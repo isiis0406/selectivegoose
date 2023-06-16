@@ -15,15 +15,38 @@ add_action('elementor/widget/before_render_content', function($widget) {
 		global $ct_skip_checkout;
 		$ct_skip_checkout = true;
 	}
-}, 10 , 1);
+}, 10, 1);
+
+add_action('woocommerce_before_checkout_form', function () {
+	add_action('sellkit_checkout_one_page_express_methods', function() {
+		global $ct_skip_checkout;
+		$ct_skip_checkout = true;
+	});
+}, 10, 1);
 
 add_action('wpfunnels/before_gb_checkout_form', function($widget) {
 	global $ct_skip_checkout;
 	$ct_skip_checkout = true;
 }, 10 , 1);
 
+add_action('cfw_checkout_main_container_start', function($widget) {
+	global $ct_skip_checkout;
+	$ct_skip_checkout = true;
+}, 10, 1);
+
 add_action('wp', function () {
+	$has_custom_checkout = true;
+
 	if (class_exists('FluidCheckout')) {
+		$has_custom_checkout = false;
+	}
+
+	$has_custom_checkout = apply_filters(
+		'blocksy:woocommerce:checkout:has-custom-markup',
+		$has_custom_checkout
+	);
+
+	if (! $has_custom_checkout) {
 		return;
 	}
 

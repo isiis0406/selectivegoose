@@ -101,6 +101,7 @@ $options = [
 									'h4' => 'H4',
 									'h5' => 'H5',
 									'h6' => 'H6',
+									'p' => 'p',
 									'span' => 'span',
 								]
 							),
@@ -150,7 +151,7 @@ $options = [
 										'tablet' => 2,
 										'mobile' => 1
 									],
-									'min' => 2,
+									'min' => 1,
 									'max' => 4,
 									'design' => 'block',
 									'disableRevertButton' => true,
@@ -265,6 +266,7 @@ $options = [
 									'h4' => 'H4',
 									'h5' => 'H5',
 									'h6' => 'H6',
+									'p' => 'p',
 									'span' => 'span',
 								]
 							),
@@ -482,7 +484,11 @@ $options = [
 
 									'var(--heading-6-color, var(--headings-color))' => [
 										$prefix . 'related_label_wrapper' => 'h6'
-									]
+									],
+
+									'var(--color)' => [
+										$prefix . 'related_label_wrapper' => 'span|p'
+									],
 								]
 							],
 						],
@@ -509,7 +515,35 @@ $options = [
 							[
 								'title' => __( 'Initial', 'blocksy' ),
 								'id' => 'default',
-								'inherit' => 'var(--heading-3-color, var(--headings-color))'
+								'inherit' => [
+									'var(--heading-1-color, var(--headings-color))' => [
+										$prefix . 'related_posts_title_tag' => 'h1'
+									],
+
+									'var(--heading-2-color, var(--headings-color))' => [
+										$prefix . 'related_posts_title_tag' => 'h2'
+									],
+
+									'var(--heading-3-color, var(--headings-color))' => [
+										$prefix . 'related_posts_title_tag' => 'h3'
+									],
+
+									'var(--heading-4-color, var(--headings-color))' => [
+										$prefix . 'related_posts_title_tag' => 'h4'
+									],
+
+									'var(--heading-5-color, var(--headings-color))' => [
+										$prefix . 'related_posts_title_tag' => 'h5'
+									],
+
+									'var(--heading-6-color, var(--headings-color))' => [
+										$prefix . 'related_posts_title_tag' => 'h6'
+									],
+
+									'var(--color)' => [
+										$prefix . 'related_posts_title_tag' => 'span|p'
+									],
+								]
 							],
 
 							[

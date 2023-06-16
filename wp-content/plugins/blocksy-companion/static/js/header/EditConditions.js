@@ -49,7 +49,11 @@ const EditConditions = ({ forcedEdit = false, headerId }) => {
 			})
 	}
 
-	const { data: conditions, isLoading, error } = useFetch(
+	const {
+		data: conditions,
+		isLoading,
+		error,
+	} = useFetch(
 		`${blocksy_admin.ajax_url}?action=blocksy_header_get_all_conditions`,
 		{
 			method: 'POST',
@@ -72,11 +76,12 @@ const EditConditions = ({ forcedEdit = false, headerId }) => {
 				className="button-primary"
 				style={{ width: '100%' }}
 				onClick={(e) => {
+					e.preventDefault()
+					e.stopPropagation()
+
 					if (isLoading) {
 						return
 					}
-					e.preventDefault()
-					e.stopPropagation()
 
 					setIsEditing(true)
 				}}>

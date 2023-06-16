@@ -4,6 +4,36 @@ if (! isset($selector)) {
 	$selector = '[data-column="widget-area-1"]';
 }
 
+$text_horizontal_alignment = blocksy_akg(
+	'horizontal_alignment',
+	$atts,
+	'CT_CSS_SKIP_RULE'
+);
+
+$horizontal_alignment = $text_horizontal_alignment;
+
+$horizontal_alignment = blocksy_map_values([
+	'value' => $text_horizontal_alignment,
+	'map' => [
+		'left' => 'flex-start',
+		'right' => 'flex-end'
+	]
+]);
+
+blocksy_output_responsive([
+	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
+	'selector' => blocksy_assemble_selector(blocksy_mutate_selector([
+		'selector' => $root_selector,
+		'operation' => 'replace-last',
+		'to_add' => $selector
+	])),
+	'variableName' => 'text-horizontal-alignment',
+	'value' => $text_horizontal_alignment,
+	'unit' => '',
+]);
+
 blocksy_output_responsive([
 	'css' => $css,
 	'tablet_css' => $tablet_css,
@@ -14,9 +44,10 @@ blocksy_output_responsive([
 		'to_add' => $selector
 	])),
 	'variableName' => 'horizontal-alignment',
-	'value' => blocksy_akg('horizontal_alignment', $atts, 'CT_CSS_SKIP_RULE'),
+	'value' => $horizontal_alignment,
 	'unit' => '',
 ]);
+
 
 blocksy_output_responsive([
 	'css' => $css,

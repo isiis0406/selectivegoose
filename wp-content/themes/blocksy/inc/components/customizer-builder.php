@@ -106,11 +106,17 @@ class Blocksy_Customizer_Builder {
 			}
 		}
 
+
 		foreach ($all_items as $item) {
 			if ($item) {
-				if (! $render->contains_item($item['id'], $item['is_primary'])) {
+				if (
+					! $render->contains_item($item['id'], $item['is_primary'])
+					&&
+					$item['id'] !== 'offcanvas'
+				) {
 					continue;
 				}
+
 
 				if (! file_exists($item['path'] . '/dynamic-styles.php')) {
 					continue;

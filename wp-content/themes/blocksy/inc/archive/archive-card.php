@@ -51,66 +51,69 @@ if (! function_exists('blocksy_render_archive_card')) {
 			'prefix' => $args['prefix']
 		]);
 
-		$archive_order = get_theme_mod(
-			$args['prefix'] . '_archive_order',
-			apply_filters('blocksy:posts-listing:archive-order:default', [
-				[
-					'id' => 'post_meta',
-					'enabled' => true,
-					'meta_elements' => blocksy_post_meta_defaults([
-						[
-							'id' => 'categories',
-							'enabled' => true,
-						],
-					]),
-				],
+		$archive_order = apply_filters(
+			'blocksy:posts-listing:archive-order',
+			get_theme_mod(
+				$args['prefix'] . '_archive_order',
+				apply_filters('blocksy:posts-listing:archive-order:default', [
+					[
+						'id' => 'post_meta',
+						'enabled' => true,
+						'meta_elements' => blocksy_post_meta_defaults([
+							[
+								'id' => 'categories',
+								'enabled' => true,
+							],
+						]),
+					],
 
-				[
-					'id' => 'title',
-					'enabled' => true,
-				],
+					[
+						'id' => 'title',
+						'enabled' => true,
+					],
 
-				[
-					'id' => 'featured_image',
-					'enabled' => true,
-				],
+					[
+						'id' => 'featured_image',
+						'enabled' => true,
+					],
 
-				[
-					'id' => 'excerpt',
-					'enabled' => true,
-				],
+					[
+						'id' => 'excerpt',
+						'enabled' => true,
+					],
 
-				[
-					'id' => 'read_more',
-					'enabled' => false,
-				],
+					[
+						'id' => 'read_more',
+						'enabled' => false,
+					],
 
-				[
-					'id' => 'post_meta',
-					'enabled' => true,
-					'meta_elements' => blocksy_post_meta_defaults([
-						[
-							'id' => 'author',
-							'enabled' => true,
-						],
+					[
+						'id' => 'post_meta',
+						'enabled' => true,
+						'meta_elements' => blocksy_post_meta_defaults([
+							[
+								'id' => 'author',
+								'enabled' => true,
+							],
 
-						[
-							'id' => 'post_date',
-							'enabled' => true,
-						],
+							[
+								'id' => 'post_date',
+								'enabled' => true,
+							],
 
-						[
-							'id' => 'comments',
-							'enabled' => true,
-						],
-					]),
-				],
+							[
+								'id' => 'comments',
+								'enabled' => true,
+							],
+						]),
+					],
 
-				[
-					'id' => 'divider',
-					'enabled' => false
-				]
-			], $args['prefix'])
+					[
+						'id' => 'divider',
+						'enabled' => false
+					]
+				], $args['prefix'])
+			)
 		);
 
 		$featured_image_settings = null;
@@ -195,8 +198,12 @@ if (! function_exists('blocksy_render_archive_card')) {
 			'size' => $featured_image_size,
 			'html_atts' => [
 				'href' => esc_url(get_permalink()),
-				'aria-label' => get_the_title()
+				'aria-label' => wp_strip_all_tags(get_the_title()),
 			],
+			'lazyload' => get_theme_mod(
+				'has_lazy_load_archives_image',
+				'yes'
+			) === 'yes'
 		];
 
 		$card_type = get_theme_mod($args['prefix'] . '_card_type', 'boxed');
@@ -344,48 +351,51 @@ if (! function_exists('blocksy_render_archive_card')) {
 			}
 
 			if (! $outputs) {
+				$featured_image_output = '';
+
+				if (
+					get_the_post_thumbnail($featured_image_args['attachment_id'])
+					||
+					wp_get_attachment_image_url($featured_image_args['attachment_id'])
+				) {
+					$featured_image_output = blocksy_image($featured_image_args);
+				}
+
 				$outputs = apply_filters('blocksy:archive:render-card-layers', [
 					'title' => blocksy_entry_title(blocksy_default_akg('heading_tag', $title_settings, 'h2')),
-					'featured_image' => (
-						! get_the_post_thumbnail($featured_image_args['attachment_id'])
-						&&
-						! wp_get_attachment_image_url($featured_image_args['attachment_id'])
-					) ? '' : apply_filters(
+
+					'featured_image' => apply_filters(
 						'post_thumbnail_html',
-						blocksy_image($featured_image_args),
+						$featured_image_output,
 						get_the_ID(),
 						$featured_image_args['attachment_id'],
 						$featured_image_args['size'],
 						''
 					),
-					'excerpt' => blocksy_entry_excerpt(
-						intval(
+
+					'excerpt' => blocksy_entry_excerpt([
+						'length' => intval(
 							blocksy_default_akg( 'excerpt_length', $excerpt_settings, '40' )
 						),
-						'entry-excerpt',
-						null,
-						blocksy_default_akg(
+						'source' => blocksy_default_akg(
 							'excerpt_source',
 							$excerpt_settings,
 							'excerpt'
 						)
-					),
+					]),
 
 					'read_more' => blocksy_html_tag(
 						'a',
 						[
-							'class' => 'entry-button' . (
-								$button_type === 'background' ? ' ct-button' : ''
-							),
+							'class' => 'entry-button' . ($button_type === 'background' ? ' ct-button' : ''),
 							'data-type' => $button_type,
-							'data-alignment' => blocksy_default_akg( 'read_more_alignment', $read_more_settings, 'left' ),
 							'href' => esc_url( get_permalink() )
 						],
 						$read_more_text
 					),
 
 					'divider' => '<div class="entry-divider"></div>'
-				], $args['prefix']);
+				], $args['prefix'], $featured_image_args);
 			}
 
 			if (isset($outputs[$single_component['id']])) {

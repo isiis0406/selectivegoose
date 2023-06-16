@@ -23,7 +23,7 @@ function blocksy_entry_title( $tag = 'h2' ) {
 	?>
 
 	<<?php echo esc_attr( $tag ); ?> class="entry-title">
-		<a href="<?php echo esc_url( get_permalink() ); ?>">
+		<a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark">
 			<?php the_title(); ?>
 		</a>
 	</<?php echo esc_attr( $tag ); ?>>
@@ -40,53 +40,71 @@ function blocksy_entry_title( $tag = 'h2' ) {
  * @param number $length Number of words allowed in excerpt.
  */
 if (! function_exists('blocksy_entry_excerpt')) {
-	function blocksy_entry_excerpt(
-		$length = 40, $class = 'entry-excerpt', $post_id = null,
+	function blocksy_entry_excerpt($args = []) {
+		$args = wp_parse_args(
+			$args,
+			[
+				'length' => 40,
+				'container_tag' => 'div',
+				'class' => 'entry-excerpt',
+				'post_id' => null,
 
-		// excerpt | full
-		$source = 'excerpt'
-	) {
+				// excerpt | full | custom
+				'source' => 'excerpt',
+				'custom_exceprt' => '' // for custom only
+			]
+		);
 		ob_start();
-		$post_excerpt = get_the_excerpt($post_id);
+		$post_excerpt = get_the_excerpt($args['post_id']);
 		$excerpt_additions = ob_get_clean();
 
-		if ($source === 'excerpt' && empty(trim($post_excerpt))) {
+		if ($args['source'] === 'excerpt' && empty(trim($post_excerpt))) {
 			return '';
 		}
 
-		$post = get_post($post_id);
+		$post = get_post($args['post_id']);
 
 		$has_native_excerpt = $post->post_excerpt;
 
+		// Check for woo product ( wysiwyg editor )
+		$is_product = $post->post_type === 'product';
+
 		$excerpt = null;
 
-		if ($source === 'excerpt') {
-			if ($has_native_excerpt) {
+		if ($args['source'] === 'excerpt') {
+			if ($has_native_excerpt && ! $is_product) {
 				$excerpt = $post_excerpt;
 				$excerpt = apply_filters('blocksy:excerpt:output', $excerpt);
 			}
 
 			if (! $excerpt) {
 				ob_start();
-				blocksy_trim_excerpt($post_excerpt, $length);
+				blocksy_trim_excerpt($post_excerpt, $args['length']);
 				$excerpt = ob_get_clean();
 			}
 		}
 
-		if ($source === 'full') {
+		if ($args['source'] === 'full') {
+			$args['class'] .= ' entry-content';
+
 			ob_start();
 			the_content(
 				sprintf(
 					wp_kses(
-						/* translators: %s: Name of current post. Only visible to screen readers */
-						__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'blocksy' ),
+						/* translators: 1: span open 2: Name of current post. Only visible to screen readers 3: span closing */
+						__(
+							'Continue reading%1$s "%2$s"%3$s',
+							'blocksy'
+						),
 						array(
 							'span' => array(
 								'class' => array(),
 							),
 						)
 					),
-					get_the_title()
+					'<span class="screen-reader-text">',
+					get_the_title(),
+					'</span>'
 				)
 			);
 			$excerpt = ob_get_clean();
@@ -94,10 +112,18 @@ if (! function_exists('blocksy_entry_excerpt')) {
 			$excerpt = apply_filters('blocksy:excerpt:output', $excerpt);
 		}
 
+		if ($args['source'] === 'custom') {
+			ob_start();
+			blocksy_trim_excerpt($args['custom_exceprt'], $args['length']);
+			$excerpt = ob_get_clean();
+
+			$excerpt = apply_filters('blocksy:excerpt:output', $excerpt);
+		}
+
 		return blocksy_html_tag(
-			'div',
+			$args['container_tag'],
 			[
-				'class' => esc_attr($class)
+				'class' => esc_attr($args['class'])
 			],
 			$excerpt_additions . do_shortcode($excerpt)
 		);
@@ -109,6 +135,8 @@ if (! function_exists('blocksy_entry_excerpt')) {
  */
 if (! function_exists('blocksy_post_navigation')) {
 function blocksy_post_navigation() {
+	$prefix = blocksy_manager()->screen->get_prefix();
+
 	$next_post = apply_filters(
 		'blocksy:post-navigation:next-post',
 		get_adjacent_post(false, '', true)
@@ -119,11 +147,30 @@ function blocksy_post_navigation() {
 		get_adjacent_post(false, '', false)
 	);
 
+	$post_nav_criteria = get_theme_mod($prefix . '_post_nav_criteria', 'default');
+
+	if ( $post_nav_criteria !== 'default' ) {
+		$post_type = get_post_type();
+		$post_nav_taxonomy_default = array_keys(blocksy_get_taxonomies_for_cpt(
+			$post_type
+		))[0];
+
+		$post_nav_taxonomy = get_theme_mod($prefix . '_post_nav_taxonomy', $post_nav_taxonomy_default);
+
+		$next_post = apply_filters(
+			'blocksy:post-navigation:next-post',
+			get_adjacent_post(true, '', true, $post_nav_taxonomy)
+		);
+
+		$previous_post = apply_filters(
+			'blocksy:post-navigation:previous-post',
+			get_adjacent_post(true, '', false, $post_nav_taxonomy)
+		);
+	}
+
 	if (! $next_post && ! $previous_post) {
 		return '';
 	}
-
-	$prefix = blocksy_manager()->screen->get_prefix();
 
 	$title_class = 'item-title';
 
@@ -135,6 +182,8 @@ function blocksy_post_navigation() {
 			'mobile' => false,
 		]
 	));
+
+	$thumb_size = get_theme_mod($prefix . '_post_nav_thumb_size', 'medium');
 
 	$thumb_class = '';
 
@@ -177,6 +226,7 @@ function blocksy_post_navigation() {
 					'attachment_id' => get_post_thumbnail_id($next_post),
 					'post_id' => $next_post->ID,
 					'ratio' => '1/1',
+					'size' => $thumb_size,
 					'class' => $thumb_class,
 					'inner_content' => '<svg width="20px" height="15px" viewBox="0 0 20 15"><polygon points="0,7.5 5.5,13 6.4,12.1 2.4,8.1 20,8.1 20,6.9 2.4,6.9 6.4,2.9 5.5,2 "/></svg>',
 					'tag_name' => 'figure'
@@ -196,6 +246,7 @@ function blocksy_post_navigation() {
 					'attachment_id' => get_post_thumbnail_id($previous_post),
 					'post_id' => $previous_post->ID,
 					'ratio' => '1/1',
+					'size' => $thumb_size,
 					'class' => $thumb_class,
 					'inner_content' => '<svg width="20px" height="15px" viewBox="0 0 20 15"><polygon points="14.5,2 13.6,2.9 17.6,6.9 0,6.9 0,8.1 17.6,8.1 13.6,12.1 14.5,13 20,7.5 "/></svg>',
 					'tag_name' => 'figure'
@@ -303,9 +354,22 @@ function blocksy_related_posts($location = null) {
 
 		if ($all_taxonomies) {
 			foreach ($all_taxonomies as $current_taxonomy) {
-				if (isset($current_taxonomy->term_id)) {
-					$all_taxonomy_ids[] = $current_taxonomy->term_id;
+				if (! isset($current_taxonomy->term_id)) {
+					continue;
 				}
+
+				$current_term_id = $current_taxonomy->term_id;
+
+				if (function_exists('pll_get_term')) {
+					$current_lang = blocksy_get_current_language();
+					$current_term_id = pll_get_term($current_term_id, $current_lang);
+				}
+
+				if (! $current_term_id) {
+					continue;
+				}
+
+				$all_taxonomy_ids[] = $current_term_id;
 			}
 		}
 	}
@@ -354,11 +418,13 @@ function blocksy_related_posts($location = null) {
 		$prefix
 	);
 
-	$label = apply_filters(
-		'blocksy:related-posts:module-label',
-		get_theme_mod(
-			$prefix . '_related_label',
-			__( 'Related Posts', 'blocksy')
+	$label = do_shortcode(
+		apply_filters(
+			'blocksy:related-posts:module-label',
+			get_theme_mod(
+				$prefix . '_related_label',
+				__( 'Related Posts', 'blocksy')
+			)
 		)
 	);
 
@@ -463,9 +529,14 @@ function blocksy_related_posts($location = null) {
 									),
 									'html_atts' => [
 										'href' => esc_url( get_permalink() ),
-										'aria-label' => get_the_title(),
+										'aria-label' => wp_strip_all_tags( get_the_title() ),
 										'tabindex' => "-1"
 									],
+
+									'lazyload' => get_theme_mod(
+										'has_lazy_load_related_posts_image',
+										'yes'
+									) === 'yes'
 								]
 							);
 
@@ -475,7 +546,7 @@ function blocksy_related_posts($location = null) {
 
 					<?php if (! empty(get_the_title())) { ?>
 						<<?php echo $posts_title_tag ?> class="related-entry-title" <?php echo blocksy_schema_org_definitions('name') ?>>
-							<a href="<?php echo esc_url( get_permalink() ); ?>" <?php echo blocksy_schema_org_definitions('url') ?>><?php the_title(); ?></a>
+							<a href="<?php echo esc_url( get_permalink() ); ?>" <?php echo blocksy_schema_org_definitions('url') ?> rel="bookmark"><?php the_title(); ?></a>
 						</<?php echo $posts_title_tag ?>>
 					<?php } ?>
 

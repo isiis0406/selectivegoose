@@ -78,6 +78,8 @@ export const getRowBackgroundVariables = ({ itemId }) => {
 						fullValue: true,
 					},
 
+					forced_background_image: true,
+
 					valueExtractor: ({ headerRowBackground, headerRowWidth }) =>
 						transformBgFor({
 							background: headerRowBackground,
@@ -98,6 +100,7 @@ export const getRowBackgroundVariables = ({ itemId }) => {
 					),
 
 					responsive: true,
+					forced_background_image: true,
 
 					addToDescriptors: {
 						fullValue: true,
@@ -189,6 +192,7 @@ export const getRowBackgroundVariables = ({ itemId }) => {
 						})
 					),
 
+					forced_background_image: true,
 					addToDescriptors: {
 						fullValue: true,
 					},
@@ -222,6 +226,7 @@ export const getRowBackgroundVariables = ({ itemId }) => {
 						})
 					),
 
+					forced_background_image: true,
 					addToDescriptors: {
 						fullValue: true,
 					},

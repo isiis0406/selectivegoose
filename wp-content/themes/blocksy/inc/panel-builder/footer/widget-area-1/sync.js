@@ -6,21 +6,71 @@ import {
 } from '../../../../static/js/customizer/sync/helpers'
 
 export const handleWidgetAreaVariables = ({ selector }) => ({ itemId }) => ({
-	horizontal_alignment: {
-		selector: assembleSelector(
-			mutateSelector({
-				selector: getRootSelectorFor({
-					itemId,
-					panelType: 'footer',
-				}),
-				operation: 'replace-last',
-				to_add: selector,
-			})
-		),
-		variable: 'horizontal-alignment',
-		responsive: true,
-		unit: '',
-	},
+
+	horizontal_alignment: [
+		{
+			selector: assembleSelector(
+				mutateSelector({
+					selector: getRootSelectorFor({
+						itemId,
+						panelType: 'footer',
+					}),
+					operation: 'replace-last',
+					to_add: selector,
+				})
+			),
+			variable: 'text-horizontal-alignment',
+			responsive: true,
+			unit: '',
+		},
+
+		{
+			selector: assembleSelector(
+				mutateSelector({
+					selector: getRootSelectorFor({
+						itemId,
+						panelType: 'footer',
+					}),
+					operation: 'replace-last',
+					to_add: selector,
+				})
+			),
+			variable: 'horizontal-alignment',
+			responsive: true,
+			unit: '',
+			extractValue: (value) => {
+				if (!value.desktop) {
+					return value
+				}
+
+				if (value.desktop === 'left') {
+					value.desktop = 'flex-start'
+				}
+
+				if (value.desktop === 'right') {
+					value.desktop = 'flex-end'
+				}
+
+				if (value.tablet === 'left') {
+					value.tablet = 'flex-start'
+				}
+
+				if (value.tablet === 'right') {
+					value.tablet = 'flex-end'
+				}
+
+				if (value.mobile === 'left') {
+					value.mobile = 'flex-start'
+				}
+
+				if (value.mobile === 'right') {
+					value.mobile = 'flex-end'
+				}
+
+				return value
+			},
+		},
+	],
 
 	vertical_alignment: {
 		selector: assembleSelector(

@@ -41,10 +41,7 @@ watchOptionsWithPrefix({
 						let button = article.querySelector('.entry-button')
 
 						if (component.id === 'featured_image' && image) {
-							setRatioFor(
-								component.thumb_ratio,
-								image.querySelector('.ct-ratio')
-							)
+							setRatioFor(component.thumb_ratio, image)
 
 							image.classList.remove('boundless-image')
 
@@ -70,9 +67,6 @@ watchOptionsWithPrefix({
 							) {
 								button.classList.add('ct-button')
 							}
-
-							button.dataset.alignment =
-								component.read_more_alignment || 'left'
 
 							replaceFirstTextNode(
 								button,
@@ -466,12 +460,52 @@ export const getPostListingVariables = () => ({
 		responsive: true,
 	},
 
-	[`${prefix}_content_horizontal_alignment`]: {
-		selector: applyPrefixFor('.entry-card', prefix),
-		variable: 'horizontal-alignment',
-		responsive: true,
-		unit: '',
-	},
+	[`${prefix}_content_horizontal_alignment`]: [
+		{
+			selector: applyPrefixFor('.entry-card', prefix),
+			variable: 'text-horizontal-alignment',
+			responsive: true,
+			unit: '',
+		},
+
+		{
+			selector: applyPrefixFor('.entry-card', prefix),
+			variable: 'horizontal-alignment',
+			responsive: true,
+			unit: '',
+			extractValue: (value) => {
+				if (!value.desktop) {
+					return value
+				}
+
+				if (value.desktop === 'left') {
+					value.desktop = 'flex-start'
+				}
+
+				if (value.desktop === 'right') {
+					value.desktop = 'flex-end'
+				}
+
+				if (value.tablet === 'left') {
+					value.tablet = 'flex-start'
+				}
+
+				if (value.tablet === 'right') {
+					value.tablet = 'flex-end'
+				}
+
+				if (value.mobile === 'left') {
+					value.mobile = 'flex-start'
+				}
+
+				if (value.mobile === 'right') {
+					value.mobile = 'flex-end'
+				}
+
+				return value
+			},
+		},
+	],
 
 	[`${prefix}_content_vertical_alignment`]: {
 		selector: applyPrefixFor('.entry-card', prefix),
@@ -479,4 +513,14 @@ export const getPostListingVariables = () => ({
 		responsive: true,
 		unit: '',
 	},
+
+	...(prefix.indexOf('single') === -1
+		? {
+				...handleBackgroundOptionFor({
+					id: `${prefix}_background`,
+					selector: `[data-prefix="${prefix}"]`,
+					responsive: true,
+				}),
+		  }
+		: {}),
 })

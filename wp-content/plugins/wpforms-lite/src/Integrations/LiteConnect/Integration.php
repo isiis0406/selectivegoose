@@ -2,6 +2,7 @@
 
 namespace WPForms\Integrations\LiteConnect;
 
+use WPForms\Admin\Notice;
 use WPForms\Helpers\Transient;
 use WPForms\Tasks\Tasks;
 
@@ -33,6 +34,15 @@ class Integration extends API {
 	const LITE_CONNECT_ENTRIES_COUNT_OPTION = 'wpforms_lite_connect_entries_count';
 
 	/**
+	 * Post meta name to store the total count of Lite Connect form entries.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @var string
+	 */
+	const LITE_CONNECT_FORM_ENTRIES_COUNT_META = 'wpforms_lite_connect_form_entries_count';
+
+	/**
 	 * Integration constructor.
 	 *
 	 * @since 1.7.4
@@ -43,15 +53,28 @@ class Integration extends API {
 
 		parent::__construct();
 
+		$this->hooks();
+
 		// Update the site key and access token.
 		if (
 			! $updated &&
 			( is_admin() && ! wp_doing_ajax() ) &&
 			( ( wpforms()->is_pro() && self::get_enabled_since() ) || LiteConnect::is_enabled() )
 		) {
+			$this->maybe_update_access_token();
 			$this->update_keys();
 			$updated = true;
 		}
+	}
+
+	/**
+	 * Hooks.
+	 *
+	 * @since 1.7.5
+	 */
+	private function hooks() {
+
+		add_action( 'admin_init', [ $this, 'max_attempts_notice' ], 10 );
 	}
 
 	/**
@@ -71,7 +94,6 @@ class Integration extends API {
 			'site_key'     => $site_key,
 			'access_token' => $this->get_access_token( $site_key ),
 		];
-
 	}
 
 	/**
@@ -202,6 +224,20 @@ class Integration extends API {
 	}
 
 	/**
+	 * Get the Lite Connect form entries count.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @param int $form_id The form ID.
+	 *
+	 * @return int The form entries count.
+	 */
+	public static function get_form_entries_count( $form_id ) {
+
+		return (int) get_post_meta( $form_id, self::LITE_CONNECT_FORM_ENTRIES_COUNT_META, true );
+	}
+
+	/**
 	 * Get the Lite Connect new entries count (since previous import).
 	 *
 	 * @since 1.7.4
@@ -214,14 +250,18 @@ class Integration extends API {
 		$count = self::get_entries_count();
 
 		// Reduces the entries that were already imported previously from the count.
-		$import = wpforms_setting( 'import', false, self::get_option_name() );
+		$import     = wpforms_setting( 'import', false, self::get_option_name() );
+		$prev_count = 0;
 
 		if ( isset( $import['previous_import_count'] ) ) {
 			$prev_count = (int) $import['previous_import_count'];
-			$count      = $count < $prev_count ? 0 : $count - $prev_count;
 		}
 
-		return $count;
+		if ( isset( $import['previous_failed_count'] ) ) {
+			$prev_count += (int) $import['previous_failed_count'];
+		}
+
+		return $count < $prev_count ? 0 : $count - $prev_count;
 	}
 
 	/**
@@ -242,6 +282,9 @@ class Integration extends API {
 		if ( $status === 'done' ) {
 			$previous_imported_entries                   = Transient::get( 'lite_connect_imported_entries' );
 			$settings['import']['previous_import_count'] = is_array( $previous_imported_entries ) ? count( $previous_imported_entries ) : 0;
+
+			$previous_failed_entries                     = Transient::get( 'lite_connect_failed_entries' );
+			$settings['import']['previous_failed_count'] = is_array( $previous_failed_entries ) ? count( $previous_failed_entries ) : 0;
 		}
 
 		self::maybe_set_entries_count();
@@ -296,7 +339,9 @@ class Integration extends API {
 			return;
 		}
 
-		$previous_import_count = isset( $settings['import']['previous_import_count'] ) ? (int) $settings['import']['previous_import_count'] : 0;
+		$previous_import_count  = isset( $settings['import']['previous_import_count'] ) ? (int) $settings['import']['previous_import_count'] : 0;
+		$previous_failed_count  = isset( $settings['import']['previous_failed_count'] ) ? (int) $settings['import']['previous_failed_count'] : 0;
+		$previous_import_count += $previous_failed_count;
 
 		// When the entries counter was manually deleted from options OR it was modified by another process,
 		// we are setting the counter to the value of the previous imported entries.
@@ -305,5 +350,56 @@ class Integration extends API {
 		if ( $previous_import_count > self::get_entries_count() ) {
 			update_option( self::LITE_CONNECT_ENTRIES_COUNT_OPTION, $previous_import_count );
 		}
+	}
+
+	/**
+	 * Show the Lite Connect notice about the max attempts to generate the API key.
+	 *
+	 * @since 1.7.5
+	 */
+	public function max_attempts_notice() {
+
+		$attempts_count = get_option( self::GENERATE_KEY_ATTEMPT_COUNTER_OPTION, 0 );
+
+		$notice_text = sprintf(
+			wp_kses( /* translators: %s - WPForms documentation link. */
+				__( 'Your form entries can’t be backed up because WPForms can’t connect to the backup server. If you’d like to back up your entries, find out how to <a href="%s" target="_blank" rel="noopener noreferrer">fix entry backup issues</a>.', 'wpforms-lite' ),
+				[
+					'a' => [
+						'href'   => [],
+						'target' => [],
+						'rel'    => [],
+					],
+				]
+			),
+			wpforms_utm_link( 'https://wpforms.com/docs/how-to-use-lite-connect-for-wpforms/#backup-issues', 'Admin Notice' )
+		);
+
+		if ( $attempts_count >= self::MAX_GENERATE_KEY_ATTEMPTS ) {
+			Notice::warning(
+				$notice_text,
+				[
+					'dismiss' => Notice::DISMISS_GLOBAL,
+					'slug'    => 'max_attempts',
+				]
+			);
+		}
+	}
+
+	/**
+	 * Maybe update access token.
+	 *
+	 * @since 1.7.6
+	 */
+	public function maybe_update_access_token() {
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$action = isset( $_GET['wpforms_lite_connect_action'] ) ? sanitize_key( $_GET['wpforms_lite_connect_action'] ) : '';
+
+		if ( $action !== 'update-access-token' || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$this->get_access_token( $this->get_site_key(), true );
 	}
 }

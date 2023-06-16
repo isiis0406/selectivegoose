@@ -1114,10 +1114,10 @@ class Locator {
 				 * Extract id from conventional wpforms shortcode or wpforms block.
 				 * Examples:
 				 * [wpforms id="32" title="true" description="true"]
-				 * <!-- wp:wpforms/form-selector {"formId":"32","displayTitle":true,"displayDesc":true} /-->
+				 * <!-- wp:wpforms/form-selector {"clientId":"b5f8e16a-fc28-435d-a43e-7c77719f074c", "formId":"32","displayTitle":true,"displayDesc":true} /-->
 				 * In both, we should find 32.
 				 */
-				'#\[\s*wpforms.+id\s*=\s*"(\d+?)".*]|<!-- wp:wpforms/form-selector {"formId":"(\d+?)".*?} /-->#',
+				'#\[\s*wpforms.+id\s*=\s*"(\d+?)".*]|<!-- wp:wpforms/form-selector {.*?"formId":"(\d+?)".*?} /-->#',
 				$content,
 				$matches
 			)
@@ -1168,16 +1168,21 @@ class Locator {
 	 *
 	 * @return bool
 	 */
-	private function is_post_visible( $location ) {
+	private function is_post_visible( $location ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		$edit_cap = 'edit_post';
 		$read_cap = 'read_post';
 		$post_id  = $location['id'];
 
+		if ( ! get_post_type_object( $location['type'] ) ) {
+			// Post type is not registered.
+			return false;
+		}
+
 		$post_status_obj = get_post_status_object( $location['status'] );
 
-		// Post status is not registered, assume it's not public.
 		if ( ! $post_status_obj ) {
+			// Post status is not registered, assume it's not public.
 			return current_user_can( $edit_cap, $post_id );
 		}
 

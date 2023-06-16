@@ -7,66 +7,126 @@
  * @package   Blocksy
  */
 
+$is_pro = function_exists('blc_fs') && blc_fs()->can_use_premium_code();
+
 $options = [
 
 	blocksy_rand_md5() => [
 		'type' => 'ct-divider',
 	],
-	
+
 	'has_back_top' => [
 		'label' => __( 'Scroll to Top', 'blocksy' ),
 		'type' => 'ct-panel',
 		'switch' => true,
 		'value' => 'no',
-		'setting' => [ 'transport' => 'postMessage' ],
 		'inner-options' => [
 
 			blocksy_rand_md5() => [
 				'title' => __( 'General', 'blocksy' ),
 				'type' => 'tab',
 				'options' => [
-
-					'top_button_type' => [
-						'label' => false,
-						'type' => 'ct-image-picker',
-						'value' => 'type-1',
-						'attr' => [
-							'data-type' => 'background',
-							'data-columns' => '3',
+					$is_pro ? [
+						'top_button_icon_source' => [
+							'label' => __( 'Icon Source', 'blocksy' ),
+							'type' => 'ct-radio',
+							'value' => 'default',
+							'view' => 'text',
+							'design' => 'block',
+							'choices' => [
+								'default' => __( 'Default', 'blocksy' ),
+								'custom' => __( 'Custom', 'blocksy' ),
+							],
+							'sync' => [
+								'selector' => '.ct-back-to-top',
+								'container_inclusive' => true,
+								'render' => function () {
+									blocksy_output_back_to_top_link();
+								}
+							]
 						],
-						'setting' => [ 'transport' => 'postMessage' ],
-						'choices' => [
 
-							'type-1' => [
-								'src'   => blocksy_image_picker_file( 'top-1' ),
-								'title' => __( 'Type 1', 'blocksy' ),
-							],
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => ['top_button_icon_source' => 'custom'],
+							'options' => [
+								'top_button_icon' => [
+									'type' => 'icon-picker',
+									'label' => __('Icon', 'blocksy'),
+									'design' => 'inline',
+									'value' => [
+										'icon' => 'blc blc-arrow-up-circle'
+									],
+									'sync' => [
+										'container_inclusive' => true,
+										'selector' => '.ct-back-to-top',
+										'render' => function () {
+											blocksy_output_back_to_top_link();
+										}
+									]
+								]
+							]
+						]
+					]: [],
 
-							'type-2' => [
-								'src'   => blocksy_image_picker_file( 'top-2' ),
-								'title' => __( 'Type 2', 'blocksy' ),
-							],
-
-							'type-3' => [
-								'src'   => blocksy_image_picker_file( 'top-3' ),
-								'title' => __( 'Type 3', 'blocksy' ),
-							],
-
-							'type-4' => [
-								'src'   => blocksy_image_picker_file( 'top-4' ),
-								'title' => __( 'Type 4', 'blocksy' ),
-							],
-
-							'type-5' => [
-								'src'   => blocksy_image_picker_file( 'top-5' ),
-								'title' => __( 'Type 5', 'blocksy' ),
-							],
-
-							'type-6' => [
-								'src'   => blocksy_image_picker_file( 'top-6' ),
-								'title' => __( 'Type 6', 'blocksy' ),
-							],
+					blocksy_rand_md5() => [
+						'type' => 'ct-condition',
+						'condition' => $is_pro ? [
+							'top_button_icon_source' => 'default'
+						] : [
+							'top_button_icon_source' => '! not_existing'
 						],
+						'options' => [
+							'top_button_type' => [
+								'label' => false,
+								'type' => 'ct-image-picker',
+								'value' => 'type-1',
+								'attr' => [
+									'data-type' => 'background',
+									'data-columns' => '3',
+								],
+								'setting' => [ 'transport' => 'postMessage' ],
+								'choices' => [
+
+									'type-1' => [
+										'src'   => blocksy_image_picker_file( 'top-1' ),
+										'title' => __( 'Type 1', 'blocksy' ),
+									],
+
+									'type-2' => [
+										'src'   => blocksy_image_picker_file( 'top-2' ),
+										'title' => __( 'Type 2', 'blocksy' ),
+									],
+
+									'type-3' => [
+										'src'   => blocksy_image_picker_file( 'top-3' ),
+										'title' => __( 'Type 3', 'blocksy' ),
+									],
+
+									'type-4' => [
+										'src'   => blocksy_image_picker_file( 'top-4' ),
+										'title' => __( 'Type 4', 'blocksy' ),
+									],
+
+									'type-5' => [
+										'src'   => blocksy_image_picker_file( 'top-5' ),
+										'title' => __( 'Type 5', 'blocksy' ),
+									],
+
+									'type-6' => [
+										'src'   => blocksy_image_picker_file( 'top-6' ),
+										'title' => __( 'Type 6', 'blocksy' ),
+									],
+								],
+								'sync' => [
+									'selector' => '.ct-back-to-top',
+									'container_inclusive' => true,
+									'render' => function () {
+										blocksy_output_back_to_top_link();
+									}
+								]
+							]
+						]
 					],
 
 					'top_button_shape' => [

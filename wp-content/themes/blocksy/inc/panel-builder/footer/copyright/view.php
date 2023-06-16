@@ -20,9 +20,12 @@ $text = str_replace(
 	blocksy_translate_dynamic(blocksy_default_akg(
 		'copyright_text',
 		$atts,
-		__(
-			'Copyright &copy; {current_year} - WordPress Theme by {theme_author}',
-			'blocksy'
+		apply_filters(
+			'blocksy:footer:copyright:default-value',
+			__(
+				'Copyright &copy; {current_year} - WordPress Theme by {theme_author}',
+				'blocksy'
+			)
 		)
 	), 'footer:' . $section_id . ':copyright:copyright_text')
 );

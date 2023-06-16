@@ -4,29 +4,39 @@
 	$( function() {
 		// initialize color picker
 		$( '.cn_color' ).wpColorPicker();
-		
+
+		// purge cache
 		$( '#cn_app_purge_cache a' ).on( 'click', function( e ) {
 			e.preventDefault();
-			
+
 			var el = this;
-			
-			$( el ).parent().addClass( 'loading' ).append( '<span class="spinner is-active" style="float: none;"></span>' );
-			
+
+			$( el ).parent().addClass( 'loading' ).append( '<span class="spinner is-active" style="float: none"></span>' );
+
+			var ajaxArgs = {
+				action: 'cn_purge_cache',
+				nonce: cnArgs.nonce
+			};
+
+			// network area?
+			if ( cnArgs.network )
+				ajaxArgs.cn_network = 1;
+
 			$.ajax( {
 				url: cnArgs.ajaxURL,
 				type: 'POST',
 				dataType: 'json',
-				data: {
-					action: 'cn_purge_cache',
-					nonce: cnArgs.nonce
-				}
-			} )
-			.done ( function ( result ) {
+				data: ajaxArgs
+			} ).done( function( result ) {
 				console.log( result );
-			} )
-			.always ( function ( result ) {
+			} ).always( function( result ) {
 				$( el ).parent().find( '.spinner' ).remove();
 			} );
+		} );
+
+		// global override
+		$( 'input[name="cookie_notice_options[global_override]"]' ).on( 'change', function() {
+			$( '.cookie-notice-settings form' ).toggleClass( 'cn-options-disabled' );
 		} );
 
 		// refuse option
@@ -36,7 +46,7 @@
 			else
 				$( '#cn_refuse_opt_container' ).slideUp( 'fast' );
 		} );
-		
+
 		// revoke option
 		$( '#cn_revoke_cookies' ).on( 'change', function() {
 			if ( $( this ).is( ':checked' ) )
@@ -60,6 +70,14 @@
 			else
 				$( '#cn_on_scroll_offset' ).slideUp( 'fast' );
 		} );
+		
+		// conditional display option
+		$( '#cn_conditional_display_opt' ).on( 'change', function() {
+			if ( $( this ).is( ':checked' ) )
+				$( '#cn_conditional_display_opt_container' ).slideDown( 'fast' );
+			else
+				$( '#cn_conditional_display_opt_container' ).slideUp( 'fast' );
+		} );
 
 		// privacy policy link
 		$( '#cn_see_more_link-custom, #cn_see_more_link-page' ).on( 'change', function() {
@@ -73,7 +91,8 @@
 				} );
 			}
 		} );
-		
+
+		// script blocking
 		$( '#cn_refuse_code_fields' ).find( 'a' ).on( 'click', function( e ) {
 			e.preventDefault();
 
@@ -84,6 +103,69 @@
 
 			$( '#' + id ).addClass( 'active' );
 			$( this ).addClass( 'nav-tab-active' );
+		} );
+
+		// add new group of rules
+		$( document ).on( 'click', '.add-rule-group', function( e ) {
+			e.preventDefault();
+
+			var html = $( '#rules-group-template' ).html();
+			var group = $( '#rules-groups' );
+			var groups = group.find( '.rules-group' );
+			var groupID = ( groups.length > 0 ? parseInt( groups.last().attr( 'id' ).split( '-' )[2] ) + 1 : 1 );
+
+			html = html.replace( /__GROUP_ID__/g, groupID );
+			html = html.replace( /__RULE_ID__/g, 1 );
+
+			group.append( '<div class="rules-group" id="rules-group-' + groupID + '">' + html + '</div>' );
+			group.find( '.rules-group' ).last().fadeIn( 'fast' );
+		} );
+
+		// remove single rule or group
+		$( document ).on( 'click', '.remove-rule', function( e ) {
+			e.preventDefault();
+
+			var number = $( this ).closest( 'tbody' ).find( 'tr' ).length;
+
+			if ( number === 1 ) {
+				$( this ).closest( '.rules-group' ).fadeOut( 'fast', function() {
+					$( this ).remove();
+				} );
+			} else {
+				$( this ).closest( 'tr' ).fadeOut( 'fast', function() {
+					$( this ).remove();
+				} );
+			}
+		} );
+
+		// handle changing values for specified type of rules
+		$( document ).on( 'change', '.rule-type', function() {
+			var el = $( this );
+			var td = el.closest( 'tr' ).find( 'td.value' );
+			var select = td.find( 'select' );
+			var spinner = td.find( '.spinner' );
+
+			select.hide();
+			spinner.fadeIn( 'fast' ).css( 'visibility', 'visible' );
+
+			$.post( ajaxurl, {
+				action: 'cn-get-group-rules-values',
+				cn_param: el.val(),
+				cn_nonce: cnArgs.nonceConditional
+			} ).done( function( data ) {
+				spinner.hide().css( 'visibility', 'hidden' );
+
+				try {
+					var response = $.parseJSON( data );
+
+					// replace old select options with new ones
+					select.fadeIn( 'fast' ).find( 'option' ).remove().end().append( response.select );
+				} catch( e ) {
+					//
+				}
+			} ).fail(function() {
+				//
+			} );
 		} );
     } );
 

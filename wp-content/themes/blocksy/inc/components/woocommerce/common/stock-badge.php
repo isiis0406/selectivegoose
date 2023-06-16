@@ -27,7 +27,7 @@ if ( ! function_exists( 'blocksy_get_woo_out_of_stock_badge' ) ) {
 			'span',
 			[
 				'class' => 'out-of-stock-badge',
-				'data-shape' => get_theme_mod('sale_badge_shape', 'square')
+				'data-shape' => get_theme_mod('sale_badge_shape', 'type-2')
 			],
 			get_theme_mod(
 				'stock_badge_value',

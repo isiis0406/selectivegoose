@@ -146,6 +146,10 @@ class CacheResetManager {
 			rocket_clean_domain();
 		}
 
+		if (function_exists('rocket_clean_minify')) {
+			rocket_clean_minify();
+		}
+
 		if (function_exists('wp_cache_clean_cache')) {
 			global $file_prefix;
 			wp_cache_clean_cache( $file_prefix, true );

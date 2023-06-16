@@ -23,7 +23,7 @@ $css->put(
 );
 
 $contentSpacingMap = [
-	'none' => '0',
+	'none' => '0px',
 	'compact' => '0.8em',
 	'comfortable' => '1.5em',
 	'spacious' => '2em',
@@ -31,11 +31,16 @@ $contentSpacingMap = [
 
 $contentSpacing = get_theme_mod('contentSpacing', 'comfortable');
 
-$contentSpacing = isset(
+$contentSpacingResult = isset(
 	$contentSpacingMap[$contentSpacing]
 ) ? $contentSpacingMap[$contentSpacing] : $contentSpacingMap['comfortable'];
 
-$css->put(':root', '--content-spacing: ' . $contentSpacing);
+$css->put(':root', '--content-spacing: ' . $contentSpacingResult);
+
+if ($contentSpacing === 'none') {
+	$css->put(':root', '--has-content-spacing: 0');
+}
+
 
 blocksy_theme_get_dynamic_styles([
 	'name' => 'admin/colors',
@@ -155,11 +160,9 @@ if ($post_id) {
 			$template_editor_width = 900;
 		}
 
-
 		$css->put(
 			':root',
 			'--block-max-width: ' . $template_editor_width . 'px !important'
 		);
 	}
-
 }

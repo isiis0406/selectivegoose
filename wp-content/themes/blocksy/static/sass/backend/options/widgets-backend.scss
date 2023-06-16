@@ -80,27 +80,30 @@
 
 // classic widgets inside block editor
 .wp-block-legacy-widget__edit-form {
+
 	.ct-options-panel {
-		// margin: -11px;
 
 		.ct-control {
-			&:last-child {
-				margin-bottom: 0;
-				padding-bottom: 0;
-				border-bottom: none;
+			--select-input-width: 100%;
+
+			&:not(:first-child) {
+				--options-vertical-spacing: 0px;
 			}
 
-			--select-input-width: 100%;
+			&:last-child {
+				margin-bottom: 0px;
+				border-bottom: none;
+			}
 		}
 
-		.ct-layers,
 		.ct-buttons-group {
 			margin: 0;
 			padding: 0;
 		}
 
-		.ct-layer:not(:last-child) {
-			margin-bottom: 10px;
+		.ct-layer-content > * {
+			--widget-control-margin: 0px;
+			--options-vertical-spacing: 20px;
 		}
 	}
 }

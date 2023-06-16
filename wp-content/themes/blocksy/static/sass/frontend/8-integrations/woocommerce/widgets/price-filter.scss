@@ -4,25 +4,14 @@
 		position: relative;
 		z-index: 1;
 		height: 3px;
-		margin-bottom: 40px;
-
-		&:before {
-			position: absolute;
-			content: '';
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			opacity: 0.3;
-			background-color: var(--paletteColor1);
-		}
+		margin-bottom: 30px;
+		background-color: var(--form-field-border-initial-color);
 
 		.ui-slider-range {
 			position: absolute;
 			z-index: 1;
 			display: block;
 			height: 100%;
-			opacity: 0.7;
 			background-color: var(--paletteColor1);
 		}
 
@@ -47,10 +36,7 @@
 				outline: none;
 			}
 
-			&:hover {
-				box-shadow: inset 0px 0px 0px 3px var(--paletteColor1);
-			}
-
+			&:hover,
 			&.ui-state-active {
 				transform: scale(1.2);
 				box-shadow: inset 0px 0px 0px 2.5px var(--paletteColor1);
@@ -61,26 +47,68 @@
 	.price_slider_amount {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
 
 		#min_price, #max_price, .clear {
 			display: none;
 		}
 
-		.price_label {
-			order: 1;
-			font-size: 15px;
-			font-weight: 500;
+		.button {
+			--buttonMinHeight: 35px;
+			--button-padding: 0 20px;
+			--buttonFontSize: 14px;
+			order: 10;
+			margin-inline-start: auto;
+		}
+	}
+}
+
+
+// new price filter block
+.wc-block-price-filter {
+
+	.wc-block-price-filter__range-input-wrapper:before {
+		opacity: initial;
+		background: var(--form-field-border-initial-color);
+	}
+
+	.wc-block-components-price-slider__range-input-progress {
+		--range-color: var(--paletteColor1);
+	}
+
+	.wc-block-price-filter__range-input {
+
+		// chrome
+		&::-webkit-slider-thumb {
+			border-color: var(--paletteColor1);
 		}
 
-		.button {
-			--height: 35px;
-			--padding: 0 20px;
-			--buttonFontSize: 14px;
-			// --buttonShadow: none;
-			// --buttonTransform: none;
+		&:hover::-webkit-slider-thumb,
+		&:focus::-webkit-slider-thumb {
+			background: #fff;
+			border-color: var(--paletteColor1);
+		}
 
-			order: 2;
+		// moz
+		&::-moz-range-thumb {
+			border-color: var(--paletteColor1);	
+		}
+
+		&:hover::-moz-range-thumb,
+		&:focus::-moz-range-thumb {
+			background: #fff;
+			border-color: var(--paletteColor1);
+		}
+	}
+
+	.wc-block-form-text-input {
+		font-size: 13px;
+		text-align: center;
+		max-width: 70px !important;
+		border-radius: var(--has-classic-forms, var(--form-field-border-radius, 3px)) !important;
+		border: var(--form-field-border-width, 1px) solid var(--form-field-border-initial-color) !important;
+
+		&:focus {
+			border-color: var(--form-field-border-focus-color) !important;
 		}
 	}
 }

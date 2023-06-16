@@ -6,6 +6,9 @@ use Automattic\WooCommerce\Blocks\Package;
 use Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry;
 use Automattic\WooCommerce\Blocks\Assets\Api as AssetApi;
 use Automattic\WooCommerce\Blocks\Integrations\IntegrationRegistry;
+use Automattic\WooCommerce\Blocks\BlockTypes\Cart;
+use Automattic\WooCommerce\Blocks\BlockTypes\Checkout;
+use Automattic\WooCommerce\Blocks\BlockTypes\MiniCartContents;
 
 /**
  * BlockTypesController class.
@@ -80,6 +83,8 @@ final class BlockTypesController {
 		 *
 		 * This hook defines which block namespaces should have block name and attribute `data-` attributes appended on render.
 		 *
+		 * @since 5.9.0
+		 *
 		 * @param array $allowed_namespaces List of namespaces.
 		 */
 		$allowed_namespaces = array_merge( [ 'woocommerce', 'woocommerce-checkout' ], (array) apply_filters( '__experimental_woocommerce_blocks_add_data_attributes_to_namespace', [] ) );
@@ -88,6 +93,8 @@ final class BlockTypesController {
 		 * Filters the list of allowed Block Names
 		 *
 		 * This hook defines which block names should have block name and attribute data- attributes appended on render.
+		 *
+		 * @since 5.9.0
 		 *
 		 * @param array $allowed_namespaces List of namespaces.
 		 */
@@ -138,7 +145,18 @@ final class BlockTypesController {
 	 * @return array $widget_types An array inluding the WooCommerce widgets to hide.
 	 */
 	public function hide_legacy_widgets_with_block_equivalent( $widget_types ) {
-		array_push( $widget_types, 'woocommerce_product_search', 'woocommerce_product_categories', 'woocommerce_recent_reviews' );
+		array_push(
+			$widget_types,
+			'woocommerce_product_search',
+			'woocommerce_product_categories',
+			'woocommerce_recent_reviews',
+			'woocommerce_product_tag_cloud',
+			'woocommerce_price_filter',
+			'woocommerce_layered_nav',
+			'woocommerce_layered_nav_filters',
+			'woocommerce_rating_filter'
+		);
+
 		return $widget_types;
 	}
 
@@ -148,60 +166,62 @@ final class BlockTypesController {
 	 * @return array
 	 */
 	protected function get_block_types() {
-		global $wp_version, $pagenow;
+		global $pagenow;
 
 		$block_types = [
+			'ActiveFilters',
+			'AddToCartForm',
+			'AllProducts',
 			'AllReviews',
+			'AttributeFilter',
+			'Breadcrumbs',
+			'CatalogSorting',
+			'ClassicTemplate',
+			'CustomerAccount',
 			'FeaturedCategory',
 			'FeaturedProduct',
+			'FilterWrapper',
 			'HandpickedProducts',
+			'MiniCart',
+			'StoreNotices',
+			'PriceFilter',
+			'ProductAddToCart',
 			'ProductBestSellers',
+			'ProductButton',
 			'ProductCategories',
 			'ProductCategory',
+			'ProductImage',
+			'ProductImageGallery',
 			'ProductNew',
 			'ProductOnSale',
-			'ProductsByAttribute',
-			'ProductTopRated',
-			'ReviewsByProduct',
-			'ReviewsByCategory',
-			'ProductSearch',
-			'ProductTag',
-			'AllProducts',
-			'PriceFilter',
-			'AttributeFilter',
-			'StockFilter',
-			'ActiveFilters',
-			'ClassicTemplate',
-			'ProductAddToCart',
-			'ProductButton',
-			'ProductCategoryList',
-			'ProductImage',
 			'ProductPrice',
+			'ProductQuery',
 			'ProductRating',
+			'ProductResultsCount',
+			'ProductReviews',
 			'ProductSaleBadge',
+			'ProductSearch',
 			'ProductSKU',
 			'ProductStockIndicator',
 			'ProductSummary',
-			'ProductTagList',
+			'ProductTag',
 			'ProductTitle',
+			'ProductTopRated',
+			'ProductsByAttribute',
+			'RatingFilter',
+			'ReviewsByCategory',
+			'ReviewsByProduct',
+			'RelatedProducts',
+			'ProductDetails',
+			'StockFilter',
 		];
 
-		/**
-		 * Mini Cart blocks should be available in Site Editor, Widgets and frontend (is_admin function checks this) only.
-		 */
-		if (
-			! is_admin() ||
-			in_array( $pagenow, [ 'widgets.php', 'customize.php', 'site-editor.php' ], true ) ||
-			! empty( $_GET['page'] ) && 'gutenberg-edit-site' === $_GET['page'] // phpcs:ignore WordPress.Security.NonceVerification
-		) {
-			$block_types[] = 'MiniCart';
-			$block_types[] = 'MiniCartContents';
-		}
-
-		if ( Package::feature()->is_feature_plugin_build() ) {
-			$block_types[] = 'Checkout';
-			$block_types[] = 'Cart';
-		}
+		$block_types = array_merge(
+			$block_types,
+			Cart::get_cart_block_types(),
+			Checkout::get_checkout_block_types(),
+			MiniCartContents::get_mini_cart_block_types()
+		);
 
 		if ( Package::feature()->is_experimental_build() ) {
 			$block_types[] = 'SingleProduct';
@@ -215,12 +235,26 @@ final class BlockTypesController {
 				$block_types,
 				[
 					'AllProducts',
-					'PriceFilter',
-					'AttributeFilter',
-					'StockFilter',
-					'ActiveFilters',
 					'Cart',
 					'Checkout',
+				]
+			);
+		}
+
+		/**
+		 * This disables specific blocks in Post and Page editor by not registering them.
+		 */
+		if ( in_array( $pagenow, [ 'post.php', 'post-new.php' ], true ) ) {
+			$block_types = array_diff(
+				$block_types,
+				[
+					'AddToCartForm',
+					'Breadcrumbs',
+					'CatalogSorting',
+					'ClassicTemplate',
+					'ProductResultsCount',
+					'ProductDetails',
+					'StoreNotices',
 				]
 			);
 		}

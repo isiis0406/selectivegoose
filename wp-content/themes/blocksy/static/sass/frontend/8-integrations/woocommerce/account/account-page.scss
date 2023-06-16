@@ -110,13 +110,22 @@
 	}
 }
 
+th.download-file,
+th.woocommerce-orders-table__header-order-actions {
+	width: 20%;
+}
+
 td.download-file .button,
 td.woocommerce-orders-table__cell-order-actions .button {
 	@include media-breakpoint-up(md) {
 		width: 100%;
 	}
-}
 
+	&:not(:last-child) {
+		margin-bottom: 10px;
+		margin-inline-end: 10px;
+	}
+}
 
 .ct-account-welcome {
 	display: flex;
@@ -124,7 +133,7 @@ td.woocommerce-orders-table__cell-order-actions .button {
 	padding: 20px;
 	border-bottom: 1px solid var(--account-nav-divider-color, rgba(0, 0, 0, 0.05));
 
-	[class*="ct-image-container"] {
+	[class*='ct-image-container'] {
 		margin: 10px 0;
 		border-radius: 100%;
 	}
@@ -141,11 +150,10 @@ td.woocommerce-orders-table__cell-order-actions .button {
 	span {
 		display: flex;
 		flex-wrap: wrap;
+		gap: 0.3em;
 		font-size: 14px;
 		margin-top: 0.2em;
 
-		i {
-			margin: 0 0.3em;
-		}
+		--linkInitialColor: var(--account-nav-text-initial-color, var(--paletteColor3));
 	}
 }

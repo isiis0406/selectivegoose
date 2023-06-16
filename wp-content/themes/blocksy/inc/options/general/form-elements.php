@@ -227,6 +227,16 @@ $options = [
 				],
 			],
 
+			'checkboxBorderRadius' => [
+				'label' => __( 'Checkbox Border Radius', 'blocksy' ),
+				'type' => 'ct-number',
+				'design' => 'inline',
+				'value' => 3,
+				'min' => 0,
+				'max' => 10,
+				'setting' => [ 'transport' => 'postMessage' ],
+			],
+
 			blocksy_rand_md5() => [
 				'type' => 'ct-title',
 				'label' => __( 'Select Dropdown', 'blocksy' ),

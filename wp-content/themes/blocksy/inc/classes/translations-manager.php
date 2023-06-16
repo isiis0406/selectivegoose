@@ -28,7 +28,7 @@ class Blocksy_Translations_Manager {
 			}
 		}
 
-		foreach (['blog'] as $prefix) {
+		foreach (['blog', 'single_blog_post', 'single_page'] as $prefix) {
 			$hero_elements = get_theme_mod($prefix . '_hero_elements', null);
 
 			if (! $hero_elements) {
@@ -36,6 +36,23 @@ class Blocksy_Translations_Manager {
 			}
 
 			foreach ($hero_elements as $single_hero_component) {
+				if (
+					$single_hero_component['id'] === 'custom_meta'
+					&&
+					is_array($single_hero_component['meta_elements'])
+				) {
+					foreach ($single_hero_component['meta_elements'] as $single_meta_element) {
+						if (empty($single_meta_element['label'])) {
+							continue;
+						}
+
+						$builder_keys[] = [
+							'key' => $prefix . '_hero_meta_' . $single_meta_element['id'] . '_label',
+							'value' => $single_meta_element['label']
+						];
+					}
+				}
+
 				if (
 					$single_hero_component['id'] === 'custom_title'
 					&&
@@ -181,7 +198,15 @@ if (! function_exists('blocksy_get_all_i18n_languages')) {
 }
 
 if (! function_exists('blocksy_get_current_language')) {
-	function blocksy_get_current_language() {
+	function blocksy_get_current_language($format = 'locale') {
+		if ($format === 'slug') {
+			if (function_exists('pll_current_language')) {
+				return pll_current_language();
+			}
+
+			return '__NOT_KNOWN__';
+		}
+
 		if (function_exists('pll_current_language')) {
 			return pll_current_language('locale');
 		}

@@ -46,3 +46,28 @@ ctEvents.on(
 		}
 	}
 )
+
+const archivePrefix = 'blc-product-review_archive'
+
+ctEvents.on(
+	'ct:customizer:sync:collect-variable-descriptors',
+	(allVariables) => {
+		allVariables.result = {
+			...allVariables.result,
+
+			[`${archivePrefix}_star_rating_color`]: [
+				{
+					selector: applyPrefixFor('.star-rating', archivePrefix),
+					variable: 'star-rating-initial-color',
+					type: 'color:default',
+				},
+
+				{
+					selector: applyPrefixFor('.star-rating', archivePrefix),
+					variable: 'star-rating-inactive-color',
+					type: 'color:inactive',
+				},
+			],
+		}
+	}
+)

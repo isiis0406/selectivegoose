@@ -16,11 +16,16 @@ $config = [
 		'loggedout_account_custom_page',
 		'logged_out_style',
 		'accountHeaderIcon',
-		'account_user_visibility'
+		'account_user_visibility',
+		'loggedin_icon_source',
+		'loggedin_custom_icon',
+		'logged_out_icon_source',
+		'logged_out_custom_icon'
 	],
 
 	'translation_keys' => [
 		['key' => 'login_label'],
+		['key' => 'loggedin_label'],
 		['key' => 'account_custom_page']
 	]
 ];

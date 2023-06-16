@@ -3,6 +3,7 @@ import {
 	Fragment,
 	Component,
 	useState,
+	useRef,
 	useEffect,
 } from '@wordpress/element'
 import classnames from 'classnames'
@@ -34,6 +35,10 @@ export const capitalizeFirstLetter = (str) => {
 	return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+const DefaultOptionComponent = ({ option }) => {
+	return <div>Unimplemented option: {option.type}</div>
+}
+
 export const getOptionFor = (option) => {
 	const dynamicOptionTypes = {}
 	ctEvents.trigger('blocksy:options:register', dynamicOptionTypes)
@@ -46,7 +51,7 @@ export const getOptionFor = (option) => {
 		return dynamicOptionTypes[option.type]
 	}
 
-	return null
+	return DefaultOptionComponent
 }
 
 export const optionWithDefault = ({ option, value }) =>
@@ -63,6 +68,8 @@ const GenericOptionType = ({
 	purpose,
 }) => {
 	let maybeGutenbergDevice = null
+
+	const childComponentRef = useRef(null)
 
 	if (wp.data && wp.data.useSelect) {
 		maybeGutenbergDevice = wp.data.useSelect((select) => {
@@ -354,6 +361,15 @@ const GenericOptionType = ({
 			<OptionComponent
 				key={id}
 				{...{
+					...(option.type === 'ct-slider'
+						? {
+								ref: (c) => {
+									if (c) {
+										childComponentRef.current = c
+									}
+								},
+						  }
+						: {}),
 					option: {
 						...option,
 						value: isOptionResponsiveFor(option, {
@@ -491,6 +507,13 @@ const GenericOptionType = ({
 									)}
 									className="ct-revert"
 									onClick={() => {
+										if (
+											childComponentRef &&
+											childComponentRef.current
+										) {
+											childComponentRef.current.handleOptionRevert()
+										}
+
 										if (renderingConfig.performRevert) {
 											renderingConfig.performRevert({
 												onChangeFor,

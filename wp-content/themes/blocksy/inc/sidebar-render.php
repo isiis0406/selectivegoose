@@ -53,6 +53,11 @@ function blocksy_render_sidebar() {
 
 	$prefix = blocksy_manager()->screen->get_prefix();
 
+	$deep_link_args = [];
+
+	if (! is_singular()) {
+		$deep_link_args['suffix'] = $prefix . '_has_sidebar';
+	}
 
 	ob_start();
 
@@ -63,9 +68,7 @@ function blocksy_render_sidebar() {
 		<?php echo wp_kses_post($class_output); ?>
 		data-type="<?php echo esc_attr($type) ?>"
 		id="sidebar"
-		<?php echo blocksy_generic_get_deep_link([
-			'suffix' => $prefix . '_has_sidebar'
-		]); ?>
+		<?php echo blocksy_generic_get_deep_link($deep_link_args) ?>
 		<?php echo blocksy_schema_org_definitions('sidebar') ?>>
 
 		<?php do_action('blocksy:sidebar:before'); ?>
@@ -80,6 +83,8 @@ function blocksy_render_sidebar() {
 
 				if (get_theme_mod('has_sticky_sidebar', 'no') === 'yes') {
 					if ($sidebar_stick_behavior === 'last_n_widgets') {
+						$sidebars_widgets = wp_get_sidebars_widgets();
+
 						$has_last_n_widgets = true;
 					}
 				}
@@ -127,10 +132,14 @@ if (! function_exists('blocksy_sidebar_render_dynamic_sidebar_hook')) {
 
 		$widget_index = array_search($widget_id, $reversed_widgets);
 
-		$sticky_widget_number = intval(get_theme_mod(
-			'sticky_widget_number',
-			1
-		));
+
+		$sticky_widget_number = min(
+			intval(get_theme_mod(
+				'sticky_widget_number',
+				1
+			)),
+			count($reversed_widgets)
+		);
 
 		if ($widget_index + 1 === $sticky_widget_number) {
 			echo '<div class="ct-sticky-widgets">';

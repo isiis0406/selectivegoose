@@ -36,13 +36,29 @@ class HeaderAdditions {
 				}
 			];
 
+			$selective_refresh[] = [
+				'id' => 'header_placements_item:account:offcanvas',
+				'fallback_refresh' => false,
+				'container_inclusive' => false,
+				'selector' => '#offcanvas',
+				'loader_selector' => '[data-id="account"]',
+				'settings' => ['header_placements'],
+				'render_callback' => function () {
+					$elements = new \Blocksy_Header_Builder_Elements();
+
+					echo $elements->render_offcanvas([
+						'has_container' => false
+					]);
+				}
+			];
+
 			return $selective_refresh;
 		});
 
 		add_filter('blocksy:header:device-wrapper-attr', function ($attr, $device) {
 			$transparent_result = $this->current_screen_has_transparent();
 
-			if (! $transparent_result) {
+			if (!$transparent_result) {
 				return $attr;
 			}
 
@@ -63,7 +79,7 @@ class HeaderAdditions {
 		add_filter('blocksy:header:row-wrapper-attr', function ($attr, $row, $device) {
 			$current_section = blocksy_manager()->header_builder->get_current_section();
 
-			if (! isset($current_section['settings'])) {
+			if (!isset($current_section['settings'])) {
 				$current_section['settings'] = [];
 			}
 
@@ -85,11 +101,11 @@ class HeaderAdditions {
 			function ($custom_content, $rows, $device) {
 				$sticky_result = $this->current_screen_has_sticky();
 
-				if (! $sticky_result) {
+				if (!$sticky_result) {
 					return $custom_content;
 				}
 
-				if (! in_array($device, $sticky_result['devices'])) {
+				if (!in_array($device, $sticky_result['devices'])) {
 					return $custom_content;
 				}
 
@@ -101,8 +117,7 @@ class HeaderAdditions {
 				if (
 					$sticky_result['behaviour'] === 'top_middle'
 					&&
-					(
-						isset($rows['top-row'])
+					(isset($rows['top-row'])
 						||
 						isset($rows['middle-row'])
 					)
@@ -125,8 +140,7 @@ class HeaderAdditions {
 				if (
 					$sticky_result['behaviour'] === 'middle_bottom'
 					&&
-					(
-						isset($rows['middle-row'])
+					(isset($rows['middle-row'])
 						||
 						isset($rows['bottom-row'])
 					)
@@ -181,7 +195,8 @@ class HeaderAdditions {
 
 				return null;
 			},
-			10, 3
+			10,
+			3
 		);
 
 		add_filter('blocksy:general:body-header-attr', function ($attr) {
@@ -202,9 +217,7 @@ class HeaderAdditions {
 			$check_transparent_conditions = false;
 
 			if (isset($args['check_transparent_conditions'])) {
-				$check_transparent_conditions = $args[
-					'check_transparent_conditions'
-				];
+				$check_transparent_conditions = $args['check_transparent_conditions'];
 			}
 
 			$args['has_transparent_header'] = $this->current_screen_has_transparent(
@@ -228,24 +241,36 @@ class HeaderAdditions {
 					'fn' => 'blocksy_get_options',
 					'default' => 'array'
 				],
-				dirname( __FILE__ ) . '/header/header-options.php',
-				[], false
+				dirname(__FILE__) . '/header/header-options.php',
+				[],
+				false
 			);
 
 			return $opt;
 		});
 
-		add_filter('blocksy:footer:offcanvas-drawer', function ($els) {
-			if ($this->has_account_modal()) {
-				$els[] = $this->retrieve_account_modal();
-			}
+		add_filter(
+			'blocksy:footer:offcanvas-drawer',
+			function ($els) {
+				global $blocksy_has_default_header;
 
-			return $els;
-		});
+				if (
+					isset($blocksy_has_default_header)
+					&&
+					$blocksy_has_default_header
+					&&
+					$this->has_account_modal()
+				) {
+					$els[] = $this->retrieve_account_modal();
+				}
+
+				return $els;
+			}
+		);
 	}
 
 	public function enqueue_static() {
-		if (! function_exists('get_plugin_data')) {
+		if (!function_exists('get_plugin_data')) {
 			require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		}
 
@@ -305,13 +330,13 @@ class HeaderAdditions {
 			||
 			$this->has_transparent_header === '__DEFAULT__'
 			||
-			! $check_conditions
+			!$check_conditions
 		) {
 			$current_section = blocksy_manager()->header_builder->get_current_section(
 				$current_section_id
 			);
 
-			if (! isset($current_section['settings'])) {
+			if (!isset($current_section['settings'])) {
 				$current_section['settings'] = [];
 			}
 
@@ -335,7 +360,7 @@ class HeaderAdditions {
 			$transparent_result = [];
 
 			foreach ($transparent_behaviour as $device => $value) {
-				if (! $value) {
+				if (!$value) {
 					continue;
 				}
 
@@ -350,8 +375,7 @@ class HeaderAdditions {
 				count($transparent_result) > 0
 				&&
 				(
-					(
-						$current_section['id'] === 'type-1'
+					($current_section['id'] === 'type-1'
 						&&
 						$conditions_manager->condition_matches(blocksy_akg(
 							'transparent_conditions',
@@ -382,7 +406,7 @@ class HeaderAdditions {
 					||
 					$current_section['id'] !== 'type-1'
 					||
-					! $check_conditions
+					!$check_conditions
 				)
 				&&
 				apply_filters(
@@ -403,7 +427,7 @@ class HeaderAdditions {
 		if (
 			$this->has_sticky_header !== '__DEFAULT__'
 			&&
-			! $section_id
+			!$section_id
 		) {
 			return $this->has_sticky_header;
 		}
@@ -412,7 +436,7 @@ class HeaderAdditions {
 			$section_id
 		);
 
-		if (! isset($current_section['settings'])) {
+		if (!isset($current_section['settings'])) {
 			$current_section['settings'] = [];
 		}
 
@@ -448,7 +472,7 @@ class HeaderAdditions {
 			];
 
 			foreach ($sticky_behaviour as $device => $value) {
-				if (! $value) {
+				if (!$value) {
 					continue;
 				}
 
@@ -471,12 +495,10 @@ class HeaderAdditions {
 
 			foreach ($particular_conditions as $nested_index => $single_particular_condition) {
 				if (
-					(
-						$single_particular_condition['rule'] === 'page_ids'
+					($single_particular_condition['rule'] === 'page_ids'
 						||
 						$single_particular_condition['rule'] === 'post_ids'
-					) && (
-						isset($single_particular_condition['payload'])
+					) && (isset($single_particular_condition['payload'])
 						&&
 						isset($single_particular_condition['payload']['post_id'])
 						&&
@@ -497,11 +519,11 @@ class HeaderAdditions {
 		$section_value = blocksy_manager()->header_builder->get_section_value();
 
 		foreach ($section_value['sections'] as $index => $current_section) {
-			if (! isset($current_section['settings'])) {
+			if (!isset($current_section['settings'])) {
 				continue;
 			}
 
-			if (! isset($current_section['settings']['transparent_conditions'])) {
+			if (!isset($current_section['settings']['transparent_conditions'])) {
 				continue;
 			}
 
@@ -509,12 +531,10 @@ class HeaderAdditions {
 				$particular_conditions = $single_condition;
 
 				if (
-					(
-						$single_condition['rule'] === 'page_ids'
+					($single_condition['rule'] === 'page_ids'
 						||
 						$single_condition['rule'] === 'post_ids'
-					) && (
-						isset($single_condition['payload'])
+					) && (isset($single_condition['payload'])
 						&&
 						isset($single_condition['payload']['post_id'])
 						&&
@@ -526,9 +546,7 @@ class HeaderAdditions {
 					$single_condition['payload']['post_id'] = $post_id;
 				}
 
-				$section_value['sections'][$index]['settings'][
-					'transparent_conditions'
-				][$cond_index] = $single_condition;
+				$section_value['sections'][$index]['settings']['transparent_conditions'][$cond_index] = $single_condition;
 			}
 		}
 
@@ -550,7 +568,9 @@ class HeaderAdditions {
 	}
 
 	public function retrieve_account_modal() {
-		remove_filter('lostpassword_url', 'wc_lostpassword_url', 10, 1);
+		if (function_exists('wc_lostpassword_url')) {
+			remove_filter('lostpassword_url', 'wc_lostpassword_url', 10, 1);
+		}
 
 		$body = json_decode(file_get_contents('php://input'), true);
 
@@ -576,7 +596,9 @@ class HeaderAdditions {
 			]
 		);
 
-		add_filter('lostpassword_url', 'wc_lostpassword_url', 10, 1);
+		if (function_exists('wc_lostpassword_url')) {
+			add_filter('lostpassword_url', 'wc_lostpassword_url', 10, 1);
+		}
 
 		return $html;
 	}
@@ -586,7 +608,7 @@ class HeaderAdditions {
 			return true;
 		}
 
-		if (! class_exists('Blocksy_Header_Builder_Render')) {
+		if (!class_exists('Blocksy_Header_Builder_Render')) {
 			return false;
 		}
 
@@ -601,7 +623,7 @@ class HeaderAdditions {
 
 		$render = new \Blocksy_Header_Builder_Render();
 
-		if (! $render->contains_item('account')) {
+		if (!$render->contains_item('account')) {
 			$this->has_account_modal = false;
 			return false;
 		}
@@ -617,4 +639,3 @@ class HeaderAdditions {
 		return true;
 	}
 }
-

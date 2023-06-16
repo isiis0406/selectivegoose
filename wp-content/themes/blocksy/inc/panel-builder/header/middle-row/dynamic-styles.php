@@ -94,6 +94,7 @@ if (
 		'mobile_css' => $mobile_css,
 		'value' => $rowBackgroundValue,
 		'responsive' => true,
+		'forced_background_image' => true
 	]);
 }
 
@@ -111,6 +112,7 @@ if (blocksy_some_device($headerRowWidth, 'boxed')) {
 		'mobile_css' => $mobile_css,
 		'value' => $containerBackgroundValue,
 		'responsive' => true,
+		'forced_background_image' => true
 	]);
 }
 
@@ -518,6 +520,7 @@ if (
 			])),
 
 			'value' => $rowBackgroundValue,
+			'forced_background_image' => true,
 			'responsive' => true
 		]);
 	}
@@ -540,6 +543,7 @@ if (
 			),
 
 			'value' => $containerBackgroundValue,
+			'forced_background_image' => true,
 			'responsive' => true
 		]);
 	}
@@ -557,7 +561,11 @@ if (
 			$has_sticky_header['behaviour'] === 'entire_header'
 		)
 	) {
-		if ($has_sticky_header['effect'] !== 'shrink') {
+		if (
+			$has_sticky_header['effect'] !== 'shrink'
+			&&
+			$has_sticky_header['effect'] !== 'auto-hide'
+		) {
 			$stickyHeaderRowShrink = blocksy_expand_responsive_value(blocksy_akg(
 				'stickyHeaderRowShrink',
 				$atts,

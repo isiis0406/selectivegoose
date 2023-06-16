@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import { markImagesAsLoaded } from '../../frontend/lazy-load-helpers'
 import ctEvents from 'ct-events'
 
 const sendLocation = () => {
@@ -7,8 +6,6 @@ const sendLocation = () => {
 		if (!e.container) {
 			return
 		}
-
-		markImagesAsLoaded(e.container[0])
 
 		if ($) {
 			$('.wc-tabs-wrapper, .woocommerce-tabs, #rating').trigger('init')

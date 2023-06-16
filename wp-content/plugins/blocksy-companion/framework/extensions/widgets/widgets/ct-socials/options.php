@@ -50,10 +50,14 @@ $options = [
 			],
 		],
 
-		'settings' => blc_call_fn([
-			'fn' => 'blocksy_get_social_networks_list',
-			'default' => []
-		])
+		'settings' =>  apply_filters(
+			'blocksy:header:socials:options:icon', 
+			blc_call_fn([
+				'fn' => 'blocksy_get_social_networks_list',
+				'default' => []
+			])
+		)
+
 	],
 
 	'link_target' => [
@@ -69,6 +73,19 @@ $options = [
 		'label' => __( 'Set links to nofollow', 'blocksy-companion' ),
 		'value' => 'no',
 		'design' => 'inline-full',
+	],
+
+	'social_icons_color' => [
+		'label' => __('Icons Color', 'blocksy'),
+		'type' => 'ct-radio',
+		'value' => 'default',
+		'view' => 'text',
+		'design' => 'block',
+		'setting' => [ 'transport' => 'postMessage' ],
+		'choices' => [
+			'default' => __( 'Default', 'blocksy' ),
+			'official' => __( 'Official', 'blocksy' ),
+		],
 	],
 
 	'social_icons_size' => [

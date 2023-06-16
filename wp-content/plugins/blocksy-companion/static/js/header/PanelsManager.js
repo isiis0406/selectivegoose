@@ -71,7 +71,10 @@ const PanelsManager = () => {
 							...(id.indexOf('ct-custom') > -1
 								? {
 										conditions_button: {
-											label: __('Edit Conditions', 'blocksy-companion'),
+											label: __(
+												'Edit Conditions',
+												'blocksy-companion'
+											),
 											type: 'jsx',
 											design: 'block',
 											render: () => (
@@ -109,8 +112,7 @@ const PanelsManager = () => {
 												optionValue
 											) => {
 												builderValueDispatch({
-													type:
-														'BUILDER_GLOBAL_SETTING_ON_CHANGE',
+													type: 'BUILDER_GLOBAL_SETTING_ON_CHANGE',
 													payload: {
 														optionId,
 														optionValue,
@@ -140,8 +142,7 @@ const PanelsManager = () => {
 												open()
 											} else {
 												builderValueDispatch({
-													type:
-														'PICK_BUILDER_SECTION',
+													type: 'PICK_BUILDER_SECTION',
 													payload: {
 														id,
 													},

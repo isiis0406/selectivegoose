@@ -21,19 +21,13 @@
 	}
 
 	table {
-		--listItemSpacing: 1em;
 
-		// tr:first-child,
 		tr:last-child {
 			--table-border-width: 0;
 		}
 
 		td {
-			text-align: right;
-
-			&:before {
-				display: none;
-			}
+			text-align: end;
 		}
 	}
 

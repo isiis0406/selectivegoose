@@ -9,31 +9,67 @@ class SingleProductActionHandler {
     constructor(
         config,
         updateCart,
-        showButtonCallback,
-        hideButtonCallback,
         formElement,
         errorHandler
     ) {
         this.config = config;
         this.updateCart = updateCart;
-        this.showButtonCallback = showButtonCallback;
-        this.hideButtonCallback = hideButtonCallback;
         this.formElement = formElement;
         this.errorHandler = errorHandler;
     }
 
+    subscriptionsConfiguration() {
+        return {
+            createSubscription: (data, actions) => {
+                return actions.subscription.create({
+                    'plan_id': this.config.subscription_plan_id
+                });
+            },
+            onApprove: (data, actions) => {
+                fetch(this.config.ajax.approve_subscription.endpoint, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        nonce: this.config.ajax.approve_subscription.nonce,
+                        order_id: data.orderID,
+                        subscription_id: data.subscriptionID
+                    })
+                }).then((res)=>{
+                    return res.json();
+                }).then(() => {
+                    const id = document.querySelector('[name="add-to-cart"]').value;
+                    const products =  [new Product(id, 1, null)];
+
+                    fetch(this.config.ajax.change_cart.endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify({
+                            nonce: this.config.ajax.change_cart.nonce,
+                            products,
+                        })
+                    }).then((result) => {
+                        return result.json();
+                    }).then((result) => {
+                        if (!result.success) {
+                            console.log(result)
+                            throw Error(result.data.message);
+                        }
+
+                        location.href = this.config.redirect;
+                    })
+                });
+            },
+            onError: (err) => {
+                console.error(err);
+            }
+        }
+    }
+
     configuration()
     {
-
-        if ( this.hasVariations() ) {
-            const observer = new ButtonsToggleListener(
-                this.formElement.querySelector('.single_add_to_cart_button'),
-                this.showButtonCallback,
-                this.hideButtonCallback
-            );
-            observer.init();
-        }
-
         return {
             createOrder: this.createOrder(),
             onApprove: onApprove(this, this.errorHandler),
@@ -80,6 +116,10 @@ class SingleProductActionHandler {
                     this.config.bn_codes[this.config.context] : '';
                 return fetch(this.config.ajax.create_order.endpoint, {
                     method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin',
                     body: JSON.stringify({
                         nonce: this.config.ajax.create_order.nonce,
                         purchase_units,

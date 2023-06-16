@@ -64,17 +64,19 @@ const CustomizerOptionsManager = () => {
 		dropZoneRef.current.addEventListener('drop', onDrop, false)
 
 		return () => {
-			dropZoneRef.current.removeEventListener(
-				'dragover',
-				onDragOver,
-				false
-			)
-			dropZoneRef.current.removeEventListener(
-				'dragleave',
-				onDragLeave,
-				false
-			)
-			dropZoneRef.current.removeEventListener('drop', onDrop, false)
+			if (dropZoneRef.current) {
+				dropZoneRef.current.removeEventListener(
+					'dragover',
+					onDragOver,
+					false
+				)
+				dropZoneRef.current.removeEventListener(
+					'dragleave',
+					onDragLeave,
+					false
+				)
+				dropZoneRef.current.removeEventListener('drop', onDrop, false)
+			}
 		}
 	}, [])
 
@@ -458,8 +460,7 @@ const CustomizerOptionsManager = () => {
 															var blob = new Blob(
 																[data.data],
 																{
-																	type:
-																		'application/octet-stream;charset=utf-8',
+																	type: 'application/octet-stream;charset=utf-8',
 																}
 															)
 

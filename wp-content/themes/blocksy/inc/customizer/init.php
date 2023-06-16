@@ -84,76 +84,13 @@ add_action('customize_save', function ($obj) {
 	}
 });
 
-function blocksy_add_customizer_preview_cache( $maybe_content ) {
-	add_action(
-		'blocksy_customizer_preview_cache',
-		function () use ($maybe_content) {
-			if (is_callable($maybe_content)) {
-				/**
-				 * Note to code reviewers: This line doesn't need to be escaped.
-				 * Function call_user_func($maybe_content) used here escapes the value properly.
-				 */
-				echo call_user_func($maybe_content);
-				return;
-			}
-
-			/**
-			 * Note to code reviewers: This line doesn't need to be escaped.
-			 * Variable $maybe_content used here has the value escaped properly.
-			 */
-			echo $maybe_content;
-		}
-	);
-}
-
-add_action(
-	'wp_footer',
-	function () {
-		if ( ! is_customize_preview() ) {
-			return;
-		}
-
-		ob_start();
-
-		echo '<div class="ct-customizer-preview-cache">';
-		do_action('blocksy_customizer_preview_cache');
-		echo '</div>';
-
-		$html = ob_get_clean();
-
-		// $html = str_replace(' ', '', $html);
-		$search = array(
-			'/\>[^\S ]+/s',     // strip whitespaces after tags, except space
-			'/[^\S ]+\</s',     // strip whitespaces before tags, except space
-			'/(\s)+/s',         // shorten multiple whitespace sequences
-			'/<!--(.|\s)*?-->/', // Remove HTML comments
-		);
-
-		$replace = array(
-			'>',
-			'<',
-			'\\1',
-			'',
-		);
-
-		// $html = preg_replace($search, $replace, $html);
-		/**
-		 * Note to code reviewers: This line doesn't need to be escaped.
-		 * The string used here escapes the value properly.
-		 */
-		echo '<input type="hidden" value="' . htmlspecialchars( $html ) . '" class="ct-customizer-preview-cache-container">';
-	},
-	3000,
-	0
-);
-
-
 /**
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 add_action(
 	'customize_preview_init',
 	function () {
+
 		wp_enqueue_script(
 			'ct-customizer',
 			get_template_directory_uri() . '/static/bundle/sync.min.js',
@@ -176,6 +113,10 @@ add_action(
 				'static_public_url' => get_template_directory_uri() . '/static/',
 				'product_name' => blocksy_get_wp_theme()->get('Name'),
 				'header_builder_data' => Blocksy_Manager::instance()->builder->get_data_for_customizer(),
+				'dismissed_google_fonts_notice' => get_option(
+					'dismissed-blocksy_google_fonts_notice',
+					'no'
+				) === 'yes'
 			]
 		);
 
@@ -228,6 +169,27 @@ function blocksy_customizer_sync_data() {
 add_action(
 	'customize_controls_enqueue_scripts',
 	function () {
+
+		if (class_exists('Kadence_Woomail_Designer')) {
+			if (
+				Kadence_Woomail_Designer::is_own_customizer_request()
+				||
+				Kadence_Woomail_Designer::is_own_preview_request()
+			) {
+				return;
+			}
+		}
+
+		if (class_exists('RP_Decorator')) {
+			if (
+				RP_Decorator::is_own_customizer_request()
+				||
+				RP_Decorator::is_own_preview_request()
+			) {
+				return;
+			}
+		}
+
 		wp_add_inline_script(
 			'wp-customize-widgets',
 			'var oldCustomizeWidgetsInit = wp.customizeWidgets.initialize;' .
@@ -333,11 +295,24 @@ add_action(
 				'has_new_widgets' => $has_new_widgets,
 				'gradients' => get_theme_support('editor-gradient-presets')[0],
 				'has_child_theme' => $has_child_theme,
-				'is_parent_theme' => ! wp_get_theme()->parent()
+				'is_parent_theme' => ! wp_get_theme()->parent(),
+				'dismissed_google_fonts_notice' => get_option(
+					'dismissed-blocksy_google_fonts_notice',
+					'no'
+				) === 'yes'
 			]
 		);
 	}
 );
+
+add_action('wp_ajax_blocksy_dismissed_google_fonts_notice_handler', function () {
+	update_option(
+		'dismissed-blocksy_google_fonts_notice',
+		'yes'
+	);
+
+	wp_die();
+});
 
 add_action(
 	'wp_ajax_ct_customizer_reset',
@@ -451,7 +426,7 @@ function blocksy_customizer_register_options(
 
 			$args = [
 				'title' => empty( $opt['option']['title'] )
-					? blocksy_id_to_title( $opt['id'] )
+					? $opt['id']
 					: $opt['option']['title'],
 				'description' => empty( $opt['option']['desc'] )
 					? ''
@@ -537,7 +512,7 @@ function blocksy_customizer_register_options(
 
 			$args_control = [
 				'label' => empty($opt['option']['label'])
-					? blocksy_id_to_title($opt['id'])
+					? $opt['id']
 					: $opt['option']['label'],
 				'description' => empty($opt['option']['desc'])
 					? ''
@@ -648,6 +623,14 @@ function blocksy_customizer_register_options(
 								'',
 								$local_sync['prefix']
 							);
+
+							if (
+								isset($local_sync['prefix_custom'])
+								&&
+								! empty($local_sync['prefix_custom'])
+							) {
+								$prefix_selector = 'body:not([data-prefix-custom*="' . $local_sync['prefix_custom'] . '"])' . $prefix_selector;
+							}
 
 							if (is_array($prefix_selector)) {
 								foreach ($prefix_selector as $index => $single_prefix_selector) {

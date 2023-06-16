@@ -3,7 +3,7 @@
 /*
 Plugin Name: Blocksy Companion
 Description: This plugin is the companion for the Blocksy theme, it runs and adds its enhacements only if the Blocksy theme is installed and active.
-Version: 1.8.31
+Version: 1.8.92
 Author: CreativeThemes
 Author URI: https://creativethemes.com
 Text Domain: blocksy-companion
@@ -17,12 +17,28 @@ if ( !defined( 'ABSPATH' ) ) {
     // Exit if accessed directly.
 }
 
+register_activation_hook( __FILE__, function () {
+    
+    if ( class_exists( '\\Blocksy\\Plugin' ) && !function_exists( 'blc_fs' ) ) {
+        $to_deactivate = plugin_basename( str_replace( '-pro/', '/', __FILE__ ) );
+        if ( is_plugin_active( $to_deactivate ) ) {
+            deactivate_plugins( $to_deactivate );
+        }
+    }
+    
+    if ( isset( $_REQUEST['action'] ) && 'activate-selected' === $_REQUEST['action'] && isset( $_POST['checked'] ) && count( $_POST['checked'] ) > 1 ) {
+        return;
+    }
+    add_option( 'blc_activation_redirect', wp_get_current_user()->ID );
+} );
 
-if ( function_exists( 'blc_fs' ) ) {
-    blc_fs()->set_basename( false, __FILE__ );
+if ( function_exists( 'blc_fs' ) || class_exists( '\\Blocksy\\Plugin' ) ) {
+    if ( function_exists( 'blc_fs' ) ) {
+        blc_fs()->set_basename( false, __FILE__ );
+    }
 } else {
     
-    if ( !function_exists( 'blc_fs' ) ) {
+    if ( !function_exists( 'blc_fs' ) && file_exists( dirname( __FILE__ ) . '/freemius/start.php' ) ) {
         global  $blc_fs ;
         
         if ( !isset( $blc_fs ) ) {
@@ -72,11 +88,6 @@ if ( function_exists( 'blc_fs' ) ) {
             
             blc_fs();
             do_action( 'blc_fs_loaded' );
-            blc_fs()->add_filter( 'freemius_pricing_js_path', function ( $d ) {
-                // return BLOCKSY_PATH . 'freemius-pricing/freemius-pricing.js';
-                // Only in DEV!!
-                return WP_CONTENT_DIR . '/plugins/blocksy-companion/freemius-pricing/freemius-pricing.js';
-            } );
         }
     
     }

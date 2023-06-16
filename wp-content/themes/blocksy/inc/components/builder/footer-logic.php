@@ -103,10 +103,27 @@ class Blocksy_Footer_Builder {
 						continue;
 					}
 
-					$result[] = array_merge($key, [
-						'key' => 'footer:' . $section['id'] . ':' . $item['id'] . ':' . $key['key'],
-						'value' => $item['values'][$key['key']]
-					]);
+					$key_prefix = 'footer:' . $section['id'] . ':' . $item['id'] . ':' . $key['key'];
+
+					if (isset($key['all_layers'])) {
+						foreach ($item['values'][$key['key']] as $single_layer) {
+							foreach ($key['all_layers'] as $layer_key) {
+								if (! isset($single_layer[$layer_key])) {
+									continue;
+								}
+
+								$result[] = array_merge($key, [
+									'key' => $key_prefix . ':' . $single_layer['id'] . ':' . $layer_key,
+									'value' => $single_layer[$layer_key]
+								]);
+							}
+						}
+					} else {
+						$result[] = array_merge($key, [
+							'key' => $key_prefix,
+							'value' => $item['values'][$key['key']]
+						]);
+					}
 				}
 			}
 		}

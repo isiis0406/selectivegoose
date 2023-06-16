@@ -3,40 +3,54 @@ import { makeVariablesWithCondition } from '../helpers/variables-with-conditions
 import { handleBackgroundOptionFor } from '../variables/background'
 import { maybePromoteScalarValueIntoResponsive } from 'customizer-sync-helpers/dist/promote-into-responsive'
 
+const getSelectorSuffixFor = (prefix) => {
+	let selectorSuffix = '[class*="ct-container"] > article[class*="post"]'
+
+	if (prefix === 'courses_single') {
+		selectorSuffix = '.tutor-col-xl-8'
+	}
+
+	return selectorSuffix
+}
+
 watchOptionsWithPrefix({
 	getPrefix: () => getPrefixFor(),
 	getOptionsForPrefix: ({ prefix }) => [`${prefix}_content_area_spacing`],
 	render: ({ prefix, id }) => {
-		if (id === `${prefix}_content_area_spacing`) {
-			let el = document.querySelector('.site-main > div')
+		if (id !== `${prefix}_content_area_spacing`) {
+			return
+		}
 
-			if (!el) {
-				return
-			}
+		if (
+			(document.body.dataset.prefixCustom || '').indexOf(
+				'vertical-spacing'
+			) > -1
+		) {
+			return
+		}
 
-			let spacingComponents = []
+		let el = document.querySelector('.site-main > div')
 
-			let contentAreaSpacing = getOptionFor(
-				'content_area_spacing',
-				prefix
-			)
+		if (!el) {
+			return
+		}
 
-			if (contentAreaSpacing === 'both' || contentAreaSpacing === 'top') {
-				spacingComponents.push('top')
-			}
+		let spacingComponents = []
 
-			if (
-				contentAreaSpacing === 'both' ||
-				contentAreaSpacing === 'bottom'
-			) {
-				spacingComponents.push('bottom')
-			}
+		let contentAreaSpacing = getOptionFor('content_area_spacing', prefix)
 
-			el.removeAttribute('data-vertical-spacing')
+		if (contentAreaSpacing === 'both' || contentAreaSpacing === 'top') {
+			spacingComponents.push('top')
+		}
 
-			if (spacingComponents.length > 0) {
-				el.dataset.verticalSpacing = spacingComponents.join(':')
-			}
+		if (contentAreaSpacing === 'both' || contentAreaSpacing === 'bottom') {
+			spacingComponents.push('bottom')
+		}
+
+		el.removeAttribute('data-vertical-spacing')
+
+		if (spacingComponents.length > 0) {
+			el.dataset.verticalSpacing = spacingComponents.join(':')
 		}
 	},
 })
@@ -44,19 +58,21 @@ watchOptionsWithPrefix({
 export const getSingleContentVariablesFor = () => {
 	const prefix = getPrefixFor()
 
-	return {
-		...handleBackgroundOptionFor({
-			id: `${prefix}_background`,
-			selector: `[data-prefix="${prefix}"]`,
-			responsive: true,
-		}),
+	if (
+		(document.body.dataset.prefixCustom || '').indexOf('content-style') > -1
+	) {
+		return {}
+	}
 
+	return {
 		...makeVariablesWithCondition(
 			`${prefix}_content_style`,
 			{
 				[`${prefix}_content_style`]: [
 					{
-						selector: `[data-prefix="${prefix}"] [class*="ct-container"] > article[class*="post"]`,
+						selector: `[data-prefix="${prefix}"] ${getSelectorSuffixFor(
+							prefix
+						)}`,
 						variable: 'has-boxed',
 						responsive: true,
 						skipOutputCheck: true,
@@ -83,7 +99,9 @@ export const getSingleContentVariablesFor = () => {
 					},
 
 					{
-						selector: `[data-prefix="${prefix}"] [class*="ct-container"] > article[class*="post"]`,
+						selector: `[data-prefix="${prefix}"] ${getSelectorSuffixFor(
+							prefix
+						)}`,
 						variable: 'has-wide',
 						responsive: true,
 						skipOutputCheck: true,
@@ -112,13 +130,17 @@ export const getSingleContentVariablesFor = () => {
 
 				...handleBackgroundOptionFor({
 					id: `${prefix}_content_background`,
-					selector: `[data-prefix="${prefix}"] [class*="ct-container"] > article[class*="post"]`,
+					selector: `[data-prefix="${prefix}"] ${getSelectorSuffixFor(
+						prefix
+					)}`,
 					responsive: true,
 					conditional_var: '--has-background',
 				}),
 
 				[`${prefix}_boxed_content_spacing`]: {
-					selector: `[data-prefix="${prefix}"] [class*="ct-container"] > article[class*="post"]`,
+					selector: `[data-prefix="${prefix}"] ${getSelectorSuffixFor(
+						prefix
+					)}`,
 					type: 'spacing',
 					variable: 'boxed-content-spacing',
 					responsive: true,
@@ -126,21 +148,27 @@ export const getSingleContentVariablesFor = () => {
 				},
 
 				[`${prefix}_content_boxed_radius`]: {
-					selector: `[data-prefix="${prefix}"] [class*="ct-container"] > article[class*="post"]`,
+					selector: `[data-prefix="${prefix}"] ${getSelectorSuffixFor(
+						prefix
+					)}`,
 					type: 'spacing',
 					variable: 'border-radius',
 					responsive: true,
 				},
 
 				[`${prefix}_content_boxed_shadow`]: {
-					selector: `[data-prefix="${prefix}"] [class*="ct-container"] > article[class*="post"]`,
+					selector: `[data-prefix="${prefix}"] ${getSelectorSuffixFor(
+						prefix
+					)}`,
 					type: 'box-shadow',
 					variable: 'box-shadow',
 					responsive: true,
 				},
 
 				[`${prefix}_content_boxed_border`]: {
-					selector: `[data-prefix="${prefix}"] [class*="ct-container"] > article[class*="post"]`,
+					selector: `[data-prefix="${prefix}"] ${getSelectorSuffixFor(
+						prefix
+					)}`,
 					variable: 'boxed-content-border',
 					type: 'border',
 					responsive: true,

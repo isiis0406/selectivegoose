@@ -35,18 +35,6 @@ $options = [
 				'type' => 'ct-divider',
 			],
 
-			'left_right_wide' => [
-				'label' => __( 'Left & Right Blocks Offset', 'blocksy' ),
-				'type' => 'ct-switch',
-				'value' => 'no',
-				'setting' => [ 'transport' => 'postMessage' ],
-				'desc' => __( 'This option will add offset to all left and right aligned blocks in Gutenberg editor.', 'blocksy' ),
-			],
-
-			blocksy_rand_md5() => [
-				'type' => 'ct-divider',
-			],
-
 			'content_link_type' => [
 				'label' => __( 'Links Type', 'blocksy' ),
 				'type' => 'ct-select',

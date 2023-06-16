@@ -79,7 +79,10 @@ const BlocksyOptions = ({
 
 		handleMetaboxValueChange(key, v)
 
-		onChange(futureValue)
+		onChange({
+			...value,
+			[key]: v,
+		})
 		setValues(futureValue)
 	}
 
@@ -104,7 +107,11 @@ const BlocksyOptions = ({
 				name={name}
 				icon={
 					<span
-						style={{display: 'flex'}}
+						style={{
+							display: 'flex',
+							width: '20px',
+							height: '20px',
+						}}
 						dangerouslySetInnerHTML={{
 							__html: ct_editor_localizations.options_panel_svg,
 						}}
@@ -173,7 +180,10 @@ const BlocksyOptions = ({
 
 										handleMetaboxValueChange(key, v)
 
-										onChange(futureValue)
+										onChange({
+											...value,
+											[key]: v,
+										})
 										setValues(futureValue)
 									}}
 									value={
@@ -197,13 +207,11 @@ const BlocksyOptionsComposed = compose(
 	})),
 
 	withSelect((select, { sidebarName }) => {
-		const value = select('core/editor').getEditedPostAttribute(
-			'blocksy_meta'
-		)
+		const value =
+			select('core/editor').getEditedPostAttribute('blocksy_meta')
 
-		const { getActiveGeneralSidebarName, isPluginItemPinned } = select(
-			'core/edit-post'
-		)
+		const { getActiveGeneralSidebarName, isPluginItemPinned } =
+			select('core/edit-post')
 
 		return {
 			isActive: getActiveGeneralSidebarName() === sidebarName,

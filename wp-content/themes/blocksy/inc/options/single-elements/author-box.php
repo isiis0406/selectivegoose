@@ -85,7 +85,7 @@ $options = [
 					],
 
 					$prefix . 'single_author_box_posts_count' => [
-						'label' => __( 'Posts count', 'blocksy' ),
+						'label' => __( 'Posts Count', 'blocksy' ),
 						'type' => 'ct-switch',
 						'value' => 'yes',
 						'divider' => 'top',
@@ -129,6 +129,31 @@ $options = [
 
 								blocksy_author_box();
 							}
+						],
+					],
+
+					blocksy_rand_md5() => [
+						'type' => 'ct-condition',
+						'condition' => [ $prefix . 'single_author_box_social' => 'yes' ],
+						'options' => [
+
+							$prefix . 'single_author_box_social_link_target' => [
+								'type'  => 'ct-switch',
+								'label' => __( 'Open links in new tab', 'blocksy' ),
+								'value' => 'no',
+								'sync' => [
+									'prefix' => $prefix,
+									'selector' => '.author-box',
+									'render' => function () {
+										if (have_posts()) {
+											the_post();
+										}
+
+										blocksy_author_box();
+									}
+								],
+							],
+
 						],
 					],
 
@@ -179,99 +204,112 @@ $options = [
 				'type' => 'tab',
 				'options' => [
 
+					$prefix . 'single_author_box_name_font' => [
+						'type' => 'ct-typography',
+						'label' => __( 'Author Name Font', 'blocksy' ),
+						'sync' => 'live',
+						'value' => blocksy_typography_default_values([]),
+					],
+
+					$prefix . 'single_author_box_name_color' => [
+						'label' => __( 'Author Name Font Color', 'blocksy' ),
+						'type'  => 'ct-color-picker',
+						'design' => 'block:right',
+						'responsive' => true,
+						'divider' => 'bottom',
+						'setting' => [ 'transport' => 'postMessage' ],
+						'value' => [
+							'default' => [
+								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+							],
+						],
+
+						'pickers' => [
+							[
+								'title' => __( 'Initial', 'blocksy' ),
+								'id' => 'default',
+								'inherit' => [
+									'var(--heading-1-color, var(--headings-color))' => [
+										$prefix . 'single_author_box_name_heading' => 'h1'
+									],
+
+									'var(--heading-2-color, var(--headings-color))' => [
+										$prefix . 'single_author_box_name_heading' => 'h2'
+									],
+
+									'var(--heading-3-color, var(--headings-color))' => [
+										$prefix . 'single_author_box_name_heading' => 'h3'
+									],
+
+									'var(--heading-4-color, var(--headings-color))' => [
+										$prefix . 'single_author_box_name_heading' => 'h4'
+									],
+
+									'var(--heading-5-color, var(--headings-color))' => [
+										$prefix . 'single_author_box_name_heading' => 'h5'
+									],
+
+									'var(--heading-6-color, var(--headings-color))' => [
+										$prefix . 'single_author_box_name_heading' => 'h6'
+									]
+								]
+							],
+						],
+					],
+
+					$prefix . 'single_author_box_font' => [
+						'type' => 'ct-typography',
+						'label' => __( 'Author Bio Font', 'blocksy' ),
+						'sync' => 'live',
+						'value' => blocksy_typography_default_values([]),
+					],
+
+					$prefix . 'single_author_box_font_color' => [
+						'label' => __( 'Author Bio Font Color', 'blocksy' ),
+						'type'  => 'ct-color-picker',
+						'design' => 'block:right',
+						'responsive' => true,
+						'divider' => 'bottom',
+						'setting' => [ 'transport' => 'postMessage' ],
+						'value' => [
+							'default' => [
+								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+							],
+
+							'initial' => [
+								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+							],
+
+							'hover' => [
+								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+							],
+						],
+
+						'pickers' => [
+							[
+								'title' => __( 'Text', 'blocksy' ),
+								'id' => 'default',
+								'inherit' => 'var(--color)'
+							],
+
+							[
+								'title' => __( 'Link Initial', 'blocksy' ),
+								'id' => 'initial',
+								'inherit' => 'var(--linkInitialColor)'
+							],
+
+							[
+								'title' => __( 'Link Hover', 'blocksy' ),
+								'id' => 'hover',
+								'inherit' => 'var(--linkHoverColor)'
+							],
+						],
+					],
 
 					blocksy_rand_md5() => [
 						'type' => 'ct-condition',
 						'condition' => [ $prefix . 'single_author_box_social' => 'yes' ],
 						'options' => [
-
-							$prefix . 'single_author_box_name_color' => [
-								'label' => __( 'Author Name Font Color', 'blocksy' ),
-								'type'  => 'ct-color-picker',
-								'design' => 'block:right',
-								'responsive' => true,
-								'divider' => 'bottom',
-								'setting' => [ 'transport' => 'postMessage' ],
-								'value' => [
-									'default' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-								],
-
-								'pickers' => [
-									[
-										'title' => __( 'Initial', 'blocksy' ),
-										'id' => 'default',
-										'inherit' => [
-											'var(--heading-1-color, var(--headings-color))' => [
-												$prefix . 'single_author_box_name_heading' => 'h1'
-											],
-
-											'var(--heading-2-color, var(--headings-color))' => [
-												$prefix . 'single_author_box_name_heading' => 'h2'
-											],
-
-											'var(--heading-3-color, var(--headings-color))' => [
-												$prefix . 'single_author_box_name_heading' => 'h3'
-											],
-
-											'var(--heading-4-color, var(--headings-color))' => [
-												$prefix . 'single_author_box_name_heading' => 'h4'
-											],
-
-											'var(--heading-5-color, var(--headings-color))' => [
-												$prefix . 'single_author_box_name_heading' => 'h5'
-											],
-
-											'var(--heading-6-color, var(--headings-color))' => [
-												$prefix . 'single_author_box_name_heading' => 'h6'
-											]
-										]
-									],
-								],
-							],
-
-							$prefix . 'single_author_box_font_color' => [
-								'label' => __( 'Font Color', 'blocksy' ),
-								'type'  => 'ct-color-picker',
-								'design' => 'block:right',
-								'responsive' => true,
-								'divider' => 'bottom',
-								'setting' => [ 'transport' => 'postMessage' ],
-								'value' => [
-									'default' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-
-									'initial' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-
-									'hover' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-								],
-
-								'pickers' => [
-									[
-										'title' => __( 'Text', 'blocksy' ),
-										'id' => 'default',
-										'inherit' => 'var(--color)'
-									],
-
-									[
-										'title' => __( 'Link Initial', 'blocksy' ),
-										'id' => 'initial',
-										'inherit' => 'var(--linkInitialColor)'
-									],
-
-									[
-										'title' => __( 'Link Hover', 'blocksy' ),
-										'id' => 'hover',
-										'inherit' => 'var(--linkHoverColor)'
-									],
-								],
-							],
 
 							$prefix . 'single_author_box_social_icons_color' => [
 								'label' => __( 'Icons Color', 'blocksy' ),

@@ -200,7 +200,7 @@ blocksy_output_colors([
 	'responsive' => true
 ]);
 
-if (is_customize_preview() || $close_button_type === 'type-2') {
+if ($close_button_type === 'type-2') {
 	blocksy_output_colors([
 		'value' => blocksy_akg('menu_close_button_border_color', $atts),
 		'default' => [
@@ -233,7 +233,7 @@ if (is_customize_preview() || $close_button_type === 'type-2') {
 	]);
 }
 
-if (is_customize_preview() || $close_button_type === 'type-3') {
+if ($close_button_type === 'type-3') {
 	blocksy_output_colors([
 		'value' => blocksy_akg('menu_close_button_shape_color', $atts),
 		'default' => [
@@ -264,4 +264,34 @@ if (is_customize_preview() || $close_button_type === 'type-3') {
 		],
 		'responsive' => true
 	]);
+}
+
+
+$menu_close_button_icon_size = blocksy_akg( 'menu_close_button_icon_size', $atts, 12 );
+
+if ($menu_close_button_icon_size !== 12) {
+	$css->put(
+		blocksy_assemble_selector(blocksy_mutate_selector([
+			'selector' => $root_selector,
+			'operation' => 'suffix',
+			'to_add' => '.ct-toggle-close'
+		])),
+		'--icon-size: ' . $menu_close_button_icon_size . 'px'
+	);
+}
+
+
+if ($close_button_type !== 'type-1') {
+	$menu_close_button_border_radius = blocksy_akg( 'menu_close_button_border_radius', $atts, 5 );
+
+	if ($menu_close_button_border_radius !== 5) {
+		$css->put(
+			blocksy_assemble_selector(blocksy_mutate_selector([
+				'selector' => $root_selector,
+				'operation' => 'suffix',
+				'to_add' => '.ct-toggle-close'
+			])),
+			'--toggle-button-radius: ' . $menu_close_button_border_radius . 'px'
+		);
+	}
 }
